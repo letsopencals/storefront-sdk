@@ -1,0 +1,58 @@
+name: Publish to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check if version is already published
+        id: version
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+
+          # Check if this version already exists on npm
+          if npm view "${PACKAGE_NAME}@${CURRENT}" version 2>/dev/null; then
+            echo "published=true" >> $GITHUB_OUTPUT
+          else
+            echo "published=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install dependencies
+        if: steps.version.outputs.published == 'false'
+        run: npm ci
+
+      - name: Build
+        if: steps.version.outputs.published == 'false'
+        run: npm run build
+
+      - name: Publish to npm
+        if: steps.version.outputs.published == 'false'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.version.outputs.published == 'false'
+        run: gh release create "v${{ steps.version.outputs.version }}" --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

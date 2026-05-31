@@ -1,0 +1,56 @@
+{
+	"name": "@opencals/storefront-sdk",
+	"version": "0.1.0",
+	"description": "Type-safe SDK for the Opencals Storefront API. Build custom booking websites with real-time availability, cart management, checkout, and customer accounts.",
+	"license": "MIT",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./client": {
+			"import": "./dist/client/index.js",
+			"types": "./dist/client/index.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"generate": "openapi-ts",
+		"build": "tsc",
+		"prepublishOnly": "npm run build"
+	},
+	"dependencies": {
+		"@hey-api/client-next": "^0.5.0",
+		"zod": "^3.23.0"
+	},
+	"devDependencies": {
+		"@hey-api/openapi-ts": "^0.97.0",
+		"@types/node": "^25.9.1",
+		"typescript": "^5.0.0"
+	},
+	"keywords": [
+		"opencals",
+		"booking",
+		"scheduling",
+		"storefront",
+		"api",
+		"sdk",
+		"nextjs"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/letsopencals/storefront-sdk"
+	},
+	"homepage": "https://opencals.com/developers",
+	"bugs": {
+		"url": "https://github.com/letsopencals/storefront-sdk/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
