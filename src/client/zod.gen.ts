@@ -1325,7 +1325,7 @@ export const zCheckoutStartResponse = z.object({
         'cash',
         'shopify'
     ]),
-    client_secret: z.string().nullish(),
+    clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
     paymentId: z.string(),
@@ -2075,7 +2075,7 @@ export const zCheckoutStartResponseWritable = z.object({
         'cash',
         'shopify'
     ]),
-    client_secret: z.string().nullish(),
+    clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
     paymentId: z.string(),

@@ -2988,7 +2988,7 @@ export type CheckoutStartResponse = {
     /**
      * Stripe client secret for payment confirmation
      */
-    client_secret?: string | null;
+    clientSecret?: string | null;
     /**
      * Redirect URL for external payment providers
      */
@@ -5314,7 +5314,7 @@ export type CheckoutStartResponseWritable = {
     /**
      * Stripe client secret for payment confirmation
      */
-    client_secret?: string | null;
+    clientSecret?: string | null;
     /**
      * Redirect URL for external payment providers
      */

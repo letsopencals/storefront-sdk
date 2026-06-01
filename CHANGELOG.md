@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 (2026-06-01)
+
+- Renamed `client_secret` to `clientSecret` on `CheckoutStartResponse` and `CheckoutStartResponseWritable`
+- Regenerated client from updated OpenAPI spec
+
 ## 0.1.1 (2026-06-01)
 
 - Renamed `external_domain` to `externalDomain` on `StorePublicSettings` and `StorePublicSettingsWritable`
