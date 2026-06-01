@@ -1343,7 +1343,7 @@ export const zCheckoutResponse = z.object({
 export const zStorePublicSettings = z.object({
     name: z.string().optional(),
     domain: z.string().optional(),
-    external_domain: z.string().optional(),
+    externalDomain: z.string().optional(),
     currency: z.string().optional(),
     settings: zSetting.optional(),
     features: z.array(zPlanFeature).optional(),
@@ -2093,7 +2093,7 @@ export const zCheckoutResponseWritable = z.object({
 export const zStorePublicSettingsWritable = z.object({
     name: z.string().optional(),
     domain: z.string().optional(),
-    external_domain: z.string().optional(),
+    externalDomain: z.string().optional(),
     currency: z.string().optional(),
     settings: zSetting.optional(),
     features: z.array(zPlanFeatureWritable).optional(),

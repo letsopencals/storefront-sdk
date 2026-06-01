@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-06-01)
+
+- Renamed `external_domain` to `externalDomain` on `StorePublicSettings` and `StorePublicSettingsWritable`
+- Regenerated client from updated OpenAPI spec
+
 ## 0.1.0 (2025-05-30)
 
 Initial release.

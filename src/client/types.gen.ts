@@ -3078,7 +3078,7 @@ export type StorePublicSettings = {
     /**
      * Store domain (e.g., Shopify domain)
      */
-    external_domain?: string;
+    externalDomain?: string;
     /**
      * Store currency
      */
@@ -5368,7 +5368,7 @@ export type StorePublicSettingsWritable = {
     /**
      * Store domain (e.g., Shopify domain)
      */
-    external_domain?: string;
+    externalDomain?: string;
     /**
      * Store currency
      */
