@@ -11,7 +11,7 @@ npm install @opencals/storefront-sdk
 ## Quick Start
 
 ```ts
-import { setupOpencals, customerProductList } from '@opencals/storefront-sdk';
+import { setupOpencals, ProductService } from '@opencals/storefront-sdk';
 
 // Initialize once at app startup
 setupOpencals({
@@ -19,7 +19,7 @@ setupOpencals({
 });
 
 // Fetch products
-const { data } = await customerProductList();
+const { data } = await ProductService.list();
 console.log(data);
 ```
 
@@ -44,66 +44,68 @@ setupOpencals({
 ### Browse Products
 
 ```ts
-import { customerProductList, customerProductGet } from '@opencals/storefront-sdk';
+import { ProductService } from '@opencals/storefront-sdk';
 
 // List all products
-const { data: products } = await customerProductList();
+const { data: products } = await ProductService.list();
 
 // Get a single product by slug
-const { data: product } = await customerProductGet({ path: { slug: 'haircut' } });
+const { data: product } = await ProductService.getBySlug({ path: { slug: 'haircut' } });
 ```
 
 ### Check Availability
 
 ```ts
-import { customerProductGetCurrentAvailabilities } from '@opencals/storefront-sdk';
+import { ProductService } from '@opencals/storefront-sdk';
 
-const { data } = await customerProductGetCurrentAvailabilities({
+const { data } = await ProductService.getCurrentAvailabilities({
   path: { productId: 'prod_123' },
-  query: { staffMemberId: 'staff_456', locationId: 'loc_789' },
+  query: { date: '2026-06-15', staffMemberId: 'staff_456', locationId: 'loc_789' },
 });
 ```
 
 ### Cart & Checkout
 
 ```ts
-import {
-  cartCreateOrGet,
-  cartAddItem,
-  checkoutStart,
-  checkoutSubmit,
-} from '@opencals/storefront-sdk';
+import { CartService, CheckoutService, AppointmentService } from '@opencals/storefront-sdk';
 
-// Create or get existing cart
-const { data: cart } = await cartCreateOrGet();
-
-// Add item
-await cartAddItem({
+// Create appointment
+const { data: appointment } = await AppointmentService.create({
   body: {
-    productId: 'prod_123',
-    startAt: '2025-06-15T10:00:00Z',
-    staffMemberId: 'staff_456',
-    locationId: 'loc_789',
+    slot: {
+      productId: 'prod_123',
+      fromDate: '2026-06-15',
+      fromTime: '10:00:00',
+      toDate: '2026-06-15',
+      toTime: '11:00:00',
+    },
+    numberOfAttendees: 1,
   },
 });
 
+// Create or get cart, add appointment
+const { data: cart } = await CartService.createOrGet();
+await CartService.addItem({ body: { appointmentId: appointment.id } });
+
 // Checkout
-const { data: checkout } = await checkoutStart();
-await checkoutSubmit({ body: { checkoutId: checkout.id } });
+const { data: checkout } = await CheckoutService.start({
+  body: { provider: 'stripe', customer: { email: 'john@example.com' } },
+});
+await CheckoutService.submit();
 ```
 
 ### Customer Auth
 
 ```ts
-import { authSignIn, authSignUp } from '@opencals/storefront-sdk';
+import { AuthService } from '@opencals/storefront-sdk';
 
 // Sign up
-await authSignUp({
+await AuthService.signUp({
   body: { email: 'user@example.com', password: '...', firstName: 'Jane', lastName: 'Doe' },
 });
 
 // Sign in
-const { data } = await authSignIn({
+const { data } = await AuthService.signIn({
   body: { email: 'user@example.com', password: '...' },
 });
 // data.accessToken — use as customerToken in setupOpencals()
@@ -119,14 +121,34 @@ formatDuration(3600);             // "1h"
 toLocalFromUtc('2025-06-15T14:00:00Z', 'America/New_York');
 ```
 
+## Available Services
+
+| Service | Methods |
+|---------|---------|
+| `ProductService` | `list`, `get`, `getBySlug`, `getByExternalId`, `getCurrentAvailabilities`, `getCurrentAvailabilitiesMerged`, `getNearestAvailability` |
+| `AuthService` | `signIn`, `signUp`, `oauth`, `refresh`, `requestPasswordReset`, `resetPassword`, `requestEmailVerification`, `verifyEmail` |
+| `CartService` | `get`, `createOrGet`, `addItem`, `removeItem`, `extendExpiration` |
+| `CheckoutService` | `start`, `submit`, `saveCustomer`, `saveAnswers`, `getCartQuestions` |
+| `AppointmentService` | `list`, `find`, `create`, `cancel`, `reschedule`, `feedback`, `getBookingPreferences` |
+| `OrderService` | `list`, `find` |
+| `SelfService` | `getProfile`, `updateProfile`, `changePassword` |
+| `LocationService` | `list`, `get`, `getBySlug` |
+| `StaffMemberService` | `list`, `getBySlug` |
+| `PaymentService` | `getAvailableProviders`, `getSettings` |
+| `StoreService` | `getStorePublicSettings` |
+| `ProductCollectionService` | `list`, `getBySlug` |
+| `ImageService` | `get` |
+| `CheckoutQuestionService` | `listTranslations` |
+| `FeedbackQuestionService` | `listTranslations` |
+
 ## Zod Validation
 
 All API response types have auto-generated Zod schemas for runtime validation:
 
 ```ts
-import { productListResponseSchema } from '@opencals/storefront-sdk';
+import { zProductListResponse } from '@opencals/storefront-sdk';
 
-const result = productListResponseSchema.safeParse(apiResponse);
+const result = zProductListResponse.safeParse(apiResponse);
 ```
 
 ## API Reference

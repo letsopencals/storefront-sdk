@@ -11,11 +11,6 @@ export const zCollectionMeta = z.object({
     hasNextPage: z.boolean()
 });
 
-export const zCollection = z.object({
-    data: z.array(z.record(z.unknown())),
-    meta: zCollectionMeta
-});
-
 export const zUserOauthProvider = z.record(z.unknown());
 
 /**
@@ -216,6 +211,34 @@ export const zCartItem = z.object({
     deletedAt: z.string().datetime().nullish()
 });
 
+export const zCartPayment = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    orderId: z.string().nullish(),
+    provider: z.record(z.unknown()),
+    providerReference: z.string().nullish(),
+    status: z.enum([
+        'created',
+        'authorized',
+        'captured',
+        'failed',
+        'voided',
+        'refunded'
+    ]),
+    amount: z.number(),
+    currency: z.string(),
+    capturedAmount: z.number(),
+    authorizedUntil: z.string().datetime().nullish(),
+    clientSecret: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish()
+});
+
+/**
+ * Severity level of the log entry
+ */
+export const zOrderLogLevel = z.enum(['info', 'error']);
+
 export const zCustomerOauthProvider = z.record(z.unknown());
 
 export const zSetting = z.object({
@@ -267,8 +290,8 @@ export const zStoreContactInfo = z.object({
     latitude: z.number().nullish(),
     longitude: z.number().nullish(),
     contactEmail: z.string().nullish(),
-    contactPhoneNumbers: z.unknown(),
-    socialMediaLinks: z.unknown(),
+    contactPhoneNumbers: z.array(z.string()).nullable(),
+    socialMediaLinks: z.array(z.record(z.unknown())).nullable(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable()
 });
@@ -319,29 +342,6 @@ export const zQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
     answer: z.string().nullish()
-});
-
-export const zCartPayment = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    orderId: z.string().nullish(),
-    provider: z.record(z.unknown()),
-    providerReference: z.string().nullish(),
-    status: z.enum([
-        'created',
-        'authorized',
-        'captured',
-        'failed',
-        'voided',
-        'refunded'
-    ]),
-    amount: z.number(),
-    currency: z.string(),
-    capturedAmount: z.number(),
-    authorizedUntil: z.string().datetime().nullish(),
-    clientSecret: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish()
 });
 
 export const zCheckoutAuthTokens = z.object({
@@ -445,8 +445,8 @@ export const zAuthenticateCustomerOauth = z.object({
 export const zRegisterCustomer = z.object({
     email: z.string(),
     password: z.string(),
-    first_name: z.string().optional(),
-    last_name: z.string().optional()
+    firstName: z.string().optional(),
+    lastName: z.string().optional()
 });
 
 export const zRequestPasswordReset = z.object({
@@ -455,23 +455,7 @@ export const zRequestPasswordReset = z.object({
 
 export const zCustomerResetPassword = z.object({
     token: z.string(),
-    new_password: z.string()
-});
-
-export const zAuthenticateExternalCustomer = z.object({
-    tokenName: z.string().optional().default('default'),
-    storeId: z.string().optional(),
-    storeDomain: z.string().optional(),
-    externalId: z.string()
-});
-
-export const zAuthenticateCustomerByEmailAndOrderName = z.object({
-    tokenName: z.string().optional().default('default'),
-    storeId: z.string().optional(),
-    storeDomain: z.string().optional(),
-    userId: z.string(),
-    email: z.string(),
-    externalOrderName: z.string()
+    newPassword: z.string()
 });
 
 export const zUpdateCustomerProfile = z.object({
@@ -863,48 +847,51 @@ export const zAppointmentLog: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointment).optional()
 });
 
-export const zOrder: z.AnyZodObject = z.object({
+export const zCart: z.AnyZodObject = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    customerId: z.string().nullish(),
+    status: z.enum([
+        'active',
+        'converted',
+        'abandoned'
+    ]),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
-    externalId: z.string().nullish(),
-    externalName: z.string().nullish(),
-    name: z.string(),
-    customerId: z.string().nullish(),
+    expiresAt: z.string().datetime().nullish(),
+    extensionsCount: z.number(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customer: z.lazy(() => zCustomer).nullish(),
-    lineItems: z.array(z.lazy(() => zOrderLineItem)).optional(),
-    appointments: z.array(z.lazy(() => zAppointment)),
+    items: z.array(zCartItem),
+    payments: z.array(zCartPayment),
+    orders: z.array(z.lazy(() => zOrder)),
     subtotal: z.number(),
-    total: z.number(),
     totalTax: z.number(),
-    dueToPay: z.number(),
-    paidTotal: z.number(),
-    refundedTotal: z.number(),
-    balance: z.number(),
-    dueToRefund: z.number(),
-    isFullyPaid: z.boolean(),
-    isFullyRefunded: z.boolean(),
-    paymentStatus: z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ]),
-    refundStatus: z.enum([
-        'refund-owed',
-        'partially-refunded',
-        'fully-refunded',
-        'unrefunded'
-    ]),
-    fulfillmentStatus: z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ]),
-    services: z.array(zProduct),
-    staffMembers: z.array(z.lazy(() => zStaffMember)),
-    locations: z.array(zLocation)
+    total: z.number()
+});
+
+export const zOrderRefundLineItem: z.AnyZodObject = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullish(),
+    lineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    refund: z.lazy(() => zOrderRefund),
+    lineItem: z.lazy(() => zOrderLineItem)
+});
+
+export const zOrderRefund: z.AnyZodObject = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    externalId: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    order: z.lazy(() => zOrder),
+    transactions: z.array(z.lazy(() => zOrderTransaction)),
+    lineItems: z.array(zOrderRefundLineItem),
+    total: z.number()
 });
 
 export const zOrderTransaction: z.AnyZodObject = z.object({
@@ -941,35 +928,74 @@ export const zOrderTransaction: z.AnyZodObject = z.object({
     deletedAt: z.string().datetime().nullish(),
     parentTransaction: z.lazy(() => zOrderTransaction),
     childTransactions: z.array(z.lazy(() => zOrderTransaction)),
-    order: zOrder,
-    refund: z.lazy(() => zOrderRefund).nullish(),
+    order: z.lazy(() => zOrder),
+    refund: zOrderRefund.nullish(),
     refundableAmount: z.number(),
     refundedAmount: z.number(),
     isRefundable: z.boolean()
 });
 
-export const zOrderRefund: z.AnyZodObject = z.object({
+export const zOrderLog: z.AnyZodObject = z.object({
     id: z.string(),
     orderId: z.string(),
-    externalId: z.string().nullish(),
+    title: z.string(),
+    description: z.string().nullish(),
+    level: zOrderLogLevel,
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    order: zOrder,
-    transactions: z.array(zOrderTransaction),
-    lineItems: z.array(z.lazy(() => zOrderRefundLineItem)),
-    total: z.number()
+    order: z.lazy(() => zOrder).optional()
 });
 
-export const zOrderRefundLineItem: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
+export const zOrder: z.AnyZodObject = z.object({
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
     externalId: z.string().nullish(),
-    lineItemId: z.string(),
-    quantity: z.number().gte(1),
+    externalName: z.string().nullish(),
+    name: z.string(),
+    customerId: z.string().nullish(),
+    storeId: z.string().nullish(),
+    cartId: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    refund: zOrderRefund,
-    lineItem: z.lazy(() => zOrderLineItem)
+    deletedAt: z.string().datetime().nullish(),
+    customer: z.lazy(() => zCustomer).nullish(),
+    store: z.lazy(() => zStore).optional(),
+    cart: zCart.nullish(),
+    lineItems: z.array(z.lazy(() => zOrderLineItem)).optional(),
+    transactions: z.array(zOrderTransaction).optional(),
+    logs: z.array(zOrderLog).optional(),
+    refunds: z.array(zOrderRefund).optional(),
+    appointments: z.array(z.lazy(() => zAppointment)),
+    refundableTransactions: z.array(zOrderTransaction),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    services: z.array(zProduct),
+    staffMembers: z.array(z.lazy(() => zStaffMember)),
+    locations: z.array(zLocation)
 });
 
 export const zOrderLineItem: z.AnyZodObject = z.object({
@@ -1268,29 +1294,6 @@ export const zStaffMember = z.object({
     schedule: zSchedule.optional(),
     image: zImage.optional(),
     integrations: z.array(zIntegration).optional()
-});
-
-export const zCart = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    customerId: z.string().nullish(),
-    status: z.enum([
-        'active',
-        'converted',
-        'abandoned'
-    ]),
-    paymentCurrencyCode: z.string(),
-    taxesIncluded: z.boolean(),
-    expiresAt: z.string().datetime().nullish(),
-    extensionsCount: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    items: z.array(zCartItem),
-    payments: z.array(zCartPayment),
-    orders: z.array(zOrder),
-    subtotal: z.number(),
-    totalTax: z.number(),
-    total: z.number()
 });
 
 export const zServicePreference = z.object({
@@ -1612,48 +1615,51 @@ export const zAppointmentLogWritable: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointmentWritable).optional()
 });
 
-export const zOrderWritable: z.AnyZodObject = z.object({
+export const zCartWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    customerId: z.string().nullish(),
+    status: z.enum([
+        'active',
+        'converted',
+        'abandoned'
+    ]),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
-    externalId: z.string().nullish(),
-    externalName: z.string().nullish(),
-    name: z.string(),
-    customerId: z.string().nullish(),
+    expiresAt: z.string().datetime().nullish(),
+    extensionsCount: z.number(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customer: z.lazy(() => zCustomerWritable).nullish(),
-    lineItems: z.array(z.lazy(() => zOrderLineItemWritable)).optional(),
-    appointments: z.array(z.lazy(() => zAppointmentWritable)),
+    items: z.array(zCartItem),
+    payments: z.array(zCartPayment),
+    orders: z.array(z.lazy(() => zOrderWritable)),
     subtotal: z.number(),
-    total: z.number(),
     totalTax: z.number(),
-    dueToPay: z.number(),
-    paidTotal: z.number(),
-    refundedTotal: z.number(),
-    balance: z.number(),
-    dueToRefund: z.number(),
-    isFullyPaid: z.boolean(),
-    isFullyRefunded: z.boolean(),
-    paymentStatus: z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ]),
-    refundStatus: z.enum([
-        'refund-owed',
-        'partially-refunded',
-        'fully-refunded',
-        'unrefunded'
-    ]),
-    fulfillmentStatus: z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ]),
-    services: z.array(zProductWritable),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
-    locations: z.array(zLocationWritable)
+    total: z.number()
+});
+
+export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullish(),
+    lineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    refund: z.lazy(() => zOrderRefundWritable),
+    lineItem: z.lazy(() => zOrderLineItemWritable)
+});
+
+export const zOrderRefundWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    externalId: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    order: z.lazy(() => zOrderWritable),
+    transactions: z.array(z.lazy(() => zOrderTransactionWritable)),
+    lineItems: z.array(zOrderRefundLineItemWritable),
+    total: z.number()
 });
 
 export const zOrderTransactionWritable: z.AnyZodObject = z.object({
@@ -1690,35 +1696,74 @@ export const zOrderTransactionWritable: z.AnyZodObject = z.object({
     deletedAt: z.string().datetime().nullish(),
     parentTransaction: z.lazy(() => zOrderTransactionWritable),
     childTransactions: z.array(z.lazy(() => zOrderTransactionWritable)),
-    order: zOrderWritable,
-    refund: z.lazy(() => zOrderRefundWritable).nullish(),
+    order: z.lazy(() => zOrderWritable),
+    refund: zOrderRefundWritable.nullish(),
     refundableAmount: z.number(),
     refundedAmount: z.number(),
     isRefundable: z.boolean()
 });
 
-export const zOrderRefundWritable: z.AnyZodObject = z.object({
+export const zOrderLogWritable: z.AnyZodObject = z.object({
     id: z.string(),
     orderId: z.string(),
-    externalId: z.string().nullish(),
+    title: z.string(),
+    description: z.string().nullish(),
+    level: zOrderLogLevel,
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    order: zOrderWritable,
-    transactions: z.array(zOrderTransactionWritable),
-    lineItems: z.array(z.lazy(() => zOrderRefundLineItemWritable)),
-    total: z.number()
+    order: z.lazy(() => zOrderWritable).optional()
 });
 
-export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
+export const zOrderWritable: z.AnyZodObject = z.object({
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
     externalId: z.string().nullish(),
-    lineItemId: z.string(),
-    quantity: z.number().gte(1),
+    externalName: z.string().nullish(),
+    name: z.string(),
+    customerId: z.string().nullish(),
+    storeId: z.string().nullish(),
+    cartId: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    refund: zOrderRefundWritable,
-    lineItem: z.lazy(() => zOrderLineItemWritable)
+    deletedAt: z.string().datetime().nullish(),
+    customer: z.lazy(() => zCustomerWritable).nullish(),
+    store: z.lazy(() => zStoreWritable).optional(),
+    cart: zCartWritable.nullish(),
+    lineItems: z.array(z.lazy(() => zOrderLineItemWritable)).optional(),
+    transactions: z.array(zOrderTransactionWritable).optional(),
+    logs: z.array(zOrderLogWritable).optional(),
+    refunds: z.array(zOrderRefundWritable).optional(),
+    appointments: z.array(z.lazy(() => zAppointmentWritable)),
+    refundableTransactions: z.array(zOrderTransactionWritable),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    services: z.array(zProductWritable),
+    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
+    locations: z.array(zLocationWritable)
 });
 
 export const zOrderLineItemWritable: z.AnyZodObject = z.object({
@@ -2020,29 +2065,6 @@ export const zStaffMemberWritable = z.object({
     integrations: z.array(zIntegrationWritable).optional()
 });
 
-export const zCartWritable = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    customerId: z.string().nullish(),
-    status: z.enum([
-        'active',
-        'converted',
-        'abandoned'
-    ]),
-    paymentCurrencyCode: z.string(),
-    taxesIncluded: z.boolean(),
-    expiresAt: z.string().datetime().nullish(),
-    extensionsCount: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    items: z.array(zCartItem),
-    payments: z.array(zCartPayment),
-    orders: z.array(zOrderWritable),
-    subtotal: z.number(),
-    totalTax: z.number(),
-    total: z.number()
-});
-
 export const zServicePreferenceWritable = z.object({
     product: zProductWritable,
     staffMember: zStaffMemberWritable.optional(),
@@ -2131,72 +2153,7 @@ export const zAuthResetPasswordBody = zCustomerResetPassword;
 
 export const zAuthResetPasswordResponse = z.void();
 
-export const zExternalAuthAuthenticateExternalIdBody = zAuthenticateExternalCustomer;
-
-export const zExternalAuthAuthenticateExternalIdResponse = zTokensResponse;
-
-export const zExternalAuthAuthenticateByEmailAndOrderBody = zAuthenticateCustomerByEmailAndOrderName;
-
-export const zExternalAuthAuthenticateByEmailAndOrderResponse = zTokensResponse;
-
 export const zSelfServiceChangePasswordBody = zUpdateCustomerPassword;
-
-export const zAppointmentListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    status: z.array(z.enum([
-        'pending',
-        'scheduled',
-        'completed',
-        'canceled'
-    ])).optional(),
-    staffMembers: z.array(z.string()).optional(),
-    products: z.array(z.string()).optional(),
-    locations: z.array(z.string()).optional(),
-    date: z.string().regex(/\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/).optional(),
-    orderBy: z.enum([
-        'from',
-        'to',
-        'productId',
-        'staffMemberId',
-        'customerId',
-        'createdAt'
-    ]).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC'),
-    limit: z.number().optional()
-});
-
-/**
- * Collection of customer appointments
- */
-export const zAppointmentListResponse = zCollection;
-
-export const zOrderListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    name: z.string().optional(),
-    paymentStatuses: z.array(z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ])).optional(),
-    fulfillmentStatuses: z.array(z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ])).optional(),
-    customers: z.array(z.string()).optional(),
-    services: z.array(z.string()).optional(),
-    staffMembers: z.array(z.string()).optional(),
-    locations: z.array(z.string()).optional(),
-    orderBy: z.enum(['customerId', 'createdAt']).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * Collection of customer orders
- */
-export const zOrderListResponse = zCollection;
 
 export const zCheckoutGetCartQuestionsHeaders = z.object({
     'X-Cart-Id': z.string()
@@ -2227,21 +2184,6 @@ export const zCheckoutSaveAnswersBody = zCheckoutQuestionAnswers;
 export const zCheckoutSaveAnswersHeaders = z.object({
     'X-Cart-Id': z.string()
 });
-
-export const zProductListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    q: z.string().optional(),
-    locationId: z.string().optional(),
-    status: z.array(z.enum(['active', 'inactive'])).optional(),
-    orderBy: z.unknown().optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * List of products for the current store
- */
-export const zProductListResponse = zCollection;
 
 export const zProductGetNearestAvailabilityPath = z.object({
     productId: z.string()
@@ -2289,55 +2231,6 @@ export const zProductGetCurrentAvailabilitiesMergedQuery = z.object({
  */
 export const zProductGetCurrentAvailabilitiesMergedResponse = z.array(zCurrentAvailabilitySlot);
 
-export const zLocationListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    q: z.string().optional(),
-    orderBy: z.enum([
-        'id',
-        'title',
-        'createdAt',
-        'type'
-    ]).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * List of locations for the current store
- */
-export const zLocationListResponse = zCollection;
-
-export const zProductCollectionsListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    q: z.string().optional(),
-    isVisible: z.boolean().optional(),
-    orderBy: z.enum([
-        'title',
-        'createdAt',
-        'updatedAt'
-    ]).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * List of product collections for the current store
- */
-export const zProductCollectionsListResponse = zCollection;
-
-export const zStaffMemberListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    q: z.string().optional(),
-    orderBy: z.unknown().optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * List of staff members for the current store
- */
-export const zStaffMemberListResponse = zCollection;
-
 /**
  * List of available payment providers
  */
@@ -2379,6 +2272,39 @@ export const zSelfServiceUpdateProfileBody = zUpdateCustomerProfile;
  * Profile updated successfully
  */
 export const zSelfServiceUpdateProfileResponse = zCustomer;
+
+export const zAppointmentListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    status: z.array(z.enum([
+        'pending',
+        'scheduled',
+        'completed',
+        'canceled'
+    ])).optional(),
+    staffMembers: z.array(z.string()).optional(),
+    products: z.array(z.string()).optional(),
+    locations: z.array(z.string()).optional(),
+    date: z.string().regex(/\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/).optional(),
+    orderBy: z.enum([
+        'from',
+        'to',
+        'productId',
+        'staffMemberId',
+        'customerId',
+        'createdAt'
+    ]).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC'),
+    limit: z.number().optional()
+});
+
+/**
+ * Collection of customer appointments
+ */
+export const zAppointmentListResponse = z.object({
+    data: z.array(zAppointment),
+    meta: zCollectionMeta
+});
 
 /**
  * Appointment details to create
@@ -2454,6 +2380,36 @@ export const zAppointmentFeedbackResponse = z.array(zFeedbackQuestionAnswer);
  * Customer booking preferences and history
  */
 export const zAppointmentGetBookingPreferencesResponse = zCustomerBookingPreferences;
+
+export const zOrderListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    name: z.string().optional(),
+    paymentStatuses: z.array(z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ])).optional(),
+    fulfillmentStatuses: z.array(z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ])).optional(),
+    customers: z.array(z.string()).optional(),
+    services: z.array(z.string()).optional(),
+    staffMembers: z.array(z.string()).optional(),
+    locations: z.array(z.string()).optional(),
+    orderBy: z.enum(['customerId', 'createdAt']).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * Collection of customer orders
+ */
+export const zOrderListResponse = z.object({
+    data: z.array(zOrder),
+    meta: zCollectionMeta
+});
 
 export const zOrderFindPath = z.object({
     orderId: z.string()
@@ -2574,6 +2530,24 @@ export const zProductGetByExternalVariantIdPath = z.object({
  */
 export const zProductGetByExternalVariantIdResponse = zProduct;
 
+export const zProductListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    locationId: z.string().optional(),
+    status: z.array(z.enum(['active', 'inactive'])).optional(),
+    orderBy: z.unknown().optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * List of products for the current store
+ */
+export const zProductListResponse = z.object({
+    data: z.array(zProduct),
+    meta: zCollectionMeta
+});
+
 export const zLocationGetBySlugPath = z.object({
     slug: z.string()
 });
@@ -2592,6 +2566,27 @@ export const zLocationGetPath = z.object({
  */
 export const zLocationGetResponse = zLocation;
 
+export const zLocationListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    orderBy: z.enum([
+        'id',
+        'title',
+        'createdAt',
+        'type'
+    ]).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * List of locations for the current store
+ */
+export const zLocationListResponse = z.object({
+    data: z.array(zLocation),
+    meta: zCollectionMeta
+});
+
 export const zProductCollectionsGetBySlugPath = z.object({
     slug: z.string()
 });
@@ -2601,6 +2596,27 @@ export const zProductCollectionsGetBySlugPath = z.object({
  */
 export const zProductCollectionsGetBySlugResponse = zProductCollection;
 
+export const zProductCollectionsListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    isVisible: z.boolean().optional(),
+    orderBy: z.enum([
+        'title',
+        'createdAt',
+        'updatedAt'
+    ]).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * List of product collections for the current store
+ */
+export const zProductCollectionsListResponse = z.object({
+    data: z.array(zProductCollection),
+    meta: zCollectionMeta
+});
+
 export const zStaffMemberGetBySlugPath = z.object({
     slug: z.string()
 });
@@ -2609,6 +2625,22 @@ export const zStaffMemberGetBySlugPath = z.object({
  * Staff member retrieved successfully
  */
 export const zStaffMemberGetBySlugResponse = zStaffMember;
+
+export const zStaffMemberListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    orderBy: z.unknown().optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * List of staff members for the current store
+ */
+export const zStaffMemberListResponse = z.object({
+    data: z.array(zStaffMember),
+    meta: zCollectionMeta
+});
 
 export const zImageGetPath = z.object({
     imageId: z.string()

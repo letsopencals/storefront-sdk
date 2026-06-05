@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveItemData, CartRemoveItemResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, ExternalAuthAuthenticateByEmailAndOrderData, ExternalAuthAuthenticateByEmailAndOrderResponses, ExternalAuthAuthenticateExternalIdData, ExternalAuthAuthenticateExternalIdResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
+import type { AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveItemData, CartRemoveItemResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -18,488 +18,689 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-/**
- * Customer sign in with credentials
- *
- * Authenticate a storefront customer using email and password
- */
-export const authSignIn = <ThrowOnError extends boolean = false>(options: Options<AuthSignInData, ThrowOnError>) => (options.client ?? client).post<AuthSignInResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/sign-in',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+export class AuthService {
+    /**
+     * Customer sign in with credentials
+     *
+     * Authenticate a storefront customer using email and password
+     */
+    public static signIn<ThrowOnError extends boolean = false>(options: Options<AuthSignInData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthSignInResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/sign-in',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Customer OAuth sign in
- *
- * Authenticate or register a storefront customer using an OAuth provider (e.g. Google)
- */
-export const authOauth = <ThrowOnError extends boolean = false>(options: Options<AuthOauthData, ThrowOnError>) => (options.client ?? client).post<AuthOauthResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/oauth',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Customer OAuth sign in
+     *
+     * Authenticate or register a storefront customer using an OAuth provider (e.g. Google)
+     */
+    public static oauth<ThrowOnError extends boolean = false>(options: Options<AuthOauthData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthOauthResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/oauth',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Register a new customer
- *
- * Create a new customer account on the storefront and send a verification email
- */
-export const authSignUp = <ThrowOnError extends boolean = false>(options: Options<AuthSignUpData, ThrowOnError>) => (options.client ?? client).post<AuthSignUpResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/sign-up',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Register a new customer
+     *
+     * Create a new customer account on the storefront and send a verification email
+     */
+    public static signUp<ThrowOnError extends boolean = false>(options: Options<AuthSignUpData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthSignUpResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/sign-up',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Request customer email verification
- *
- * Send a verification email to the customer for account activation within the store context
- */
-export const authRequestEmailVerification = <ThrowOnError extends boolean = false>(options: Options<AuthRequestEmailVerificationData, ThrowOnError>) => (options.client ?? client).post<AuthRequestEmailVerificationResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/request-email-verification',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Request customer email verification
+     *
+     * Send a verification email to the customer for account activation within the store context
+     */
+    public static requestEmailVerification<ThrowOnError extends boolean = false>(options: Options<AuthRequestEmailVerificationData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthRequestEmailVerificationResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/request-email-verification',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Verify customer email
- *
- * Confirm customer email ownership using the verification token and return auth tokens
- */
-export const authVerifyEmail = <ThrowOnError extends boolean = false>(options: Options<AuthVerifyEmailData, ThrowOnError>) => (options.client ?? client).post<AuthVerifyEmailResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/verify-email',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Verify customer email
+     *
+     * Confirm customer email ownership using the verification token and return auth tokens
+     */
+    public static verifyEmail<ThrowOnError extends boolean = false>(options: Options<AuthVerifyEmailData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthVerifyEmailResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/verify-email',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Refresh customer tokens
- *
- * Exchange a valid customer refresh token for a new pair of access and refresh tokens
- */
-export const authRefresh = <ThrowOnError extends boolean = false>(options?: Options<AuthRefreshData, ThrowOnError>) => (options?.client ?? client).get<AuthRefreshResponses, unknown, ThrowOnError>({ url: '/storefront/auth/refresh', ...options });
-
-/**
- * Request customer password reset
- *
- * Send a password reset email to the customer within the store context
- */
-export const authRequestPasswordReset = <ThrowOnError extends boolean = false>(options: Options<AuthRequestPasswordResetData, ThrowOnError>) => (options.client ?? client).post<AuthRequestPasswordResetResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/request-password-reset',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Refresh customer tokens
+     *
+     * Exchange a valid customer refresh token for a new pair of access and refresh tokens
+     */
+    public static refresh<ThrowOnError extends boolean = false>(options?: Options<AuthRefreshData, ThrowOnError>) {
+        return (options?.client ?? client).get<AuthRefreshResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/refresh',
+            ...options
+        });
     }
-});
-
-/**
- * Reset customer password
- *
- * Reset the customer password using a valid reset token received via email
- */
-export const authResetPassword = <ThrowOnError extends boolean = false>(options: Options<AuthResetPasswordData, ThrowOnError>) => (options.client ?? client).post<AuthResetPasswordResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/reset-password',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Request customer password reset
+     *
+     * Send a password reset email to the customer within the store context
+     */
+    public static requestPasswordReset<ThrowOnError extends boolean = false>(options: Options<AuthRequestPasswordResetData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthRequestPasswordResetResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/request-password-reset',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Authenticate customer by external ID
- *
- * Authenticate a customer using their external platform ID (e.g. Shopify customer ID). Kept for backward compatibility.
- */
-export const externalAuthAuthenticateExternalId = <ThrowOnError extends boolean = false>(options: Options<ExternalAuthAuthenticateExternalIdData, ThrowOnError>) => (options.client ?? client).post<ExternalAuthAuthenticateExternalIdResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/authenticate',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Reset customer password
+     *
+     * Reset the customer password using a valid reset token received via email
+     */
+    public static resetPassword<ThrowOnError extends boolean = false>(options: Options<AuthResetPasswordData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthResetPasswordResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/reset-password',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
+}
 
-/**
- * Authenticate by email and order name
- *
- * Credentials-less authentication for customers using their email and order name, typically from email links
- */
-export const externalAuthAuthenticateByEmailAndOrder = <ThrowOnError extends boolean = false>(options: Options<ExternalAuthAuthenticateByEmailAndOrderData, ThrowOnError>) => (options.client ?? client).post<ExternalAuthAuthenticateByEmailAndOrderResponses, unknown, ThrowOnError>({
-    url: '/storefront/auth/authenticate-by-email-and-order',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+export class SelfService {
+    /**
+     * Get current customer profile
+     */
+    public static getProfile<ThrowOnError extends boolean = false>(options?: Options<SelfServiceGetProfileData, ThrowOnError>) {
+        return (options?.client ?? client).get<SelfServiceGetProfileResponses, SelfServiceGetProfileErrors, ThrowOnError>({ url: '/storefront/self-service/profile', ...options });
     }
-});
-
-/**
- * Get current customer profile
- */
-export const selfServiceGetProfile = <ThrowOnError extends boolean = false>(options?: Options<SelfServiceGetProfileData, ThrowOnError>) => (options?.client ?? client).get<SelfServiceGetProfileResponses, SelfServiceGetProfileErrors, ThrowOnError>({ url: '/storefront/self-service/profile', ...options });
-
-/**
- * Update current customer profile
- */
-export const selfServiceUpdateProfile = <ThrowOnError extends boolean = false>(options: Options<SelfServiceUpdateProfileData, ThrowOnError>) => (options.client ?? client).put<SelfServiceUpdateProfileResponses, SelfServiceUpdateProfileErrors, ThrowOnError>({
-    url: '/storefront/self-service/profile',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Update current customer profile
+     */
+    public static updateProfile<ThrowOnError extends boolean = false>(options: Options<SelfServiceUpdateProfileData, ThrowOnError>) {
+        return (options.client ?? client).put<SelfServiceUpdateProfileResponses, SelfServiceUpdateProfileErrors, ThrowOnError>({
+            url: '/storefront/self-service/profile',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Change current customer password
- */
-export const selfServiceChangePassword = <ThrowOnError extends boolean = false>(options: Options<SelfServiceChangePasswordData, ThrowOnError>) => (options.client ?? client).put<SelfServiceChangePasswordResponses, SelfServiceChangePasswordErrors, ThrowOnError>({
-    url: '/storefront/self-service/password',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Change current customer password
+     */
+    public static changePassword<ThrowOnError extends boolean = false>(options: Options<SelfServiceChangePasswordData, ThrowOnError>) {
+        return (options.client ?? client).put<SelfServiceChangePasswordResponses, SelfServiceChangePasswordErrors, ThrowOnError>({
+            url: '/storefront/self-service/password',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
+}
 
-/**
- * List customer appointments
- *
- * Returns all appointments for the authenticated customer with pagination
- */
-export const appointmentList = <ThrowOnError extends boolean = false>(options?: Options<AppointmentListData, ThrowOnError>) => (options?.client ?? client).get<AppointmentListResponses, unknown, ThrowOnError>({ url: '/storefront/appointments', ...options });
-
-/**
- * Create appointment
- *
- * Creates a new appointment for a customer. Authentication is optional - if authenticated, the appointment will be associated with the logged-in user.
- */
-export const appointmentCreate = <ThrowOnError extends boolean = false>(options: Options<AppointmentCreateData, ThrowOnError>) => (options.client ?? client).post<AppointmentCreateResponses, unknown, ThrowOnError>({
-    url: '/storefront/appointments',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+export class AppointmentService {
+    /**
+     * List customer appointments
+     *
+     * Returns all appointments for the authenticated customer with pagination
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<AppointmentListData, ThrowOnError>) {
+        return (options?.client ?? client).get<AppointmentListResponses, unknown, ThrowOnError>({ url: '/storefront/appointments', ...options });
     }
-});
-
-/**
- * Get appointment by ID
- *
- * Returns a single appointment by ID for the authenticated customer
- */
-export const appointmentFind = <ThrowOnError extends boolean = false>(options: Options<AppointmentFindData, ThrowOnError>) => (options.client ?? client).get<AppointmentFindResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/{appointmentId}', ...options });
-
-/**
- * Get appointment by external order name
- *
- * Returns a single appointment by its external order name. Useful for integrations with external payment or ordering systems.
- */
-export const appointmentFindByExternalOrderName = <ThrowOnError extends boolean = false>(options: Options<AppointmentFindByExternalOrderNameData, ThrowOnError>) => (options.client ?? client).get<AppointmentFindByExternalOrderNameResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/by-external-order-name/{externalOrderName}', ...options });
-
-/**
- * Reschedule appointment
- *
- * Reschedules an existing appointment to a new time. Subject to reschedule_gap restrictions defined in the service configuration.
- */
-export const appointmentReschedule = <ThrowOnError extends boolean = false>(options: Options<AppointmentRescheduleData, ThrowOnError>) => (options.client ?? client).put<AppointmentRescheduleResponses, unknown, ThrowOnError>({
-    url: '/storefront/appointments/{appointmentId}/reschedule',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Create appointment
+     *
+     * Creates a new appointment for a customer. Authentication is optional - if authenticated, the appointment will be associated with the logged-in user.
+     */
+    public static create<ThrowOnError extends boolean = false>(options: Options<AppointmentCreateData, ThrowOnError>) {
+        return (options.client ?? client).post<AppointmentCreateResponses, unknown, ThrowOnError>({
+            url: '/storefront/appointments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Cancel appointment
- *
- * Cancels an existing appointment. Subject to cancel_gap restrictions defined in the service configuration.
- */
-export const appointmentCancel = <ThrowOnError extends boolean = false>(options: Options<AppointmentCancelData, ThrowOnError>) => (options.client ?? client).put<AppointmentCancelResponses, unknown, ThrowOnError>({
-    url: '/storefront/appointments/{appointmentId}/cancel',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Get appointment by ID
+     *
+     * Returns a single appointment by ID for the authenticated customer
+     */
+    public static find<ThrowOnError extends boolean = false>(options: Options<AppointmentFindData, ThrowOnError>) {
+        return (options.client ?? client).get<AppointmentFindResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/{appointmentId}', ...options });
     }
-});
-
-/**
- * Submit appointment feedback
- *
- * Allows customers to submit feedback for a completed appointment
- */
-export const appointmentFeedback = <ThrowOnError extends boolean = false>(options: Options<AppointmentFeedbackData, ThrowOnError>) => (options.client ?? client).post<AppointmentFeedbackResponses, unknown, ThrowOnError>({
-    url: '/storefront/appointments/{appointmentId}/feedback',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Get appointment by external order name
+     *
+     * Returns a single appointment by its external order name. Useful for integrations with external payment or ordering systems.
+     */
+    public static findByExternalOrderName<ThrowOnError extends boolean = false>(options: Options<AppointmentFindByExternalOrderNameData, ThrowOnError>) {
+        return (options.client ?? client).get<AppointmentFindByExternalOrderNameResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/by-external-order-name/{externalOrderName}', ...options });
     }
-});
-
-/**
- * Get customer booking preferences
- *
- * Returns frequently booked services, locations, and staff members based on customer booking history. Results are cached for 24 hours to optimize performance.
- */
-export const appointmentGetBookingPreferences = <ThrowOnError extends boolean = false>(options?: Options<AppointmentGetBookingPreferencesData, ThrowOnError>) => (options?.client ?? client).get<AppointmentGetBookingPreferencesResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/preferences/booking-history', ...options });
-
-/**
- * List customer orders
- *
- * Returns all orders for the authenticated customer with pagination
- */
-export const orderList = <ThrowOnError extends boolean = false>(options?: Options<OrderListData, ThrowOnError>) => (options?.client ?? client).get<OrderListResponses, unknown, ThrowOnError>({ url: '/storefront/orders', ...options });
-
-/**
- * Get order by ID
- *
- * Returns a single order by ID for the authenticated customer
- */
-export const orderFind = <ThrowOnError extends boolean = false>(options: Options<OrderFindData, ThrowOnError>) => (options.client ?? client).get<OrderFindResponses, unknown, ThrowOnError>({ url: '/storefront/orders/{orderId}', ...options });
-
-/**
- * Fetch cart
- */
-export const cartGet = <ThrowOnError extends boolean = false>(options: Options<CartGetData, ThrowOnError>) => (options.client ?? client).get<CartGetResponses, unknown, ThrowOnError>({ url: '/storefront/cart', ...options });
-
-/**
- * Create or fetch cart
- */
-export const cartCreateOrGet = <ThrowOnError extends boolean = false>(options: Options<CartCreateOrGetData, ThrowOnError>) => (options.client ?? client).post<CartCreateOrGetResponses, unknown, ThrowOnError>({ url: '/storefront/cart', ...options });
-
-/**
- * Add appointment to cart
- */
-export const cartAddItem = <ThrowOnError extends boolean = false>(options: Options<CartAddItemData, ThrowOnError>) => (options.client ?? client).post<CartAddItemResponses, unknown, ThrowOnError>({
-    url: '/storefront/cart/items',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Reschedule appointment
+     *
+     * Reschedules an existing appointment to a new time. Subject to reschedule_gap restrictions defined in the service configuration.
+     */
+    public static reschedule<ThrowOnError extends boolean = false>(options: Options<AppointmentRescheduleData, ThrowOnError>) {
+        return (options.client ?? client).put<AppointmentRescheduleResponses, unknown, ThrowOnError>({
+            url: '/storefront/appointments/{appointmentId}/reschedule',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Remove cart item
- */
-export const cartRemoveItem = <ThrowOnError extends boolean = false>(options: Options<CartRemoveItemData, ThrowOnError>) => (options.client ?? client).delete<CartRemoveItemResponses, unknown, ThrowOnError>({ url: '/storefront/cart/items/{itemId}', ...options });
-
-/**
- * Extend cart expiration by 5 minutes
- */
-export const cartExtendExpiration = <ThrowOnError extends boolean = false>(options: Options<CartExtendExpirationData, ThrowOnError>) => (options.client ?? client).post<CartExtendExpirationResponses, unknown, ThrowOnError>({ url: '/storefront/cart/extend', ...options });
-
-/**
- * Start checkout for cart (create payment, validate items)
- */
-export const checkoutStart = <ThrowOnError extends boolean = false>(options: Options<CheckoutStartData, ThrowOnError>) => (options.client ?? client).post<CheckoutStartResponses, unknown, ThrowOnError>({
-    url: '/storefront/cart/checkout/start',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Cancel appointment
+     *
+     * Cancels an existing appointment. Subject to cancel_gap restrictions defined in the service configuration.
+     */
+    public static cancel<ThrowOnError extends boolean = false>(options: Options<AppointmentCancelData, ThrowOnError>) {
+        return (options.client ?? client).put<AppointmentCancelResponses, unknown, ThrowOnError>({
+            url: '/storefront/appointments/{appointmentId}/cancel',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Submit checkout (capture payment, create order, auto-authenticate customer)
- *
- * Creates order and returns auth tokens for automatic customer authentication
- */
-export const checkoutSubmit = <ThrowOnError extends boolean = false>(options: Options<CheckoutSubmitData, ThrowOnError>) => (options.client ?? client).post<CheckoutSubmitResponses, unknown, ThrowOnError>({
-    url: '/storefront/cart/checkout/submit',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Submit appointment feedback
+     *
+     * Allows customers to submit feedback for a completed appointment
+     */
+    public static feedback<ThrowOnError extends boolean = false>(options: Options<AppointmentFeedbackData, ThrowOnError>) {
+        return (options.client ?? client).post<AppointmentFeedbackResponses, unknown, ThrowOnError>({
+            url: '/storefront/appointments/{appointmentId}/feedback',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
     }
-});
-
-/**
- * Get all checkout questions for current cart
- */
-export const checkoutGetCartQuestions = <ThrowOnError extends boolean = false>(options: Options<CheckoutGetCartQuestionsData, ThrowOnError>) => (options.client ?? client).get<CheckoutGetCartQuestionsResponses, unknown, ThrowOnError>({ url: '/storefront/cart/checkout/questions/{language}', ...options });
-
-/**
- * Save customer information to cart and appointments
- */
-export const checkoutSaveCustomer = <ThrowOnError extends boolean = false>(options: Options<CheckoutSaveCustomerData, ThrowOnError>) => (options.client ?? client).post<CheckoutSaveCustomerResponses, unknown, ThrowOnError>({
-    url: '/storefront/cart/checkout/save-customer',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+    
+    /**
+     * Get customer booking preferences
+     *
+     * Returns frequently booked services, locations, and staff members based on customer booking history. Results are cached for 24 hours to optimize performance.
+     */
+    public static getBookingPreferences<ThrowOnError extends boolean = false>(options?: Options<AppointmentGetBookingPreferencesData, ThrowOnError>) {
+        return (options?.client ?? client).get<AppointmentGetBookingPreferencesResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/preferences/booking-history', ...options });
     }
-});
+}
 
-/**
- * Save checkout question answers to appointments
- */
-export const checkoutSaveAnswers = <ThrowOnError extends boolean = false>(options: Options<CheckoutSaveAnswersData, ThrowOnError>) => (options.client ?? client).post<CheckoutSaveAnswersResponses, unknown, ThrowOnError>({
-    url: '/storefront/cart/checkout/save-answers',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+export class OrderService {
+    /**
+     * List customer orders
+     *
+     * Returns all orders for the authenticated customer with pagination
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<OrderListData, ThrowOnError>) {
+        return (options?.client ?? client).get<OrderListResponses, unknown, ThrowOnError>({ url: '/storefront/orders', ...options });
     }
-});
+    
+    /**
+     * Get order by ID
+     *
+     * Returns a single order by ID for the authenticated customer
+     */
+    public static find<ThrowOnError extends boolean = false>(options: Options<OrderFindData, ThrowOnError>) {
+        return (options.client ?? client).get<OrderFindResponses, unknown, ThrowOnError>({ url: '/storefront/orders/{orderId}', ...options });
+    }
+}
 
-/**
- * Get store public settings
- */
-export const storeGetStorePublicSettings = <ThrowOnError extends boolean = false>(options?: Options<StoreGetStorePublicSettingsData, ThrowOnError>) => (options?.client ?? client).get<StoreGetStorePublicSettingsResponses, unknown, ThrowOnError>({ url: '/storefront/stores/public-settings', ...options });
+export class CartService {
+    /**
+     * Fetch cart
+     */
+    public static get<ThrowOnError extends boolean = false>(options: Options<CartGetData, ThrowOnError>) {
+        return (options.client ?? client).get<CartGetResponses, unknown, ThrowOnError>({ url: '/storefront/cart', ...options });
+    }
+    
+    /**
+     * Create or fetch cart
+     */
+    public static createOrGet<ThrowOnError extends boolean = false>(options: Options<CartCreateOrGetData, ThrowOnError>) {
+        return (options.client ?? client).post<CartCreateOrGetResponses, unknown, ThrowOnError>({ url: '/storefront/cart', ...options });
+    }
+    
+    /**
+     * Add appointment to cart
+     */
+    public static addItem<ThrowOnError extends boolean = false>(options: Options<CartAddItemData, ThrowOnError>) {
+        return (options.client ?? client).post<CartAddItemResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/items',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Remove cart item
+     */
+    public static removeItem<ThrowOnError extends boolean = false>(options: Options<CartRemoveItemData, ThrowOnError>) {
+        return (options.client ?? client).delete<CartRemoveItemResponses, unknown, ThrowOnError>({ url: '/storefront/cart/items/{itemId}', ...options });
+    }
+    
+    /**
+     * Extend cart expiration by 5 minutes
+     */
+    public static extendExpiration<ThrowOnError extends boolean = false>(options: Options<CartExtendExpirationData, ThrowOnError>) {
+        return (options.client ?? client).post<CartExtendExpirationResponses, unknown, ThrowOnError>({ url: '/storefront/cart/extend', ...options });
+    }
+}
 
-/**
- * Get product by slug
- *
- * Retrieve a product by its URL-friendly slug for the current store
- */
-export const productGetBySlug = <ThrowOnError extends boolean = false>(options: Options<ProductGetBySlugData, ThrowOnError>) => (options.client ?? client).get<ProductGetBySlugResponses, unknown, ThrowOnError>({ url: '/storefront/products/slug/{slug}', ...options });
+export class CheckoutService {
+    /**
+     * Start checkout for cart (create payment, validate items)
+     */
+    public static start<ThrowOnError extends boolean = false>(options: Options<CheckoutStartData, ThrowOnError>) {
+        return (options.client ?? client).post<CheckoutStartResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/checkout/start',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Submit checkout (capture payment, create order, auto-authenticate customer)
+     *
+     * Creates order and returns auth tokens for automatic customer authentication
+     */
+    public static submit<ThrowOnError extends boolean = false>(options: Options<CheckoutSubmitData, ThrowOnError>) {
+        return (options.client ?? client).post<CheckoutSubmitResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/checkout/submit',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Get all checkout questions for current cart
+     */
+    public static getCartQuestions<ThrowOnError extends boolean = false>(options: Options<CheckoutGetCartQuestionsData, ThrowOnError>) {
+        return (options.client ?? client).get<CheckoutGetCartQuestionsResponses, unknown, ThrowOnError>({ url: '/storefront/cart/checkout/questions/{language}', ...options });
+    }
+    
+    /**
+     * Save customer information to cart and appointments
+     */
+    public static saveCustomer<ThrowOnError extends boolean = false>(options: Options<CheckoutSaveCustomerData, ThrowOnError>) {
+        return (options.client ?? client).post<CheckoutSaveCustomerResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/checkout/save-customer',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Save checkout question answers to appointments
+     */
+    public static saveAnswers<ThrowOnError extends boolean = false>(options: Options<CheckoutSaveAnswersData, ThrowOnError>) {
+        return (options.client ?? client).post<CheckoutSaveAnswersResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/checkout/save-answers',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
 
-/**
- * Get product by ID
- *
- * Retrieve a product by its internal ID for the current store
- */
-export const productGet = <ThrowOnError extends boolean = false>(options: Options<ProductGetData, ThrowOnError>) => (options.client ?? client).get<ProductGetResponses, unknown, ThrowOnError>({ url: '/storefront/products/{productId}', ...options });
+export class StoreService {
+    /**
+     * Get store public settings
+     */
+    public static getStorePublicSettings<ThrowOnError extends boolean = false>(options?: Options<StoreGetStorePublicSettingsData, ThrowOnError>) {
+        return (options?.client ?? client).get<StoreGetStorePublicSettingsResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/stores/public-settings',
+            ...options
+        });
+    }
+}
 
-/**
- * Get products by external ID
- *
- * Retrieve products by their external platform ID (e.g., Shopify product ID) for the current store
- */
-export const productGetByExternalId = <ThrowOnError extends boolean = false>(options: Options<ProductGetByExternalIdData, ThrowOnError>) => (options.client ?? client).get<ProductGetByExternalIdResponses, unknown, ThrowOnError>({ url: '/storefront/products/by-external-id/{productExternalId}', ...options });
+export class ProductService {
+    /**
+     * Get product by slug
+     *
+     * Retrieve a product by its URL-friendly slug for the current store
+     */
+    public static getBySlug<ThrowOnError extends boolean = false>(options: Options<ProductGetBySlugData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetBySlugResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/slug/{slug}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get product by ID
+     *
+     * Retrieve a product by its internal ID for the current store
+     */
+    public static get<ThrowOnError extends boolean = false>(options: Options<ProductGetData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/{productId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get products by external ID
+     *
+     * Retrieve products by their external platform ID (e.g., Shopify product ID) for the current store
+     */
+    public static getByExternalId<ThrowOnError extends boolean = false>(options: Options<ProductGetByExternalIdData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetByExternalIdResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/by-external-id/{productExternalId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get a product by external variant ID
+     *
+     * Retrieve a product by its external variant ID (e.g., Shopify variant ID) for the current store
+     */
+    public static getByExternalVariantId<ThrowOnError extends boolean = false>(options: Options<ProductGetByExternalVariantIdData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetByExternalVariantIdResponses, ProductGetByExternalVariantIdErrors, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/by-external-variant-id/{productExternalVariantId}',
+            ...options
+        });
+    }
+    
+    /**
+     * List store products
+     *
+     * Retrieve a paginated list of active products for the current store, for the current store
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<ProductListData, ThrowOnError>) {
+        return (options?.client ?? client).get<ProductListResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products',
+            ...options
+        });
+    }
+    
+    /**
+     * Get the nearest available slot for a product
+     *
+     * Find the nearest upcoming availability slot for a product. Returns null/204 if no slot exists within the advance schedule window.
+     */
+    public static getNearestAvailability<ThrowOnError extends boolean = false>(options: Options<ProductGetNearestAvailabilityData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetNearestAvailabilityResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/{productId}/nearest-availability',
+            ...options
+        });
+    }
+    
+    /**
+     * Get current availabilities for a product
+     *
+     * Retrieve individual bookable time slots for a product on a given date.
+     */
+    public static getCurrentAvailabilities<ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/{productId}/current-availabilities',
+            ...options
+        });
+    }
+    
+    /**
+     * Get merged availability ranges for a product
+     *
+     * Retrieve merged availability ranges (broad time windows) for a product. Useful for calendar date highlighting.
+     */
+    public static getCurrentAvailabilitiesMerged<ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesMergedData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesMergedResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/products/{productId}/current-availability-ranges',
+            ...options
+        });
+    }
+}
 
-/**
- * Get a product by external variant ID
- *
- * Retrieve a product by its external variant ID (e.g., Shopify variant ID) for the current store
- */
-export const productGetByExternalVariantId = <ThrowOnError extends boolean = false>(options: Options<ProductGetByExternalVariantIdData, ThrowOnError>) => (options.client ?? client).get<ProductGetByExternalVariantIdResponses, ProductGetByExternalVariantIdErrors, ThrowOnError>({ url: '/storefront/products/by-external-variant-id/{productExternalVariantId}', ...options });
+export class LocationService {
+    /**
+     * Get location by slug
+     *
+     * Retrieve a location by its URL-friendly slug for current store
+     */
+    public static getBySlug<ThrowOnError extends boolean = false>(options: Options<LocationGetBySlugData, ThrowOnError>) {
+        return (options.client ?? client).get<LocationGetBySlugResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/locations/slug/{slug}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get location by ID
+     *
+     * Retrieve a location by its internal ID for current store
+     */
+    public static get<ThrowOnError extends boolean = false>(options: Options<LocationGetData, ThrowOnError>) {
+        return (options.client ?? client).get<LocationGetResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/locations/{locationId}',
+            ...options
+        });
+    }
+    
+    /**
+     * List store locations
+     *
+     * Retrieve a paginated list of locations for the current store
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<LocationListData, ThrowOnError>) {
+        return (options?.client ?? client).get<LocationListResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/locations',
+            ...options
+        });
+    }
+}
 
-/**
- * List store products
- *
- * Retrieve a paginated list of active products for the current store, for the current store
- */
-export const productList = <ThrowOnError extends boolean = false>(options?: Options<ProductListData, ThrowOnError>) => (options?.client ?? client).get<ProductListResponses, unknown, ThrowOnError>({ url: '/storefront/products', ...options });
+export class ProductCollectionService {
+    /**
+     * Get product collection by slug
+     *
+     * Retrieve a product collection by its URL-friendly slug for the current store
+     */
+    public static getBySlug<ThrowOnError extends boolean = false>(options: Options<ProductCollectionsGetBySlugData, ThrowOnError>) {
+        return (options.client ?? client).get<ProductCollectionsGetBySlugResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/product-collections/slug/{slug}',
+            ...options
+        });
+    }
+    
+    /**
+     * List store product collections
+     *
+     * Retrieve a paginated list of product collections for the current store
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<ProductCollectionsListData, ThrowOnError>) {
+        return (options?.client ?? client).get<ProductCollectionsListResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/product-collections',
+            ...options
+        });
+    }
+}
 
-/**
- * Get the nearest available slot for a product
- *
- * Find the nearest upcoming availability slot for a product. Returns null/204 if no slot exists within the advance schedule window.
- */
-export const productGetNearestAvailability = <ThrowOnError extends boolean = false>(options: Options<ProductGetNearestAvailabilityData, ThrowOnError>) => (options.client ?? client).get<ProductGetNearestAvailabilityResponses, unknown, ThrowOnError>({ url: '/storefront/products/{productId}/nearest-availability', ...options });
+export class StaffMemberService {
+    /**
+     * Get staff member by slug
+     *
+     * Retrieve a staff member by their URL-friendly slug for current store
+     */
+    public static getBySlug<ThrowOnError extends boolean = false>(options: Options<StaffMemberGetBySlugData, ThrowOnError>) {
+        return (options.client ?? client).get<StaffMemberGetBySlugResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/staff-members/slug/{slug}',
+            ...options
+        });
+    }
+    
+    /**
+     * List store staff members
+     *
+     * Retrieve a paginated list of staff members for the current store
+     */
+    public static list<ThrowOnError extends boolean = false>(options?: Options<StaffMemberListData, ThrowOnError>) {
+        return (options?.client ?? client).get<StaffMemberListResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/staff-members',
+            ...options
+        });
+    }
+}
 
-/**
- * Get current availabilities for a product
- *
- * Retrieve individual bookable time slots for a product on a given date.
- */
-export const productGetCurrentAvailabilities = <ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesData, ThrowOnError>) => (options.client ?? client).get<ProductGetCurrentAvailabilitiesResponses, unknown, ThrowOnError>({ url: '/storefront/products/{productId}/current-availabilities', ...options });
+export class PaymentService {
+    /**
+     * Get available payment providers for checkout
+     *
+     * Returns the list of active, eligible payment providers configured for this store. Only providers that are properly configured and enabled will be returned.
+     */
+    public static getAvailableProviders<ThrowOnError extends boolean = false>(options?: Options<PaymentGetAvailableProvidersData, ThrowOnError>) {
+        return (options?.client ?? client).get<PaymentGetAvailableProvidersResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/payment/providers',
+            ...options
+        });
+    }
+    
+    /**
+     * Get public payment settings
+     *
+     * Returns public payment configuration like currency and capture method.
+     */
+    public static getSettings<ThrowOnError extends boolean = false>(options?: Options<PaymentGetSettingsData, ThrowOnError>) {
+        return (options?.client ?? client).get<PaymentGetSettingsResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/payment/settings',
+            ...options
+        });
+    }
+}
 
-/**
- * Get merged availability ranges for a product
- *
- * Retrieve merged availability ranges (broad time windows) for a product. Useful for calendar date highlighting.
- */
-export const productGetCurrentAvailabilitiesMerged = <ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesMergedData, ThrowOnError>) => (options.client ?? client).get<ProductGetCurrentAvailabilitiesMergedResponses, unknown, ThrowOnError>({ url: '/storefront/products/{productId}/current-availability-ranges', ...options });
+export class FeedbackQuestionService {
+    /**
+     * List feedback questions translations
+     */
+    public static listTranslations<ThrowOnError extends boolean = false>(options: Options<FeedbackQuestionListTranslationsData, ThrowOnError>) {
+        return (options.client ?? client).get<FeedbackQuestionListTranslationsResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/feedback-questions/{productId}/translations/{language}',
+            ...options
+        });
+    }
+}
 
-/**
- * Get location by slug
- *
- * Retrieve a location by its URL-friendly slug for current store
- */
-export const locationGetBySlug = <ThrowOnError extends boolean = false>(options: Options<LocationGetBySlugData, ThrowOnError>) => (options.client ?? client).get<LocationGetBySlugResponses, unknown, ThrowOnError>({ url: '/storefront/locations/slug/{slug}', ...options });
+export class CheckoutQuestionService {
+    /**
+     * List checkout questions translations for a product
+     */
+    public static listTranslations<ThrowOnError extends boolean = false>(options: Options<CheckoutQuestionListTranslationsData, ThrowOnError>) {
+        return (options.client ?? client).get<CheckoutQuestionListTranslationsResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/checkout-questions/{productId}/translations/{language}',
+            ...options
+        });
+    }
+}
 
-/**
- * Get location by ID
- *
- * Retrieve a location by its internal ID for current store
- */
-export const locationGet = <ThrowOnError extends boolean = false>(options: Options<LocationGetData, ThrowOnError>) => (options.client ?? client).get<LocationGetResponses, unknown, ThrowOnError>({ url: '/storefront/locations/{locationId}', ...options });
-
-/**
- * List store locations
- *
- * Retrieve a paginated list of locations for the current store
- */
-export const locationList = <ThrowOnError extends boolean = false>(options?: Options<LocationListData, ThrowOnError>) => (options?.client ?? client).get<LocationListResponses, unknown, ThrowOnError>({ url: '/storefront/locations', ...options });
-
-/**
- * Get product collection by slug
- *
- * Retrieve a product collection by its URL-friendly slug for the current store
- */
-export const productCollectionsGetBySlug = <ThrowOnError extends boolean = false>(options: Options<ProductCollectionsGetBySlugData, ThrowOnError>) => (options.client ?? client).get<ProductCollectionsGetBySlugResponses, unknown, ThrowOnError>({ url: '/storefront/product-collections/slug/{slug}', ...options });
-
-/**
- * List store product collections
- *
- * Retrieve a paginated list of product collections for the current store
- */
-export const productCollectionsList = <ThrowOnError extends boolean = false>(options?: Options<ProductCollectionsListData, ThrowOnError>) => (options?.client ?? client).get<ProductCollectionsListResponses, unknown, ThrowOnError>({ url: '/storefront/product-collections', ...options });
-
-/**
- * Get staff member by slug
- *
- * Retrieve a staff member by their URL-friendly slug for current store
- */
-export const staffMemberGetBySlug = <ThrowOnError extends boolean = false>(options: Options<StaffMemberGetBySlugData, ThrowOnError>) => (options.client ?? client).get<StaffMemberGetBySlugResponses, unknown, ThrowOnError>({ url: '/storefront/staff-members/slug/{slug}', ...options });
-
-/**
- * List store staff members
- *
- * Retrieve a paginated list of staff members for the current store
- */
-export const staffMemberList = <ThrowOnError extends boolean = false>(options?: Options<StaffMemberListData, ThrowOnError>) => (options?.client ?? client).get<StaffMemberListResponses, unknown, ThrowOnError>({ url: '/storefront/staff-members', ...options });
-
-/**
- * Get available payment providers for checkout
- *
- * Returns the list of active, eligible payment providers configured for this store. Only providers that are properly configured and enabled will be returned.
- */
-export const paymentGetAvailableProviders = <ThrowOnError extends boolean = false>(options?: Options<PaymentGetAvailableProvidersData, ThrowOnError>) => (options?.client ?? client).get<PaymentGetAvailableProvidersResponses, unknown, ThrowOnError>({ url: '/storefront/payment/providers', ...options });
-
-/**
- * Get public payment settings
- *
- * Returns public payment configuration like currency and capture method.
- */
-export const paymentGetSettings = <ThrowOnError extends boolean = false>(options?: Options<PaymentGetSettingsData, ThrowOnError>) => (options?.client ?? client).get<PaymentGetSettingsResponses, unknown, ThrowOnError>({ url: '/storefront/payment/settings', ...options });
-
-/**
- * List feedback questions translations
- */
-export const feedbackQuestionListTranslations = <ThrowOnError extends boolean = false>(options: Options<FeedbackQuestionListTranslationsData, ThrowOnError>) => (options.client ?? client).get<FeedbackQuestionListTranslationsResponses, unknown, ThrowOnError>({ url: '/storefront/feedback-questions/{productId}/translations/{language}', ...options });
-
-/**
- * List checkout questions translations for a product
- */
-export const checkoutQuestionListTranslations = <ThrowOnError extends boolean = false>(options: Options<CheckoutQuestionListTranslationsData, ThrowOnError>) => (options.client ?? client).get<CheckoutQuestionListTranslationsResponses, unknown, ThrowOnError>({ url: '/storefront/checkout-questions/{productId}/translations/{language}', ...options });
-
-/**
- * Get image by ID
- */
-export const imageGet = <ThrowOnError extends boolean = false>(options: Options<ImageGetData, ThrowOnError>) => (options.client ?? client).get<ImageGetResponses, unknown, ThrowOnError>({ url: '/storefront/images/{imageId}', ...options });
+export class ImageService {
+    /**
+     * Get image by ID
+     */
+    public static get<ThrowOnError extends boolean = false>(options: Options<ImageGetData, ThrowOnError>) {
+        return (options.client ?? client).get<ImageGetResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/images/{imageId}',
+            ...options
+        });
+    }
+}

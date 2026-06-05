@@ -31,19 +31,6 @@ export type CollectionMeta = {
     hasNextPage: boolean;
 };
 
-export type Collection = {
-    /**
-     * Array of items for the current page
-     */
-    data: Array<{
-        [key: string]: unknown;
-    }>;
-    /**
-     * Pagination metadata
-     */
-    meta: CollectionMeta;
-};
-
 export type UserOauthProvider = {
     [key: string]: unknown;
 };
@@ -914,119 +901,249 @@ export type AppointmentLog = {
     appointment?: Appointment;
 };
 
-export type Order = {
+export type CartItem = {
     /**
-     * The currency used by the customer when placing the order.
+     * Unique identifier of the cart item
      */
-    paymentCurrencyCode: string;
+    id: string;
     /**
-     * Whether the taxes are included in the order subtotal.
+     * Cart ID
      */
-    taxesIncluded: boolean;
+    cartId: string;
     /**
-     * External order ID from user's platform (if any)
+     * Appointment ID
      */
-    externalId?: string | null;
+    appointmentId: string;
     /**
-     * External order name/reference from user's platform
+     * Original unit price
      */
-    externalName?: string | null;
+    originalUnitPrice: number;
     /**
-     * Generated order name for the user (starts at 1001 and increments)
+     * Discounted unit price
      */
-    name: string;
+    discountedUnitPrice: number;
     /**
-     * ID of the customer who placed the order
+     * Unit tax amount
      */
-    customerId?: string | null;
+    unitTaxAmount: number;
     /**
-     * Date and time when the order was created
+     * Quantity
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
      */
     createdAt: string;
     /**
-     * Date and time when the order was last updated
+     * Updated at timestamp
      */
     updatedAt?: string | null;
     /**
-     * Date and time when the order was soft-deleted
+     * Deleted at timestamp
      */
     deletedAt?: string | null;
+};
+
+export type CartPayment = {
     /**
-     * Customer who placed the order
+     * Unique identifier of the cart payment
      */
-    customer?: Customer | null;
+    id: string;
     /**
-     * Line items in the order
+     * Cart ID
      */
-    lineItems?: Array<OrderLineItem>;
+    cartId: string;
     /**
-     * Appointments associated with this order through line items
+     * Order ID created from the cart payment
      */
-    appointments: Array<Appointment>;
+    orderId?: string | null;
     /**
-     * Subtotal amount of the order, excluding canceled appointments
+     * Payment provider identifier (e.g., stripe, cash, shopify)
+     */
+    provider: {
+        [key: string]: unknown;
+    };
+    /**
+     * Provider reference (PaymentIntent/Session/charge id)
+     */
+    providerReference?: string | null;
+    /**
+     * Payment status
+     */
+    status: 'created' | 'authorized' | 'captured' | 'failed' | 'voided' | 'refunded';
+    /**
+     * Payment amount
+     */
+    amount: number;
+    /**
+     * Payment currency code
+     */
+    currency: string;
+    /**
+     * Captured amount
+     */
+    capturedAmount: number;
+    /**
+     * Authorization expiration timestamp
+     */
+    authorizedUntil?: string | null;
+    /**
+     * Client secret for Payment Element flow
+     */
+    clientSecret?: string | null;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt?: string | null;
+};
+
+export type Cart = {
+    /**
+     * Unique identifier of the cart
+     */
+    id: string;
+    /**
+     * ID of the store that owns the cart
+     */
+    storeId: string;
+    /**
+     * ID of the customer who owns the cart
+     */
+    customerId?: string | null;
+    /**
+     * Cart status
+     */
+    status: 'active' | 'converted' | 'abandoned';
+    /**
+     * Payment currency code for the cart totals
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether taxes are included in prices
+     */
+    taxesIncluded: boolean;
+    /**
+     * When cart should expire
+     */
+    expiresAt?: string | null;
+    /**
+     * Number of times the cart expiration has been extended
+     */
+    extensionsCount: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Cart items
+     */
+    items: Array<CartItem>;
+    /**
+     * Cart payments
+     */
+    payments: Array<CartPayment>;
+    /**
+     * Orders associated with this cart
+     */
+    orders: Array<Order>;
+    /**
+     * Subtotal amount of the cart
      */
     subtotal: number;
     /**
-     * Total amount of the order, including canceled appointments and taxes
-     */
-    total: number;
-    /**
-     * Total tax amount of the order, excluding canceled appointments
+     * Total tax amount of the cart
      */
     totalTax: number;
     /**
-     * Total amount due to be paid for the order
+     * Grand total of the cart
      */
-    dueToPay: number;
+    total: number;
+};
+
+export type OrderRefundLineItem = {
     /**
-     * Total amount paid for the order
+     * Unique identifier for the refund line item
      */
-    paidTotal: number;
+    id: string;
     /**
-     * Total amount refunded for the order
+     * ID of the refund this line item belongs to
      */
-    refundedTotal: number;
+    refundId: string;
     /**
-     * Balance of the order; based on paid and refunded amounts
+     * External refund line item ID from the platform (e.g., Shopify)
      */
-    balance: number;
+    externalId?: string | null;
     /**
-     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     * ID of the original order line item being refunded
      */
-    dueToRefund: number;
+    lineItemId: string;
     /**
-     * Whether the order is fully paid
+     * Quantity of the line item being refunded
      */
-    isFullyPaid: boolean;
+    quantity: number;
     /**
-     * Whether the order is fully refunded
+     * Date and time when the refund line item was created
      */
-    isFullyRefunded: boolean;
+    createdAt: string;
     /**
-     * Payment status of the order
+     * Date and time when the refund line item was last updated
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    updatedAt?: string | null;
     /**
-     * Refund status of the order
+     * The refund this line item belongs to
      */
-    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    refund: OrderRefund;
     /**
-     * Fulfillment status of the order
+     * The original order line item being refunded
      */
-    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    lineItem: OrderLineItem;
+};
+
+export type OrderRefund = {
     /**
-     * Services associated with appointments in this order
+     * Unique identifier for the order refund
      */
-    services: Array<Product>;
+    id: string;
     /**
-     * Staff members associated with appointments in this order
+     * ID of the order being refunded
      */
-    staffMembers: Array<StaffMember>;
+    orderId: string;
     /**
-     * Locations associated with appointments in this order
+     * External refund ID from the platform (e.g., Shopify)
      */
-    locations: Array<Location>;
+    externalId?: string | null;
+    /**
+     * Date and time when the refund was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The order this refund relates to
+     */
+    order: Order;
+    /**
+     * The transactions associated with this refund
+     */
+    transactions: Array<OrderTransaction>;
+    /**
+     * The line items included in this refund
+     */
+    lineItems: Array<OrderRefundLineItem>;
+    /**
+     * The total amount of the refund
+     */
+    total: number;
 };
 
 export type OrderTransaction = {
@@ -1114,82 +1231,188 @@ export type OrderTransaction = {
     isRefundable: boolean;
 };
 
-export type OrderRefund = {
+/**
+ * Severity level of the log entry
+ */
+export type OrderLogLevel = 'info' | 'error';
+
+export type OrderLog = {
     /**
-     * Unique identifier for the order refund
+     * Unique identifier of the order log entry
      */
     id: string;
     /**
-     * ID of the order being refunded
+     * ID of the order this log entry relates to
      */
     orderId: string;
     /**
-     * External refund ID from the platform (e.g., Shopify)
+     * Title or summary of the log entry
      */
-    externalId?: string | null;
+    title: string;
     /**
-     * Date and time when the refund was created
+     * Detailed description or additional information about the log entry
+     */
+    description?: string | null;
+    level: OrderLogLevel;
+    /**
+     * Date and time when this log entry was created
      */
     createdAt: string;
     /**
-     * Date and time when the refund was last updated
+     * Date and time when this log entry was last updated
      */
     updatedAt?: string | null;
     /**
-     * The order this refund relates to
+     * The order this log entry relates to
      */
-    order: Order;
-    /**
-     * The transactions associated with this refund
-     */
-    transactions: Array<OrderTransaction>;
-    /**
-     * The line items included in this refund
-     */
-    lineItems: Array<OrderRefundLineItem>;
-    /**
-     * The total amount of the refund
-     */
-    total: number;
+    order?: Order;
 };
 
-export type OrderRefundLineItem = {
+export type Order = {
     /**
-     * Unique identifier for the refund line item
+     * The currency used by the customer when placing the order.
      */
-    id: string;
+    paymentCurrencyCode: string;
     /**
-     * ID of the refund this line item belongs to
+     * Whether the taxes are included in the order subtotal.
      */
-    refundId: string;
+    taxesIncluded: boolean;
     /**
-     * External refund line item ID from the platform (e.g., Shopify)
+     * External order ID from user's platform (if any)
      */
     externalId?: string | null;
     /**
-     * ID of the original order line item being refunded
+     * External order name/reference from user's platform
      */
-    lineItemId: string;
+    externalName?: string | null;
     /**
-     * Quantity of the line item being refunded
+     * Generated order name for the user (starts at 1001 and increments)
      */
-    quantity: number;
+    name: string;
     /**
-     * Date and time when the refund line item was created
+     * ID of the customer who placed the order
+     */
+    customerId?: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId?: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId?: string | null;
+    /**
+     * Date and time when the order was created
      */
     createdAt: string;
     /**
-     * Date and time when the refund line item was last updated
+     * Date and time when the order was last updated
      */
     updatedAt?: string | null;
     /**
-     * The refund this line item belongs to
+     * Date and time when the order was soft-deleted
      */
-    refund: OrderRefund;
+    deletedAt?: string | null;
     /**
-     * The original order line item being refunded
+     * Customer who placed the order
      */
-    lineItem: OrderLineItem;
+    customer?: Customer | null;
+    /**
+     * Store that owns this order
+     */
+    store?: Store;
+    /**
+     * Cart that produced this order
+     */
+    cart?: Cart | null;
+    /**
+     * Line items in the order
+     */
+    lineItems?: Array<OrderLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions?: Array<OrderTransaction>;
+    /**
+     * Order activity logs
+     */
+    logs?: Array<OrderLog>;
+    /**
+     * Refunds associated with this order
+     */
+    refunds?: Array<OrderRefund>;
+    /**
+     * Appointments associated with this order through line items
+     */
+    appointments: Array<Appointment>;
+    /**
+     * Refundable transactions associated with this order
+     */
+    refundableTransactions: Array<OrderTransaction>;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount due to be paid for the order
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether the order is fully refunded
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Services associated with appointments in this order
+     */
+    services: Array<Product>;
+    /**
+     * Staff members associated with appointments in this order
+     */
+    staffMembers: Array<StaffMember>;
+    /**
+     * Locations associated with appointments in this order
+     */
+    locations: Array<Location>;
 };
 
 export type OrderLineItem = {
@@ -1265,49 +1488,6 @@ export type OrderLineItem = {
      * The quantity of the line item that can be refunded
      */
     refundableQuantity: number;
-};
-
-export type CartItem = {
-    /**
-     * Unique identifier of the cart item
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
 };
 
 export type Appointment = {
@@ -2046,11 +2226,13 @@ export type StoreContactInfo = {
     /**
      * Array of contact phone numbers
      */
-    contactPhoneNumbers: unknown;
+    contactPhoneNumbers: Array<string> | null;
     /**
      * Array of social media links
      */
-    socialMediaLinks: unknown;
+    socialMediaLinks: Array<{
+        [key: string]: unknown;
+    }> | null;
     /**
      * When the contact info was created
      */
@@ -2444,130 +2626,6 @@ export type QuestionAnswer = {
     answer?: string | null;
 };
 
-export type CartPayment = {
-    /**
-     * Unique identifier of the cart payment
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Order ID created from the cart payment
-     */
-    orderId?: string | null;
-    /**
-     * Payment provider identifier (e.g., stripe, cash, shopify)
-     */
-    provider: {
-        [key: string]: unknown;
-    };
-    /**
-     * Provider reference (PaymentIntent/Session/charge id)
-     */
-    providerReference?: string | null;
-    /**
-     * Payment status
-     */
-    status: 'created' | 'authorized' | 'captured' | 'failed' | 'voided' | 'refunded';
-    /**
-     * Payment amount
-     */
-    amount: number;
-    /**
-     * Payment currency code
-     */
-    currency: string;
-    /**
-     * Captured amount
-     */
-    capturedAmount: number;
-    /**
-     * Authorization expiration timestamp
-     */
-    authorizedUntil?: string | null;
-    /**
-     * Client secret for Payment Element flow
-     */
-    clientSecret?: string | null;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-};
-
-export type Cart = {
-    /**
-     * Unique identifier of the cart
-     */
-    id: string;
-    /**
-     * ID of the store that owns the cart
-     */
-    storeId: string;
-    /**
-     * ID of the customer who owns the cart
-     */
-    customerId?: string | null;
-    /**
-     * Cart status
-     */
-    status: 'active' | 'converted' | 'abandoned';
-    /**
-     * Payment currency code for the cart totals
-     */
-    paymentCurrencyCode: string;
-    /**
-     * Whether taxes are included in prices
-     */
-    taxesIncluded: boolean;
-    /**
-     * When cart should expire
-     */
-    expiresAt?: string | null;
-    /**
-     * Number of times the cart expiration has been extended
-     */
-    extensionsCount: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Cart items
-     */
-    items: Array<CartItem>;
-    /**
-     * Cart payments
-     */
-    payments: Array<CartPayment>;
-    /**
-     * Orders associated with this cart
-     */
-    orders: Array<Order>;
-    /**
-     * Subtotal amount of the cart
-     */
-    subtotal: number;
-    /**
-     * Total tax amount of the cart
-     */
-    totalTax: number;
-    /**
-     * Grand total of the cart
-     */
-    total: number;
-};
-
 export type CheckoutAuthTokens = {
     /**
      * Access token for customer authentication
@@ -2718,11 +2776,11 @@ export type RegisterCustomer = {
     /**
      * First name
      */
-    first_name?: string;
+    firstName?: string;
     /**
      * Last name
      */
-    last_name?: string;
+    lastName?: string;
 };
 
 export type RequestPasswordReset = {
@@ -2740,53 +2798,7 @@ export type CustomerResetPassword = {
     /**
      * New password
      */
-    new_password: string;
-};
-
-export type AuthenticateExternalCustomer = {
-    /**
-     * Unique key identifier for this authentication session (e.g., frontend identifier)
-     */
-    tokenName?: string;
-    /**
-     * Preferred store ID to scope the JWT to
-     */
-    storeId?: string;
-    /**
-     * Preferred store domain to resolve store and scope the JWT to
-     */
-    storeDomain?: string;
-    /**
-     * External customer identifier from integrated system
-     */
-    externalId: string;
-};
-
-export type AuthenticateCustomerByEmailAndOrderName = {
-    /**
-     * Unique key identifier for this authentication session (e.g., frontend identifier)
-     */
-    tokenName?: string;
-    /**
-     * Preferred store ID to scope the JWT to
-     */
-    storeId?: string;
-    /**
-     * Preferred store domain to resolve store and scope the JWT to
-     */
-    storeDomain?: string;
-    /**
-     * ID of the merchant user
-     */
-    userId: string;
-    /**
-     * Email address of the customer
-     */
-    email: string;
-    /**
-     * External order name from the appointment
-     */
-    externalOrderName: string;
+    newPassword: string;
 };
 
 export type UpdateCustomerProfile = {
@@ -3971,119 +3983,149 @@ export type AppointmentLogWritable = {
     appointment?: AppointmentWritable;
 };
 
-export type OrderWritable = {
+export type CartWritable = {
     /**
-     * The currency used by the customer when placing the order.
+     * Unique identifier of the cart
      */
-    paymentCurrencyCode: string;
+    id: string;
     /**
-     * Whether the taxes are included in the order subtotal.
+     * ID of the store that owns the cart
      */
-    taxesIncluded: boolean;
+    storeId: string;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalName?: string | null;
-    /**
-     * Generated order name for the user (starts at 1001 and increments)
-     */
-    name: string;
-    /**
-     * ID of the customer who placed the order
+     * ID of the customer who owns the cart
      */
     customerId?: string | null;
     /**
-     * Date and time when the order was created
+     * Cart status
+     */
+    status: 'active' | 'converted' | 'abandoned';
+    /**
+     * Payment currency code for the cart totals
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether taxes are included in prices
+     */
+    taxesIncluded: boolean;
+    /**
+     * When cart should expire
+     */
+    expiresAt?: string | null;
+    /**
+     * Number of times the cart expiration has been extended
+     */
+    extensionsCount: number;
+    /**
+     * Created at timestamp
      */
     createdAt: string;
     /**
-     * Date and time when the order was last updated
+     * Updated at timestamp
      */
     updatedAt?: string | null;
     /**
-     * Date and time when the order was soft-deleted
+     * Cart items
      */
-    deletedAt?: string | null;
+    items: Array<CartItem>;
     /**
-     * Customer who placed the order
+     * Cart payments
      */
-    customer?: CustomerWritable | null;
+    payments: Array<CartPayment>;
     /**
-     * Line items in the order
+     * Orders associated with this cart
      */
-    lineItems?: Array<OrderLineItemWritable>;
+    orders: Array<OrderWritable>;
     /**
-     * Appointments associated with this order through line items
-     */
-    appointments: Array<AppointmentWritable>;
-    /**
-     * Subtotal amount of the order, excluding canceled appointments
+     * Subtotal amount of the cart
      */
     subtotal: number;
     /**
-     * Total amount of the order, including canceled appointments and taxes
-     */
-    total: number;
-    /**
-     * Total tax amount of the order, excluding canceled appointments
+     * Total tax amount of the cart
      */
     totalTax: number;
     /**
-     * Total amount due to be paid for the order
+     * Grand total of the cart
      */
-    dueToPay: number;
+    total: number;
+};
+
+export type OrderRefundLineItemWritable = {
     /**
-     * Total amount paid for the order
+     * Unique identifier for the refund line item
      */
-    paidTotal: number;
+    id: string;
     /**
-     * Total amount refunded for the order
+     * ID of the refund this line item belongs to
      */
-    refundedTotal: number;
+    refundId: string;
     /**
-     * Balance of the order; based on paid and refunded amounts
+     * External refund line item ID from the platform (e.g., Shopify)
      */
-    balance: number;
+    externalId?: string | null;
     /**
-     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     * ID of the original order line item being refunded
      */
-    dueToRefund: number;
+    lineItemId: string;
     /**
-     * Whether the order is fully paid
+     * Quantity of the line item being refunded
      */
-    isFullyPaid: boolean;
+    quantity: number;
     /**
-     * Whether the order is fully refunded
+     * Date and time when the refund line item was created
      */
-    isFullyRefunded: boolean;
+    createdAt: string;
     /**
-     * Payment status of the order
+     * Date and time when the refund line item was last updated
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    updatedAt?: string | null;
     /**
-     * Refund status of the order
+     * The refund this line item belongs to
      */
-    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    refund: OrderRefundWritable;
     /**
-     * Fulfillment status of the order
+     * The original order line item being refunded
      */
-    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    lineItem: OrderLineItemWritable;
+};
+
+export type OrderRefundWritable = {
     /**
-     * Services associated with appointments in this order
+     * Unique identifier for the order refund
      */
-    services: Array<ProductWritable>;
+    id: string;
     /**
-     * Staff members associated with appointments in this order
+     * ID of the order being refunded
      */
-    staffMembers: Array<StaffMemberWritable>;
+    orderId: string;
     /**
-     * Locations associated with appointments in this order
+     * External refund ID from the platform (e.g., Shopify)
      */
-    locations: Array<LocationWritable>;
+    externalId?: string | null;
+    /**
+     * Date and time when the refund was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The order this refund relates to
+     */
+    order: OrderWritable;
+    /**
+     * The transactions associated with this refund
+     */
+    transactions: Array<OrderTransactionWritable>;
+    /**
+     * The line items included in this refund
+     */
+    lineItems: Array<OrderRefundLineItemWritable>;
+    /**
+     * The total amount of the refund
+     */
+    total: number;
 };
 
 export type OrderTransactionWritable = {
@@ -4171,82 +4213,183 @@ export type OrderTransactionWritable = {
     isRefundable: boolean;
 };
 
-export type OrderRefundWritable = {
+export type OrderLogWritable = {
     /**
-     * Unique identifier for the order refund
+     * Unique identifier of the order log entry
      */
     id: string;
     /**
-     * ID of the order being refunded
+     * ID of the order this log entry relates to
      */
     orderId: string;
     /**
-     * External refund ID from the platform (e.g., Shopify)
+     * Title or summary of the log entry
      */
-    externalId?: string | null;
+    title: string;
     /**
-     * Date and time when the refund was created
+     * Detailed description or additional information about the log entry
+     */
+    description?: string | null;
+    level: OrderLogLevel;
+    /**
+     * Date and time when this log entry was created
      */
     createdAt: string;
     /**
-     * Date and time when the refund was last updated
+     * Date and time when this log entry was last updated
      */
     updatedAt?: string | null;
     /**
-     * The order this refund relates to
+     * The order this log entry relates to
      */
-    order: OrderWritable;
-    /**
-     * The transactions associated with this refund
-     */
-    transactions: Array<OrderTransactionWritable>;
-    /**
-     * The line items included in this refund
-     */
-    lineItems: Array<OrderRefundLineItemWritable>;
-    /**
-     * The total amount of the refund
-     */
-    total: number;
+    order?: OrderWritable;
 };
 
-export type OrderRefundLineItemWritable = {
+export type OrderWritable = {
     /**
-     * Unique identifier for the refund line item
+     * The currency used by the customer when placing the order.
      */
-    id: string;
+    paymentCurrencyCode: string;
     /**
-     * ID of the refund this line item belongs to
+     * Whether the taxes are included in the order subtotal.
      */
-    refundId: string;
+    taxesIncluded: boolean;
     /**
-     * External refund line item ID from the platform (e.g., Shopify)
+     * External order ID from user's platform (if any)
      */
     externalId?: string | null;
     /**
-     * ID of the original order line item being refunded
+     * External order name/reference from user's platform
      */
-    lineItemId: string;
+    externalName?: string | null;
     /**
-     * Quantity of the line item being refunded
+     * Generated order name for the user (starts at 1001 and increments)
      */
-    quantity: number;
+    name: string;
     /**
-     * Date and time when the refund line item was created
+     * ID of the customer who placed the order
+     */
+    customerId?: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId?: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId?: string | null;
+    /**
+     * Date and time when the order was created
      */
     createdAt: string;
     /**
-     * Date and time when the refund line item was last updated
+     * Date and time when the order was last updated
      */
     updatedAt?: string | null;
     /**
-     * The refund this line item belongs to
+     * Date and time when the order was soft-deleted
      */
-    refund: OrderRefundWritable;
+    deletedAt?: string | null;
     /**
-     * The original order line item being refunded
+     * Customer who placed the order
      */
-    lineItem: OrderLineItemWritable;
+    customer?: CustomerWritable | null;
+    /**
+     * Store that owns this order
+     */
+    store?: StoreWritable;
+    /**
+     * Cart that produced this order
+     */
+    cart?: CartWritable | null;
+    /**
+     * Line items in the order
+     */
+    lineItems?: Array<OrderLineItemWritable>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions?: Array<OrderTransactionWritable>;
+    /**
+     * Order activity logs
+     */
+    logs?: Array<OrderLogWritable>;
+    /**
+     * Refunds associated with this order
+     */
+    refunds?: Array<OrderRefundWritable>;
+    /**
+     * Appointments associated with this order through line items
+     */
+    appointments: Array<AppointmentWritable>;
+    /**
+     * Refundable transactions associated with this order
+     */
+    refundableTransactions: Array<OrderTransactionWritable>;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount due to be paid for the order
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether the order is fully refunded
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Services associated with appointments in this order
+     */
+    services: Array<ProductWritable>;
+    /**
+     * Staff members associated with appointments in this order
+     */
+    staffMembers: Array<StaffMemberWritable>;
+    /**
+     * Locations associated with appointments in this order
+     */
+    locations: Array<LocationWritable>;
 };
 
 export type OrderLineItemWritable = {
@@ -5171,73 +5314,6 @@ export type StaffMemberWritable = {
     integrations?: Array<IntegrationWritable>;
 };
 
-export type CartWritable = {
-    /**
-     * Unique identifier of the cart
-     */
-    id: string;
-    /**
-     * ID of the store that owns the cart
-     */
-    storeId: string;
-    /**
-     * ID of the customer who owns the cart
-     */
-    customerId?: string | null;
-    /**
-     * Cart status
-     */
-    status: 'active' | 'converted' | 'abandoned';
-    /**
-     * Payment currency code for the cart totals
-     */
-    paymentCurrencyCode: string;
-    /**
-     * Whether taxes are included in prices
-     */
-    taxesIncluded: boolean;
-    /**
-     * When cart should expire
-     */
-    expiresAt?: string | null;
-    /**
-     * Number of times the cart expiration has been extended
-     */
-    extensionsCount: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Cart items
-     */
-    items: Array<CartItem>;
-    /**
-     * Cart payments
-     */
-    payments: Array<CartPayment>;
-    /**
-     * Orders associated with this cart
-     */
-    orders: Array<OrderWritable>;
-    /**
-     * Subtotal amount of the cart
-     */
-    subtotal: number;
-    /**
-     * Total tax amount of the cart
-     */
-    totalTax: number;
-    /**
-     * Grand total of the cart
-     */
-    total: number;
-};
-
 export type ServicePreferenceWritable = {
     /**
      * The product/service
@@ -5495,32 +5571,6 @@ export type AuthResetPasswordResponses = {
 
 export type AuthResetPasswordResponse = AuthResetPasswordResponses[keyof AuthResetPasswordResponses];
 
-export type ExternalAuthAuthenticateExternalIdData = {
-    body: AuthenticateExternalCustomer;
-    path?: never;
-    query?: never;
-    url: '/storefront/auth/authenticate';
-};
-
-export type ExternalAuthAuthenticateExternalIdResponses = {
-    200: TokensResponse;
-};
-
-export type ExternalAuthAuthenticateExternalIdResponse = ExternalAuthAuthenticateExternalIdResponses[keyof ExternalAuthAuthenticateExternalIdResponses];
-
-export type ExternalAuthAuthenticateByEmailAndOrderData = {
-    body: AuthenticateCustomerByEmailAndOrderName;
-    path?: never;
-    query?: never;
-    url: '/storefront/auth/authenticate-by-email-and-order';
-};
-
-export type ExternalAuthAuthenticateByEmailAndOrderResponses = {
-    200: TokensResponse;
-};
-
-export type ExternalAuthAuthenticateByEmailAndOrderResponse = ExternalAuthAuthenticateByEmailAndOrderResponses[keyof ExternalAuthAuthenticateByEmailAndOrderResponses];
-
 export type SelfServiceGetProfileData = {
     body?: never;
     path?: never;
@@ -5640,7 +5690,10 @@ export type AppointmentListResponses = {
     /**
      * Collection of customer appointments
      */
-    200: Collection;
+    200: {
+        data: Array<Appointment>;
+        meta: CollectionMeta;
+    };
 };
 
 export type AppointmentListResponse = AppointmentListResponses[keyof AppointmentListResponses];
@@ -5850,7 +5903,10 @@ export type OrderListResponses = {
     /**
      * Collection of customer orders
      */
-    200: Collection;
+    200: {
+        data: Array<Order>;
+        meta: CollectionMeta;
+    };
 };
 
 export type OrderListResponse = OrderListResponses[keyof OrderListResponses];
@@ -6218,7 +6274,10 @@ export type ProductListResponses = {
     /**
      * List of products for the current store
      */
-    200: Collection;
+    200: {
+        data: Array<Product>;
+        meta: CollectionMeta;
+    };
 };
 
 export type ProductListResponse = ProductListResponses[keyof ProductListResponses];
@@ -6407,7 +6466,10 @@ export type LocationListResponses = {
     /**
      * List of locations for the current store
      */
-    200: Collection;
+    200: {
+        data: Array<Location>;
+        meta: CollectionMeta;
+    };
 };
 
 export type LocationListResponse = LocationListResponses[keyof LocationListResponses];
@@ -6469,7 +6531,10 @@ export type ProductCollectionsListResponses = {
     /**
      * List of product collections for the current store
      */
-    200: Collection;
+    200: {
+        data: Array<ProductCollection>;
+        meta: CollectionMeta;
+    };
 };
 
 export type ProductCollectionsListResponse = ProductCollectionsListResponses[keyof ProductCollectionsListResponses];
@@ -6527,7 +6592,10 @@ export type StaffMemberListResponses = {
     /**
      * List of staff members for the current store
      */
-    200: Collection;
+    200: {
+        data: Array<StaffMember>;
+        meta: CollectionMeta;
+    };
 };
 
 export type StaffMemberListResponse = StaffMemberListResponses[keyof StaffMemberListResponses];
