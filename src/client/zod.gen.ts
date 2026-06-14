@@ -2,6 +2,151 @@
 
 import { z } from 'zod';
 
+export const zLanguage = z.object({
+    code: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    englishName: z.string(),
+    originalName: z.string(),
+    active: z.boolean()
+});
+
 export const zCollectionMeta = z.object({
     page: z.number().gte(1),
     take: z.number().gte(1),
@@ -182,12 +327,6 @@ export const zProductPool = z.object({
     deletedAt: z.string()
 });
 
-export const zCheckoutQuestionAnswer = z.object({
-    questionId: z.string(),
-    question: z.string(),
-    answer: z.string()
-});
-
 export const zIntegratedAppointmentLocationData = z.object({
     address: z.string(),
     password: z.string().nullish()
@@ -197,36 +336,6 @@ export const zIntegratedAppointmentLocationData = z.object({
  * Severity level of the log entry
  */
 export const zAppointmentLogLevel = z.enum(['info', 'error']);
-
-export const zCartAddOnItem = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    cartItemId: z.string(),
-    addOnId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish()
-});
-
-export const zCartItem = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    appointmentId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    addOnItems: z.array(zCartAddOnItem).optional(),
-    lineSubtotal: z.number(),
-    lineTax: z.number()
-});
 
 export const zCartPayment = z.object({
     id: z.string(),
@@ -255,11 +364,6 @@ export const zCartPayment = z.object({
  * Severity level of the log entry
  */
 export const zOrderLogLevel = z.enum(['info', 'error']);
-
-export const zAppointmentAddOn = z.object({
-    addOnId: z.string(),
-    quantity: z.number().optional().default(1)
-});
 
 export const zCustomerOauthProvider = z.record(z.unknown());
 
@@ -360,6 +464,12 @@ export const zAppointmentAddress = z.object({
     country: z.string().max(255).optional()
 });
 
+export const zCheckoutQuestionAnswerDto = z.object({
+    questionId: z.string(),
+    question: z.string(),
+    answer: z.string()
+});
+
 export const zQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
@@ -388,44 +498,6 @@ export const zPaymentSetting = z.object({
         'manual',
         'on_fulfillment'
     ])
-});
-
-/**
- * Type of input for the question
- */
-export const zCheckoutQuestionInputType = z.enum([
-    'single-line-text-field',
-    'multi-line-text-field',
-    'dropdown',
-    'rating',
-    'checkbox'
-]);
-
-export const zCheckoutQuestion = z.object({
-    internalName: z.string(),
-    required: z.boolean(),
-    type: zCheckoutQuestionInputType,
-    order: z.number().optional().default(0),
-    alwaysShow: z.boolean().optional().default(false)
-});
-
-/**
- * Type of input for the question
- */
-export const zFeedbackQuestionInputType = z.enum([
-    'single-line-text-field',
-    'multi-line-text-field',
-    'dropdown',
-    'rating',
-    'checkbox'
-]);
-
-export const zFeedbackQuestion = z.object({
-    internalName: z.string(),
-    required: z.boolean(),
-    type: zFeedbackQuestionInputType,
-    order: z.number().optional().default(0),
-    alwaysShow: z.boolean().optional().default(false)
 });
 
 export const zExistingOrderCustomer = z.object({
@@ -491,6 +563,11 @@ export const zUpdateCustomerPassword = z.object({
     newPassword: z.string()
 });
 
+export const zCreateAppointmentAddOn = z.object({
+    addOnId: z.string(),
+    quantity: z.number().optional().default(1)
+});
+
 export const zCreateAppointment = z.object({
     slot: zAppointmentDateRangeSlot,
     customer: z.union([
@@ -499,10 +576,10 @@ export const zCreateAppointment = z.object({
     ]).optional(),
     internalNote: z.string().optional(),
     address: zAppointmentAddress.optional(),
-    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswer).optional(),
+    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswerDto).optional(),
     numberOfAttendees: z.number().optional().default(1),
     cartId: z.string().optional(),
-    addOns: z.array(zAppointmentAddOn).optional()
+    addOns: z.array(zCreateAppointmentAddOn).optional()
 });
 
 export const zRescheduleAppointment = z.object({
@@ -572,7 +649,7 @@ export const zSaveCustomerResponse = z.object({
 });
 
 export const zCheckoutQuestionAnswers = z.object({
-    answers: z.array(zCheckoutQuestionAnswer)
+    answers: z.array(zCheckoutQuestionAnswerDto)
 });
 
 export const zAvailabilitySlot = z.object({
@@ -806,6 +883,352 @@ export const zProductCollection: z.AnyZodObject = z.object({
     products: z.array(z.lazy(() => zProduct)).optional()
 });
 
+export const zFeedbackQuestionTranslation: z.AnyZodObject = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullish(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    question: z.lazy(() => zFeedbackQuestion),
+    language: zLanguage
+});
+
+export const zFeedbackQuestion: z.AnyZodObject = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string(),
+    store: z.lazy(() => zStore).optional(),
+    translations: z.array(zFeedbackQuestionTranslation),
+    products: z.array(z.lazy(() => zProduct)).optional()
+});
+
+export const zCheckoutQuestionTranslation: z.AnyZodObject = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullish(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    question: z.lazy(() => zCheckoutQuestion),
+    language: zLanguage
+});
+
+export const zCheckoutQuestion: z.AnyZodObject = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string(),
+    store: z.lazy(() => zStore).optional(),
+    translations: z.array(zCheckoutQuestionTranslation),
+    products: z.array(z.lazy(() => zProduct)).optional()
+});
+
 export const zProduct: z.AnyZodObject = z.object({
     id: z.string(),
     productId: z.string(),
@@ -884,6 +1307,18 @@ export const zProduct: z.AnyZodObject = z.object({
     addOns: z.array(zAddOn).optional()
 });
 
+export const zCheckoutQuestionAnswer: z.AnyZodObject = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    questionId: z.string().nullish(),
+    checkoutQuestion: zCheckoutQuestion.nullish(),
+    question: z.string(),
+    answer: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    appointment: z.lazy(() => zAppointment).optional()
+});
+
 export const zFeedbackQuestionAnswer: z.AnyZodObject = z.object({
     id: z.string(),
     appointmentId: z.string(),
@@ -930,6 +1365,38 @@ export const zAppointmentLog: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointment).optional()
 });
 
+export const zCartAddOnItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    cartItemId: z.string(),
+    addOnId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    addOn: zAddOn.nullish()
+});
+
+export const zCartItem: z.AnyZodObject = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    appointmentId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    appointment: z.lazy(() => zAppointment).nullish(),
+    addOnItems: z.array(zCartAddOnItem).optional(),
+    lineSubtotal: z.number(),
+    lineTax: z.number()
+});
+
 export const zCart: z.AnyZodObject = z.object({
     id: z.string(),
     storeId: z.string(),
@@ -966,6 +1433,7 @@ export const zOrderRefundLineItem: z.AnyZodObject = z.object({
 });
 
 export const zOrderAddOnLineItem: z.AnyZodObject = z.object({
+    id: z.string(),
     orderId: z.string(),
     lineItemId: z.string(),
     addOnId: z.string(),
@@ -1066,6 +1534,7 @@ export const zOrderLog: z.AnyZodObject = z.object({
 });
 
 export const zOrder: z.AnyZodObject = z.object({
+    id: z.string(),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
     externalId: z.string().nullish(),
@@ -1139,6 +1608,15 @@ export const zOrderLineItem: z.AnyZodObject = z.object({
     totalTax: z.number(),
     refundedQuantity: z.number(),
     refundableQuantity: z.number()
+});
+
+export const zAppointmentAddOn = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zAddOn
 });
 
 export const zAppointment: z.AnyZodObject = z.object({
@@ -1666,6 +2144,352 @@ export const zProductCollectionWritable: z.AnyZodObject = z.object({
     products: z.array(z.lazy(() => zProductWritable)).optional()
 });
 
+export const zFeedbackQuestionTranslationWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullish(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    question: z.lazy(() => zFeedbackQuestionWritable),
+    language: zLanguage
+});
+
+export const zFeedbackQuestionWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string(),
+    store: z.lazy(() => zStoreWritable).optional(),
+    translations: z.array(zFeedbackQuestionTranslationWritable),
+    products: z.array(z.lazy(() => zProductWritable)).optional()
+});
+
+export const zCheckoutQuestionTranslationWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullish(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    question: z.lazy(() => zCheckoutQuestionWritable),
+    language: zLanguage
+});
+
+export const zCheckoutQuestionWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string(),
+    store: z.lazy(() => zStoreWritable).optional(),
+    translations: z.array(zCheckoutQuestionTranslationWritable),
+    products: z.array(z.lazy(() => zProductWritable)).optional()
+});
+
 export const zProductWritable: z.AnyZodObject = z.object({
     id: z.string(),
     productId: z.string(),
@@ -1739,16 +2563,28 @@ export const zProductWritable: z.AnyZodObject = z.object({
     image: zImageWritable.optional(),
     images: z.array(zImageWritable).optional(),
     integrations: z.array(zIntegrationWritable).optional(),
-    feedbackQuestions: z.array(zFeedbackQuestion).optional(),
-    checkoutQuestions: z.array(zCheckoutQuestion).optional(),
+    feedbackQuestions: z.array(zFeedbackQuestionWritable).optional(),
+    checkoutQuestions: z.array(zCheckoutQuestionWritable).optional(),
     addOns: z.array(zAddOnWritable).optional()
+});
+
+export const zCheckoutQuestionAnswerWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    questionId: z.string().nullish(),
+    checkoutQuestion: zCheckoutQuestionWritable.nullish(),
+    question: z.string(),
+    answer: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    appointment: z.lazy(() => zAppointmentWritable).optional()
 });
 
 export const zFeedbackQuestionAnswerWritable: z.AnyZodObject = z.object({
     id: z.string(),
     appointmentId: z.string(),
     questionId: z.string().nullish(),
-    feedbackQuestion: zFeedbackQuestion.nullish(),
+    feedbackQuestion: zFeedbackQuestionWritable.nullish(),
     question: z.string(),
     answer: z.string().nullish(),
     createdAt: z.string().datetime(),
@@ -1790,6 +2626,38 @@ export const zAppointmentLogWritable: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointmentWritable).optional()
 });
 
+export const zCartAddOnItemWritable = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    cartItemId: z.string(),
+    addOnId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    addOn: zAddOnWritable.nullish()
+});
+
+export const zCartItemWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    appointmentId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    appointment: z.lazy(() => zAppointmentWritable).nullish(),
+    addOnItems: z.array(zCartAddOnItemWritable).optional(),
+    lineSubtotal: z.number(),
+    lineTax: z.number()
+});
+
 export const zCartWritable: z.AnyZodObject = z.object({
     id: z.string(),
     storeId: z.string(),
@@ -1805,7 +2673,7 @@ export const zCartWritable: z.AnyZodObject = z.object({
     extensionsCount: z.number(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    items: z.array(zCartItem),
+    items: z.array(zCartItemWritable),
     payments: z.array(zCartPayment),
     orders: z.array(z.lazy(() => zOrderWritable)),
     subtotal: z.number(),
@@ -1826,6 +2694,7 @@ export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
 });
 
 export const zOrderAddOnLineItemWritable: z.AnyZodObject = z.object({
+    id: z.string(),
     orderId: z.string(),
     lineItemId: z.string(),
     addOnId: z.string(),
@@ -1926,6 +2795,7 @@ export const zOrderLogWritable: z.AnyZodObject = z.object({
 });
 
 export const zOrderWritable: z.AnyZodObject = z.object({
+    id: z.string(),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
     externalId: z.string().nullish(),
@@ -2001,6 +2871,15 @@ export const zOrderLineItemWritable: z.AnyZodObject = z.object({
     refundableQuantity: z.number()
 });
 
+export const zAppointmentAddOnWritable = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zAddOnWritable
+});
+
 export const zAppointmentWritable: z.AnyZodObject = z.object({
     id: z.string(),
     name: z.string(),
@@ -2032,14 +2911,14 @@ export const zAppointmentWritable: z.AnyZodObject = z.object({
     customer: z.lazy(() => zCustomerWritable).nullish(),
     staffMember: z.lazy(() => zStaffMemberWritable).nullish(),
     location: zLocationWritable.nullish(),
-    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswer).optional(),
+    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswerWritable).optional(),
     feedbackQuestionAnswers: z.array(zFeedbackQuestionAnswerWritable).optional(),
     integratedCalendarAppointments: z.array(zIntegratedCalendarAppointmentWritable).optional(),
     integratedAppointmentLocation: zIntegratedAppointmentLocationWritable.optional(),
     logs: z.array(zAppointmentLogWritable).optional(),
     orderLineItem: zOrderLineItemWritable.nullish(),
-    cartItem: zCartItem.nullish(),
-    addOns: z.array(zAppointmentAddOn).optional(),
+    cartItem: zCartItemWritable.nullish(),
+    addOns: z.array(zAppointmentAddOnWritable).optional(),
     order: zOrderWritable.nullish()
 });
 
@@ -2371,19 +3250,6 @@ export const zAuthResetPasswordResponse = z.void();
 
 export const zSelfServiceChangePasswordBody = zUpdateCustomerPassword;
 
-export const zCheckoutGetCartQuestionsHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-export const zCheckoutGetCartQuestionsPath = z.object({
-    language: z.unknown()
-});
-
-/**
- * Checkout questions for all cart items
- */
-export const zCheckoutGetCartQuestionsResponse = z.array(zCheckoutQuestion);
-
 export const zCheckoutSaveCustomerBody = zCheckoutCustomer;
 
 export const zCheckoutSaveCustomerHeaders = z.object({
@@ -2456,26 +3322,6 @@ export const zPaymentGetAvailableProvidersResponse = z.array(zCustomerProviderCa
  * Public payment settings
  */
 export const zPaymentGetSettingsResponse = zPaymentSetting;
-
-export const zFeedbackQuestionListTranslationsPath = z.object({
-    productId: z.string(),
-    language: zLanguageCode
-});
-
-/**
- * Feedback questions with translations
- */
-export const zFeedbackQuestionListTranslationsResponse = z.array(zFeedbackQuestion);
-
-export const zCheckoutQuestionListTranslationsPath = z.object({
-    productId: z.string(),
-    language: zLanguageCode
-});
-
-/**
- * Checkout questions with translations
- */
-export const zCheckoutQuestionListTranslationsResponse = z.array(zCheckoutQuestion);
 
 /**
  * Customer profile returned successfully
@@ -2740,6 +3586,19 @@ export const zCheckoutSubmitHeaders = z.object({
  */
 export const zCheckoutSubmitResponse = zCheckoutResponse;
 
+export const zCheckoutGetCartQuestionsHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+export const zCheckoutGetCartQuestionsPath = z.object({
+    language: z.unknown()
+});
+
+/**
+ * Checkout questions for all cart items
+ */
+export const zCheckoutGetCartQuestionsResponse = z.array(zCheckoutQuestion);
+
 /**
  * Public settings retrieved successfully
  */
@@ -2956,6 +3815,26 @@ export const zAddOnGetBySlugPath = z.object({
  * Add-on returned
  */
 export const zAddOnGetBySlugResponse = zAddOn;
+
+export const zFeedbackQuestionListTranslationsPath = z.object({
+    productId: z.string(),
+    language: zLanguageCode
+});
+
+/**
+ * Feedback questions with translations
+ */
+export const zFeedbackQuestionListTranslationsResponse = z.array(zFeedbackQuestion);
+
+export const zCheckoutQuestionListTranslationsPath = z.object({
+    productId: z.string(),
+    language: zLanguageCode
+});
+
+/**
+ * Checkout questions with translations
+ */
+export const zCheckoutQuestionListTranslationsResponse = z.array(zCheckoutQuestion);
 
 export const zImageGetPath = z.object({
     imageId: z.string()

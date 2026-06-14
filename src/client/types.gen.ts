@@ -4,6 +4,25 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
+export type Language = {
+    /**
+     * ISO language code identifier
+     */
+    code: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * English name of the language
+     */
+    englishName: string;
+    /**
+     * Name of the language in its original script
+     */
+    originalName: string;
+    /**
+     * Whether the language is currently active in the system
+     */
+    active: boolean;
+};
+
 export type CollectionMeta = {
     /**
      * Current page number
@@ -577,7 +596,54 @@ export type ProductCollection = {
     products?: Array<Product>;
 };
 
+export type FeedbackQuestionTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the feedback question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or rating questions in this language
+     */
+    options?: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The feedback question this translation belongs to
+     */
+    question: FeedbackQuestion;
+    /**
+     * Language entity this translation is in
+     */
+    language: Language;
+};
+
 export type FeedbackQuestion = {
+    /**
+     * Unique identifier for the feedback question
+     */
+    id: string;
     /**
      * Internal name for the question (not shown to customers)
      */
@@ -586,19 +652,97 @@ export type FeedbackQuestion = {
      * Whether the question is required to be answered
      */
     required: boolean;
-    type: FeedbackQuestionInputType;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
     /**
      * Display order of the question (lower numbers appear first)
      */
-    order?: number;
+    order: number;
     /**
      * Whether this question is shown for all products in the store
      */
-    alwaysShow?: boolean;
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Store that owns this question
+     */
+    store?: Store;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<FeedbackQuestionTranslation>;
+    /**
+     * Products associated with this feedback question
+     */
+    products?: Array<Product>;
+};
+
+export type CheckoutQuestionTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the checkout question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or checkbox questions in this language
+     */
+    options?: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The checkout question this translation belongs to
+     */
+    question: CheckoutQuestion;
+    /**
+     * Language entity this translation is in
+     */
+    language: Language;
 };
 
 export type CheckoutQuestion = {
     /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
      * Internal name for the question (not shown to customers)
      */
     internalName: string;
@@ -606,15 +750,46 @@ export type CheckoutQuestion = {
      * Whether the question is required to be answered
      */
     required: boolean;
-    type: CheckoutQuestionInputType;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
     /**
      * Display order of the question (lower numbers appear first)
      */
-    order?: number;
+    order: number;
     /**
      * Whether this question is shown for all products in the store
      */
-    alwaysShow?: boolean;
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Store that owns this question
+     */
+    store?: Store;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<CheckoutQuestionTranslation>;
+    /**
+     * Products associated with this checkout question
+     */
+    products?: Array<Product>;
 };
 
 export type Product = {
@@ -830,17 +1005,41 @@ export type Product = {
 
 export type CheckoutQuestionAnswer = {
     /**
-     * ID of the checkout question
+     * Unique identifier of the checkout question answer
      */
-    questionId: string;
+    id: string;
     /**
-     * The question text (for historical record)
+     * ID of the appointment this question answer relates to
+     */
+    appointmentId: string;
+    /**
+     * ID of the checkout question (set to null if question is deleted)
+     */
+    questionId?: string | null;
+    /**
+     * The checkout question this answer relates to
+     */
+    checkoutQuestion?: CheckoutQuestion | null;
+    /**
+     * The checkout question text presented to the customer
      */
     question: string;
     /**
-     * The customer answer
+     * Customer's answer to the checkout question
      */
-    answer: string;
+    answer?: string | null;
+    /**
+     * Date and time when this answer was recorded
+     */
+    createdAt: string;
+    /**
+     * Date and time when this answer was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The appointment this question answer relates to
+     */
+    appointment?: Appointment;
 };
 
 export type FeedbackQuestionAnswer = {
@@ -1049,6 +1248,10 @@ export type CartAddOnItem = {
      * Deleted at timestamp
      */
     deletedAt?: string | null;
+    /**
+     * The add-on entity
+     */
+    addOn?: AddOn | null;
 };
 
 export type CartItem = {
@@ -1092,6 +1295,10 @@ export type CartItem = {
      * Deleted at timestamp
      */
     deletedAt?: string | null;
+    /**
+     * Appointment for this cart item
+     */
+    appointment?: Appointment | null;
     /**
      * Add-on items attached to this cart item
      */
@@ -1270,6 +1477,10 @@ export type OrderRefundLineItem = {
 };
 
 export type OrderAddOnLineItem = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
     /**
      * ID of the order
      */
@@ -1558,6 +1769,10 @@ export type OrderLog = {
 
 export type Order = {
     /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
      * The currency used by the customer when placing the order.
      */
     paymentCurrencyCode: string;
@@ -1792,13 +2007,29 @@ export type OrderLineItem = {
 
 export type AppointmentAddOn = {
     /**
-     * ID of the add-on to attach to the appointment
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
      */
     addOnId: string;
     /**
-     * Quantity of this add-on (for fixed add-ons). Ignored for duration-multiplied add-ons.
+     * Quantity of this add-on for the appointment
      */
-    quantity?: number;
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on entity
+     */
+    addOn: AddOn;
 };
 
 export type Appointment = {
@@ -2930,6 +3161,21 @@ export type AppointmentAddress = {
     country?: string;
 };
 
+export type CheckoutQuestionAnswerDto = {
+    /**
+     * ID of the checkout question
+     */
+    questionId: string;
+    /**
+     * The question text (for historical record)
+     */
+    question: string;
+    /**
+     * The customer answer
+     */
+    answer: string;
+};
+
 export type QuestionAnswer = {
     /**
      * ID of the feedback question
@@ -2991,16 +3237,6 @@ export type PaymentSetting = {
     storeId: string;
     captureMethod: 'automatic' | 'manual' | 'on_fulfillment';
 };
-
-/**
- * Type of input for the question
- */
-export type CheckoutQuestionInputType = 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
-
-/**
- * Type of input for the question
- */
-export type FeedbackQuestionInputType = 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
 
 export type ExistingOrderCustomer = {
     /**
@@ -3146,6 +3382,17 @@ export type UpdateCustomerPassword = {
     newPassword: string;
 };
 
+export type CreateAppointmentAddOn = {
+    /**
+     * ID of the add-on to attach to the appointment
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on (for fixed add-ons). Ignored for duration-multiplied add-ons.
+     */
+    quantity?: number;
+};
+
 export type CreateAppointment = {
     /**
      * Appointment slot information — date/time range with product, location, and staff
@@ -3166,7 +3413,7 @@ export type CreateAppointment = {
     /**
      * Answers to checkout questions provided during booking
      */
-    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswer>;
+    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswerDto>;
     /**
      * Number of people attending the appointment
      */
@@ -3178,7 +3425,7 @@ export type CreateAppointment = {
     /**
      * Add-ons to attach to this appointment at creation time
      */
-    addOns?: Array<AppointmentAddOn>;
+    addOns?: Array<CreateAppointmentAddOn>;
 };
 
 export type RescheduleAppointment = {
@@ -3416,7 +3663,7 @@ export type CheckoutQuestionAnswers = {
     /**
      * Array of question answers to save
      */
-    answers: Array<CheckoutQuestionAnswer>;
+    answers: Array<CheckoutQuestionAnswerDto>;
 };
 
 export type StorePublicSettings = {
@@ -4071,6 +4318,202 @@ export type ProductCollectionWritable = {
     products?: Array<ProductWritable>;
 };
 
+export type FeedbackQuestionTranslationWritable = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the feedback question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or rating questions in this language
+     */
+    options?: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The feedback question this translation belongs to
+     */
+    question: FeedbackQuestionWritable;
+    /**
+     * Language entity this translation is in
+     */
+    language: Language;
+};
+
+export type FeedbackQuestionWritable = {
+    /**
+     * Unique identifier for the feedback question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Store that owns this question
+     */
+    store?: StoreWritable;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<FeedbackQuestionTranslationWritable>;
+    /**
+     * Products associated with this feedback question
+     */
+    products?: Array<ProductWritable>;
+};
+
+export type CheckoutQuestionTranslationWritable = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the checkout question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or checkbox questions in this language
+     */
+    options?: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The checkout question this translation belongs to
+     */
+    question: CheckoutQuestionWritable;
+    /**
+     * Language entity this translation is in
+     */
+    language: Language;
+};
+
+export type CheckoutQuestionWritable = {
+    /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Store that owns this question
+     */
+    store?: StoreWritable;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<CheckoutQuestionTranslationWritable>;
+    /**
+     * Products associated with this checkout question
+     */
+    products?: Array<ProductWritable>;
+};
+
 export type ProductWritable = {
     /**
      * Unique identifier for the product
@@ -4271,15 +4714,54 @@ export type ProductWritable = {
     /**
      * Feedback questions associated with this product
      */
-    feedbackQuestions?: Array<FeedbackQuestion>;
+    feedbackQuestions?: Array<FeedbackQuestionWritable>;
     /**
      * Checkout questions associated with this product
      */
-    checkoutQuestions?: Array<CheckoutQuestion>;
+    checkoutQuestions?: Array<CheckoutQuestionWritable>;
     /**
      * Add-ons that can be attached to this product at booking time
      */
     addOns?: Array<AddOnWritable>;
+};
+
+export type CheckoutQuestionAnswerWritable = {
+    /**
+     * Unique identifier of the checkout question answer
+     */
+    id: string;
+    /**
+     * ID of the appointment this question answer relates to
+     */
+    appointmentId: string;
+    /**
+     * ID of the checkout question (set to null if question is deleted)
+     */
+    questionId?: string | null;
+    /**
+     * The checkout question this answer relates to
+     */
+    checkoutQuestion?: CheckoutQuestionWritable | null;
+    /**
+     * The checkout question text presented to the customer
+     */
+    question: string;
+    /**
+     * Customer's answer to the checkout question
+     */
+    answer?: string | null;
+    /**
+     * Date and time when this answer was recorded
+     */
+    createdAt: string;
+    /**
+     * Date and time when this answer was last updated
+     */
+    updatedAt?: string | null;
+    /**
+     * The appointment this question answer relates to
+     */
+    appointment?: AppointmentWritable;
 };
 
 export type FeedbackQuestionAnswerWritable = {
@@ -4298,7 +4780,7 @@ export type FeedbackQuestionAnswerWritable = {
     /**
      * The feedback question this answer relates to
      */
-    feedbackQuestion?: FeedbackQuestion | null;
+    feedbackQuestion?: FeedbackQuestionWritable | null;
     /**
      * The feedback question text presented to the customer
      */
@@ -4427,6 +4909,116 @@ export type AppointmentLogWritable = {
     appointment?: AppointmentWritable;
 };
 
+export type CartAddOnItemWritable = {
+    /**
+     * Unique identifier of the cart add-on item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Parent cart item ID (the appointment this add-on is attached to)
+     */
+    cartItemId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt?: string | null;
+    /**
+     * The add-on entity
+     */
+    addOn?: AddOnWritable | null;
+};
+
+export type CartItemWritable = {
+    /**
+     * Unique identifier of the cart item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt?: string | null;
+    /**
+     * Appointment for this cart item
+     */
+    appointment?: AppointmentWritable | null;
+    /**
+     * Add-on items attached to this cart item
+     */
+    addOnItems?: Array<CartAddOnItemWritable>;
+    /**
+     * Subtotal of the cart item including its add-ons
+     */
+    lineSubtotal: number;
+    /**
+     * Total tax for the cart item including its add-ons
+     */
+    lineTax: number;
+};
+
 export type CartWritable = {
     /**
      * Unique identifier of the cart
@@ -4471,7 +5063,7 @@ export type CartWritable = {
     /**
      * Cart items
      */
-    items: Array<CartItem>;
+    items: Array<CartItemWritable>;
     /**
      * Cart payments
      */
@@ -4534,6 +5126,10 @@ export type OrderRefundLineItemWritable = {
 };
 
 export type OrderAddOnLineItemWritable = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
     /**
      * ID of the order
      */
@@ -4817,6 +5413,10 @@ export type OrderLogWritable = {
 
 export type OrderWritable = {
     /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
      * The currency used by the customer when placing the order.
      */
     paymentCurrencyCode: string;
@@ -5049,6 +5649,33 @@ export type OrderLineItemWritable = {
     refundableQuantity: number;
 };
 
+export type AppointmentAddOnWritable = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on entity
+     */
+    addOn: AddOnWritable;
+};
+
 export type AppointmentWritable = {
     /**
      * Unique identifier of the appointment
@@ -5167,7 +5794,7 @@ export type AppointmentWritable = {
     /**
      * Answers to checkout questions provided when booking
      */
-    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswer>;
+    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswerWritable>;
     /**
      * Answers to feedback questions provided after appointment
      */
@@ -5191,11 +5818,11 @@ export type AppointmentWritable = {
     /**
      * The cart item associated with this appointment
      */
-    cartItem?: CartItem | null;
+    cartItem?: CartItemWritable | null;
     /**
      * Add-ons attached to this appointment
      */
-    addOns?: Array<AppointmentAddOn>;
+    addOns?: Array<AppointmentAddOnWritable>;
     /**
      * The order associated with this appointment through the order line item
      */
