@@ -144,6 +144,144 @@ export type Integration = {
     store: Store;
 };
 
+export type Image = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * External identifier for the image (e.g., from storage provider)
+     */
+    externalId?: string | null;
+    /**
+     * URL where the image can be accessed
+     */
+    url: string;
+    /**
+     * Original filename of the uploaded image
+     */
+    filename?: string | null;
+    /**
+     * MIME type of the image
+     */
+    mime?: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this image
+     */
+    storeId?: string | null;
+    /**
+     * Store that owns this image
+     */
+    store?: Store;
+};
+
+export type AddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId?: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId?: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title?: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description?: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId?: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity?: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt?: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt?: string;
+    /**
+     * Store that owns this add-on
+     */
+    store?: Store;
+    /**
+     * Primary image associated with this add-on
+     */
+    image?: Image;
+    /**
+     * Gallery images for this add-on
+     */
+    images?: Array<Image>;
+    /**
+     * Locations where this add-on is available
+     */
+    locations?: Array<Location>;
+    /**
+     * Staff members who can deliver this add-on
+     */
+    staffMembers?: Array<StaffMember>;
+    /**
+     * Products that offer this add-on at checkout
+     */
+    products?: Array<Product>;
+};
+
 export type LocationAvailability = {
     /**
      * Unique identifier of the location availability record
@@ -293,6 +431,10 @@ export type Location = {
      */
     integrations?: Array<Integration>;
     /**
+     * Add-ons available at this location
+     */
+    addOns?: Array<AddOn>;
+    /**
      * Appointments scheduled at this location
      */
     appointments?: Array<Appointment>;
@@ -433,49 +575,6 @@ export type ProductCollection = {
      * Products assigned to this collection
      */
     products?: Array<Product>;
-};
-
-export type Image = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * External identifier for the image (e.g., from storage provider)
-     */
-    externalId?: string | null;
-    /**
-     * URL where the image can be accessed
-     */
-    url: string;
-    /**
-     * Original filename of the uploaded image
-     */
-    filename?: string | null;
-    /**
-     * MIME type of the image
-     */
-    mime?: string | null;
-    /**
-     * Creation timestamp
-     */
-    createdAt: string;
-    /**
-     * Last update timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Soft deletion timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this image
-     */
-    storeId?: string | null;
-    /**
-     * Store that owns this image
-     */
-    store?: Store;
 };
 
 export type FeedbackQuestion = {
@@ -723,6 +822,10 @@ export type Product = {
      * Checkout questions associated with this product
      */
     checkoutQuestions?: Array<CheckoutQuestion>;
+    /**
+     * Add-ons that can be attached to this product at booking time
+     */
+    addOns?: Array<AddOn>;
 };
 
 export type CheckoutQuestionAnswer = {
@@ -901,6 +1004,53 @@ export type AppointmentLog = {
     appointment?: Appointment;
 };
 
+export type CartAddOnItem = {
+    /**
+     * Unique identifier of the cart add-on item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Parent cart item ID (the appointment this add-on is attached to)
+     */
+    cartItemId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt?: string | null;
+};
+
 export type CartItem = {
     /**
      * Unique identifier of the cart item
@@ -942,6 +1092,18 @@ export type CartItem = {
      * Deleted at timestamp
      */
     deletedAt?: string | null;
+    /**
+     * Add-on items attached to this cart item
+     */
+    addOnItems?: Array<CartAddOnItem>;
+    /**
+     * Subtotal of the cart item including its add-ons
+     */
+    lineSubtotal: number;
+    /**
+     * Total tax for the cart item including its add-ons
+     */
+    lineTax: number;
 };
 
 export type CartPayment = {
@@ -1107,6 +1269,128 @@ export type OrderRefundLineItem = {
     lineItem: OrderLineItem;
 };
 
+export type OrderAddOnLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId?: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt?: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt?: string | null;
+    /**
+     * The order this add-on line item belongs to
+     */
+    order: Order;
+    /**
+     * The parent order line item (appointment) this add-on is attached to
+     */
+    lineItem: OrderLineItem;
+    /**
+     * The add-on
+     */
+    addOn: AddOn;
+    /**
+     * Refund line items for this add-on
+     */
+    refundLineItems: Array<OrderRefundAddOnLineItem>;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+};
+
+export type OrderRefundAddOnLineItem = {
+    /**
+     * Unique identifier for the refund add-on line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId?: string | null;
+    /**
+     * ID of the original order add-on line item being refunded
+     */
+    addOnLineItemId: string;
+    /**
+     * Quantity of the add-on line item being refunded
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt?: string | null;
+    /**
+     * The refund this add-on line item belongs to
+     */
+    refund: OrderRefund;
+    /**
+     * The original add-on line item being refunded
+     */
+    addOnLineItem: OrderAddOnLineItem;
+};
+
 export type OrderRefund = {
     /**
      * Unique identifier for the order refund
@@ -1140,6 +1424,10 @@ export type OrderRefund = {
      * The line items included in this refund
      */
     lineItems: Array<OrderRefundLineItem>;
+    /**
+     * The add-on line items included in this refund
+     */
+    addOnLineItems?: Array<OrderRefundAddOnLineItem>;
     /**
      * The total amount of the refund
      */
@@ -1469,6 +1757,18 @@ export type OrderLineItem = {
      */
     refundLineItems: Array<OrderRefundLineItem>;
     /**
+     * Add-on line items attached to this appointment line item
+     */
+    addOnLineItems?: Array<OrderAddOnLineItem>;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
      * The total amount of the line item
      */
     subtotal: number;
@@ -1488,6 +1788,17 @@ export type OrderLineItem = {
      * The quantity of the line item that can be refunded
      */
     refundableQuantity: number;
+};
+
+export type AppointmentAddOn = {
+    /**
+     * ID of the add-on to attach to the appointment
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on (for fixed add-ons). Ignored for duration-multiplied add-ons.
+     */
+    quantity?: number;
 };
 
 export type Appointment = {
@@ -1633,6 +1944,10 @@ export type Appointment = {
      * The cart item associated with this appointment
      */
     cartItem?: CartItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns?: Array<AppointmentAddOn>;
     /**
      * The order associated with this appointment through the order line item
      */
@@ -2525,6 +2840,10 @@ export type StaffMember = {
      * Integrations connected to this staff member (e.g., Google Calendar)
      */
     integrations?: Array<Integration>;
+    /**
+     * Add-ons this staff member can deliver
+     */
+    addOns?: Array<AddOn>;
 };
 
 export type AppointmentDateRangeSlot = {
@@ -2856,6 +3175,10 @@ export type CreateAppointment = {
      * ID of the cart associated with this appointment
      */
     cartId?: string;
+    /**
+     * Add-ons to attach to this appointment at creation time
+     */
+    addOns?: Array<AppointmentAddOn>;
 };
 
 export type RescheduleAppointment = {
@@ -2979,6 +3302,24 @@ export type CreateCartItem = {
      * Appointment ID to add to the cart
      */
     appointmentId: string;
+};
+
+export type AddCartAddOn = {
+    /**
+     * Add-on ID to attach to the cart item
+     */
+    addOnId: string;
+    /**
+     * Quantity to add. Only used for fixed (non-duration-multiplied) add-ons; bounded by AddOn.maxQuantity. Ignored for duration-multiplied add-ons (quantity is taken from the parent CartItem).
+     */
+    quantity?: number;
+};
+
+export type UpdateCartAddOn = {
+    /**
+     * New quantity for this fixed cart add-on item
+     */
+    quantity: number;
 };
 
 export type StartCheckout = {
@@ -3308,6 +3649,144 @@ export type IntegrationWritable = {
     store: StoreWritable;
 };
 
+export type ImageWritable = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * External identifier for the image (e.g., from storage provider)
+     */
+    externalId?: string | null;
+    /**
+     * URL where the image can be accessed
+     */
+    url: string;
+    /**
+     * Original filename of the uploaded image
+     */
+    filename?: string | null;
+    /**
+     * MIME type of the image
+     */
+    mime?: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt?: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt?: string | null;
+    /**
+     * ID of the store that owns this image
+     */
+    storeId?: string | null;
+    /**
+     * Store that owns this image
+     */
+    store?: StoreWritable;
+};
+
+export type AddOnWritable = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId?: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId?: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title?: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description?: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId?: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity?: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt?: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt?: string;
+    /**
+     * Store that owns this add-on
+     */
+    store?: StoreWritable;
+    /**
+     * Primary image associated with this add-on
+     */
+    image?: ImageWritable;
+    /**
+     * Gallery images for this add-on
+     */
+    images?: Array<ImageWritable>;
+    /**
+     * Locations where this add-on is available
+     */
+    locations?: Array<LocationWritable>;
+    /**
+     * Staff members who can deliver this add-on
+     */
+    staffMembers?: Array<StaffMemberWritable>;
+    /**
+     * Products that offer this add-on at checkout
+     */
+    products?: Array<ProductWritable>;
+};
+
 export type LocationAvailabilityWritable = {
     /**
      * Unique identifier of the location availability record
@@ -3457,6 +3936,10 @@ export type LocationWritable = {
      */
     integrations?: Array<IntegrationWritable>;
     /**
+     * Add-ons available at this location
+     */
+    addOns?: Array<AddOnWritable>;
+    /**
      * Appointments scheduled at this location
      */
     appointments?: Array<AppointmentWritable>;
@@ -3586,49 +4069,6 @@ export type ProductCollectionWritable = {
      * Products assigned to this collection
      */
     products?: Array<ProductWritable>;
-};
-
-export type ImageWritable = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * External identifier for the image (e.g., from storage provider)
-     */
-    externalId?: string | null;
-    /**
-     * URL where the image can be accessed
-     */
-    url: string;
-    /**
-     * Original filename of the uploaded image
-     */
-    filename?: string | null;
-    /**
-     * MIME type of the image
-     */
-    mime?: string | null;
-    /**
-     * Creation timestamp
-     */
-    createdAt: string;
-    /**
-     * Last update timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Soft deletion timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this image
-     */
-    storeId?: string | null;
-    /**
-     * Store that owns this image
-     */
-    store?: StoreWritable;
 };
 
 export type ProductWritable = {
@@ -3836,6 +4276,10 @@ export type ProductWritable = {
      * Checkout questions associated with this product
      */
     checkoutQuestions?: Array<CheckoutQuestion>;
+    /**
+     * Add-ons that can be attached to this product at booking time
+     */
+    addOns?: Array<AddOnWritable>;
 };
 
 export type FeedbackQuestionAnswerWritable = {
@@ -4089,6 +4533,128 @@ export type OrderRefundLineItemWritable = {
     lineItem: OrderLineItemWritable;
 };
 
+export type OrderAddOnLineItemWritable = {
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId?: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt?: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt?: string | null;
+    /**
+     * The order this add-on line item belongs to
+     */
+    order: OrderWritable;
+    /**
+     * The parent order line item (appointment) this add-on is attached to
+     */
+    lineItem: OrderLineItemWritable;
+    /**
+     * The add-on
+     */
+    addOn: AddOnWritable;
+    /**
+     * Refund line items for this add-on
+     */
+    refundLineItems: Array<OrderRefundAddOnLineItemWritable>;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+};
+
+export type OrderRefundAddOnLineItemWritable = {
+    /**
+     * Unique identifier for the refund add-on line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId?: string | null;
+    /**
+     * ID of the original order add-on line item being refunded
+     */
+    addOnLineItemId: string;
+    /**
+     * Quantity of the add-on line item being refunded
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt?: string | null;
+    /**
+     * The refund this add-on line item belongs to
+     */
+    refund: OrderRefundWritable;
+    /**
+     * The original add-on line item being refunded
+     */
+    addOnLineItem: OrderAddOnLineItemWritable;
+};
+
 export type OrderRefundWritable = {
     /**
      * Unique identifier for the order refund
@@ -4122,6 +4688,10 @@ export type OrderRefundWritable = {
      * The line items included in this refund
      */
     lineItems: Array<OrderRefundLineItemWritable>;
+    /**
+     * The add-on line items included in this refund
+     */
+    addOnLineItems?: Array<OrderRefundAddOnLineItemWritable>;
     /**
      * The total amount of the refund
      */
@@ -4446,6 +5016,18 @@ export type OrderLineItemWritable = {
      */
     refundLineItems: Array<OrderRefundLineItemWritable>;
     /**
+     * Add-on line items attached to this appointment line item
+     */
+    addOnLineItems?: Array<OrderAddOnLineItemWritable>;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
      * The total amount of the line item
      */
     subtotal: number;
@@ -4610,6 +5192,10 @@ export type AppointmentWritable = {
      * The cart item associated with this appointment
      */
     cartItem?: CartItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns?: Array<AppointmentAddOn>;
     /**
      * The order associated with this appointment through the order line item
      */
@@ -5312,6 +5898,10 @@ export type StaffMemberWritable = {
      * Integrations connected to this staff member (e.g., Google Calendar)
      */
     integrations?: Array<IntegrationWritable>;
+    /**
+     * Add-ons this staff member can deliver
+     */
+    addOns?: Array<AddOnWritable>;
 };
 
 export type ServicePreferenceWritable = {
@@ -6029,6 +6619,72 @@ export type CartExtendExpirationResponses = {
 
 export type CartExtendExpirationResponse = CartExtendExpirationResponses[keyof CartExtendExpirationResponses];
 
+export type CartAddAddOnData = {
+    body: AddCartAddOn;
+    headers: {
+        'X-Cart-Id': string;
+    };
+    path: {
+        /**
+         * Cart item ID
+         */
+        cartItemId: string;
+    };
+    query?: never;
+    url: '/storefront/cart/items/{cartItemId}/add-ons';
+};
+
+export type CartAddAddOnResponses = {
+    /**
+     * Add-on added to cart item
+     */
+    201: Cart;
+};
+
+export type CartAddAddOnResponse = CartAddAddOnResponses[keyof CartAddAddOnResponses];
+
+export type CartRemoveAddOnData = {
+    body?: never;
+    path: {
+        /**
+         * Cart add-on item ID
+         */
+        cartAddOnItemId: string;
+    };
+    query?: never;
+    url: '/storefront/cart/add-ons/{cartAddOnItemId}';
+};
+
+export type CartRemoveAddOnResponses = {
+    /**
+     * Cart add-on removed
+     */
+    200: Cart;
+};
+
+export type CartRemoveAddOnResponse = CartRemoveAddOnResponses[keyof CartRemoveAddOnResponses];
+
+export type CartUpdateAddOnQuantityData = {
+    body: UpdateCartAddOn;
+    path: {
+        /**
+         * Cart add-on item ID
+         */
+        cartAddOnItemId: string;
+    };
+    query?: never;
+    url: '/storefront/cart/add-ons/{cartAddOnItemId}';
+};
+
+export type CartUpdateAddOnQuantityResponses = {
+    /**
+     * Cart add-on quantity updated
+     */
+    200: Cart;
+};
+
+export type CartUpdateAddOnQuantityResponse = CartUpdateAddOnQuantityResponses[keyof CartUpdateAddOnQuantityResponses];
+
 export type CheckoutStartData = {
     body: StartCheckout;
     headers: {
@@ -6392,6 +7048,66 @@ export type ProductGetCurrentAvailabilitiesMergedResponses = {
 
 export type ProductGetCurrentAvailabilitiesMergedResponse = ProductGetCurrentAvailabilitiesMergedResponses[keyof ProductGetCurrentAvailabilitiesMergedResponses];
 
+export type ProductListAddOnsData = {
+    body?: never;
+    path: {
+        /**
+         * Product ID
+         */
+        productId: string;
+    };
+    query?: {
+        /**
+         * Filter by location
+         */
+        locationId?: string;
+        /**
+         * Filter by staff member
+         */
+        staffMemberId?: string;
+    };
+    url: '/storefront/products/{productId}/add-ons';
+};
+
+export type ProductListAddOnsResponses = {
+    /**
+     * Add-ons returned
+     */
+    200: Array<AddOn>;
+};
+
+export type ProductListAddOnsResponse = ProductListAddOnsResponses[keyof ProductListAddOnsResponses];
+
+export type ProductListAddOnsBySlugData = {
+    body?: never;
+    path: {
+        /**
+         * Product slug
+         */
+        slug: string;
+    };
+    query?: {
+        /**
+         * Filter by location
+         */
+        locationId?: string;
+        /**
+         * Filter by staff member
+         */
+        staffMemberId?: string;
+    };
+    url: '/storefront/products/slug/{slug}/add-ons';
+};
+
+export type ProductListAddOnsBySlugResponses = {
+    /**
+     * Add-ons returned
+     */
+    200: Array<AddOn>;
+};
+
+export type ProductListAddOnsBySlugResponse = ProductListAddOnsBySlugResponses[keyof ProductListAddOnsBySlugResponses];
+
 export type LocationGetBySlugData = {
     body?: never;
     path: {
@@ -6599,6 +7315,96 @@ export type StaffMemberListResponses = {
 };
 
 export type StaffMemberListResponse = StaffMemberListResponses[keyof StaffMemberListResponses];
+
+export type AddOnListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Page number for pagination (1-indexed)
+         */
+        page?: number;
+        /**
+         * Number of items to return per page. Maximum allowed value is 100.
+         */
+        take?: number;
+        /**
+         * Search query to filter add-ons by title or slug
+         */
+        q?: string;
+        /**
+         * Filter add-ons by status (accepts one or more statuses)
+         */
+        status?: Array<'active' | 'inactive'>;
+        /**
+         * Filter add-ons by product ID (only return add-ons attached to this product)
+         */
+        productId?: string;
+        /**
+         * Filter add-ons by location ID (only return add-ons available at this location)
+         */
+        locationId?: string;
+        /**
+         * Filter add-ons by staff member ID (only return add-ons available with this staff member)
+         */
+        staffMemberId?: string;
+    };
+    url: '/storefront/add-ons';
+};
+
+export type AddOnListResponses = {
+    /**
+     * List of add-ons for the current store
+     */
+    200: {
+        data: Array<AddOn>;
+        meta: CollectionMeta;
+    };
+};
+
+export type AddOnListResponse = AddOnListResponses[keyof AddOnListResponses];
+
+export type AddOnGetData = {
+    body?: never;
+    path: {
+        /**
+         * Add-on ID
+         */
+        addOnId: string;
+    };
+    query?: never;
+    url: '/storefront/add-ons/{addOnId}';
+};
+
+export type AddOnGetResponses = {
+    /**
+     * Add-on returned
+     */
+    200: AddOn;
+};
+
+export type AddOnGetResponse = AddOnGetResponses[keyof AddOnGetResponses];
+
+export type AddOnGetBySlugData = {
+    body?: never;
+    path: {
+        /**
+         * Add-on slug
+         */
+        slug: string;
+    };
+    query?: never;
+    url: '/storefront/add-ons/slug/{slug}';
+};
+
+export type AddOnGetBySlugResponses = {
+    /**
+     * Add-on returned
+     */
+    200: AddOn;
+};
+
+export type AddOnGetBySlugResponse = AddOnGetBySlugResponses[keyof AddOnGetBySlugResponses];
 
 export type PaymentGetAvailableProvidersData = {
     body?: never;

@@ -198,6 +198,20 @@ export const zIntegratedAppointmentLocationData = z.object({
  */
 export const zAppointmentLogLevel = z.enum(['info', 'error']);
 
+export const zCartAddOnItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    cartItemId: z.string(),
+    addOnId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish()
+});
+
 export const zCartItem = z.object({
     id: z.string(),
     cartId: z.string(),
@@ -208,7 +222,10 @@ export const zCartItem = z.object({
     quantity: z.number(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish()
+    deletedAt: z.string().datetime().nullish(),
+    addOnItems: z.array(zCartAddOnItem).optional(),
+    lineSubtotal: z.number(),
+    lineTax: z.number()
 });
 
 export const zCartPayment = z.object({
@@ -238,6 +255,11 @@ export const zCartPayment = z.object({
  * Severity level of the log entry
  */
 export const zOrderLogLevel = z.enum(['info', 'error']);
+
+export const zAppointmentAddOn = z.object({
+    addOnId: z.string(),
+    quantity: z.number().optional().default(1)
+});
 
 export const zCustomerOauthProvider = z.record(z.unknown());
 
@@ -479,7 +501,8 @@ export const zCreateAppointment = z.object({
     address: zAppointmentAddress.optional(),
     checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswer).optional(),
     numberOfAttendees: z.number().optional().default(1),
-    cartId: z.string().optional()
+    cartId: z.string().optional(),
+    addOns: z.array(zAppointmentAddOn).optional()
 });
 
 export const zRescheduleAppointment = z.object({
@@ -505,6 +528,15 @@ export const zCreateOrderAppointmentsSettings = z.object({
 
 export const zCreateCartItem = z.object({
     appointmentId: z.string().uuid()
+});
+
+export const zAddCartAddOn = z.object({
+    addOnId: z.string(),
+    quantity: z.number().gte(1).optional()
+});
+
+export const zUpdateCartAddOn = z.object({
+    quantity: z.number().gte(1)
 });
 
 export const zStartCheckout = z.object({
@@ -618,6 +650,68 @@ export const zIntegration: z.AnyZodObject = z.object({
     store: z.lazy(() => zStore)
 });
 
+export const zImage: z.AnyZodObject = z.object({
+    id: z.string(),
+    externalId: z.string().nullish(),
+    url: z.string(),
+    filename: z.string().nullish(),
+    mime: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string().nullish(),
+    store: z.lazy(() => zStore).optional()
+});
+
+export const zAddOn: z.AnyZodObject = z.object({
+    id: z.string(),
+    externalId: z.string().optional(),
+    externalVariantId: z.string().optional(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string().optional(),
+    description: z.string().optional(),
+    imageId: z.string().optional(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullish(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
+    deletedAt: z.string().optional(),
+    store: z.lazy(() => zStore).optional(),
+    image: zImage.optional(),
+    images: z.array(zImage).optional(),
+    locations: z.array(z.lazy(() => zLocation)).optional(),
+    staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
+    products: z.array(z.lazy(() => zProduct)).optional()
+});
+
 export const zLocationAvailability: z.AnyZodObject = z.object({
     id: z.string(),
     locationId: z.string(),
@@ -662,6 +756,7 @@ export const zLocation: z.AnyZodObject = z.object({
     products: z.array(z.lazy(() => zProduct)).optional(),
     staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
     integrations: z.array(zIntegration).optional(),
+    addOns: z.array(zAddOn).optional(),
     appointments: z.array(z.lazy(() => zAppointment)).optional(),
     availabilities: z.array(zLocationAvailability).optional(),
     address: z.string().nullable()
@@ -709,19 +804,6 @@ export const zProductCollection: z.AnyZodObject = z.object({
     deletedAt: z.string().optional(),
     store: z.lazy(() => zStore).optional(),
     products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zImage: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().nullish(),
-    url: z.string(),
-    filename: z.string().nullish(),
-    mime: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string().nullish(),
-    store: z.lazy(() => zStore).optional()
 });
 
 export const zProduct: z.AnyZodObject = z.object({
@@ -798,7 +880,8 @@ export const zProduct: z.AnyZodObject = z.object({
     images: z.array(zImage).optional(),
     integrations: z.array(zIntegration).optional(),
     feedbackQuestions: z.array(zFeedbackQuestion).optional(),
-    checkoutQuestions: z.array(zCheckoutQuestion).optional()
+    checkoutQuestions: z.array(zCheckoutQuestion).optional(),
+    addOns: z.array(zAddOn).optional()
 });
 
 export const zFeedbackQuestionAnswer: z.AnyZodObject = z.object({
@@ -882,6 +965,41 @@ export const zOrderRefundLineItem: z.AnyZodObject = z.object({
     lineItem: z.lazy(() => zOrderLineItem)
 });
 
+export const zOrderAddOnLineItem: z.AnyZodObject = z.object({
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullish(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    order: z.lazy(() => zOrder),
+    lineItem: z.lazy(() => zOrderLineItem),
+    addOn: zAddOn,
+    refundLineItems: z.array(z.lazy(() => zOrderRefundAddOnLineItem)),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number()
+});
+
+export const zOrderRefundAddOnLineItem: z.AnyZodObject = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullish(),
+    addOnLineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    refund: z.lazy(() => zOrderRefund),
+    addOnLineItem: zOrderAddOnLineItem
+});
+
 export const zOrderRefund: z.AnyZodObject = z.object({
     id: z.string(),
     orderId: z.string(),
@@ -891,6 +1009,7 @@ export const zOrderRefund: z.AnyZodObject = z.object({
     order: z.lazy(() => zOrder),
     transactions: z.array(z.lazy(() => zOrderTransaction)),
     lineItems: z.array(zOrderRefundLineItem),
+    addOnLineItems: z.array(zOrderRefundAddOnLineItem).optional(),
     total: z.number()
 });
 
@@ -1012,6 +1131,9 @@ export const zOrderLineItem: z.AnyZodObject = z.object({
     order: zOrder,
     appointment: z.lazy(() => zAppointment),
     refundLineItems: z.array(zOrderRefundLineItem),
+    addOnLineItems: z.array(zOrderAddOnLineItem).optional(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
     subtotal: z.number(),
     total: z.number(),
     totalTax: z.number(),
@@ -1057,6 +1179,7 @@ export const zAppointment: z.AnyZodObject = z.object({
     logs: z.array(zAppointmentLog).optional(),
     orderLineItem: zOrderLineItem.nullish(),
     cartItem: zCartItem.nullish(),
+    addOns: z.array(zAppointmentAddOn).optional(),
     order: zOrder.nullish()
 });
 
@@ -1293,7 +1416,8 @@ export const zStaffMember = z.object({
     locations: z.array(zLocation).optional(),
     schedule: zSchedule.optional(),
     image: zImage.optional(),
-    integrations: z.array(zIntegration).optional()
+    integrations: z.array(zIntegration).optional(),
+    addOns: z.array(zAddOn).optional()
 });
 
 export const zServicePreference = z.object({
@@ -1386,6 +1510,68 @@ export const zIntegrationWritable: z.AnyZodObject = z.object({
     store: z.lazy(() => zStoreWritable)
 });
 
+export const zImageWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    externalId: z.string().nullish(),
+    url: z.string(),
+    filename: z.string().nullish(),
+    mime: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    storeId: z.string().nullish(),
+    store: z.lazy(() => zStoreWritable).optional()
+});
+
+export const zAddOnWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    externalId: z.string().optional(),
+    externalVariantId: z.string().optional(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string().optional(),
+    description: z.string().optional(),
+    imageId: z.string().optional(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullish(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string().optional(),
+    deletedAt: z.string().optional(),
+    store: z.lazy(() => zStoreWritable).optional(),
+    image: zImageWritable.optional(),
+    images: z.array(zImageWritable).optional(),
+    locations: z.array(z.lazy(() => zLocationWritable)).optional(),
+    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
+    products: z.array(z.lazy(() => zProductWritable)).optional()
+});
+
 export const zLocationAvailabilityWritable: z.AnyZodObject = z.object({
     id: z.string(),
     locationId: z.string(),
@@ -1430,6 +1616,7 @@ export const zLocationWritable: z.AnyZodObject = z.object({
     products: z.array(z.lazy(() => zProductWritable)).optional(),
     staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
     integrations: z.array(zIntegrationWritable).optional(),
+    addOns: z.array(zAddOnWritable).optional(),
     appointments: z.array(z.lazy(() => zAppointmentWritable)).optional(),
     availabilities: z.array(zLocationAvailabilityWritable).optional(),
     address: z.string().nullable()
@@ -1477,19 +1664,6 @@ export const zProductCollectionWritable: z.AnyZodObject = z.object({
     deletedAt: z.string().optional(),
     store: z.lazy(() => zStoreWritable).optional(),
     products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zImageWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().nullish(),
-    url: z.string(),
-    filename: z.string().nullish(),
-    mime: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string().nullish(),
-    store: z.lazy(() => zStoreWritable).optional()
 });
 
 export const zProductWritable: z.AnyZodObject = z.object({
@@ -1566,7 +1740,8 @@ export const zProductWritable: z.AnyZodObject = z.object({
     images: z.array(zImageWritable).optional(),
     integrations: z.array(zIntegrationWritable).optional(),
     feedbackQuestions: z.array(zFeedbackQuestion).optional(),
-    checkoutQuestions: z.array(zCheckoutQuestion).optional()
+    checkoutQuestions: z.array(zCheckoutQuestion).optional(),
+    addOns: z.array(zAddOnWritable).optional()
 });
 
 export const zFeedbackQuestionAnswerWritable: z.AnyZodObject = z.object({
@@ -1650,6 +1825,41 @@ export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
     lineItem: z.lazy(() => zOrderLineItemWritable)
 });
 
+export const zOrderAddOnLineItemWritable: z.AnyZodObject = z.object({
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullish(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    deletedAt: z.string().datetime().nullish(),
+    order: z.lazy(() => zOrderWritable),
+    lineItem: z.lazy(() => zOrderLineItemWritable),
+    addOn: zAddOnWritable,
+    refundLineItems: z.array(z.lazy(() => zOrderRefundAddOnLineItemWritable)),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number()
+});
+
+export const zOrderRefundAddOnLineItemWritable: z.AnyZodObject = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullish(),
+    addOnLineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullish(),
+    refund: z.lazy(() => zOrderRefundWritable),
+    addOnLineItem: zOrderAddOnLineItemWritable
+});
+
 export const zOrderRefundWritable: z.AnyZodObject = z.object({
     id: z.string(),
     orderId: z.string(),
@@ -1659,6 +1869,7 @@ export const zOrderRefundWritable: z.AnyZodObject = z.object({
     order: z.lazy(() => zOrderWritable),
     transactions: z.array(z.lazy(() => zOrderTransactionWritable)),
     lineItems: z.array(zOrderRefundLineItemWritable),
+    addOnLineItems: z.array(zOrderRefundAddOnLineItemWritable).optional(),
     total: z.number()
 });
 
@@ -1780,6 +1991,9 @@ export const zOrderLineItemWritable: z.AnyZodObject = z.object({
     order: zOrderWritable,
     appointment: z.lazy(() => zAppointmentWritable),
     refundLineItems: z.array(zOrderRefundLineItemWritable),
+    addOnLineItems: z.array(zOrderAddOnLineItemWritable).optional(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
     subtotal: z.number(),
     total: z.number(),
     totalTax: z.number(),
@@ -1825,6 +2039,7 @@ export const zAppointmentWritable: z.AnyZodObject = z.object({
     logs: z.array(zAppointmentLogWritable).optional(),
     orderLineItem: zOrderLineItemWritable.nullish(),
     cartItem: zCartItem.nullish(),
+    addOns: z.array(zAppointmentAddOn).optional(),
     order: zOrderWritable.nullish()
 });
 
@@ -2062,7 +2277,8 @@ export const zStaffMemberWritable = z.object({
     locations: z.array(zLocationWritable).optional(),
     schedule: zScheduleWritable.optional(),
     image: zImageWritable.optional(),
-    integrations: z.array(zIntegrationWritable).optional()
+    integrations: z.array(zIntegrationWritable).optional(),
+    addOns: z.array(zAddOnWritable).optional()
 });
 
 export const zServicePreferenceWritable = z.object({
@@ -2467,6 +2683,41 @@ export const zCartExtendExpirationHeaders = z.object({
  */
 export const zCartExtendExpirationResponse = zCart;
 
+export const zCartAddAddOnBody = zAddCartAddOn;
+
+export const zCartAddAddOnHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+export const zCartAddAddOnPath = z.object({
+    cartItemId: z.string()
+});
+
+/**
+ * Add-on added to cart item
+ */
+export const zCartAddAddOnResponse = zCart;
+
+export const zCartRemoveAddOnPath = z.object({
+    cartAddOnItemId: z.string()
+});
+
+/**
+ * Cart add-on removed
+ */
+export const zCartRemoveAddOnResponse = zCart;
+
+export const zCartUpdateAddOnQuantityBody = zUpdateCartAddOn;
+
+export const zCartUpdateAddOnQuantityPath = z.object({
+    cartAddOnItemId: z.string()
+});
+
+/**
+ * Cart add-on quantity updated
+ */
+export const zCartUpdateAddOnQuantityResponse = zCart;
+
 export const zCheckoutStartBody = zStartCheckout;
 
 export const zCheckoutStartHeaders = z.object({
@@ -2547,6 +2798,34 @@ export const zProductListResponse = z.object({
     data: z.array(zProduct),
     meta: zCollectionMeta
 });
+
+export const zProductListAddOnsPath = z.object({
+    productId: z.string()
+});
+
+export const zProductListAddOnsQuery = z.object({
+    locationId: z.string().optional(),
+    staffMemberId: z.string().optional()
+});
+
+/**
+ * Add-ons returned
+ */
+export const zProductListAddOnsResponse = z.array(zAddOn);
+
+export const zProductListAddOnsBySlugPath = z.object({
+    slug: z.string()
+});
+
+export const zProductListAddOnsBySlugQuery = z.object({
+    locationId: z.string().optional(),
+    staffMemberId: z.string().optional()
+});
+
+/**
+ * Add-ons returned
+ */
+export const zProductListAddOnsBySlugResponse = z.array(zAddOn);
 
 export const zLocationGetBySlugPath = z.object({
     slug: z.string()
@@ -2641,6 +2920,42 @@ export const zStaffMemberListResponse = z.object({
     data: z.array(zStaffMember),
     meta: zCollectionMeta
 });
+
+export const zAddOnListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    status: z.array(z.enum(['active', 'inactive'])).optional(),
+    productId: z.string().optional(),
+    locationId: z.string().optional(),
+    staffMemberId: z.string().optional()
+});
+
+/**
+ * List of add-ons for the current store
+ */
+export const zAddOnListResponse = z.object({
+    data: z.array(zAddOn),
+    meta: zCollectionMeta
+});
+
+export const zAddOnGetPath = z.object({
+    addOnId: z.string()
+});
+
+/**
+ * Add-on returned
+ */
+export const zAddOnGetResponse = zAddOn;
+
+export const zAddOnGetBySlugPath = z.object({
+    slug: z.string()
+});
+
+/**
+ * Add-on returned
+ */
+export const zAddOnGetBySlugResponse = zAddOn;
 
 export const zImageGetPath = z.object({
     imageId: z.string()
