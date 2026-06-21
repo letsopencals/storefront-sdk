@@ -365,6 +365,8 @@ export const zCartPayment = z.object({
  */
 export const zOrderLogLevel = z.enum(['info', 'error']);
 
+export const zOrderLineItemDiscount = z.record(z.unknown());
+
 export const zCustomerOauthProvider = z.record(z.unknown());
 
 export const zSetting = z.object({
@@ -380,6 +382,7 @@ export const zSetting = z.object({
     sendAppointmentReminderEmailTimeBefore: z.number().default(3600),
     sendAppointmentFeedbackEmail: z.boolean().default(false),
     customerCalendarUrl: z.string().nullable(),
+    storefrontBaseUrl: z.string().nullable(),
     emailFromAddress: z.string().nullable(),
     defaultScheduleGap: z.enum([
         'every-10-minutes',
@@ -511,6 +514,22 @@ export const zNewOrderCustomer = z.object({
     lastName: z.string().nullish()
 });
 
+export const zCartItemAppliedDiscount = z.object({
+    discountId: z.string(),
+    title: z.string(),
+    amountPerUnit: z.number(),
+    valueType: z.enum(['percentage', 'fixed_amount']),
+    value: z.number(),
+    targetType: z.enum(['base', 'add_on'])
+});
+
+export const zAppliedDiscount = z.object({
+    id: z.string(),
+    title: z.string(),
+    totalAmount: z.number(),
+    code: z.string().nullish()
+});
+
 export const zRequestEmailVerification = z.object({
     email: z.string()
 });
@@ -550,6 +569,24 @@ export const zRequestPasswordReset = z.object({
 export const zCustomerResetPassword = z.object({
     token: z.string(),
     newPassword: z.string()
+});
+
+export const zResolveLinkResponse = z.object({
+    purpose: z.string(),
+    redirectPath: z.string(),
+    accessToken: z.string().optional(),
+    refreshToken: z.string().optional(),
+    metadata: z.record(z.unknown()).optional(),
+    requiresAction: z.string().optional()
+});
+
+export const zRequestLoginCode = z.object({
+    email: z.string()
+});
+
+export const zVerifyLoginCode = z.object({
+    email: z.string(),
+    code: z.string()
 });
 
 export const zUpdateCustomerProfile = z.object({
@@ -652,6 +689,10 @@ export const zCheckoutQuestionAnswers = z.object({
     answers: z.array(zCheckoutQuestionAnswerDto)
 });
 
+export const zApplyCode = z.object({
+    code: z.string().max(64)
+});
+
 export const zAvailabilitySlot = z.object({
     productId: z.string(),
     locationId: z.string().nullish(),
@@ -693,6 +734,8 @@ export const zCustomerProviderCatalogItem = z.object({
 
 export const zUserOauthProviderWritable = z.record(z.unknown());
 
+export const zOrderLineItemDiscountWritable = z.record(z.unknown());
+
 export const zCustomerOauthProviderWritable = z.record(z.unknown());
 
 export const zScheduleAvailability: z.AnyZodObject = z.object({
@@ -715,7 +758,8 @@ export const zIntegration: z.AnyZodObject = z.object({
     type: z.enum([
         'calendar',
         'location',
-        'payment'
+        'payment',
+        'webhook'
     ]),
     name: z.string(),
     internalName: z.string(),
@@ -1377,7 +1421,8 @@ export const zCartAddOnItem = z.object({
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
     deletedAt: z.string().datetime().nullish(),
-    addOn: zAddOn.nullish()
+    addOn: zAddOn.nullish(),
+    discounts: z.array(zCartItemAppliedDiscount)
 });
 
 export const zCartItem: z.AnyZodObject = z.object({
@@ -1393,6 +1438,8 @@ export const zCartItem: z.AnyZodObject = z.object({
     deletedAt: z.string().datetime().nullish(),
     appointment: z.lazy(() => zAppointment).nullish(),
     addOnItems: z.array(zCartAddOnItem).optional(),
+    cartItemDiscounts: z.array(z.unknown()).optional(),
+    discounts: z.array(zCartItemAppliedDiscount),
     lineSubtotal: z.number(),
     lineTax: z.number()
 });
@@ -1410,6 +1457,7 @@ export const zCart: z.AnyZodObject = z.object({
     taxesIncluded: z.boolean(),
     expiresAt: z.string().datetime().nullish(),
     extensionsCount: z.number(),
+    appliedDiscountCode: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
     items: z.array(zCartItem),
@@ -1417,7 +1465,8 @@ export const zCart: z.AnyZodObject = z.object({
     orders: z.array(z.lazy(() => zOrder)),
     subtotal: z.number(),
     totalTax: z.number(),
-    total: z.number()
+    total: z.number(),
+    appliedDiscounts: z.array(zAppliedDiscount)
 });
 
 export const zOrderRefundLineItem: z.AnyZodObject = z.object({
@@ -1583,7 +1632,8 @@ export const zOrder: z.AnyZodObject = z.object({
     ]),
     services: z.array(zProduct),
     staffMembers: z.array(z.lazy(() => zStaffMember)),
-    locations: z.array(zLocation)
+    locations: z.array(zLocation),
+    appliedDiscounts: z.array(zAppliedDiscount)
 });
 
 export const zOrderLineItem: z.AnyZodObject = z.object({
@@ -1601,6 +1651,7 @@ export const zOrderLineItem: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointment),
     refundLineItems: z.array(zOrderRefundLineItem),
     addOnLineItems: z.array(zOrderAddOnLineItem).optional(),
+    lineItemDiscounts: z.array(zOrderLineItemDiscount).optional(),
     addOnSubtotal: z.number(),
     addOnTotalTax: z.number(),
     subtotal: z.number(),
@@ -1936,7 +1987,8 @@ export const zCheckoutStartResponse = z.object({
     paymentId: z.string(),
     cart: zCart,
     invalidItemIds: z.array(z.string()),
-    revivedItemIds: z.array(z.string())
+    revivedItemIds: z.array(z.string()),
+    discountCodeCleared: z.boolean().nullish()
 });
 
 export const zCheckoutResponse = z.object({
@@ -1976,7 +2028,8 @@ export const zIntegrationWritable: z.AnyZodObject = z.object({
     type: z.enum([
         'calendar',
         'location',
-        'payment'
+        'payment',
+        'webhook'
     ]),
     name: z.string(),
     internalName: z.string(),
@@ -2638,7 +2691,8 @@ export const zCartAddOnItemWritable = z.object({
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
     deletedAt: z.string().datetime().nullish(),
-    addOn: zAddOnWritable.nullish()
+    addOn: zAddOnWritable.nullish(),
+    discounts: z.array(zCartItemAppliedDiscount)
 });
 
 export const zCartItemWritable: z.AnyZodObject = z.object({
@@ -2654,6 +2708,8 @@ export const zCartItemWritable: z.AnyZodObject = z.object({
     deletedAt: z.string().datetime().nullish(),
     appointment: z.lazy(() => zAppointmentWritable).nullish(),
     addOnItems: z.array(zCartAddOnItemWritable).optional(),
+    cartItemDiscounts: z.array(z.unknown()).optional(),
+    discounts: z.array(zCartItemAppliedDiscount),
     lineSubtotal: z.number(),
     lineTax: z.number()
 });
@@ -2671,6 +2727,7 @@ export const zCartWritable: z.AnyZodObject = z.object({
     taxesIncluded: z.boolean(),
     expiresAt: z.string().datetime().nullish(),
     extensionsCount: z.number(),
+    appliedDiscountCode: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullish(),
     items: z.array(zCartItemWritable),
@@ -2678,7 +2735,8 @@ export const zCartWritable: z.AnyZodObject = z.object({
     orders: z.array(z.lazy(() => zOrderWritable)),
     subtotal: z.number(),
     totalTax: z.number(),
-    total: z.number()
+    total: z.number(),
+    appliedDiscounts: z.array(zAppliedDiscount)
 });
 
 export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
@@ -2844,7 +2902,8 @@ export const zOrderWritable: z.AnyZodObject = z.object({
     ]),
     services: z.array(zProductWritable),
     staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
-    locations: z.array(zLocationWritable)
+    locations: z.array(zLocationWritable),
+    appliedDiscounts: z.array(zAppliedDiscount)
 });
 
 export const zOrderLineItemWritable: z.AnyZodObject = z.object({
@@ -2862,6 +2921,7 @@ export const zOrderLineItemWritable: z.AnyZodObject = z.object({
     appointment: z.lazy(() => zAppointmentWritable),
     refundLineItems: z.array(zOrderRefundLineItemWritable),
     addOnLineItems: z.array(zOrderAddOnLineItemWritable).optional(),
+    lineItemDiscounts: z.array(zOrderLineItemDiscountWritable).optional(),
     addOnSubtotal: z.number(),
     addOnTotalTax: z.number(),
     subtotal: z.number(),
@@ -3198,7 +3258,8 @@ export const zCheckoutStartResponseWritable = z.object({
     paymentId: z.string(),
     cart: zCartWritable,
     invalidItemIds: z.array(z.string()),
-    revivedItemIds: z.array(z.string())
+    revivedItemIds: z.array(z.string()),
+    discountCodeCleared: z.boolean().nullish()
 });
 
 export const zCheckoutResponseWritable = z.object({
@@ -3247,6 +3308,20 @@ export const zAuthRequestPasswordResetResponse = z.void();
 export const zAuthResetPasswordBody = zCustomerResetPassword;
 
 export const zAuthResetPasswordResponse = z.void();
+
+export const zAuthResolveLinkQuery = z.object({
+    token: z.string()
+});
+
+export const zAuthResolveLinkResponse = zResolveLinkResponse;
+
+export const zAuthRequestLoginCodeBody = zRequestLoginCode;
+
+export const zAuthRequestLoginCodeResponse = z.void();
+
+export const zAuthVerifyLoginCodeBody = zVerifyLoginCode;
+
+export const zAuthVerifyLoginCodeResponse = zTokensResponse;
 
 export const zSelfServiceChangePasswordBody = zUpdateCustomerPassword;
 
@@ -3598,6 +3673,26 @@ export const zCheckoutGetCartQuestionsPath = z.object({
  * Checkout questions for all cart items
  */
 export const zCheckoutGetCartQuestionsResponse = z.array(zCheckoutQuestion);
+
+export const zCartDiscountRemoveCodeHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart with discount removed
+ */
+export const zCartDiscountRemoveCodeResponse = zCart;
+
+export const zCartDiscountApplyCodeBody = zApplyCode;
+
+export const zCartDiscountApplyCodeHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart with discount applied
+ */
+export const zCartDiscountApplyCodeResponse = zCart;
 
 /**
  * Public settings retrieved successfully

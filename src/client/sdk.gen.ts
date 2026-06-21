@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
+import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestLoginCodeData, AuthRequestLoginCodeResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthResolveLinkData, AuthResolveLinkResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, AuthVerifyLoginCodeData, AuthVerifyLoginCodeResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartDiscountApplyCodeData, CartDiscountApplyCodeResponses, CartDiscountRemoveCodeData, CartDiscountRemoveCodeResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -143,6 +143,53 @@ export class AuthService {
         return (options.client ?? client).post<AuthResetPasswordResponses, unknown, ThrowOnError>({
             security: [{ name: 'x-api-key', type: 'apiKey' }],
             url: '/storefront/auth/reset-password',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Resolve a magic link token
+     *
+     * Validate a magic link token, authenticate the customer, and return redirect information
+     */
+    public static resolveLink<ThrowOnError extends boolean = false>(options: Options<AuthResolveLinkData, ThrowOnError>) {
+        return (options.client ?? client).get<AuthResolveLinkResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/resolve-link',
+            ...options
+        });
+    }
+    
+    /**
+     * Request a login code
+     *
+     * Send a 6-digit login code to the customer email for passwordless authentication
+     */
+    public static requestLoginCode<ThrowOnError extends boolean = false>(options: Options<AuthRequestLoginCodeData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthRequestLoginCodeResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/request-login-code',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Verify a login code
+     *
+     * Verify the 6-digit login code and return auth tokens for passwordless sign-in
+     */
+    public static verifyLoginCode<ThrowOnError extends boolean = false>(options: Options<AuthVerifyLoginCodeData, ThrowOnError>) {
+        return (options.client ?? client).post<AuthVerifyLoginCodeResponses, unknown, ThrowOnError>({
+            security: [{ name: 'x-api-key', type: 'apiKey' }],
+            url: '/storefront/auth/verify-login-code',
             ...options,
             headers: {
                 'Content-Type': 'application/json',
@@ -381,6 +428,27 @@ export class CartService {
     public static updateAddOnQuantity<ThrowOnError extends boolean = false>(options: Options<CartUpdateAddOnQuantityData, ThrowOnError>) {
         return (options.client ?? client).patch<CartUpdateAddOnQuantityResponses, unknown, ThrowOnError>({
             url: '/storefront/cart/add-ons/{cartAddOnItemId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Remove the applied discount/promo code from the cart
+     */
+    public static removeCode<ThrowOnError extends boolean = false>(options: Options<CartDiscountRemoveCodeData, ThrowOnError>) {
+        return (options.client ?? client).delete<CartDiscountRemoveCodeResponses, unknown, ThrowOnError>({ url: '/storefront/cart/discount-code', ...options });
+    }
+    
+    /**
+     * Apply a discount/promo code to the cart
+     */
+    public static applyCode<ThrowOnError extends boolean = false>(options: Options<CartDiscountApplyCodeData, ThrowOnError>) {
+        return (options.client ?? client).post<CartDiscountApplyCodeResponses, unknown, ThrowOnError>({
+            url: '/storefront/cart/discount-code',
             ...options,
             headers: {
                 'Content-Type': 'application/json',

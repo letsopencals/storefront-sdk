@@ -128,7 +128,7 @@ export type Integration = {
     /**
      * Type of integration
      */
-    type: 'calendar' | 'location' | 'payment';
+    type: 'calendar' | 'location' | 'payment' | 'webhook';
     /**
      * Display name of the integration
      */
@@ -1252,6 +1252,10 @@ export type CartAddOnItem = {
      * The add-on entity
      */
     addOn?: AddOn | null;
+    /**
+     * Applied discounts on this add-on item
+     */
+    discounts: Array<CartItemAppliedDiscount>;
 };
 
 export type CartItem = {
@@ -1303,6 +1307,14 @@ export type CartItem = {
      * Add-on items attached to this cart item
      */
     addOnItems?: Array<CartAddOnItem>;
+    /**
+     * Raw discount rows for this cart item (internal)
+     */
+    cartItemDiscounts?: Array<unknown>;
+    /**
+     * Applied discounts on this cart item (base line only)
+     */
+    discounts: Array<CartItemAppliedDiscount>;
     /**
      * Subtotal of the cart item including its add-ons
      */
@@ -1404,6 +1416,10 @@ export type Cart = {
      */
     extensionsCount: number;
     /**
+     * Applied promo/discount code for this cart
+     */
+    appliedDiscountCode?: string | null;
+    /**
      * Created at timestamp
      */
     createdAt: string;
@@ -1435,6 +1451,10 @@ export type Cart = {
      * Grand total of the cart
      */
     total: number;
+    /**
+     * Applied discounts aggregated across all cart items
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
 };
 
 export type OrderRefundLineItem = {
@@ -1865,7 +1885,7 @@ export type Order = {
      */
     totalTax: number;
     /**
-     * Total amount due to be paid for the order
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
      */
     dueToPay: number;
     /**
@@ -1881,7 +1901,7 @@ export type Order = {
      */
     balance: number;
     /**
-     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
      */
     dueToRefund: number;
     /**
@@ -1889,7 +1909,7 @@ export type Order = {
      */
     isFullyPaid: boolean;
     /**
-     * Whether the order is fully refunded
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
      */
     isFullyRefunded: boolean;
     /**
@@ -1916,6 +1936,14 @@ export type Order = {
      * Locations associated with appointments in this order
      */
     locations: Array<Location>;
+    /**
+     * Applied discounts aggregated across all order line items, mirroring the cart appliedDiscounts shape
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
+};
+
+export type OrderLineItemDiscount = {
+    [key: string]: unknown;
 };
 
 export type OrderLineItem = {
@@ -1975,6 +2003,10 @@ export type OrderLineItem = {
      * Add-on line items attached to this appointment line item
      */
     addOnLineItems?: Array<OrderAddOnLineItem>;
+    /**
+     * Discount rows applied to this line item
+     */
+    lineItemDiscounts?: Array<OrderLineItemDiscount>;
     /**
      * Subtotal of the add-ons attached to this line item
      */
@@ -2429,7 +2461,7 @@ export type Setting = {
      */
     dateFormat: string;
     /**
-     * Blocks bookings for the given number of minutes; after this period, pending appointments are canceled
+     * Blocks bookings for the given number of seconds; after this period, pending appointments are canceled
      */
     reservationGap: number | null;
     /**
@@ -2452,6 +2484,10 @@ export type Setting = {
      * URL for the customer's calendar page
      */
     customerCalendarUrl: string | null;
+    /**
+     * Base URL for the customer-facing storefront. Used to construct email links.
+     */
+    storefrontBaseUrl: string | null;
     /**
      * Email address to use as "from" address in email communications
      */
@@ -3264,6 +3300,52 @@ export type NewOrderCustomer = {
     lastName?: string | null;
 };
 
+export type CartItemAppliedDiscount = {
+    /**
+     * Discount ID
+     */
+    discountId: string;
+    /**
+     * Discount title
+     */
+    title: string;
+    /**
+     * Discount amount per unit
+     */
+    amountPerUnit: number;
+    /**
+     * Value type of the discount
+     */
+    valueType: 'percentage' | 'fixed_amount';
+    /**
+     * Configured discount value (percentage or fixed amount)
+     */
+    value: number;
+    /**
+     * Whether this row targets the base item or an add-on
+     */
+    targetType: 'base' | 'add_on';
+};
+
+export type AppliedDiscount = {
+    /**
+     * Discount ID
+     */
+    id: string;
+    /**
+     * Discount title
+     */
+    title: string;
+    /**
+     * Total discount amount across all affected items
+     */
+    totalAmount: number;
+    /**
+     * Promo code used (only present for code-kind discounts)
+     */
+    code?: string | null;
+};
+
 export type RequestEmailVerification = {
     /**
      * Email address to resend the verification email to
@@ -3354,6 +3436,53 @@ export type CustomerResetPassword = {
      * New password
      */
     newPassword: string;
+};
+
+export type ResolveLinkResponse = {
+    /**
+     * Purpose of the magic link
+     */
+    purpose: string;
+    /**
+     * Path to redirect the customer to
+     */
+    redirectPath: string;
+    /**
+     * Access token for authentication
+     */
+    accessToken?: string;
+    /**
+     * Refresh token for authentication
+     */
+    refreshToken?: string;
+    /**
+     * Additional metadata
+     */
+    metadata?: {
+        [key: string]: unknown;
+    };
+    /**
+     * Action required from the customer
+     */
+    requiresAction?: string;
+};
+
+export type RequestLoginCode = {
+    /**
+     * Customer email address
+     */
+    email: string;
+};
+
+export type VerifyLoginCode = {
+    /**
+     * Customer email address
+     */
+    email: string;
+    /**
+     * 6-digit verification code
+     */
+    code: string;
 };
 
 export type UpdateCustomerProfile = {
@@ -3613,6 +3742,10 @@ export type CheckoutStartResponse = {
      * IDs of expired cart items that were revived
      */
     revivedItemIds: Array<string>;
+    /**
+     * True when an applied discount code was cleared during revalidation
+     */
+    discountCodeCleared?: boolean | null;
 };
 
 export type SubmitCheckout = {
@@ -3664,6 +3797,13 @@ export type CheckoutQuestionAnswers = {
      * Array of question answers to save
      */
     answers: Array<CheckoutQuestionAnswerDto>;
+};
+
+export type ApplyCode = {
+    /**
+     * Promo code to apply
+     */
+    code: string;
 };
 
 export type StorePublicSettings = {
@@ -3861,7 +4001,7 @@ export type IntegrationWritable = {
     /**
      * Type of integration
      */
-    type: 'calendar' | 'location' | 'payment';
+    type: 'calendar' | 'location' | 'payment' | 'webhook';
     /**
      * Display name of the integration
      */
@@ -4958,6 +5098,10 @@ export type CartAddOnItemWritable = {
      * The add-on entity
      */
     addOn?: AddOnWritable | null;
+    /**
+     * Applied discounts on this add-on item
+     */
+    discounts: Array<CartItemAppliedDiscount>;
 };
 
 export type CartItemWritable = {
@@ -5010,6 +5154,14 @@ export type CartItemWritable = {
      */
     addOnItems?: Array<CartAddOnItemWritable>;
     /**
+     * Raw discount rows for this cart item (internal)
+     */
+    cartItemDiscounts?: Array<unknown>;
+    /**
+     * Applied discounts on this cart item (base line only)
+     */
+    discounts: Array<CartItemAppliedDiscount>;
+    /**
      * Subtotal of the cart item including its add-ons
      */
     lineSubtotal: number;
@@ -5053,6 +5205,10 @@ export type CartWritable = {
      */
     extensionsCount: number;
     /**
+     * Applied promo/discount code for this cart
+     */
+    appliedDiscountCode?: string | null;
+    /**
      * Created at timestamp
      */
     createdAt: string;
@@ -5084,6 +5240,10 @@ export type CartWritable = {
      * Grand total of the cart
      */
     total: number;
+    /**
+     * Applied discounts aggregated across all cart items
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
 };
 
 export type OrderRefundLineItemWritable = {
@@ -5509,7 +5669,7 @@ export type OrderWritable = {
      */
     totalTax: number;
     /**
-     * Total amount due to be paid for the order
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
      */
     dueToPay: number;
     /**
@@ -5525,7 +5685,7 @@ export type OrderWritable = {
      */
     balance: number;
     /**
-     * Total amount due to be refunded for the order. Owed refund is coming from canceled appointments.
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
      */
     dueToRefund: number;
     /**
@@ -5533,7 +5693,7 @@ export type OrderWritable = {
      */
     isFullyPaid: boolean;
     /**
-     * Whether the order is fully refunded
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
      */
     isFullyRefunded: boolean;
     /**
@@ -5560,6 +5720,14 @@ export type OrderWritable = {
      * Locations associated with appointments in this order
      */
     locations: Array<LocationWritable>;
+    /**
+     * Applied discounts aggregated across all order line items, mirroring the cart appliedDiscounts shape
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
+};
+
+export type OrderLineItemDiscountWritable = {
+    [key: string]: unknown;
 };
 
 export type OrderLineItemWritable = {
@@ -5619,6 +5787,10 @@ export type OrderLineItemWritable = {
      * Add-on line items attached to this appointment line item
      */
     addOnLineItems?: Array<OrderAddOnLineItemWritable>;
+    /**
+     * Discount rows applied to this line item
+     */
+    lineItemDiscounts?: Array<OrderLineItemDiscountWritable>;
     /**
      * Subtotal of the add-ons attached to this line item
      */
@@ -6632,6 +6804,10 @@ export type CheckoutStartResponseWritable = {
      * IDs of expired cart items that were revived
      */
     revivedItemIds: Array<string>;
+    /**
+     * True when an applied discount code was cleared during revalidation
+     */
+    discountCodeCleared?: boolean | null;
 };
 
 export type CheckoutResponseWritable = {
@@ -6787,6 +6963,50 @@ export type AuthResetPasswordResponses = {
 };
 
 export type AuthResetPasswordResponse = AuthResetPasswordResponses[keyof AuthResetPasswordResponses];
+
+export type AuthResolveLinkData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Magic link token
+         */
+        token: string;
+    };
+    url: '/storefront/auth/resolve-link';
+};
+
+export type AuthResolveLinkResponses = {
+    200: ResolveLinkResponse;
+};
+
+export type AuthResolveLinkResponse = AuthResolveLinkResponses[keyof AuthResolveLinkResponses];
+
+export type AuthRequestLoginCodeData = {
+    body: RequestLoginCode;
+    path?: never;
+    query?: never;
+    url: '/storefront/auth/request-login-code';
+};
+
+export type AuthRequestLoginCodeResponses = {
+    204: void;
+};
+
+export type AuthRequestLoginCodeResponse = AuthRequestLoginCodeResponses[keyof AuthRequestLoginCodeResponses];
+
+export type AuthVerifyLoginCodeData = {
+    body: VerifyLoginCode;
+    path?: never;
+    query?: never;
+    url: '/storefront/auth/verify-login-code';
+};
+
+export type AuthVerifyLoginCodeResponses = {
+    200: TokensResponse;
+};
+
+export type AuthVerifyLoginCodeResponse = AuthVerifyLoginCodeResponses[keyof AuthVerifyLoginCodeResponses];
 
 export type SelfServiceGetProfileData = {
     body?: never;
@@ -7409,6 +7629,44 @@ export type CheckoutSaveAnswersResponses = {
      */
     200: unknown;
 };
+
+export type CartDiscountRemoveCodeData = {
+    body?: never;
+    headers: {
+        'X-Cart-Id': string;
+    };
+    path?: never;
+    query?: never;
+    url: '/storefront/cart/discount-code';
+};
+
+export type CartDiscountRemoveCodeResponses = {
+    /**
+     * Cart with discount removed
+     */
+    200: Cart;
+};
+
+export type CartDiscountRemoveCodeResponse = CartDiscountRemoveCodeResponses[keyof CartDiscountRemoveCodeResponses];
+
+export type CartDiscountApplyCodeData = {
+    body: ApplyCode;
+    headers: {
+        'X-Cart-Id': string;
+    };
+    path?: never;
+    query?: never;
+    url: '/storefront/cart/discount-code';
+};
+
+export type CartDiscountApplyCodeResponses = {
+    /**
+     * Cart with discount applied
+     */
+    200: Cart;
+};
+
+export type CartDiscountApplyCodeResponse = CartDiscountApplyCodeResponses[keyof CartDiscountApplyCodeResponses];
 
 export type StoreGetStorePublicSettingsData = {
     body?: never;
