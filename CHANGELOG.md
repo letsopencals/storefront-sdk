@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.3 (2026-06-28)
+
+- Added appointment guests support:
+  - `AppointmentService.addGuest()` and `AppointmentService.removeGuest()`
+  - New types: `AddGuest`, `AppointmentGuest`, `AppointmentGuestDto`
+- Added `InvoiceService` with `InvoiceService.list()` for listing invoices on customer orders
+  - New types: `Invoice`, `InvoiceListData`, `InvoiceListResponse`, `InvoiceListResponses`
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.2 (2026-06-21)
 
 - Added discount/promo code support:

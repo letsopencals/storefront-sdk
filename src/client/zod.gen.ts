@@ -367,6 +367,13 @@ export const zOrderLogLevel = z.enum(['info', 'error']);
 
 export const zOrderLineItemDiscount = z.record(z.unknown());
 
+export const zAppointmentGuest = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    email: z.string(),
+    createdAt: z.string().datetime()
+});
+
 export const zCustomerOauthProvider = z.record(z.unknown());
 
 export const zSetting = z.object({
@@ -473,6 +480,10 @@ export const zCheckoutQuestionAnswerDto = z.object({
     answer: z.string()
 });
 
+export const zAppointmentGuestDto = z.object({
+    email: z.string()
+});
+
 export const zQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
@@ -501,6 +512,38 @@ export const zPaymentSetting = z.object({
         'manual',
         'on_fulfillment'
     ])
+});
+
+export const zInvoice = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    orderId: z.string(),
+    customerId: z.string(),
+    number: z.string(),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'draft',
+        'sent',
+        'paid',
+        'void',
+        'failed'
+    ]),
+    amountDue: z.number(),
+    currencyCode: z.string(),
+    snapshot: z.record(z.unknown()),
+    externalId: z.string().optional(),
+    externalUrl: z.string().optional(),
+    pdfStorageKey: z.string().optional(),
+    error: z.string().optional(),
+    issuedAt: z.string().datetime().optional(),
+    dueAt: z.string().datetime().optional(),
+    sentAt: z.string().datetime().optional(),
+    paidAt: z.string().datetime().optional()
 });
 
 export const zExistingOrderCustomer = z.object({
@@ -616,7 +659,8 @@ export const zCreateAppointment = z.object({
     checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswerDto).optional(),
     numberOfAttendees: z.number().optional().default(1),
     cartId: z.string().optional(),
-    addOns: z.array(zCreateAppointmentAddOn).optional()
+    addOns: z.array(zCreateAppointmentAddOn).optional(),
+    guests: z.array(zAppointmentGuestDto).optional()
 });
 
 export const zRescheduleAppointment = z.object({
@@ -629,6 +673,11 @@ export const zRescheduleAppointment = z.object({
 export const zCancelAppointment = z.object({
     notifyCustomer: z.boolean().optional().default(true),
     isManual: z.boolean().optional().default(false)
+});
+
+export const zAddGuest = z.object({
+    email: z.string(),
+    notify: z.boolean().optional().default(true)
 });
 
 export const zFeedbackQuestionAnswers = z.object({
@@ -657,6 +706,7 @@ export const zStartCheckout = z.object({
     provider: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     customer: z.union([
@@ -719,6 +769,7 @@ export const zCustomerProviderCatalogItem = z.object({
     name: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     displayName: z.string(),
@@ -1316,6 +1367,8 @@ export const zProduct: z.AnyZodObject = z.object({
     allowCustomDuration: z.boolean().default(false),
     maxDuration: z.number().default(-1),
     maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullish(),
+    allowGuests: z.boolean().default(false),
     allowCustomerReschedule: z.boolean().default(false),
     allowCustomerCancel: z.boolean().default(false),
     rescheduleGap: z.number().optional(),
@@ -1547,11 +1600,13 @@ export const zOrderTransaction: z.AnyZodObject = z.object({
     gateway: z.enum([
         'shopify',
         'cash',
+        'bank_transfer',
         'stripe'
     ]),
     provider: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     status: z.enum([
@@ -1709,6 +1764,7 @@ export const zAppointment: z.AnyZodObject = z.object({
     orderLineItem: zOrderLineItem.nullish(),
     cartItem: zCartItem.nullish(),
     addOns: z.array(zAppointmentAddOn).optional(),
+    guests: z.array(zAppointmentGuest).optional(),
     order: zOrder.nullish()
 });
 
@@ -1979,6 +2035,7 @@ export const zCheckoutStartResponse = z.object({
     provider: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     clientSecret: z.string().nullish(),
@@ -2586,6 +2643,8 @@ export const zProductWritable: z.AnyZodObject = z.object({
     allowCustomDuration: z.boolean().default(false),
     maxDuration: z.number().default(-1),
     maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullish(),
+    allowGuests: z.boolean().default(false),
     allowCustomerReschedule: z.boolean().default(false),
     allowCustomerCancel: z.boolean().default(false),
     rescheduleGap: z.number().optional(),
@@ -2817,11 +2876,13 @@ export const zOrderTransactionWritable: z.AnyZodObject = z.object({
     gateway: z.enum([
         'shopify',
         'cash',
+        'bank_transfer',
         'stripe'
     ]),
     provider: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     status: z.enum([
@@ -2979,6 +3040,7 @@ export const zAppointmentWritable: z.AnyZodObject = z.object({
     orderLineItem: zOrderLineItemWritable.nullish(),
     cartItem: zCartItemWritable.nullish(),
     addOns: z.array(zAppointmentAddOnWritable).optional(),
+    guests: z.array(zAppointmentGuest).optional(),
     order: zOrderWritable.nullish()
 });
 
@@ -3250,6 +3312,7 @@ export const zCheckoutStartResponseWritable = z.object({
     provider: z.enum([
         'stripe',
         'cash',
+        'bank_transfer',
         'shopify'
     ]),
     clientSecret: z.string().nullish(),
@@ -3325,6 +3388,29 @@ export const zAuthVerifyLoginCodeResponse = zTokensResponse;
 
 export const zSelfServiceChangePasswordBody = zUpdateCustomerPassword;
 
+/**
+ * Guest email to add
+ */
+export const zAppointmentAddGuestBody = zAddGuest;
+
+export const zAppointmentAddGuestPath = z.object({
+    appointmentId: z.string()
+});
+
+/**
+ * Guest added to appointment
+ */
+export const zAppointmentAddGuestResponse = zAppointmentGuest;
+
+export const zAppointmentRemoveGuestPath = z.object({
+    appointmentId: z.string(),
+    guestId: z.string()
+});
+
+export const zAppointmentRemoveGuestQuery = z.object({
+    notify: z.string()
+});
+
 export const zCheckoutSaveCustomerBody = zCheckoutCustomer;
 
 export const zCheckoutSaveCustomerHeaders = z.object({
@@ -3397,6 +3483,12 @@ export const zPaymentGetAvailableProvidersResponse = z.array(zCustomerProviderCa
  * Public payment settings
  */
 export const zPaymentGetSettingsResponse = zPaymentSetting;
+
+export const zInvoiceListPath = z.object({
+    orderId: z.string()
+});
+
+export const zInvoiceListResponse = z.array(zInvoice);
 
 /**
  * Customer profile returned successfully

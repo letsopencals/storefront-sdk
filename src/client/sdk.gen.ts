@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestLoginCodeData, AuthRequestLoginCodeResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthResolveLinkData, AuthResolveLinkResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, AuthVerifyLoginCodeData, AuthVerifyLoginCodeResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartDiscountApplyCodeData, CartDiscountApplyCodeResponses, CartDiscountRemoveCodeData, CartDiscountRemoveCodeResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
+import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentAddGuestData, AppointmentAddGuestResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRemoveGuestData, AppointmentRemoveGuestResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestLoginCodeData, AuthRequestLoginCodeResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthResolveLinkData, AuthResolveLinkResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, AuthVerifyLoginCodeData, AuthVerifyLoginCodeResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartDiscountApplyCodeData, CartDiscountApplyCodeResponses, CartDiscountRemoveCodeData, CartDiscountRemoveCodeResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, InvoiceListData, InvoiceListResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -326,6 +326,31 @@ export class AppointmentService {
                 ...options.headers
             }
         });
+    }
+    
+    /**
+     * Add a guest to an appointment
+     *
+     * Adds a guest (by email) to an appointment. Guests are copied on appointment notifications.
+     */
+    public static addGuest<ThrowOnError extends boolean = false>(options: Options<AppointmentAddGuestData, ThrowOnError>) {
+        return (options.client ?? client).post<AppointmentAddGuestResponses, unknown, ThrowOnError>({
+            url: '/storefront/appointments/{appointmentId}/guests',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Remove a guest from an appointment
+     *
+     * Removes a guest from an appointment and (by default) notifies them of the removal.
+     */
+    public static removeGuest<ThrowOnError extends boolean = false>(options: Options<AppointmentRemoveGuestData, ThrowOnError>) {
+        return (options.client ?? client).delete<AppointmentRemoveGuestResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/{appointmentId}/guests/{guestId}', ...options });
     }
     
     /**
@@ -827,6 +852,15 @@ export class PaymentService {
             url: '/storefront/payment/settings',
             ...options
         });
+    }
+}
+
+export class InvoiceService {
+    /**
+     * List invoices issued for the authenticated customer order
+     */
+    public static list<ThrowOnError extends boolean = false>(options: Options<InvoiceListData, ThrowOnError>) {
+        return (options.client ?? client).get<InvoiceListResponses, unknown, ThrowOnError>({ url: '/storefront/orders/{orderId}/invoices', ...options });
     }
 }
 

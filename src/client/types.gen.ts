@@ -870,6 +870,14 @@ export type Product = {
      */
     maxAttendees: number;
     /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests?: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
      * Whether customers can reschedule their bookings
      */
     allowCustomerReschedule: boolean;
@@ -1699,11 +1707,11 @@ export type OrderTransaction = {
      *
      * @deprecated
      */
-    gateway: 'shopify' | 'cash' | 'stripe';
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * The status of the transaction
      */
@@ -2064,6 +2072,25 @@ export type AppointmentAddOn = {
     addOn: AddOn;
 };
 
+export type AppointmentGuest = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Guest email address
+     */
+    email: string;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+};
+
 export type Appointment = {
     /**
      * Unique identifier of the appointment
@@ -2211,6 +2238,10 @@ export type Appointment = {
      * Add-ons attached to this appointment
      */
     addOns?: Array<AppointmentAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests?: Array<AppointmentGuest>;
     /**
      * The order associated with this appointment through the order line item
      */
@@ -3212,6 +3243,13 @@ export type CheckoutQuestionAnswerDto = {
     answer: string;
 };
 
+export type AppointmentGuestDto = {
+    /**
+     * Email address of the guest invited to the appointment
+     */
+    email: string;
+};
+
 export type QuestionAnswer = {
     /**
      * ID of the feedback question
@@ -3272,6 +3310,77 @@ export type PaymentSetting = {
      */
     storeId: string;
     captureMethod: 'automatic' | 'manual' | 'on_fulfillment';
+};
+
+export type Invoice = {
+    id: string;
+    /**
+     * Store that owns the invoice
+     */
+    storeId: string;
+    /**
+     * Order the invoice was issued for
+     */
+    orderId: string;
+    /**
+     * Customer the invoice is billed to
+     */
+    customerId: string;
+    /**
+     * Human-facing invoice number
+     */
+    number: string;
+    /**
+     * Provider used to issue the invoice
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    status: 'draft' | 'sent' | 'paid' | 'void' | 'failed';
+    /**
+     * Outstanding amount this invoice is for
+     */
+    amountDue: number;
+    /**
+     * Currency code
+     */
+    currencyCode: string;
+    /**
+     * Immutable snapshot of the billable state at issue time
+     */
+    snapshot: {
+        [key: string]: unknown;
+    };
+    /**
+     * External invoice id (Stripe invoice id / Shopify reference)
+     */
+    externalId?: string;
+    /**
+     * Hosted invoice / payment URL (e.g. Stripe hosted_invoice_url)
+     */
+    externalUrl?: string;
+    /**
+     * S3 object key of the generated PDF (manual invoices)
+     */
+    pdfStorageKey?: string;
+    /**
+     * Failure reason when status is failed
+     */
+    error?: string;
+    /**
+     * When the invoice was issued
+     */
+    issuedAt?: string;
+    /**
+     * When the invoice is due
+     */
+    dueAt?: string;
+    /**
+     * When the invoice was delivered to the customer
+     */
+    sentAt?: string;
+    /**
+     * When the outstanding amount was paid
+     */
+    paidAt?: string;
 };
 
 export type ExistingOrderCustomer = {
@@ -3555,6 +3664,10 @@ export type CreateAppointment = {
      * Add-ons to attach to this appointment at creation time
      */
     addOns?: Array<CreateAppointmentAddOn>;
+    /**
+     * Guests to invite to the appointment. They are copied on appointment notifications.
+     */
+    guests?: Array<AppointmentGuestDto>;
 };
 
 export type RescheduleAppointment = {
@@ -3585,6 +3698,17 @@ export type CancelAppointment = {
      * Indicates if the appointment was canceled manually instead of by the customer
      */
     isManual?: boolean;
+};
+
+export type AddGuest = {
+    /**
+     * Email address of the guest to invite to the appointment
+     */
+    email: string;
+    /**
+     * Whether to send the guest an invitation email. Defaults to true.
+     */
+    notify?: boolean;
 };
 
 export type FeedbackQuestionAnswers = {
@@ -3702,7 +3826,7 @@ export type StartCheckout = {
     /**
      * Payment provider to use for this checkout
      */
-    provider: 'stripe' | 'cash' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * Customer information to attach to the cart and appointments
      */
@@ -3713,7 +3837,7 @@ export type CheckoutStartResponse = {
     /**
      * Payment provider used
      */
-    provider: 'stripe' | 'cash' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * Stripe client secret for payment confirmation
      */
@@ -3915,7 +4039,7 @@ export type CustomerProviderCatalogItem = {
     /**
      * Provider identifier
      */
-    name: 'stripe' | 'cash' | 'shopify';
+    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * Display name for UI
      */
@@ -4732,6 +4856,14 @@ export type ProductWritable = {
      */
     maxAttendees: number;
     /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests?: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
      * Whether customers can reschedule their bookings
      */
     allowCustomerReschedule: boolean;
@@ -5488,11 +5620,11 @@ export type OrderTransactionWritable = {
      *
      * @deprecated
      */
-    gateway: 'shopify' | 'cash' | 'stripe';
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * The status of the transaction
      */
@@ -5995,6 +6127,10 @@ export type AppointmentWritable = {
      * Add-ons attached to this appointment
      */
     addOns?: Array<AppointmentAddOnWritable>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests?: Array<AppointmentGuest>;
     /**
      * The order associated with this appointment through the order line item
      */
@@ -6775,7 +6911,7 @@ export type CheckoutStartResponseWritable = {
     /**
      * Payment provider used
      */
-    provider: 'stripe' | 'cash' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
     /**
      * Stripe client secret for payment confirmation
      */
@@ -7267,6 +7403,55 @@ export type AppointmentFeedbackResponses = {
 };
 
 export type AppointmentFeedbackResponse = AppointmentFeedbackResponses[keyof AppointmentFeedbackResponses];
+
+export type AppointmentAddGuestData = {
+    /**
+     * Guest email to add
+     */
+    body: AddGuest;
+    path: {
+        /**
+         * Appointment unique identifier
+         */
+        appointmentId: string;
+    };
+    query?: never;
+    url: '/storefront/appointments/{appointmentId}/guests';
+};
+
+export type AppointmentAddGuestResponses = {
+    /**
+     * Guest added to appointment
+     */
+    201: AppointmentGuest;
+};
+
+export type AppointmentAddGuestResponse = AppointmentAddGuestResponses[keyof AppointmentAddGuestResponses];
+
+export type AppointmentRemoveGuestData = {
+    body?: never;
+    path: {
+        /**
+         * Appointment unique identifier
+         */
+        appointmentId: string;
+        /**
+         * Guest unique identifier
+         */
+        guestId: string;
+    };
+    query: {
+        notify: string;
+    };
+    url: '/storefront/appointments/{appointmentId}/guests/{guestId}';
+};
+
+export type AppointmentRemoveGuestResponses = {
+    /**
+     * Guest removed from appointment
+     */
+    200: unknown;
+};
 
 export type AppointmentGetBookingPreferencesData = {
     body?: never;
@@ -8322,6 +8507,24 @@ export type PaymentGetSettingsResponses = {
 };
 
 export type PaymentGetSettingsResponse = PaymentGetSettingsResponses[keyof PaymentGetSettingsResponses];
+
+export type InvoiceListData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the order
+         */
+        orderId: string;
+    };
+    query?: never;
+    url: '/storefront/orders/{orderId}/invoices';
+};
+
+export type InvoiceListResponses = {
+    200: Array<Invoice>;
+};
+
+export type InvoiceListResponse = InvoiceListResponses[keyof InvoiceListResponses];
 
 export type FeedbackQuestionListTranslationsData = {
     body?: never;
