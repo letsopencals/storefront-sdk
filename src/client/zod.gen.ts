@@ -2,151 +2,6 @@
 
 import { z } from 'zod';
 
-export const zLanguage = z.object({
-    code: z.enum([
-        'af',
-        'ak',
-        'am',
-        'ar',
-        'as',
-        'az',
-        'be',
-        'bg',
-        'bm',
-        'bn',
-        'bo',
-        'br',
-        'bs',
-        'ca',
-        'ce',
-        'cs',
-        'cu',
-        'cy',
-        'da',
-        'de',
-        'dz',
-        'ee',
-        'el',
-        'en',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fa',
-        'ff',
-        'fi',
-        'fo',
-        'fr',
-        'fy',
-        'ga',
-        'gd',
-        'gl',
-        'gu',
-        'gv',
-        'ha',
-        'he',
-        'hi',
-        'hr',
-        'hu',
-        'hy',
-        'ia',
-        'id',
-        'ig',
-        'ii',
-        'is',
-        'it',
-        'ja',
-        'jv',
-        'ka',
-        'ki',
-        'kk',
-        'kl',
-        'km',
-        'kn',
-        'ko',
-        'ks',
-        'ku',
-        'kw',
-        'ky',
-        'lb',
-        'lg',
-        'ln',
-        'lo',
-        'lt',
-        'lu',
-        'lv',
-        'mg',
-        'mi',
-        'mk',
-        'ml',
-        'mn',
-        'mr',
-        'ms',
-        'mt',
-        'my',
-        'nb',
-        'nd',
-        'ne',
-        'nl',
-        'nn',
-        'no',
-        'om',
-        'or',
-        'os',
-        'pa',
-        'pl',
-        'ps',
-        'pt',
-        'pt_br',
-        'pt_pt',
-        'qu',
-        'rm',
-        'rn',
-        'ro',
-        'ru',
-        'rw',
-        'sd',
-        'se',
-        'sg',
-        'si',
-        'sk',
-        'sl',
-        'sn',
-        'so',
-        'sq',
-        'sr',
-        'su',
-        'sv',
-        'sw',
-        'ta',
-        'te',
-        'tg',
-        'th',
-        'ti',
-        'tk',
-        'to',
-        'tr',
-        'tt',
-        'ug',
-        'uk',
-        'ur',
-        'uz',
-        'vi',
-        'vo',
-        'wo',
-        'xh',
-        'yi',
-        'yo',
-        'zh',
-        'zh_cn',
-        'zh_tw',
-        'zu'
-    ]),
-    englishName: z.string(),
-    originalName: z.string(),
-    active: z.boolean()
-});
-
 export const zCollectionMeta = z.object({
     page: z.number().gte(1),
     take: z.number().gte(1),
@@ -155,8 +10,6 @@ export const zCollectionMeta = z.object({
     hasPreviousPage: z.boolean(),
     hasNextPage: z.boolean()
 });
-
-export const zUserOauthProvider = z.record(z.unknown());
 
 /**
  * Language code for this translation
@@ -316,133 +169,10 @@ export const zAppointmentStatusType = z.enum([
  */
 export const zAppointmentCreatedByEnum = z.enum(['customer', 'merchant']).default('customer');
 
-export const zProductPool = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    name: z.string(),
-    description: z.string(),
-    status: z.enum(['active', 'inactive']),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-    deletedAt: z.string()
-});
-
-export const zIntegratedAppointmentLocationData = z.object({
-    address: z.string(),
-    password: z.string().nullish()
-});
-
-/**
- * Severity level of the log entry
- */
-export const zAppointmentLogLevel = z.enum(['info', 'error']);
-
-export const zCartPayment = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    orderId: z.string().nullish(),
-    provider: z.record(z.unknown()),
-    providerReference: z.string().nullish(),
-    status: z.enum([
-        'created',
-        'authorized',
-        'captured',
-        'failed',
-        'voided',
-        'refunded'
-    ]),
-    amount: z.number(),
-    currency: z.string(),
-    capturedAmount: z.number(),
-    authorizedUntil: z.string().datetime().nullish(),
-    clientSecret: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish()
-});
-
 /**
  * Severity level of the log entry
  */
 export const zOrderLogLevel = z.enum(['info', 'error']);
-
-export const zOrderLineItemDiscount = z.record(z.unknown());
-
-export const zAppointmentGuest = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    email: z.string(),
-    createdAt: z.string().datetime()
-});
-
-export const zCustomerOauthProvider = z.record(z.unknown());
-
-export const zSetting = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    isEnabled: z.boolean().default(true),
-    timezone: z.string().default('UTC'),
-    timeFormat: z.enum(['12H', '24H']).default('24H'),
-    dateFormat: z.string().default('YYYY-MM-DD'),
-    reservationGap: z.number().nullable(),
-    sendAppointmentConfirmationEmail: z.boolean().default(true),
-    sendAppointmentReminderEmail: z.boolean().default(false),
-    sendAppointmentReminderEmailTimeBefore: z.number().default(3600),
-    sendAppointmentFeedbackEmail: z.boolean().default(false),
-    customerCalendarUrl: z.string().nullable(),
-    storefrontBaseUrl: z.string().nullable(),
-    emailFromAddress: z.string().nullable(),
-    defaultScheduleGap: z.enum([
-        'every-10-minutes',
-        'every-15-minutes',
-        'every-20-minutes',
-        'every-30-minutes',
-        'every-60-minutes'
-    ]).default('every-15-minutes'),
-    defaultAdvanceScheduleDays: z.number().lte(3650).default(30),
-    defaultSkipCheckout: z.boolean().default(false),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
-});
-
-export const zTaxSetting = z.object({
-    id: z.string(),
-    storeId: z.string().nullable(),
-    standardTaxRate: z.number(),
-    defaultTaxesIncluded: z.boolean().default(true),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
-});
-
-export const zStoreContactInfo = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    addressLine1: z.string().nullish(),
-    addressLine2: z.string().nullish(),
-    city: z.string().nullish(),
-    state: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    country: z.string().nullish(),
-    addressPlaceId: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    contactEmail: z.string().nullish(),
-    contactPhoneNumbers: z.array(z.string()).nullable(),
-    socialMediaLinks: z.array(z.record(z.unknown())).nullable(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
-});
-
-export const zUserStore = z.object({
-    id: z.string(),
-    userId: z.string(),
-    storeId: z.string(),
-    role: z.enum([
-        'store-owner',
-        'manager',
-        'staff-member'
-    ]),
-    createdAt: z.string().datetime()
-});
 
 export const zAppointmentDateRangeSlot = z.object({
     fromDate: z.string().regex(/^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/),
@@ -474,16 +204,6 @@ export const zAppointmentAddress = z.object({
     country: z.string().max(255).optional()
 });
 
-export const zCheckoutQuestionAnswerDto = z.object({
-    questionId: z.string(),
-    question: z.string(),
-    answer: z.string()
-});
-
-export const zAppointmentGuestDto = z.object({
-    email: z.string()
-});
-
 export const zQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
@@ -502,48 +222,6 @@ export const zCheckoutCustomerInfo = z.object({
     lastName: z.string().optional(),
     hasPassword: z.boolean(),
     emailVerified: z.boolean()
-});
-
-export const zPaymentSetting = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    captureMethod: z.enum([
-        'automatic',
-        'manual',
-        'on_fulfillment'
-    ])
-});
-
-export const zInvoice = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    orderId: z.string(),
-    customerId: z.string(),
-    number: z.string(),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    status: z.enum([
-        'draft',
-        'sent',
-        'paid',
-        'void',
-        'failed'
-    ]),
-    amountDue: z.number(),
-    currencyCode: z.string(),
-    snapshot: z.record(z.unknown()),
-    externalId: z.string().optional(),
-    externalUrl: z.string().optional(),
-    pdfStorageKey: z.string().optional(),
-    error: z.string().optional(),
-    issuedAt: z.string().datetime().optional(),
-    dueAt: z.string().datetime().optional(),
-    sentAt: z.string().datetime().optional(),
-    paidAt: z.string().datetime().optional()
 });
 
 export const zExistingOrderCustomer = z.object({
@@ -632,6 +310,24 @@ export const zVerifyLoginCode = z.object({
     code: z.string()
 });
 
+export const zSelfServiceProfileResponse = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
 export const zUpdateCustomerProfile = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
@@ -643,9 +339,19 @@ export const zUpdateCustomerPassword = z.object({
     newPassword: z.string()
 });
 
+export const zCheckoutQuestionAnswer = z.object({
+    questionId: z.string(),
+    question: z.string(),
+    answer: z.string()
+});
+
 export const zCreateAppointmentAddOn = z.object({
     addOnId: z.string(),
     quantity: z.number().optional().default(1)
+});
+
+export const zAppointmentGuest = z.object({
+    email: z.string()
 });
 
 export const zCreateAppointment = z.object({
@@ -656,11 +362,11 @@ export const zCreateAppointment = z.object({
     ]).optional(),
     internalNote: z.string().optional(),
     address: zAppointmentAddress.optional(),
-    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswerDto).optional(),
+    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswer).optional(),
     numberOfAttendees: z.number().optional().default(1),
     cartId: z.string().optional(),
     addOns: z.array(zCreateAppointmentAddOn).optional(),
-    guests: z.array(zAppointmentGuestDto).optional()
+    guests: z.array(zAppointmentGuest).optional()
 });
 
 export const zRescheduleAppointment = z.object({
@@ -680,13 +386,2513 @@ export const zAddGuest = z.object({
     notify: z.boolean().optional().default(true)
 });
 
+export const zImage = z.object({
+    id: z.string(),
+    externalId: z.string().nullable(),
+    url: z.string(),
+    filename: z.string().nullable(),
+    mime: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string().nullable()
+});
+
+export const zAppointmentCreatedProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentCreatedStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentCreatedLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAppointmentCreatedAddOnItem = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentCreatedAddOn = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zAppointmentCreatedAddOnItem
+});
+
+export const zAppointmentCreatedGuest = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    email: z.string(),
+    createdAt: z.string().datetime()
+});
+
+export const zAppointmentCreatedCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zAppointmentCreatedResponse = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentCreatedProduct,
+    staffMember: zAppointmentCreatedStaffMember.nullable(),
+    location: zAppointmentCreatedLocation.nullable(),
+    addOns: z.array(zAppointmentCreatedAddOn),
+    guests: z.array(zAppointmentCreatedGuest),
+    customer: zAppointmentCreatedCustomer
+});
+
+export const zAppointmentListItemProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentListItemStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentListItemLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAppointmentListItemCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zAppointmentListItemOrderLineItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number()
+});
+
+export const zAppointmentListItemResponse = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentListItemProduct,
+    staffMember: zAppointmentListItemStaffMember.nullable(),
+    location: zAppointmentListItemLocation.nullable(),
+    customer: zAppointmentListItemCustomer,
+    orderLineItem: zAppointmentListItemOrderLineItem.nullable()
+});
+
+export const zAppointmentDetailProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAppointmentDetailCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zAppointmentDetailAddOnItem = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailAddOn = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zAppointmentDetailAddOnItem
+});
+
+export const zAppointmentDetailGuest = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    email: z.string(),
+    createdAt: z.string().datetime()
+});
+
+export const zAppointmentDetailFeedbackAnswer = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    questionId: z.string().nullable(),
+    question: z.string(),
+    answer: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zAppointmentDetailCheckoutAnswer = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    questionId: z.string().nullable(),
+    question: z.string(),
+    answer: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zAppointmentDetailOrderTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zAppointmentDetailOrderItemProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailOrderItemStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailOrderItemLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAppointmentDetailOrderItemAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentDetailOrderItemProduct,
+    staffMember: zAppointmentDetailOrderItemStaffMember.nullable(),
+    location: zAppointmentDetailOrderItemLocation.nullable()
+});
+
+export const zAppointmentDetailOrderItemAddOnItem = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentDetailOrderItemAddOn = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    addOn: zAppointmentDetailOrderItemAddOnItem
+});
+
+export const zAppointmentDetailOrderItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    appointment: zAppointmentDetailOrderItemAppointment,
+    addOnLineItems: z.array(zAppointmentDetailOrderItemAddOn)
+});
+
+export const zAppointmentDetailOrder = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    transactions: z.array(zAppointmentDetailOrderTransaction),
+    lineItems: z.array(zAppointmentDetailOrderItem)
+});
+
+export const zAppointmentDetailOrderLineItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    order: zAppointmentDetailOrder
+});
+
+export const zAppointmentDetailResponse = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentDetailProduct,
+    staffMember: zAppointmentDetailStaffMember.nullable(),
+    location: zAppointmentDetailLocation.nullable(),
+    customer: zAppointmentDetailCustomer,
+    addOns: z.array(zAppointmentDetailAddOn),
+    guests: z.array(zAppointmentDetailGuest),
+    feedbackQuestionAnswers: z.array(zAppointmentDetailFeedbackAnswer),
+    checkoutQuestionAnswers: z.array(zAppointmentDetailCheckoutAnswer),
+    orderLineItem: zAppointmentDetailOrderLineItem.nullable(),
+    order: zAppointmentDetailOrder.nullable()
+});
+
+export const zAppointmentProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAppointmentAddOnItem = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAppointmentAddOn = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zAppointmentAddOnItem
+});
+
+export const zAppointmentResponse = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentProduct,
+    staffMember: zAppointmentStaffMember.nullable(),
+    location: zAppointmentLocation.nullable(),
+    addOns: z.array(zAppointmentAddOn),
+    guests: z.array(zAppointmentGuest)
+});
+
 export const zFeedbackQuestionAnswers = z.object({
     answers: z.array(zQuestionAnswer).min(1)
+});
+
+export const zFeedbackQuestionAnswerResponse = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    questionId: z.string().nullable(),
+    question: z.string(),
+    answer: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zAppointmentGuestResponse = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    email: z.string(),
+    createdAt: z.string().datetime()
+});
+
+export const zProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zServicePreference = z.object({
+    product: zProduct,
+    staffMember: zStaffMember.optional(),
+    location: zLocation.optional(),
+    bookingCount: z.number(),
+    lastBookedAt: z.string().datetime()
+});
+
+export const zLocationPreference = z.object({
+    location: zLocation,
+    bookingCount: z.number(),
+    lastBookedAt: z.string().datetime()
+});
+
+export const zStaffMemberPreference = z.object({
+    staffMember: zStaffMember,
+    bookingCount: z.number(),
+    lastBookedAt: z.string().datetime()
+});
+
+export const zCustomerBookingPreferencesResponse = z.object({
+    services: z.array(zServicePreference),
+    locations: z.array(zLocationPreference),
+    staffMembers: z.array(zStaffMemberPreference)
 });
 
 export const zCreateOrderAppointmentsSettings = z.object({
     markAsScheduled: z.boolean().nullish(),
     notifyCustomer: z.boolean().nullish()
+});
+
+export const zOrderListCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zOrderListAppointmentProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zOrderListAppointmentStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zOrderListAppointmentLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zOrderListAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zOrderListAppointmentProduct,
+    staffMember: zOrderListAppointmentStaffMember.nullable(),
+    location: zOrderListAppointmentLocation.nullable()
+});
+
+export const zOrderListAddOnLineItem = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number()
+});
+
+export const zOrderListLineItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    appointment: zOrderListAppointment,
+    addOnLineItems: z.array(zOrderListAddOnLineItem)
+});
+
+export const zOrderListTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zOrderListItemResponse = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zOrderListCustomer,
+    lineItems: z.array(zOrderListLineItem),
+    transactions: z.array(zOrderListTransaction)
+});
+
+export const zOrderDetailCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zOrderDetailAppointmentProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zOrderDetailAppointmentStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zOrderDetailAppointmentLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zOrderDetailAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zOrderDetailAppointmentProduct,
+    staffMember: zOrderDetailAppointmentStaffMember.nullable(),
+    location: zOrderDetailAppointmentLocation.nullable()
+});
+
+export const zOrderDetailAddOn = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zOrderDetailAddOnRefundLineItem = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullable(),
+    addOnLineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zOrderDetailAddOnLineItem = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    addOn: zOrderDetailAddOn,
+    refundLineItems: z.array(zOrderDetailAddOnRefundLineItem)
+});
+
+export const zOrderDetailLineItemRefundLineItem = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullable(),
+    lineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zOrderDetailLineItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    appointment: zOrderDetailAppointment,
+    addOnLineItems: z.array(zOrderDetailAddOnLineItem),
+    refundLineItems: z.array(zOrderDetailLineItemRefundLineItem)
+});
+
+export const zOrderDetailParentTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zOrderDetailChildTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zOrderDetailTransactionRefundTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zOrderDetailTransactionRefund = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    externalId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    total: z.number(),
+    transactions: z.array(zOrderDetailTransactionRefundTransaction)
+});
+
+export const zOrderDetailTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean(),
+    parentTransaction: zOrderDetailParentTransaction.nullable(),
+    childTransactions: z.array(zOrderDetailChildTransaction),
+    refund: zOrderDetailTransactionRefund.nullable()
+});
+
+export const zOrderDetailRefundLineItem = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullable(),
+    lineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zOrderDetailRefundTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zOrderDetailRefund = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    externalId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    total: z.number(),
+    lineItems: z.array(zOrderDetailRefundLineItem),
+    transactions: z.array(zOrderDetailRefundTransaction)
+});
+
+export const zOrderDetailLog = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    level: zOrderLogLevel,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zOrderDetailResponse = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zOrderDetailCustomer,
+    lineItems: z.array(zOrderDetailLineItem),
+    transactions: z.array(zOrderDetailTransaction),
+    refunds: z.array(zOrderDetailRefund),
+    logs: z.array(zOrderDetailLog)
+});
+
+export const zCartCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zCartItemProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zSchedule.nullable()
+});
+
+export const zCartItemStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zSchedule.nullable()
+});
+
+export const zCartItemLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    schedule: zSchedule.nullable()
+});
+
+export const zCartItemAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zCartItemProduct,
+    staffMember: zCartItemStaffMember.nullable(),
+    location: zCartItemLocation.nullable()
+});
+
+export const zCartAddOnItemAddOn = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCartAddOnItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    cartItemId: z.string(),
+    addOnId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    discounts: z.array(zCartItemAppliedDiscount),
+    addOn: zCartAddOnItemAddOn
+});
+
+export const zCartItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    appointmentId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    discounts: z.array(zCartItemAppliedDiscount),
+    lineSubtotal: z.number(),
+    lineTax: z.number(),
+    appointment: zCartItemAppointment.nullable(),
+    addOnItems: z.array(zCartAddOnItem)
+});
+
+export const zCartPayment = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    orderId: z.string().nullable(),
+    provider: z.record(z.unknown()),
+    providerReference: z.string().nullable(),
+    status: z.enum([
+        'created',
+        'authorized',
+        'captured',
+        'failed',
+        'voided',
+        'refunded'
+    ]),
+    amount: z.number(),
+    currency: z.string(),
+    capturedAmount: z.number(),
+    authorizedUntil: z.string().datetime().nullable(),
+    clientSecret: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCartResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    status: z.enum([
+        'active',
+        'converted',
+        'abandoned'
+    ]),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    expiresAt: z.string().datetime().nullable(),
+    extensionsCount: z.number(),
+    appliedDiscountCode: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    totalTax: z.number(),
+    total: z.number(),
+    appliedDiscounts: z.array(zAppliedDiscount),
+    customer: zCartCustomer.nullable(),
+    items: z.array(zCartItem),
+    payments: z.array(zCartPayment)
 });
 
 export const zCreateCartItem = z.object({
@@ -715,6 +2921,312 @@ export const zStartCheckout = z.object({
     ]).optional()
 });
 
+export const zCheckoutStartCartCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zCheckoutStartCartItemProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zSchedule.nullish()
+});
+
+export const zCheckoutStartCartItemStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zSchedule.nullish()
+});
+
+export const zCheckoutStartCartItemLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    schedule: zSchedule.nullish()
+});
+
+export const zCheckoutStartCartItemAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zCheckoutStartCartItemProduct.optional(),
+    staffMember: zCheckoutStartCartItemStaffMember.nullish(),
+    location: zCheckoutStartCartItemLocation.nullish()
+});
+
+export const zCheckoutStartCartAddOnItemAddOn = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCheckoutStartCartAddOnItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    cartItemId: z.string(),
+    addOnId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    discounts: z.array(zCartItemAppliedDiscount),
+    addOn: zCheckoutStartCartAddOnItemAddOn.nullish()
+});
+
+export const zCheckoutStartCartItem = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    appointmentId: z.string(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    discounts: z.array(zCartItemAppliedDiscount),
+    lineSubtotal: z.number(),
+    lineTax: z.number(),
+    appointment: zCheckoutStartCartItemAppointment.nullish(),
+    addOnItems: z.array(zCheckoutStartCartAddOnItem).optional()
+});
+
+export const zCheckoutStartCartPayment = z.object({
+    id: z.string(),
+    cartId: z.string(),
+    orderId: z.string().nullable(),
+    provider: z.record(z.unknown()),
+    providerReference: z.string().nullable(),
+    status: z.enum([
+        'created',
+        'authorized',
+        'captured',
+        'failed',
+        'voided',
+        'refunded'
+    ]),
+    amount: z.number(),
+    currency: z.string(),
+    capturedAmount: z.number(),
+    authorizedUntil: z.string().datetime().nullable(),
+    clientSecret: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCheckoutStartCart = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    status: z.enum([
+        'active',
+        'converted',
+        'abandoned'
+    ]),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    expiresAt: z.string().datetime().nullable(),
+    extensionsCount: z.number(),
+    appliedDiscountCode: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    totalTax: z.number(),
+    total: z.number(),
+    appliedDiscounts: z.array(zAppliedDiscount),
+    customer: zCheckoutStartCartCustomer.nullish(),
+    items: z.array(zCheckoutStartCartItem).optional(),
+    payments: z.array(zCheckoutStartCartPayment).optional()
+});
+
+export const zCheckoutStartResponse = z.object({
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    clientSecret: z.string().nullish(),
+    redirectUrl: z.string().nullish(),
+    stripeAccountId: z.string().nullish(),
+    paymentId: z.string(),
+    cart: zCheckoutStartCart,
+    invalidItemIds: z.array(z.string()),
+    revivedItemIds: z.array(z.string()),
+    discountCodeCleared: z.boolean().nullish()
+});
+
 export const zSubmitCheckout = z.object({
     stripePaymentIntentId: z.string().optional(),
     customer: z.union([
@@ -722,6 +3234,729 @@ export const zSubmitCheckout = z.object({
         zNewOrderCustomer
     ]).optional(),
     appointmentsSettings: zCreateOrderAppointmentsSettings.optional()
+});
+
+export const zCheckoutOrderCustomer = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zCheckoutOrderAppointmentProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCheckoutOrderAppointmentStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCheckoutOrderAppointmentLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zCheckoutOrderAppointmentAddOnItem = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCheckoutOrderAppointmentAddOn = z.object({
+    id: z.string(),
+    appointmentId: z.string(),
+    addOnId: z.string(),
+    quantity: z.number().default(1),
+    createdAt: z.string().datetime(),
+    addOn: zCheckoutOrderAppointmentAddOnItem.optional()
+});
+
+export const zCheckoutOrderAppointment = z.object({
+    id: z.string(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zCheckoutOrderAppointmentProduct.optional(),
+    staffMember: zCheckoutOrderAppointmentStaffMember.nullish(),
+    location: zCheckoutOrderAppointmentLocation.nullish(),
+    addOns: z.array(zCheckoutOrderAppointmentAddOn).optional()
+});
+
+export const zCheckoutOrderAddOn = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zCheckoutOrderAddOnRefundLineItem = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullable(),
+    addOnLineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCheckoutOrderAddOnLineItem = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    lineItemId: z.string(),
+    addOnId: z.string(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    addOn: zCheckoutOrderAddOn.nullish(),
+    refundLineItems: z.array(zCheckoutOrderAddOnRefundLineItem).optional()
+});
+
+export const zCheckoutOrderLineItemRefundLineItem = z.object({
+    id: z.string(),
+    refundId: z.string(),
+    externalId: z.string().nullable(),
+    lineItemId: z.string(),
+    quantity: z.number().gte(1),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCheckoutOrderLineItem = z.object({
+    orderId: z.string().nullable(),
+    appointmentId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    originalUnitPrice: z.number(),
+    discountedUnitPrice: z.number(),
+    unitTaxAmount: z.number(),
+    quantity: z.number(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    addOnSubtotal: z.number(),
+    addOnTotalTax: z.number(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    refundedQuantity: z.number(),
+    refundableQuantity: z.number(),
+    appointment: zCheckoutOrderAppointment.optional(),
+    addOnLineItems: z.array(zCheckoutOrderAddOnLineItem).optional(),
+    refundLineItems: z.array(zCheckoutOrderLineItemRefundLineItem).optional()
+});
+
+export const zCheckoutOrderParentTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zCheckoutOrderChildTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zCheckoutOrderTransactionRefundTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean()
+});
+
+export const zCheckoutOrderTransactionRefund = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    externalId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    total: z.number(),
+    transactions: z.array(zCheckoutOrderTransactionRefundTransaction).optional()
+});
+
+export const zCheckoutOrderTransaction = z.object({
+    orderId: z.string().nullable(),
+    externalId: z.string().nullable(),
+    parentId: z.string().nullable(),
+    refundId: z.string().nullable(),
+    type: z.enum([
+        'authorization',
+        'capture',
+        'void',
+        'sale',
+        'refund'
+    ]),
+    amount: z.number(),
+    currencyCode: z.string(),
+    gateway: z.enum([
+        'shopify',
+        'cash',
+        'bank_transfer',
+        'stripe'
+    ]),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    status: z.enum([
+        'pending',
+        'success',
+        'failed'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    refundableAmount: z.number(),
+    refundedAmount: z.number(),
+    isRefundable: z.boolean(),
+    parentTransaction: zCheckoutOrderParentTransaction.nullish(),
+    childTransactions: z.array(zCheckoutOrderChildTransaction).optional(),
+    refund: zCheckoutOrderTransactionRefund.nullish()
+});
+
+export const zCheckoutOrderLog = z.object({
+    id: z.string(),
+    orderId: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    level: zOrderLogLevel,
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCheckoutOrder = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zCheckoutOrderCustomer.nullish(),
+    lineItems: z.array(zCheckoutOrderLineItem).optional(),
+    transactions: z.array(zCheckoutOrderTransaction).optional(),
+    logs: z.array(zCheckoutOrderLog).optional()
+});
+
+export const zCheckoutResponse = z.object({
+    order: zCheckoutOrder,
+    auth: zCheckoutAuthTokens.optional(),
+    customer: zCheckoutCustomerInfo.optional()
+});
+
+export const zCartCheckoutQuestionTranslation = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullable(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCartCheckoutQuestionResponse = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string(),
+    translations: z.array(zCartCheckoutQuestionTranslation),
+    existingAnswer: z.string().optional()
 });
 
 export const zCheckoutCustomer = z.object({
@@ -736,11 +3971,150 @@ export const zSaveCustomerResponse = z.object({
 });
 
 export const zCheckoutQuestionAnswers = z.object({
-    answers: z.array(zCheckoutQuestionAnswerDto)
+    answers: z.array(zCheckoutQuestionAnswer)
 });
 
 export const zApplyCode = z.object({
     code: z.string().max(64)
+});
+
+export const zSetting = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    isEnabled: z.boolean().default(true),
+    timezone: z.string().default('UTC'),
+    timeFormat: z.enum(['12H', '24H']).default('24H'),
+    dateFormat: z.string().default('YYYY-MM-DD'),
+    reservationGap: z.number().nullable(),
+    sendAppointmentConfirmationEmail: z.boolean().default(true),
+    sendAppointmentReminderEmail: z.boolean().default(false),
+    sendAppointmentReminderEmailTimeBefore: z.number().default(3600),
+    sendAppointmentFeedbackEmail: z.boolean().default(false),
+    customerCalendarUrl: z.string().nullable(),
+    storefrontBaseUrl: z.string().nullable(),
+    emailFromAddress: z.string().nullable(),
+    defaultScheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    defaultAdvanceScheduleDays: z.number().lte(3650).default(30),
+    defaultSkipCheckout: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zPlanFeature = z.object({
+    id: z.string(),
+    planId: z.string(),
+    feature: z.enum([
+        'number-of-products',
+        'number-of-staff-members',
+        'number-of-physical-locations',
+        'staff-members-portal',
+        'customer-portal',
+        'group-appointments',
+        'custom-product-duration',
+        'cancellation',
+        'rescheduling',
+        'customer-cancellation',
+        'customer-rescheduling',
+        'custom-checkout-fields',
+        'ui-customization',
+        'email-customization',
+        'customer-reviews',
+        'white-label'
+    ]),
+    config: z.record(z.unknown()).nullable()
+});
+
+export const zStorefrontSetting = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    themeMode: z.enum(['light', 'dark']).default('light'),
+    primaryColor: z.string().default('#171717'),
+    primaryForegroundColor: z.string().default('#FAFAFA'),
+    secondaryColor: z.string().default('#F5F5F5'),
+    secondaryForegroundColor: z.string().default('#171717'),
+    destructiveColor: z.string().default('#E7000B'),
+    accentColor: z.string().default('#F5F5F5'),
+    accentForegroundColor: z.string().default('#171717'),
+    backgroundColor: z.string().default('#FFFFFF'),
+    foregroundColor: z.string().default('#0A0A0A'),
+    cardColor: z.string().default('#FFFFFF'),
+    cardForegroundColor: z.string().default('#0A0A0A'),
+    popoverColor: z.string().default('#FFFFFF'),
+    popoverForegroundColor: z.string().default('#0A0A0A'),
+    mutedColor: z.string().default('#F5F5F5'),
+    mutedForegroundColor: z.string().default('#737373'),
+    borderColor: z.string().default('#E5E5E5'),
+    inputColor: z.string().default('#E5E5E5'),
+    ringColor: z.string().default('#A1A1A1'),
+    sidebarColor: z.string().default('#FAFAFA'),
+    sidebarForegroundColor: z.string().default('#0A0A0A'),
+    sidebarPrimaryColor: z.string().default('#171717'),
+    sidebarPrimaryForegroundColor: z.string().default('#FAFAFA'),
+    sidebarAccentColor: z.string().default('#F5F5F5'),
+    sidebarAccentForegroundColor: z.string().default('#171717'),
+    sidebarBorderColor: z.string().default('#E5E5E5'),
+    sidebarRingColor: z.string().default('#A1A1A1'),
+    borderRadius: z.number().default(0.625),
+    sansSerifFont: z.string().nullable(),
+    serifFont: z.string().nullable(),
+    monospaceFont: z.string().nullable(),
+    letterSpacing: z.number().default(0),
+    shadowColor: z.string().default('#000000'),
+    shadowOpacity: z.number().default(0.1),
+    shadowBlurRadius: z.number().default(3),
+    shadowSpread: z.number().default(0),
+    shadowOffsetX: z.number().default(0),
+    shadowOffsetY: z.number().default(1),
+    dateFormat: z.string().default('YYYY-MM-DD'),
+    timeFormat: z.enum(['12H', '24H']).default('24H'),
+    locales: z.array(z.string()).default(['en']),
+    defaultLocale: z.string().default('en'),
+    logoImageId: z.string().nullable(),
+    iconImageId: z.string().nullable(),
+    bannerImageId: z.string().nullable(),
+    passwordProtectionEnabled: z.boolean().default(false),
+    password: z.string().nullable(),
+    updatedAt: z.string().datetime().nullable(),
+    logoImage: zImage.nullish(),
+    iconImage: zImage.nullish(),
+    bannerImage: zImage.nullish()
+});
+
+export const zStoreContactInfo = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    contactEmail: z.string().nullable(),
+    contactPhoneNumbers: z.array(z.string()).nullable(),
+    socialMediaLinks: z.array(z.record(z.unknown())).nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zStorePublicSettings = z.object({
+    name: z.string().optional(),
+    domain: z.string().optional(),
+    externalDomain: z.string().optional(),
+    currency: z.string().optional(),
+    settings: zSetting.optional(),
+    platform: z.record(z.unknown()).nullish(),
+    features: z.array(zPlanFeature).optional(),
+    storefrontSettings: zStorefrontSetting.nullish(),
+    contactInfo: zStoreContactInfo.nullish()
 });
 
 export const zAvailabilitySlot = z.object({
@@ -765,6 +4139,2433 @@ export const zCurrentAvailabilitySlot = z.object({
     maxAttendees: z.number()
 });
 
+export const zProductSlugVariantStaffMemberLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zProductSlugVariantStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    locations: z.array(zProductSlugVariantStaffMemberLocation)
+});
+
+export const zProductSlugVariantLocationStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductSlugVariantLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    staffMembers: z.array(zProductSlugVariantLocationStaffMember)
+});
+
+export const zProductSlugVariant = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    images: z.array(zImage),
+    staffMembers: z.array(zProductSlugVariantStaffMember),
+    locations: z.array(zProductSlugVariantLocation)
+});
+
+export const zProductSlugResponse = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    variants: z.array(zProductSlugVariant)
+});
+
+export const zProductDetailStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductDetailLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zProductDetailSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zProductDetailFeedbackQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string()
+});
+
+export const zProductDetailCheckoutQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string()
+});
+
+export const zProductDetailCollection = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    slug: z.string(),
+    isVisible: z.boolean().default(true),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string()
+});
+
+export const zProductDetailVariant = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductDetailAddOn = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductDetailProductPool = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string(),
+    description: z.string(),
+    status: z.enum(['active', 'inactive']),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string()
+});
+
+export const zProductDetailResponse = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    staffMembers: z.array(zProductDetailStaffMember),
+    locations: z.array(zProductDetailLocation),
+    schedule: zProductDetailSchedule.nullable(),
+    images: z.array(zImage),
+    feedbackQuestions: z.array(zProductDetailFeedbackQuestion),
+    checkoutQuestions: z.array(zProductDetailCheckoutQuestion),
+    collections: z.array(zProductDetailCollection),
+    variants: z.array(zProductDetailVariant),
+    addOns: z.array(zProductDetailAddOn),
+    productPool: zProductDetailProductPool.nullable()
+});
+
+export const zProductExternalIdStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductExternalIdLocationStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductExternalIdLocationSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalIdLocationAvailability = z.object({
+    id: z.string(),
+    locationId: z.string(),
+    fromDate: z.string().nullable(),
+    fromTime: z.string(),
+    toDate: z.string().nullable(),
+    toTime: z.string(),
+    day: z.number().nullable(),
+    status: z.enum(['available', 'unavailable']),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalIdLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    staffMembers: z.array(zProductExternalIdLocationStaffMember),
+    schedule: zProductExternalIdLocationSchedule.nullable(),
+    availabilities: z.array(zProductExternalIdLocationAvailability)
+});
+
+export const zProductExternalIdFeedbackQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string()
+});
+
+export const zProductExternalIdCheckoutQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string()
+});
+
+export const zProductExternalIdResponse = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    staffMembers: z.array(zProductExternalIdStaffMember),
+    locations: z.array(zProductExternalIdLocation),
+    feedbackQuestions: z.array(zProductExternalIdFeedbackQuestion),
+    checkoutQuestions: z.array(zProductExternalIdCheckoutQuestion)
+});
+
+export const zProductExternalVariantStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductExternalVariantLocationStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductExternalVariantLocationSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalVariantLocationAvailability = z.object({
+    id: z.string(),
+    locationId: z.string(),
+    fromDate: z.string().nullable(),
+    fromTime: z.string(),
+    toDate: z.string().nullable(),
+    toTime: z.string(),
+    day: z.number().nullable(),
+    status: z.enum(['available', 'unavailable']),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalVariantLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    staffMembers: z.array(zProductExternalVariantLocationStaffMember),
+    schedule: zProductExternalVariantLocationSchedule.nullable(),
+    availabilities: z.array(zProductExternalVariantLocationAvailability)
+});
+
+export const zProductExternalVariantSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalVariantFeedbackQuestionTranslation = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullable(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalVariantFeedbackQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string(),
+    translations: z.array(zProductExternalVariantFeedbackQuestionTranslation)
+});
+
+export const zProductExternalVariantCheckoutQuestionTranslation = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullable(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zProductExternalVariantCheckoutQuestion = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string(),
+    translations: z.array(zProductExternalVariantCheckoutQuestionTranslation)
+});
+
+export const zProductExternalVariantResponse = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    staffMembers: z.array(zProductExternalVariantStaffMember),
+    locations: z.array(zProductExternalVariantLocation),
+    schedule: zProductExternalVariantSchedule.nullable(),
+    feedbackQuestions: z.array(zProductExternalVariantFeedbackQuestion),
+    checkoutQuestions: z.array(zProductExternalVariantCheckoutQuestion)
+});
+
+export const zProductListVariantStaffMemberLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zProductListVariantStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    locations: z.array(zProductListVariantStaffMemberLocation)
+});
+
+export const zProductListVariantLocationStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductListVariantLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    staffMembers: z.array(zProductListVariantLocationStaffMember)
+});
+
+export const zProductListVariantSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zProductListVariantCollection = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    slug: z.string(),
+    isVisible: z.boolean().default(true),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string()
+});
+
+export const zProductListVariantProductPool = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string(),
+    description: z.string(),
+    status: z.enum(['active', 'inactive']),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string()
+});
+
+export const zProductListVariant = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    staffMembers: z.array(zProductListVariantStaffMember),
+    locations: z.array(zProductListVariantLocation),
+    schedule: zProductListVariantSchedule.nullable(),
+    images: z.array(zImage),
+    collections: z.array(zProductListVariantCollection),
+    productPool: zProductListVariantProductPool.nullable()
+});
+
+export const zProductListItemResponse = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    variants: z.array(zProductListVariant)
+});
+
+export const zAddOnListProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAddOnListLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAddOnListStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAddOnListItemResponse = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    products: z.array(zAddOnListProduct),
+    locations: z.array(zAddOnListLocation),
+    staffMembers: z.array(zAddOnListStaffMember)
+});
+
+export const zLocationDetailProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zLocationDetailStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zLocationDetailSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zLocationDetailAvailability = z.object({
+    id: z.string(),
+    locationId: z.string(),
+    fromDate: z.string().nullable(),
+    fromTime: z.string(),
+    toDate: z.string().nullable(),
+    toTime: z.string(),
+    day: z.number().nullable(),
+    status: z.enum(['available', 'unavailable']),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zLocationDetailResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable(),
+    products: z.array(zLocationDetailProduct),
+    staffMembers: z.array(zLocationDetailStaffMember),
+    schedule: zLocationDetailSchedule.nullable(),
+    availabilities: z.array(zLocationDetailAvailability)
+});
+
+export const zProductCollectionProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zProductCollectionResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    slug: z.string(),
+    isVisible: z.boolean().default(true),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    products: z.array(zProductCollectionProduct)
+});
+
+export const zStaffMemberDetailSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zStaffMemberDetailProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zStaffMemberDetailLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zStaffMemberDetailUser = z.object({
+    id: z.string(),
+    parentId: z.string().nullable(),
+    name: z.string(),
+    email: z.string(),
+    password: z.string().nullable(),
+    refreshToken: z.string().nullable(),
+    role: z.enum([
+        'admin',
+        'staff-member',
+        'store-owner',
+        'manager'
+    ]).default('store-owner'),
+    status: z.enum([
+        'active',
+        'inactive',
+        'banned',
+        'deleted'
+    ]).default('active'),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zStaffMemberDetailResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zStaffMemberDetailSchedule.nullable(),
+    products: z.array(zStaffMemberDetailProduct),
+    locations: z.array(zStaffMemberDetailLocation),
+    user: zStaffMemberDetailUser.nullable()
+});
+
+export const zStaffMemberListSchedule = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    name: z.string().nullable(),
+    timezone: z.string().default('UTC'),
+    scheduleGap: z.enum([
+        'every-10-minutes',
+        'every-15-minutes',
+        'every-20-minutes',
+        'every-30-minutes',
+        'every-60-minutes'
+    ]).default('every-15-minutes'),
+    appointmentsGap: z.number(),
+    advanceScheduleDays: z.number().default(-1),
+    availabilityType: z.enum([
+        'continuous',
+        'recurring',
+        'non-recurring'
+    ]).default('continuous'),
+    status: z.enum(['active', 'inactive']).default('inactive'),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().datetime().nullable()
+});
+
+export const zStaffMemberListProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zStaffMemberListLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zStaffMemberListItemResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    schedule: zStaffMemberListSchedule.nullable(),
+    products: z.array(zStaffMemberListProduct),
+    locations: z.array(zStaffMemberListLocation)
+});
+
+export const zAddOnDetailLocation = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    scheduleId: z.string().nullable(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
+    slug: z.string(),
+    type: z.enum([
+        'physical',
+        'online',
+        'delivery'
+    ]),
+    link: z.string().nullable(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    addressPlaceId: z.string().nullable(),
+    latitude: z.number().nullable(),
+    longitude: z.number().nullable(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    deletedAt: z.string().nullable(),
+    address: z.string().nullable()
+});
+
+export const zAddOnDetailStaffMember = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    userId: z.string(),
+    scheduleId: z.string(),
+    imageId: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    slug: z.string(),
+    refreshToken: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAddOnDetailProduct = z.object({
+    id: z.string(),
+    productId: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    scheduleId: z.string(),
+    productPoolId: z.string().nullable(),
+    title: z.string(),
+    variantTitle: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(false),
+    duration: z.number(),
+    allowCustomDuration: z.boolean().default(false),
+    maxDuration: z.number().default(-1),
+    maxAttendees: z.number().default(1),
+    maxGuests: z.number().nullable(),
+    allowGuests: z.boolean().default(false),
+    allowCustomerReschedule: z.boolean().default(false),
+    allowCustomerCancel: z.boolean().default(false),
+    rescheduleGap: z.number(),
+    cancelGap: z.number(),
+    beforeGap: z.number(),
+    afterGap: z.number(),
+    fixedTimes: z.boolean().default(false),
+    fixedStartTime: z.string(),
+    fixedEndTime: z.string(),
+    advanceScheduleThreshold: z.number().default(0),
+    sendConfirmationEmail: z.boolean().default(true),
+    sendReminderEmail: z.boolean().default(false),
+    sendFeedbackEmail: z.boolean().default(false),
+    skipCheckout: z.boolean().default(false),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish()
+});
+
+export const zAddOnDetailResponse = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    externalVariantId: z.string(),
+    storeId: z.string(),
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    imageId: z.string(),
+    color: z.enum([
+        'slate',
+        'gray',
+        'zinc',
+        'neutral',
+        'stone',
+        'red',
+        'orange',
+        'amber',
+        'yellow',
+        'lime',
+        'green',
+        'emerald',
+        'teal',
+        'cyan',
+        'sky',
+        'blue',
+        'indigo',
+        'violet',
+        'purple',
+        'fuchsia',
+        'pink',
+        'rose'
+    ]).default('slate'),
+    price: z.number(),
+    taxable: z.boolean().default(true),
+    durationMultiplied: z.boolean().default(false),
+    maxQuantity: z.number().gte(1).nullable(),
+    status: z.enum(['active', 'inactive']).default('active'),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    deletedAt: z.string(),
+    image: zImage.nullish(),
+    images: z.array(zImage),
+    locations: z.array(zAddOnDetailLocation),
+    staffMembers: z.array(zAddOnDetailStaffMember),
+    products: z.array(zAddOnDetailProduct)
+});
+
 export const zCustomerProviderCatalogItem = z.object({
     name: z.enum([
         'stripe',
@@ -783,724 +6584,730 @@ export const zCustomerProviderCatalogItem = z.object({
     mode: z.enum(['test', 'live']).optional()
 });
 
-export const zUserOauthProviderWritable = z.record(z.unknown());
-
-export const zOrderLineItemDiscountWritable = z.record(z.unknown());
-
-export const zCustomerOauthProviderWritable = z.record(z.unknown());
-
-export const zScheduleAvailability: z.AnyZodObject = z.object({
-    id: z.string(),
-    scheduleId: z.string(),
-    fromDate: z.string().nullish(),
-    fromTime: z.string(),
-    toDate: z.string().nullish(),
-    toTime: z.string(),
-    day: z.number().nullish(),
-    status: z.enum(['available', 'unavailable']),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    schedule: z.lazy(() => zSchedule).optional()
-});
-
-export const zIntegration: z.AnyZodObject = z.object({
+export const zPaymentSettingResponse = z.object({
     id: z.string(),
     storeId: z.string(),
-    type: z.enum([
-        'calendar',
-        'location',
-        'payment',
-        'webhook'
+    captureMethod: z.enum([
+        'automatic',
+        'manual',
+        'on_fulfillment'
+    ])
+});
+
+export const zInvoiceResponse = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    orderId: z.string(),
+    customerId: z.string(),
+    number: z.string(),
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
     ]),
-    name: z.string(),
+    status: z.enum([
+        'draft',
+        'sent',
+        'paid',
+        'void',
+        'failed'
+    ]),
+    amountDue: z.number(),
+    currencyCode: z.string(),
+    snapshot: z.record(z.unknown()),
+    externalId: z.string(),
+    externalUrl: z.string(),
+    pdfStorageKey: z.string(),
+    error: z.string(),
+    issuedAt: z.string().datetime(),
+    dueAt: z.string().datetime(),
+    sentAt: z.string().datetime(),
+    paidAt: z.string().datetime()
+});
+
+export const zFeedbackQuestionResponseTranslation = z.object({
+    id: z.string(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullable(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zFeedbackQuestionResponse = z.object({
+    id: z.string(),
     internalName: z.string(),
-    status: z.enum(['pending', 'success']),
-    enabled: z.boolean(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
-    store: z.lazy(() => zStore)
+    storeId: z.string(),
+    translations: z.array(zFeedbackQuestionResponseTranslation)
 });
 
-export const zImage: z.AnyZodObject = z.object({
+export const zCheckoutQuestionResponseTranslation = z.object({
     id: z.string(),
-    externalId: z.string().nullish(),
+    questionId: z.string(),
+    title: z.string(),
+    description: z.string(),
+    options: z.array(z.string()).nullable(),
+    languageCode: z.enum([
+        'af',
+        'ak',
+        'am',
+        'ar',
+        'as',
+        'az',
+        'be',
+        'bg',
+        'bm',
+        'bn',
+        'bo',
+        'br',
+        'bs',
+        'ca',
+        'ce',
+        'cs',
+        'cu',
+        'cy',
+        'da',
+        'de',
+        'dz',
+        'ee',
+        'el',
+        'en',
+        'eo',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'ff',
+        'fi',
+        'fo',
+        'fr',
+        'fy',
+        'ga',
+        'gd',
+        'gl',
+        'gu',
+        'gv',
+        'ha',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'hy',
+        'ia',
+        'id',
+        'ig',
+        'ii',
+        'is',
+        'it',
+        'ja',
+        'jv',
+        'ka',
+        'ki',
+        'kk',
+        'kl',
+        'km',
+        'kn',
+        'ko',
+        'ks',
+        'ku',
+        'kw',
+        'ky',
+        'lb',
+        'lg',
+        'ln',
+        'lo',
+        'lt',
+        'lu',
+        'lv',
+        'mg',
+        'mi',
+        'mk',
+        'ml',
+        'mn',
+        'mr',
+        'ms',
+        'mt',
+        'my',
+        'nb',
+        'nd',
+        'ne',
+        'nl',
+        'nn',
+        'no',
+        'om',
+        'or',
+        'os',
+        'pa',
+        'pl',
+        'ps',
+        'pt',
+        'pt_br',
+        'pt_pt',
+        'qu',
+        'rm',
+        'rn',
+        'ro',
+        'ru',
+        'rw',
+        'sd',
+        'se',
+        'sg',
+        'si',
+        'sk',
+        'sl',
+        'sn',
+        'so',
+        'sq',
+        'sr',
+        'su',
+        'sv',
+        'sw',
+        'ta',
+        'te',
+        'tg',
+        'th',
+        'ti',
+        'tk',
+        'to',
+        'tr',
+        'tt',
+        'ug',
+        'uk',
+        'ur',
+        'uz',
+        'vi',
+        'vo',
+        'wo',
+        'xh',
+        'yi',
+        'yo',
+        'zh',
+        'zh_cn',
+        'zh_tw',
+        'zu'
+    ]),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable()
+});
+
+export const zCheckoutQuestionResponse = z.object({
+    id: z.string(),
+    internalName: z.string(),
+    required: z.boolean(),
+    type: z.enum([
+        'single-line-text-field',
+        'multi-line-text-field',
+        'dropdown',
+        'rating',
+        'checkbox'
+    ]),
+    order: z.number().default(0),
+    alwaysShow: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string(),
+    translations: z.array(zCheckoutQuestionResponseTranslation)
+});
+
+export const zImageResponse = z.object({
+    id: z.string(),
+    externalId: z.string().nullable(),
     url: z.string(),
-    filename: z.string().nullish(),
-    mime: z.string().nullish(),
+    filename: z.string().nullable(),
+    mime: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string().nullish(),
-    store: z.lazy(() => zStore).optional()
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string().nullable()
 });
 
-export const zAddOn: z.AnyZodObject = z.object({
+export const zSelfServiceProfileResponseWritable = z.object({
     id: z.string(),
-    externalId: z.string().optional(),
-    externalVariantId: z.string().optional(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
     storeId: z.string(),
-    slug: z.string(),
-    title: z.string().optional(),
-    description: z.string().optional(),
-    imageId: z.string().optional(),
-    color: z.enum([
-        'slate',
-        'gray',
-        'zinc',
-        'neutral',
-        'stone',
-        'red',
-        'orange',
-        'amber',
-        'yellow',
-        'lime',
-        'green',
-        'emerald',
-        'teal',
-        'cyan',
-        'sky',
-        'blue',
-        'indigo',
-        'violet',
-        'purple',
-        'fuchsia',
-        'pink',
-        'rose'
-    ]).default('slate'),
-    price: z.number(),
-    taxable: z.boolean().default(true),
-    durationMultiplied: z.boolean().default(false),
-    maxQuantity: z.number().gte(1).nullish(),
-    status: z.enum(['active', 'inactive']).default('active'),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStore).optional(),
-    image: zImage.optional(),
-    images: z.array(zImage).optional(),
-    locations: z.array(z.lazy(() => zLocation)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
-    products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zLocationAvailability: z.AnyZodObject = z.object({
-    id: z.string(),
-    locationId: z.string(),
-    fromDate: z.string().nullish(),
-    fromTime: z.string(),
-    toDate: z.string().nullish(),
-    toTime: z.string(),
-    day: z.number().nullish(),
-    status: z.enum(['available', 'unavailable']),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    location: z.lazy(() => zLocation).optional()
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zLocation: z.AnyZodObject = z.object({
+export const zAppointmentCreatedCustomerWritable = z.object({
     id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
     storeId: z.string(),
-    scheduleId: z.string().nullish(),
-    title: z.string().nullish(),
-    description: z.string().nullish(),
-    slug: z.string(),
-    type: z.enum([
-        'physical',
-        'online',
-        'delivery'
-    ]),
-    link: z.string().nullish(),
-    addressLine1: z.string().nullish(),
-    addressLine2: z.string().nullish(),
-    city: z.string().nullish(),
-    state: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    country: z.string().nullish(),
-    addressPlaceId: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    createdAt: z.string(),
-    updatedAt: z.string().nullish(),
-    deletedAt: z.string().nullish(),
-    store: z.lazy(() => zStore).optional(),
-    schedule: z.lazy(() => zSchedule).optional(),
-    products: z.array(z.lazy(() => zProduct)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
-    integrations: z.array(zIntegration).optional(),
-    addOns: z.array(zAddOn).optional(),
-    appointments: z.array(z.lazy(() => zAppointment)).optional(),
-    availabilities: z.array(zLocationAvailability).optional(),
-    address: z.string().nullable()
-});
-
-export const zSchedule: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    name: z.string().nullable(),
-    timezone: z.string().default('UTC'),
-    scheduleGap: z.enum([
-        'every-10-minutes',
-        'every-15-minutes',
-        'every-20-minutes',
-        'every-30-minutes',
-        'every-60-minutes'
-    ]).default('every-15-minutes'),
-    appointmentsGap: z.number(),
-    advanceScheduleDays: z.number().default(-1),
-    availabilityType: z.enum([
-        'continuous',
-        'recurring',
-        'non-recurring'
-    ]).default('continuous'),
-    status: z.enum(['active', 'inactive']).default('inactive'),
-    createdAt: z.string(),
-    updatedAt: z.string().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    store: z.lazy(() => zStore).optional(),
-    availabilities: z.array(zScheduleAvailability).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
-    locations: z.array(zLocation).optional(),
-    products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zProductCollection: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    title: z.string(),
-    description: z.string().optional(),
-    slug: z.string(),
-    isVisible: z.boolean().default(true),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStore).optional(),
-    products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zFeedbackQuestionTranslation: z.AnyZodObject = z.object({
-    id: z.string(),
-    questionId: z.string(),
-    title: z.string(),
-    description: z.string(),
-    options: z.array(z.string()).nullish(),
-    languageCode: z.enum([
-        'af',
-        'ak',
-        'am',
-        'ar',
-        'as',
-        'az',
-        'be',
-        'bg',
-        'bm',
-        'bn',
-        'bo',
-        'br',
-        'bs',
-        'ca',
-        'ce',
-        'cs',
-        'cu',
-        'cy',
-        'da',
-        'de',
-        'dz',
-        'ee',
-        'el',
-        'en',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fa',
-        'ff',
-        'fi',
-        'fo',
-        'fr',
-        'fy',
-        'ga',
-        'gd',
-        'gl',
-        'gu',
-        'gv',
-        'ha',
-        'he',
-        'hi',
-        'hr',
-        'hu',
-        'hy',
-        'ia',
-        'id',
-        'ig',
-        'ii',
-        'is',
-        'it',
-        'ja',
-        'jv',
-        'ka',
-        'ki',
-        'kk',
-        'kl',
-        'km',
-        'kn',
-        'ko',
-        'ks',
-        'ku',
-        'kw',
-        'ky',
-        'lb',
-        'lg',
-        'ln',
-        'lo',
-        'lt',
-        'lu',
-        'lv',
-        'mg',
-        'mi',
-        'mk',
-        'ml',
-        'mn',
-        'mr',
-        'ms',
-        'mt',
-        'my',
-        'nb',
-        'nd',
-        'ne',
-        'nl',
-        'nn',
-        'no',
-        'om',
-        'or',
-        'os',
-        'pa',
-        'pl',
-        'ps',
-        'pt',
-        'pt_br',
-        'pt_pt',
-        'qu',
-        'rm',
-        'rn',
-        'ro',
-        'ru',
-        'rw',
-        'sd',
-        'se',
-        'sg',
-        'si',
-        'sk',
-        'sl',
-        'sn',
-        'so',
-        'sq',
-        'sr',
-        'su',
-        'sv',
-        'sw',
-        'ta',
-        'te',
-        'tg',
-        'th',
-        'ti',
-        'tk',
-        'to',
-        'tr',
-        'tt',
-        'ug',
-        'uk',
-        'ur',
-        'uz',
-        'vi',
-        'vo',
-        'wo',
-        'xh',
-        'yi',
-        'yo',
-        'zh',
-        'zh_cn',
-        'zh_tw',
-        'zu'
-    ]),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    question: z.lazy(() => zFeedbackQuestion),
-    language: zLanguage
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zFeedbackQuestion: z.AnyZodObject = z.object({
+export const zAppointmentCreatedResponseWritable = z.object({
     id: z.string(),
-    internalName: z.string(),
-    required: z.boolean(),
-    type: z.enum([
-        'single-line-text-field',
-        'multi-line-text-field',
-        'dropdown',
-        'rating',
-        'checkbox'
-    ]),
-    order: z.number().default(0),
-    alwaysShow: z.boolean().default(false),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string(),
-    store: z.lazy(() => zStore).optional(),
-    translations: z.array(zFeedbackQuestionTranslation),
-    products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zCheckoutQuestionTranslation: z.AnyZodObject = z.object({
-    id: z.string(),
-    questionId: z.string(),
-    title: z.string(),
-    description: z.string(),
-    options: z.array(z.string()).nullish(),
-    languageCode: z.enum([
-        'af',
-        'ak',
-        'am',
-        'ar',
-        'as',
-        'az',
-        'be',
-        'bg',
-        'bm',
-        'bn',
-        'bo',
-        'br',
-        'bs',
-        'ca',
-        'ce',
-        'cs',
-        'cu',
-        'cy',
-        'da',
-        'de',
-        'dz',
-        'ee',
-        'el',
-        'en',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fa',
-        'ff',
-        'fi',
-        'fo',
-        'fr',
-        'fy',
-        'ga',
-        'gd',
-        'gl',
-        'gu',
-        'gv',
-        'ha',
-        'he',
-        'hi',
-        'hr',
-        'hu',
-        'hy',
-        'ia',
-        'id',
-        'ig',
-        'ii',
-        'is',
-        'it',
-        'ja',
-        'jv',
-        'ka',
-        'ki',
-        'kk',
-        'kl',
-        'km',
-        'kn',
-        'ko',
-        'ks',
-        'ku',
-        'kw',
-        'ky',
-        'lb',
-        'lg',
-        'ln',
-        'lo',
-        'lt',
-        'lu',
-        'lv',
-        'mg',
-        'mi',
-        'mk',
-        'ml',
-        'mn',
-        'mr',
-        'ms',
-        'mt',
-        'my',
-        'nb',
-        'nd',
-        'ne',
-        'nl',
-        'nn',
-        'no',
-        'om',
-        'or',
-        'os',
-        'pa',
-        'pl',
-        'ps',
-        'pt',
-        'pt_br',
-        'pt_pt',
-        'qu',
-        'rm',
-        'rn',
-        'ro',
-        'ru',
-        'rw',
-        'sd',
-        'se',
-        'sg',
-        'si',
-        'sk',
-        'sl',
-        'sn',
-        'so',
-        'sq',
-        'sr',
-        'su',
-        'sv',
-        'sw',
-        'ta',
-        'te',
-        'tg',
-        'th',
-        'ti',
-        'tk',
-        'to',
-        'tr',
-        'tt',
-        'ug',
-        'uk',
-        'ur',
-        'uz',
-        'vi',
-        'vo',
-        'wo',
-        'xh',
-        'yi',
-        'yo',
-        'zh',
-        'zh_cn',
-        'zh_tw',
-        'zu'
-    ]),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    question: z.lazy(() => zCheckoutQuestion),
-    language: zLanguage
-});
-
-export const zCheckoutQuestion: z.AnyZodObject = z.object({
-    id: z.string(),
-    internalName: z.string(),
-    required: z.boolean(),
-    type: z.enum([
-        'single-line-text-field',
-        'multi-line-text-field',
-        'dropdown',
-        'rating',
-        'checkbox'
-    ]),
-    order: z.number().default(0),
-    alwaysShow: z.boolean().default(false),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string(),
-    store: z.lazy(() => zStore).optional(),
-    translations: z.array(zCheckoutQuestionTranslation),
-    products: z.array(z.lazy(() => zProduct)).optional()
-});
-
-export const zProduct: z.AnyZodObject = z.object({
-    id: z.string(),
+    name: z.string(),
     productId: z.string(),
-    externalId: z.string().optional(),
-    externalVariantId: z.string().optional(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
     storeId: z.string(),
-    slug: z.string(),
-    scheduleId: z.string().optional(),
-    productPoolId: z.string().nullish(),
-    title: z.string().optional(),
-    variantTitle: z.string().optional(),
-    description: z.string().optional(),
-    imageId: z.string().optional(),
-    color: z.enum([
-        'slate',
-        'gray',
-        'zinc',
-        'neutral',
-        'stone',
-        'red',
-        'orange',
-        'amber',
-        'yellow',
-        'lime',
-        'green',
-        'emerald',
-        'teal',
-        'cyan',
-        'sky',
-        'blue',
-        'indigo',
-        'violet',
-        'purple',
-        'fuchsia',
-        'pink',
-        'rose'
-    ]).default('slate'),
-    price: z.number(),
-    taxable: z.boolean().default(false),
-    duration: z.number(),
-    allowCustomDuration: z.boolean().default(false),
-    maxDuration: z.number().default(-1),
-    maxAttendees: z.number().default(1),
-    maxGuests: z.number().nullish(),
-    allowGuests: z.boolean().default(false),
-    allowCustomerReschedule: z.boolean().default(false),
-    allowCustomerCancel: z.boolean().default(false),
-    rescheduleGap: z.number().optional(),
-    cancelGap: z.number().optional(),
-    beforeGap: z.number().optional(),
-    afterGap: z.number().optional(),
-    fixedTimes: z.boolean().default(false),
-    fixedStartTime: z.string().optional(),
-    fixedEndTime: z.string().optional(),
-    advanceScheduleThreshold: z.number().default(0),
-    sendConfirmationEmail: z.boolean().default(true),
-    sendReminderEmail: z.boolean().default(false),
-    sendFeedbackEmail: z.boolean().default(false),
-    skipCheckout: z.boolean().default(false),
-    status: z.enum(['active', 'inactive']).default('active'),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStore).optional(),
-    schedule: zSchedule.optional(),
-    productPool: zProductPool.optional(),
-    appointments: z.array(z.lazy(() => zAppointment)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMember)).optional(),
-    collections: z.array(zProductCollection).optional(),
-    locations: z.array(zLocation).optional(),
-    parentProduct: z.lazy(() => zProduct).optional(),
-    variants: z.array(z.lazy(() => zProduct)).optional(),
-    image: zImage.optional(),
-    images: z.array(zImage).optional(),
-    integrations: z.array(zIntegration).optional(),
-    feedbackQuestions: z.array(zFeedbackQuestion).optional(),
-    checkoutQuestions: z.array(zCheckoutQuestion).optional(),
-    addOns: z.array(zAddOn).optional()
-});
-
-export const zCheckoutQuestionAnswer: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    questionId: z.string().nullish(),
-    checkoutQuestion: zCheckoutQuestion.nullish(),
-    question: z.string(),
-    answer: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointment).optional()
-});
-
-export const zFeedbackQuestionAnswer: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    questionId: z.string().nullish(),
-    feedbackQuestion: zFeedbackQuestion.nullish(),
-    question: z.string(),
-    answer: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointment).optional()
-});
-
-export const zIntegratedCalendarAppointment: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    integrationId: z.string(),
-    externalAppointmentId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
-    integration: zIntegration,
-    appointment: z.lazy(() => zAppointment)
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentCreatedProduct,
+    staffMember: zAppointmentCreatedStaffMember.nullable(),
+    location: zAppointmentCreatedLocation.nullable(),
+    addOns: z.array(zAppointmentCreatedAddOn),
+    guests: z.array(zAppointmentCreatedGuest),
+    customer: zAppointmentCreatedCustomerWritable
 });
 
-export const zIntegratedAppointmentLocation: z.AnyZodObject = z.object({
+export const zAppointmentListItemCustomerWritable = z.object({
     id: z.string(),
-    appointmentId: z.string(),
-    integrationId: z.string(),
-    externalLocationId: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
-    integration: zIntegration,
-    appointment: z.lazy(() => zAppointment),
-    data: zIntegratedAppointmentLocationData.optional()
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zAppointmentLog: z.AnyZodObject = z.object({
+export const zAppointmentListItemResponseWritable = z.object({
     id: z.string(),
-    appointmentId: z.string(),
-    title: z.string(),
-    description: z.string().nullish(),
-    level: zAppointmentLogLevel,
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointment).optional()
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentListItemProduct,
+    staffMember: zAppointmentListItemStaffMember.nullable(),
+    location: zAppointmentListItemLocation.nullable(),
+    customer: zAppointmentListItemCustomerWritable,
+    orderLineItem: zAppointmentListItemOrderLineItem.nullable()
 });
 
-export const zCartAddOnItem = z.object({
+export const zAppointmentDetailCustomerWritable = z.object({
     id: z.string(),
-    cartId: z.string(),
-    cartItemId: z.string(),
-    addOnId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    addOn: zAddOn.nullish(),
-    discounts: z.array(zCartItemAppliedDiscount)
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zCartItem: z.AnyZodObject = z.object({
+export const zAppointmentDetailResponseWritable = z.object({
     id: z.string(),
-    cartId: z.string(),
-    appointmentId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
+    name: z.string(),
+    productId: z.string(),
+    staffMemberId: z.string().nullable(),
+    locationId: z.string().nullable(),
+    storeId: z.string(),
+    customerId: z.string().nullable(),
+    externalOrderId: z.string().nullable(),
+    externalOrderName: z.string().nullable(),
+    from: z.string().datetime(),
+    to: z.string().datetime(),
+    addressLine1: z.string().nullable(),
+    addressLine2: z.string().nullable(),
+    city: z.string().nullable(),
+    state: z.string().nullable(),
+    postalCode: z.string().nullable(),
+    country: z.string().nullable(),
+    status: zAppointmentStatusType,
+    internalNote: z.string().nullable(),
+    createdBy: zAppointmentCreatedByEnum,
+    reminderSentAt: z.string().datetime().nullable(),
+    numberOfAttendees: z.number().default(1),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointment).nullish(),
-    addOnItems: z.array(zCartAddOnItem).optional(),
-    cartItemDiscounts: z.array(z.unknown()).optional(),
-    discounts: z.array(zCartItemAppliedDiscount),
-    lineSubtotal: z.number(),
-    lineTax: z.number()
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    product: zAppointmentDetailProduct,
+    staffMember: zAppointmentDetailStaffMember.nullable(),
+    location: zAppointmentDetailLocation.nullable(),
+    customer: zAppointmentDetailCustomerWritable,
+    addOns: z.array(zAppointmentDetailAddOn),
+    guests: z.array(zAppointmentDetailGuest),
+    feedbackQuestionAnswers: z.array(zAppointmentDetailFeedbackAnswer),
+    checkoutQuestionAnswers: z.array(zAppointmentDetailCheckoutAnswer),
+    orderLineItem: zAppointmentDetailOrderLineItem.nullable(),
+    order: zAppointmentDetailOrder.nullable()
 });
 
-export const zCart: z.AnyZodObject = z.object({
+export const zOrderListCustomerWritable = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zOrderListItemResponseWritable = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zOrderListCustomerWritable,
+    lineItems: z.array(zOrderListLineItem),
+    transactions: z.array(zOrderListTransaction)
+});
+
+export const zOrderDetailCustomerWritable = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zOrderDetailResponseWritable = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zOrderDetailCustomerWritable,
+    lineItems: z.array(zOrderDetailLineItem),
+    transactions: z.array(zOrderDetailTransaction),
+    refunds: z.array(zOrderDetailRefund),
+    logs: z.array(zOrderDetailLog)
+});
+
+export const zCartCustomerWritable = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
+});
+
+export const zCartResponseWritable = z.object({
     id: z.string(),
     storeId: z.string(),
-    customerId: z.string().nullish(),
+    customerId: z.string().nullable(),
     status: z.enum([
         'active',
         'converted',
@@ -1508,1275 +7315,43 @@ export const zCart: z.AnyZodObject = z.object({
     ]),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
-    expiresAt: z.string().datetime().nullish(),
+    expiresAt: z.string().datetime().nullable(),
     extensionsCount: z.number(),
-    appliedDiscountCode: z.string().nullish(),
+    appliedDiscountCode: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
+    updatedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    totalTax: z.number(),
+    total: z.number(),
+    appliedDiscounts: z.array(zAppliedDiscount),
+    customer: zCartCustomerWritable.nullable(),
     items: z.array(zCartItem),
-    payments: z.array(zCartPayment),
-    orders: z.array(z.lazy(() => zOrder)),
-    subtotal: z.number(),
-    totalTax: z.number(),
-    total: z.number(),
-    appliedDiscounts: z.array(zAppliedDiscount)
+    payments: z.array(zCartPayment)
 });
 
-export const zOrderRefundLineItem: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
-    externalId: z.string().nullish(),
-    lineItemId: z.string(),
-    quantity: z.number().gte(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    refund: z.lazy(() => zOrderRefund),
-    lineItem: z.lazy(() => zOrderLineItem)
-});
-
-export const zOrderAddOnLineItem: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    lineItemId: z.string(),
-    addOnId: z.string(),
-    externalId: z.string().nullish(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrder),
-    lineItem: z.lazy(() => zOrderLineItem),
-    addOn: zAddOn,
-    refundLineItems: z.array(z.lazy(() => zOrderRefundAddOnLineItem)),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    refundedQuantity: z.number(),
-    refundableQuantity: z.number()
-});
-
-export const zOrderRefundAddOnLineItem: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
-    externalId: z.string().nullish(),
-    addOnLineItemId: z.string(),
-    quantity: z.number().gte(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    refund: z.lazy(() => zOrderRefund),
-    addOnLineItem: zOrderAddOnLineItem
-});
-
-export const zOrderRefund: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    externalId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrder),
-    transactions: z.array(z.lazy(() => zOrderTransaction)),
-    lineItems: z.array(zOrderRefundLineItem),
-    addOnLineItems: z.array(zOrderRefundAddOnLineItem).optional(),
-    total: z.number()
-});
-
-export const zOrderTransaction: z.AnyZodObject = z.object({
-    orderId: z.string().nullable(),
-    externalId: z.string().nullish(),
-    parentId: z.string().nullish(),
-    refundId: z.string().nullish(),
-    type: z.enum([
-        'authorization',
-        'capture',
-        'void',
-        'sale',
-        'refund'
-    ]),
-    amount: z.number(),
-    currencyCode: z.string(),
-    gateway: z.enum([
-        'shopify',
-        'cash',
-        'bank_transfer',
-        'stripe'
-    ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    status: z.enum([
-        'pending',
-        'success',
-        'failed'
-    ]),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    parentTransaction: z.lazy(() => zOrderTransaction),
-    childTransactions: z.array(z.lazy(() => zOrderTransaction)),
-    order: z.lazy(() => zOrder),
-    refund: zOrderRefund.nullish(),
-    refundableAmount: z.number(),
-    refundedAmount: z.number(),
-    isRefundable: z.boolean()
-});
-
-export const zOrderLog: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    title: z.string(),
-    description: z.string().nullish(),
-    level: zOrderLogLevel,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrder).optional()
-});
-
-export const zOrder: z.AnyZodObject = z.object({
-    id: z.string(),
-    paymentCurrencyCode: z.string(),
-    taxesIncluded: z.boolean(),
-    externalId: z.string().nullish(),
-    externalName: z.string().nullish(),
-    name: z.string(),
-    customerId: z.string().nullish(),
-    storeId: z.string().nullish(),
-    cartId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customer: z.lazy(() => zCustomer).nullish(),
-    store: z.lazy(() => zStore).optional(),
-    cart: zCart.nullish(),
-    lineItems: z.array(z.lazy(() => zOrderLineItem)).optional(),
-    transactions: z.array(zOrderTransaction).optional(),
-    logs: z.array(zOrderLog).optional(),
-    refunds: z.array(zOrderRefund).optional(),
-    appointments: z.array(z.lazy(() => zAppointment)),
-    refundableTransactions: z.array(zOrderTransaction),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    dueToPay: z.number(),
-    paidTotal: z.number(),
-    refundedTotal: z.number(),
-    balance: z.number(),
-    dueToRefund: z.number(),
-    isFullyPaid: z.boolean(),
-    isFullyRefunded: z.boolean(),
-    paymentStatus: z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ]),
-    refundStatus: z.enum([
-        'refund-owed',
-        'partially-refunded',
-        'fully-refunded',
-        'unrefunded'
-    ]),
-    fulfillmentStatus: z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ]),
-    services: z.array(zProduct),
-    staffMembers: z.array(z.lazy(() => zStaffMember)),
-    locations: z.array(zLocation),
-    appliedDiscounts: z.array(zAppliedDiscount)
-});
-
-export const zOrderLineItem: z.AnyZodObject = z.object({
-    orderId: z.string().nullable(),
-    appointmentId: z.string().nullable(),
-    externalId: z.string().nullish(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    order: zOrder,
-    appointment: z.lazy(() => zAppointment),
-    refundLineItems: z.array(zOrderRefundLineItem),
-    addOnLineItems: z.array(zOrderAddOnLineItem).optional(),
-    lineItemDiscounts: z.array(zOrderLineItemDiscount).optional(),
-    addOnSubtotal: z.number(),
-    addOnTotalTax: z.number(),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    refundedQuantity: z.number(),
-    refundableQuantity: z.number()
-});
-
-export const zAppointmentAddOn = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    addOnId: z.string(),
-    quantity: z.number().default(1),
-    createdAt: z.string().datetime(),
-    addOn: zAddOn
-});
-
-export const zAppointment: z.AnyZodObject = z.object({
-    id: z.string(),
-    name: z.string(),
-    productId: z.string(),
-    staffMemberId: z.string().nullish(),
-    locationId: z.string().nullish(),
-    storeId: z.string(),
-    customerId: z.string().nullish(),
-    externalOrderId: z.string().nullish(),
-    externalOrderName: z.string().nullish(),
-    from: z.string().datetime(),
-    to: z.string().datetime(),
-    addressLine1: z.string().nullish(),
-    addressLine2: z.string().nullish(),
-    city: z.string().nullish(),
-    state: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    country: z.string().nullish(),
-    status: zAppointmentStatusType,
-    internalNote: z.string().nullish(),
-    createdBy: zAppointmentCreatedByEnum,
-    reminderSentAt: z.string().datetime().nullish(),
-    numberOfAttendees: z.number().default(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    product: zProduct.optional(),
-    store: z.lazy(() => zStore).optional(),
-    customer: z.lazy(() => zCustomer).nullish(),
-    staffMember: z.lazy(() => zStaffMember).nullish(),
-    location: zLocation.nullish(),
-    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswer).optional(),
-    feedbackQuestionAnswers: z.array(zFeedbackQuestionAnswer).optional(),
-    integratedCalendarAppointments: z.array(zIntegratedCalendarAppointment).optional(),
-    integratedAppointmentLocation: zIntegratedAppointmentLocation.optional(),
-    logs: z.array(zAppointmentLog).optional(),
-    orderLineItem: zOrderLineItem.nullish(),
-    cartItem: zCartItem.nullish(),
-    addOns: z.array(zAppointmentAddOn).optional(),
-    guests: z.array(zAppointmentGuest).optional(),
-    order: zOrder.nullish()
-});
-
-export const zCustomer: z.AnyZodObject = z.object({
+export const zCheckoutStartCartCustomerWritable = z.object({
     id: z.string(),
     externalId: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    email: z.string().nullish(),
-    phone: z.string().nullish(),
-    password: z.string().nullish(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    emailVerifiedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    appointments: z.array(zAppointment).optional(),
-    orders: z.array(zOrder).optional(),
-    oauthProviders: z.array(zCustomerOauthProvider).optional(),
-    store: z.lazy(() => zStore).optional(),
-    isEmailVerified: z.boolean(),
-    isPasswordSet: z.boolean()
-});
-
-export const zPlanFeature: z.AnyZodObject = z.object({
-    id: z.string(),
-    planId: z.string(),
-    feature: z.enum([
-        'number-of-products',
-        'number-of-staff-members',
-        'number-of-physical-locations',
-        'staff-members-portal',
-        'customer-portal',
-        'group-appointments',
-        'custom-product-duration',
-        'cancellation',
-        'rescheduling',
-        'customer-cancellation',
-        'customer-rescheduling',
-        'custom-checkout-fields',
-        'ui-customization',
-        'email-customization',
-        'customer-reviews',
-        'white-label'
-    ]),
-    plan: z.lazy(() => zPlan)
-});
-
-export const zPlan: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().nullable(),
-    name: z.string(),
-    description: z.string().nullish(),
-    terms: z.string().nullish(),
-    price: z.number(),
-    currency: z.string(),
-    billingInterval: z.enum([
-        'one-time',
-        'every-30-days',
-        'annual',
-        'usage'
-    ]).default('every-30-days'),
-    trialDays: z.number().default(0),
-    isTest: z.boolean().default(false),
-    isCustom: z.boolean().default(false),
-    type: z.enum(['system', 'user']).default('system'),
-    status: z.enum([
-        'active',
-        'canceled',
-        'declined',
-        'expired',
-        'frozen',
-        'pending'
-    ]).default('active'),
-    billingPeriodStart: z.string().datetime().nullish(),
-    billingPeriodEnd: z.string().datetime().nullish(),
-    activatedAt: z.string().datetime().nullish(),
-    canceledAt: z.string().datetime().nullish(),
-    isTrialing: z.boolean().optional(),
-    trialEndsAt: z.string().datetime().nullish(),
-    badge: z.enum(['best-value', 'user-choice']).optional(),
-    externalProductId: z.string().nullish(),
-    externalRecurringPriceId: z.string().nullish(),
-    managedBy: z.enum([
-        'stripe',
-        'platform',
-        'direct'
-    ]).optional(),
-    createdFromPlanId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
-    deletedAt: z.string().datetime().nullish(),
-    features: z.array(zPlanFeature),
-    stores: z.array(z.lazy(() => zStore))
-});
-
-export const zStorefrontSetting = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    themeMode: z.enum(['light', 'dark']).default('light'),
-    primaryColor: z.string().default('#171717'),
-    primaryForegroundColor: z.string().default('#FAFAFA'),
-    secondaryColor: z.string().optional().default('#F5F5F5'),
-    secondaryForegroundColor: z.string().optional().default('#171717'),
-    destructiveColor: z.string().optional().default('#E7000B'),
-    accentColor: z.string().optional().default('#F5F5F5'),
-    accentForegroundColor: z.string().optional().default('#171717'),
-    backgroundColor: z.string().optional().default('#FFFFFF'),
-    foregroundColor: z.string().optional().default('#0A0A0A'),
-    cardColor: z.string().optional().default('#FFFFFF'),
-    cardForegroundColor: z.string().optional().default('#0A0A0A'),
-    popoverColor: z.string().optional().default('#FFFFFF'),
-    popoverForegroundColor: z.string().optional().default('#0A0A0A'),
-    mutedColor: z.string().optional().default('#F5F5F5'),
-    mutedForegroundColor: z.string().optional().default('#737373'),
-    borderColor: z.string().optional().default('#E5E5E5'),
-    inputColor: z.string().optional().default('#E5E5E5'),
-    ringColor: z.string().optional().default('#A1A1A1'),
-    sidebarColor: z.string().optional().default('#FAFAFA'),
-    sidebarForegroundColor: z.string().optional().default('#0A0A0A'),
-    sidebarPrimaryColor: z.string().optional().default('#171717'),
-    sidebarPrimaryForegroundColor: z.string().optional().default('#FAFAFA'),
-    sidebarAccentColor: z.string().optional().default('#F5F5F5'),
-    sidebarAccentForegroundColor: z.string().optional().default('#171717'),
-    sidebarBorderColor: z.string().optional().default('#E5E5E5'),
-    sidebarRingColor: z.string().optional().default('#A1A1A1'),
-    borderRadius: z.number().optional().default(0.625),
-    sansSerifFont: z.string().nullish(),
-    serifFont: z.string().nullish(),
-    monospaceFont: z.string().nullish(),
-    letterSpacing: z.number().optional().default(0),
-    shadowColor: z.string().optional().default('#000000'),
-    shadowOpacity: z.number().optional().default(0.1),
-    shadowBlurRadius: z.number().optional().default(3),
-    shadowSpread: z.number().optional().default(0),
-    shadowOffsetX: z.number().optional().default(0),
-    shadowOffsetY: z.number().optional().default(1),
-    dateFormat: z.string().default('YYYY-MM-DD'),
-    timeFormat: z.enum(['12H', '24H']).default('24H'),
-    locales: z.array(z.string()).default(['en']),
-    defaultLocale: z.string().default('en'),
-    logoImageId: z.string().nullish(),
-    iconImageId: z.string().nullish(),
-    bannerImageId: z.string().nullish(),
-    passwordProtectionEnabled: z.boolean().default(false),
-    password: z.string().nullish(),
-    updatedAt: z.string().datetime().nullish(),
-    logoImage: zImage.nullish(),
-    iconImage: zImage.nullish(),
-    bannerImage: zImage.nullish()
-});
-
-export const zStore: z.AnyZodObject = z.object({
-    id: z.string(),
-    name: z.string().optional(),
-    domain: z.string().nullish(),
-    timezone: z.string().default('UTC'),
-    externalId: z.string().nullish(),
-    externalDomain: z.string().nullish(),
-    platform: z.enum(['shopify', 'cally']).optional(),
-    countryCode: z.string().nullish(),
-    currencyCode: z.string().nullish(),
-    mode: z.enum(['development', 'production']).default('production'),
-    seedingStatus: z.enum([
-        'pending',
-        'success',
-        'failed'
-    ]).optional(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customers: z.array(zCustomer),
-    products: z.array(zProduct),
-    staffMembers: z.array(z.lazy(() => zStaffMember)),
-    appointments: z.array(zAppointment),
-    schedules: z.array(zSchedule),
-    orders: z.array(zOrder),
-    plans: z.array(zPlan),
-    settings: zSetting,
-    taxSettings: zTaxSetting,
-    storefrontSettings: zStorefrontSetting,
-    contactInfo: zStoreContactInfo
-});
-
-export const zUser: z.AnyZodObject = z.object({
-    id: z.string(),
-    parentId: z.string().nullish(),
-    name: z.string(),
-    email: z.string(),
-    password: z.string().nullish(),
-    refreshToken: z.string().nullish(),
-    role: z.enum([
-        'admin',
-        'staff-member',
-        'store-owner',
-        'manager'
-    ]).default('store-owner'),
-    status: z.enum([
-        'active',
-        'inactive',
-        'banned',
-        'deleted'
-    ]).default('active'),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
-    emailVerifiedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    oauthProviders: z.array(zUserOauthProvider),
-    staffMembers: z.array(z.lazy(() => zStaffMember)),
-    userStores: z.array(zUserStore),
-    isEmailVerified: z.boolean(),
-    isPasswordSet: z.boolean()
-});
-
-export const zStaffMember = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    userId: z.string().optional(),
-    scheduleId: z.string().optional(),
-    imageId: z.string().optional(),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    email: z.string(),
-    slug: z.string(),
-    refreshToken: z.string().optional(),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: zStore.optional(),
-    user: zUser.optional(),
-    appointments: z.array(zAppointment).optional(),
-    products: z.array(zProduct).optional(),
-    locations: z.array(zLocation).optional(),
-    schedule: zSchedule.optional(),
-    image: zImage.optional(),
-    integrations: z.array(zIntegration).optional(),
-    addOns: z.array(zAddOn).optional()
-});
-
-export const zServicePreference = z.object({
-    product: zProduct,
-    staffMember: zStaffMember.optional(),
-    location: zLocation.optional(),
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zLocationPreference = z.object({
-    location: zLocation,
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zStaffMemberPreference = z.object({
-    staffMember: zStaffMember,
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zCustomerBookingPreferences = z.object({
-    services: z.array(zServicePreference),
-    locations: z.array(zLocationPreference),
-    staffMembers: z.array(zStaffMemberPreference)
-});
-
-export const zCheckoutStartResponse = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    clientSecret: z.string().nullish(),
-    redirectUrl: z.string().nullish(),
-    stripeAccountId: z.string().nullish(),
-    paymentId: z.string(),
-    cart: zCart,
-    invalidItemIds: z.array(z.string()),
-    revivedItemIds: z.array(z.string()),
-    discountCodeCleared: z.boolean().nullish()
-});
-
-export const zCheckoutResponse = z.object({
-    order: zOrder,
-    auth: zCheckoutAuthTokens.optional(),
-    customer: zCheckoutCustomerInfo.optional()
-});
-
-export const zStorePublicSettings = z.object({
-    name: z.string().optional(),
-    domain: z.string().optional(),
-    externalDomain: z.string().optional(),
-    currency: z.string().optional(),
-    settings: zSetting.optional(),
-    features: z.array(zPlanFeature).optional(),
-    storefrontSettings: zStorefrontSetting.nullish(),
-    contactInfo: zStoreContactInfo.nullish()
-});
-
-export const zScheduleAvailabilityWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    scheduleId: z.string(),
-    fromDate: z.string().nullish(),
-    fromTime: z.string(),
-    toDate: z.string().nullish(),
-    toTime: z.string(),
-    day: z.number().nullish(),
-    status: z.enum(['available', 'unavailable']),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    schedule: z.lazy(() => zScheduleWritable).optional()
-});
-
-export const zIntegrationWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    type: z.enum([
-        'calendar',
-        'location',
-        'payment',
-        'webhook'
-    ]),
-    name: z.string(),
-    internalName: z.string(),
-    status: z.enum(['pending', 'success']),
-    enabled: z.boolean(),
+    refreshToken: z.string().nullable(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
-    store: z.lazy(() => zStoreWritable)
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zImageWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().nullish(),
-    url: z.string(),
-    filename: z.string().nullish(),
-    mime: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string().nullish(),
-    store: z.lazy(() => zStoreWritable).optional()
-});
-
-export const zAddOnWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().optional(),
-    externalVariantId: z.string().optional(),
-    storeId: z.string(),
-    slug: z.string(),
-    title: z.string().optional(),
-    description: z.string().optional(),
-    imageId: z.string().optional(),
-    color: z.enum([
-        'slate',
-        'gray',
-        'zinc',
-        'neutral',
-        'stone',
-        'red',
-        'orange',
-        'amber',
-        'yellow',
-        'lime',
-        'green',
-        'emerald',
-        'teal',
-        'cyan',
-        'sky',
-        'blue',
-        'indigo',
-        'violet',
-        'purple',
-        'fuchsia',
-        'pink',
-        'rose'
-    ]).default('slate'),
-    price: z.number(),
-    taxable: z.boolean().default(true),
-    durationMultiplied: z.boolean().default(false),
-    maxQuantity: z.number().gte(1).nullish(),
-    status: z.enum(['active', 'inactive']).default('active'),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    image: zImageWritable.optional(),
-    images: z.array(zImageWritable).optional(),
-    locations: z.array(z.lazy(() => zLocationWritable)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
-    products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zLocationAvailabilityWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    locationId: z.string(),
-    fromDate: z.string().nullish(),
-    fromTime: z.string(),
-    toDate: z.string().nullish(),
-    toTime: z.string(),
-    day: z.number().nullish(),
-    status: z.enum(['available', 'unavailable']),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    location: z.lazy(() => zLocationWritable).optional()
-});
-
-export const zLocationWritable: z.AnyZodObject = z.object({
+export const zCheckoutStartCartWritable = z.object({
     id: z.string(),
     storeId: z.string(),
-    scheduleId: z.string().nullish(),
-    title: z.string().nullish(),
-    description: z.string().nullish(),
-    slug: z.string(),
-    type: z.enum([
-        'physical',
-        'online',
-        'delivery'
-    ]),
-    link: z.string().nullish(),
-    addressLine1: z.string().nullish(),
-    addressLine2: z.string().nullish(),
-    city: z.string().nullish(),
-    state: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    country: z.string().nullish(),
-    addressPlaceId: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    createdAt: z.string(),
-    updatedAt: z.string().nullish(),
-    deletedAt: z.string().nullish(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    schedule: z.lazy(() => zScheduleWritable).optional(),
-    products: z.array(z.lazy(() => zProductWritable)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
-    integrations: z.array(zIntegrationWritable).optional(),
-    addOns: z.array(zAddOnWritable).optional(),
-    appointments: z.array(z.lazy(() => zAppointmentWritable)).optional(),
-    availabilities: z.array(zLocationAvailabilityWritable).optional(),
-    address: z.string().nullable()
-});
-
-export const zScheduleWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    name: z.string().nullable(),
-    timezone: z.string().default('UTC'),
-    scheduleGap: z.enum([
-        'every-10-minutes',
-        'every-15-minutes',
-        'every-20-minutes',
-        'every-30-minutes',
-        'every-60-minutes'
-    ]).default('every-15-minutes'),
-    appointmentsGap: z.number(),
-    advanceScheduleDays: z.number().default(-1),
-    availabilityType: z.enum([
-        'continuous',
-        'recurring',
-        'non-recurring'
-    ]).default('continuous'),
-    status: z.enum(['active', 'inactive']).default('inactive'),
-    createdAt: z.string(),
-    updatedAt: z.string().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    availabilities: z.array(zScheduleAvailabilityWritable).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
-    locations: z.array(zLocationWritable).optional(),
-    products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zProductCollectionWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    title: z.string(),
-    description: z.string().optional(),
-    slug: z.string(),
-    isVisible: z.boolean().default(true),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zFeedbackQuestionTranslationWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    questionId: z.string(),
-    title: z.string(),
-    description: z.string(),
-    options: z.array(z.string()).nullish(),
-    languageCode: z.enum([
-        'af',
-        'ak',
-        'am',
-        'ar',
-        'as',
-        'az',
-        'be',
-        'bg',
-        'bm',
-        'bn',
-        'bo',
-        'br',
-        'bs',
-        'ca',
-        'ce',
-        'cs',
-        'cu',
-        'cy',
-        'da',
-        'de',
-        'dz',
-        'ee',
-        'el',
-        'en',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fa',
-        'ff',
-        'fi',
-        'fo',
-        'fr',
-        'fy',
-        'ga',
-        'gd',
-        'gl',
-        'gu',
-        'gv',
-        'ha',
-        'he',
-        'hi',
-        'hr',
-        'hu',
-        'hy',
-        'ia',
-        'id',
-        'ig',
-        'ii',
-        'is',
-        'it',
-        'ja',
-        'jv',
-        'ka',
-        'ki',
-        'kk',
-        'kl',
-        'km',
-        'kn',
-        'ko',
-        'ks',
-        'ku',
-        'kw',
-        'ky',
-        'lb',
-        'lg',
-        'ln',
-        'lo',
-        'lt',
-        'lu',
-        'lv',
-        'mg',
-        'mi',
-        'mk',
-        'ml',
-        'mn',
-        'mr',
-        'ms',
-        'mt',
-        'my',
-        'nb',
-        'nd',
-        'ne',
-        'nl',
-        'nn',
-        'no',
-        'om',
-        'or',
-        'os',
-        'pa',
-        'pl',
-        'ps',
-        'pt',
-        'pt_br',
-        'pt_pt',
-        'qu',
-        'rm',
-        'rn',
-        'ro',
-        'ru',
-        'rw',
-        'sd',
-        'se',
-        'sg',
-        'si',
-        'sk',
-        'sl',
-        'sn',
-        'so',
-        'sq',
-        'sr',
-        'su',
-        'sv',
-        'sw',
-        'ta',
-        'te',
-        'tg',
-        'th',
-        'ti',
-        'tk',
-        'to',
-        'tr',
-        'tt',
-        'ug',
-        'uk',
-        'ur',
-        'uz',
-        'vi',
-        'vo',
-        'wo',
-        'xh',
-        'yi',
-        'yo',
-        'zh',
-        'zh_cn',
-        'zh_tw',
-        'zu'
-    ]),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    question: z.lazy(() => zFeedbackQuestionWritable),
-    language: zLanguage
-});
-
-export const zFeedbackQuestionWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    internalName: z.string(),
-    required: z.boolean(),
-    type: z.enum([
-        'single-line-text-field',
-        'multi-line-text-field',
-        'dropdown',
-        'rating',
-        'checkbox'
-    ]),
-    order: z.number().default(0),
-    alwaysShow: z.boolean().default(false),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    translations: z.array(zFeedbackQuestionTranslationWritable),
-    products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zCheckoutQuestionTranslationWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    questionId: z.string(),
-    title: z.string(),
-    description: z.string(),
-    options: z.array(z.string()).nullish(),
-    languageCode: z.enum([
-        'af',
-        'ak',
-        'am',
-        'ar',
-        'as',
-        'az',
-        'be',
-        'bg',
-        'bm',
-        'bn',
-        'bo',
-        'br',
-        'bs',
-        'ca',
-        'ce',
-        'cs',
-        'cu',
-        'cy',
-        'da',
-        'de',
-        'dz',
-        'ee',
-        'el',
-        'en',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fa',
-        'ff',
-        'fi',
-        'fo',
-        'fr',
-        'fy',
-        'ga',
-        'gd',
-        'gl',
-        'gu',
-        'gv',
-        'ha',
-        'he',
-        'hi',
-        'hr',
-        'hu',
-        'hy',
-        'ia',
-        'id',
-        'ig',
-        'ii',
-        'is',
-        'it',
-        'ja',
-        'jv',
-        'ka',
-        'ki',
-        'kk',
-        'kl',
-        'km',
-        'kn',
-        'ko',
-        'ks',
-        'ku',
-        'kw',
-        'ky',
-        'lb',
-        'lg',
-        'ln',
-        'lo',
-        'lt',
-        'lu',
-        'lv',
-        'mg',
-        'mi',
-        'mk',
-        'ml',
-        'mn',
-        'mr',
-        'ms',
-        'mt',
-        'my',
-        'nb',
-        'nd',
-        'ne',
-        'nl',
-        'nn',
-        'no',
-        'om',
-        'or',
-        'os',
-        'pa',
-        'pl',
-        'ps',
-        'pt',
-        'pt_br',
-        'pt_pt',
-        'qu',
-        'rm',
-        'rn',
-        'ro',
-        'ru',
-        'rw',
-        'sd',
-        'se',
-        'sg',
-        'si',
-        'sk',
-        'sl',
-        'sn',
-        'so',
-        'sq',
-        'sr',
-        'su',
-        'sv',
-        'sw',
-        'ta',
-        'te',
-        'tg',
-        'th',
-        'ti',
-        'tk',
-        'to',
-        'tr',
-        'tt',
-        'ug',
-        'uk',
-        'ur',
-        'uz',
-        'vi',
-        'vo',
-        'wo',
-        'xh',
-        'yi',
-        'yo',
-        'zh',
-        'zh_cn',
-        'zh_tw',
-        'zu'
-    ]),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    question: z.lazy(() => zCheckoutQuestionWritable),
-    language: zLanguage
-});
-
-export const zCheckoutQuestionWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    internalName: z.string(),
-    required: z.boolean(),
-    type: z.enum([
-        'single-line-text-field',
-        'multi-line-text-field',
-        'dropdown',
-        'rating',
-        'checkbox'
-    ]),
-    order: z.number().default(0),
-    alwaysShow: z.boolean().default(false),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    storeId: z.string(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    translations: z.array(zCheckoutQuestionTranslationWritable),
-    products: z.array(z.lazy(() => zProductWritable)).optional()
-});
-
-export const zProductWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    productId: z.string(),
-    externalId: z.string().optional(),
-    externalVariantId: z.string().optional(),
-    storeId: z.string(),
-    slug: z.string(),
-    scheduleId: z.string().optional(),
-    productPoolId: z.string().nullish(),
-    title: z.string().optional(),
-    variantTitle: z.string().optional(),
-    description: z.string().optional(),
-    imageId: z.string().optional(),
-    color: z.enum([
-        'slate',
-        'gray',
-        'zinc',
-        'neutral',
-        'stone',
-        'red',
-        'orange',
-        'amber',
-        'yellow',
-        'lime',
-        'green',
-        'emerald',
-        'teal',
-        'cyan',
-        'sky',
-        'blue',
-        'indigo',
-        'violet',
-        'purple',
-        'fuchsia',
-        'pink',
-        'rose'
-    ]).default('slate'),
-    price: z.number(),
-    taxable: z.boolean().default(false),
-    duration: z.number(),
-    allowCustomDuration: z.boolean().default(false),
-    maxDuration: z.number().default(-1),
-    maxAttendees: z.number().default(1),
-    maxGuests: z.number().nullish(),
-    allowGuests: z.boolean().default(false),
-    allowCustomerReschedule: z.boolean().default(false),
-    allowCustomerCancel: z.boolean().default(false),
-    rescheduleGap: z.number().optional(),
-    cancelGap: z.number().optional(),
-    beforeGap: z.number().optional(),
-    afterGap: z.number().optional(),
-    fixedTimes: z.boolean().default(false),
-    fixedStartTime: z.string().optional(),
-    fixedEndTime: z.string().optional(),
-    advanceScheduleThreshold: z.number().default(0),
-    sendConfirmationEmail: z.boolean().default(true),
-    sendReminderEmail: z.boolean().default(false),
-    sendFeedbackEmail: z.boolean().default(false),
-    skipCheckout: z.boolean().default(false),
-    status: z.enum(['active', 'inactive']).default('active'),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    schedule: zScheduleWritable.optional(),
-    productPool: zProductPool.optional(),
-    appointments: z.array(z.lazy(() => zAppointmentWritable)).optional(),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)).optional(),
-    collections: z.array(zProductCollectionWritable).optional(),
-    locations: z.array(zLocationWritable).optional(),
-    parentProduct: z.lazy(() => zProductWritable).optional(),
-    variants: z.array(z.lazy(() => zProductWritable)).optional(),
-    image: zImageWritable.optional(),
-    images: z.array(zImageWritable).optional(),
-    integrations: z.array(zIntegrationWritable).optional(),
-    feedbackQuestions: z.array(zFeedbackQuestionWritable).optional(),
-    checkoutQuestions: z.array(zCheckoutQuestionWritable).optional(),
-    addOns: z.array(zAddOnWritable).optional()
-});
-
-export const zCheckoutQuestionAnswerWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    questionId: z.string().nullish(),
-    checkoutQuestion: zCheckoutQuestionWritable.nullish(),
-    question: z.string(),
-    answer: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointmentWritable).optional()
-});
-
-export const zFeedbackQuestionAnswerWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    questionId: z.string().nullish(),
-    feedbackQuestion: zFeedbackQuestionWritable.nullish(),
-    question: z.string(),
-    answer: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointmentWritable).optional()
-});
-
-export const zIntegratedCalendarAppointmentWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    integrationId: z.string(),
-    externalAppointmentId: z.string(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable(),
-    integration: zIntegrationWritable,
-    appointment: z.lazy(() => zAppointmentWritable)
-});
-
-export const zIntegratedAppointmentLocationWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    integrationId: z.string(),
-    externalLocationId: z.string(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable(),
-    integration: zIntegrationWritable,
-    appointment: z.lazy(() => zAppointmentWritable),
-    data: zIntegratedAppointmentLocationData.optional()
-});
-
-export const zAppointmentLogWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    title: z.string(),
-    description: z.string().nullish(),
-    level: zAppointmentLogLevel,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointmentWritable).optional()
-});
-
-export const zCartAddOnItemWritable = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    cartItemId: z.string(),
-    addOnId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    addOn: zAddOnWritable.nullish(),
-    discounts: z.array(zCartItemAppliedDiscount)
-});
-
-export const zCartItemWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    cartId: z.string(),
-    appointmentId: z.string(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    appointment: z.lazy(() => zAppointmentWritable).nullish(),
-    addOnItems: z.array(zCartAddOnItemWritable).optional(),
-    cartItemDiscounts: z.array(z.unknown()).optional(),
-    discounts: z.array(zCartItemAppliedDiscount),
-    lineSubtotal: z.number(),
-    lineTax: z.number()
-});
-
-export const zCartWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    customerId: z.string().nullish(),
+    customerId: z.string().nullable(),
     status: z.enum([
         'active',
         'converted',
@@ -2784,528 +7359,18 @@ export const zCartWritable: z.AnyZodObject = z.object({
     ]),
     paymentCurrencyCode: z.string(),
     taxesIncluded: z.boolean(),
-    expiresAt: z.string().datetime().nullish(),
+    expiresAt: z.string().datetime().nullable(),
     extensionsCount: z.number(),
-    appliedDiscountCode: z.string().nullish(),
+    appliedDiscountCode: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    items: z.array(zCartItemWritable),
-    payments: z.array(zCartPayment),
-    orders: z.array(z.lazy(() => zOrderWritable)),
+    updatedAt: z.string().datetime().nullable(),
     subtotal: z.number(),
     totalTax: z.number(),
     total: z.number(),
-    appliedDiscounts: z.array(zAppliedDiscount)
-});
-
-export const zOrderRefundLineItemWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
-    externalId: z.string().nullish(),
-    lineItemId: z.string(),
-    quantity: z.number().gte(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    refund: z.lazy(() => zOrderRefundWritable),
-    lineItem: z.lazy(() => zOrderLineItemWritable)
-});
-
-export const zOrderAddOnLineItemWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    lineItemId: z.string(),
-    addOnId: z.string(),
-    externalId: z.string().nullish(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrderWritable),
-    lineItem: z.lazy(() => zOrderLineItemWritable),
-    addOn: zAddOnWritable,
-    refundLineItems: z.array(z.lazy(() => zOrderRefundAddOnLineItemWritable)),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    refundedQuantity: z.number(),
-    refundableQuantity: z.number()
-});
-
-export const zOrderRefundAddOnLineItemWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    refundId: z.string(),
-    externalId: z.string().nullish(),
-    addOnLineItemId: z.string(),
-    quantity: z.number().gte(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    refund: z.lazy(() => zOrderRefundWritable),
-    addOnLineItem: zOrderAddOnLineItemWritable
-});
-
-export const zOrderRefundWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    externalId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrderWritable),
-    transactions: z.array(z.lazy(() => zOrderTransactionWritable)),
-    lineItems: z.array(zOrderRefundLineItemWritable),
-    addOnLineItems: z.array(zOrderRefundAddOnLineItemWritable).optional(),
-    total: z.number()
-});
-
-export const zOrderTransactionWritable: z.AnyZodObject = z.object({
-    orderId: z.string().nullable(),
-    externalId: z.string().nullish(),
-    parentId: z.string().nullish(),
-    refundId: z.string().nullish(),
-    type: z.enum([
-        'authorization',
-        'capture',
-        'void',
-        'sale',
-        'refund'
-    ]),
-    amount: z.number(),
-    currencyCode: z.string(),
-    gateway: z.enum([
-        'shopify',
-        'cash',
-        'bank_transfer',
-        'stripe'
-    ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    status: z.enum([
-        'pending',
-        'success',
-        'failed'
-    ]),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    parentTransaction: z.lazy(() => zOrderTransactionWritable),
-    childTransactions: z.array(z.lazy(() => zOrderTransactionWritable)),
-    order: z.lazy(() => zOrderWritable),
-    refund: zOrderRefundWritable.nullish(),
-    refundableAmount: z.number(),
-    refundedAmount: z.number(),
-    isRefundable: z.boolean()
-});
-
-export const zOrderLogWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    title: z.string(),
-    description: z.string().nullish(),
-    level: zOrderLogLevel,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    order: z.lazy(() => zOrderWritable).optional()
-});
-
-export const zOrderWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    paymentCurrencyCode: z.string(),
-    taxesIncluded: z.boolean(),
-    externalId: z.string().nullish(),
-    externalName: z.string().nullish(),
-    name: z.string(),
-    customerId: z.string().nullish(),
-    storeId: z.string().nullish(),
-    cartId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customer: z.lazy(() => zCustomerWritable).nullish(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    cart: zCartWritable.nullish(),
-    lineItems: z.array(z.lazy(() => zOrderLineItemWritable)).optional(),
-    transactions: z.array(zOrderTransactionWritable).optional(),
-    logs: z.array(zOrderLogWritable).optional(),
-    refunds: z.array(zOrderRefundWritable).optional(),
-    appointments: z.array(z.lazy(() => zAppointmentWritable)),
-    refundableTransactions: z.array(zOrderTransactionWritable),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    dueToPay: z.number(),
-    paidTotal: z.number(),
-    refundedTotal: z.number(),
-    balance: z.number(),
-    dueToRefund: z.number(),
-    isFullyPaid: z.boolean(),
-    isFullyRefunded: z.boolean(),
-    paymentStatus: z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ]),
-    refundStatus: z.enum([
-        'refund-owed',
-        'partially-refunded',
-        'fully-refunded',
-        'unrefunded'
-    ]),
-    fulfillmentStatus: z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ]),
-    services: z.array(zProductWritable),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
-    locations: z.array(zLocationWritable),
-    appliedDiscounts: z.array(zAppliedDiscount)
-});
-
-export const zOrderLineItemWritable: z.AnyZodObject = z.object({
-    orderId: z.string().nullable(),
-    appointmentId: z.string().nullable(),
-    externalId: z.string().nullish(),
-    originalUnitPrice: z.number(),
-    discountedUnitPrice: z.number(),
-    unitTaxAmount: z.number(),
-    quantity: z.number(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    order: zOrderWritable,
-    appointment: z.lazy(() => zAppointmentWritable),
-    refundLineItems: z.array(zOrderRefundLineItemWritable),
-    addOnLineItems: z.array(zOrderAddOnLineItemWritable).optional(),
-    lineItemDiscounts: z.array(zOrderLineItemDiscountWritable).optional(),
-    addOnSubtotal: z.number(),
-    addOnTotalTax: z.number(),
-    subtotal: z.number(),
-    total: z.number(),
-    totalTax: z.number(),
-    refundedQuantity: z.number(),
-    refundableQuantity: z.number()
-});
-
-export const zAppointmentAddOnWritable = z.object({
-    id: z.string(),
-    appointmentId: z.string(),
-    addOnId: z.string(),
-    quantity: z.number().default(1),
-    createdAt: z.string().datetime(),
-    addOn: zAddOnWritable
-});
-
-export const zAppointmentWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    name: z.string(),
-    productId: z.string(),
-    staffMemberId: z.string().nullish(),
-    locationId: z.string().nullish(),
-    storeId: z.string(),
-    customerId: z.string().nullish(),
-    externalOrderId: z.string().nullish(),
-    externalOrderName: z.string().nullish(),
-    from: z.string().datetime(),
-    to: z.string().datetime(),
-    addressLine1: z.string().nullish(),
-    addressLine2: z.string().nullish(),
-    city: z.string().nullish(),
-    state: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    country: z.string().nullish(),
-    status: zAppointmentStatusType,
-    internalNote: z.string().nullish(),
-    createdBy: zAppointmentCreatedByEnum,
-    reminderSentAt: z.string().datetime().nullish(),
-    numberOfAttendees: z.number().default(1),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    product: zProductWritable.optional(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    customer: z.lazy(() => zCustomerWritable).nullish(),
-    staffMember: z.lazy(() => zStaffMemberWritable).nullish(),
-    location: zLocationWritable.nullish(),
-    checkoutQuestionAnswers: z.array(zCheckoutQuestionAnswerWritable).optional(),
-    feedbackQuestionAnswers: z.array(zFeedbackQuestionAnswerWritable).optional(),
-    integratedCalendarAppointments: z.array(zIntegratedCalendarAppointmentWritable).optional(),
-    integratedAppointmentLocation: zIntegratedAppointmentLocationWritable.optional(),
-    logs: z.array(zAppointmentLogWritable).optional(),
-    orderLineItem: zOrderLineItemWritable.nullish(),
-    cartItem: zCartItemWritable.nullish(),
-    addOns: z.array(zAppointmentAddOnWritable).optional(),
-    guests: z.array(zAppointmentGuest).optional(),
-    order: zOrderWritable.nullish()
-});
-
-export const zCustomerWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    email: z.string().nullish(),
-    phone: z.string().nullish(),
-    password: z.string().nullish(),
-    storeId: z.string(),
-    language: zLanguageCode,
-    refreshToken: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    emailVerifiedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    appointments: z.array(zAppointmentWritable).optional(),
-    orders: z.array(zOrderWritable).optional(),
-    oauthProviders: z.array(zCustomerOauthProviderWritable).optional(),
-    store: z.lazy(() => zStoreWritable).optional(),
-    isEmailVerified: z.boolean(),
-    isPasswordSet: z.boolean()
-});
-
-export const zPlanFeatureWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    planId: z.string(),
-    feature: z.enum([
-        'number-of-products',
-        'number-of-staff-members',
-        'number-of-physical-locations',
-        'staff-members-portal',
-        'customer-portal',
-        'group-appointments',
-        'custom-product-duration',
-        'cancellation',
-        'rescheduling',
-        'customer-cancellation',
-        'customer-rescheduling',
-        'custom-checkout-fields',
-        'ui-customization',
-        'email-customization',
-        'customer-reviews',
-        'white-label'
-    ]),
-    plan: z.lazy(() => zPlanWritable)
-});
-
-export const zPlanWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    externalId: z.string().nullable(),
-    name: z.string(),
-    description: z.string().nullish(),
-    terms: z.string().nullish(),
-    price: z.number(),
-    currency: z.string(),
-    billingInterval: z.enum([
-        'one-time',
-        'every-30-days',
-        'annual',
-        'usage'
-    ]).default('every-30-days'),
-    trialDays: z.number().default(0),
-    isTest: z.boolean().default(false),
-    isCustom: z.boolean().default(false),
-    type: z.enum(['system', 'user']).default('system'),
-    status: z.enum([
-        'active',
-        'canceled',
-        'declined',
-        'expired',
-        'frozen',
-        'pending'
-    ]).default('active'),
-    billingPeriodStart: z.string().datetime().nullish(),
-    billingPeriodEnd: z.string().datetime().nullish(),
-    activatedAt: z.string().datetime().nullish(),
-    canceledAt: z.string().datetime().nullish(),
-    isTrialing: z.boolean().optional(),
-    trialEndsAt: z.string().datetime().nullish(),
-    badge: z.enum(['best-value', 'user-choice']).optional(),
-    externalProductId: z.string().nullish(),
-    externalRecurringPriceId: z.string().nullish(),
-    managedBy: z.enum([
-        'stripe',
-        'platform',
-        'direct'
-    ]).optional(),
-    createdFromPlanId: z.string().nullish(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
-    deletedAt: z.string().datetime().nullish(),
-    features: z.array(zPlanFeatureWritable),
-    stores: z.array(z.lazy(() => zStoreWritable))
-});
-
-export const zStorefrontSettingWritable = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    themeMode: z.enum(['light', 'dark']).default('light'),
-    primaryColor: z.string().default('#171717'),
-    primaryForegroundColor: z.string().default('#FAFAFA'),
-    secondaryColor: z.string().optional().default('#F5F5F5'),
-    secondaryForegroundColor: z.string().optional().default('#171717'),
-    destructiveColor: z.string().optional().default('#E7000B'),
-    accentColor: z.string().optional().default('#F5F5F5'),
-    accentForegroundColor: z.string().optional().default('#171717'),
-    backgroundColor: z.string().optional().default('#FFFFFF'),
-    foregroundColor: z.string().optional().default('#0A0A0A'),
-    cardColor: z.string().optional().default('#FFFFFF'),
-    cardForegroundColor: z.string().optional().default('#0A0A0A'),
-    popoverColor: z.string().optional().default('#FFFFFF'),
-    popoverForegroundColor: z.string().optional().default('#0A0A0A'),
-    mutedColor: z.string().optional().default('#F5F5F5'),
-    mutedForegroundColor: z.string().optional().default('#737373'),
-    borderColor: z.string().optional().default('#E5E5E5'),
-    inputColor: z.string().optional().default('#E5E5E5'),
-    ringColor: z.string().optional().default('#A1A1A1'),
-    sidebarColor: z.string().optional().default('#FAFAFA'),
-    sidebarForegroundColor: z.string().optional().default('#0A0A0A'),
-    sidebarPrimaryColor: z.string().optional().default('#171717'),
-    sidebarPrimaryForegroundColor: z.string().optional().default('#FAFAFA'),
-    sidebarAccentColor: z.string().optional().default('#F5F5F5'),
-    sidebarAccentForegroundColor: z.string().optional().default('#171717'),
-    sidebarBorderColor: z.string().optional().default('#E5E5E5'),
-    sidebarRingColor: z.string().optional().default('#A1A1A1'),
-    borderRadius: z.number().optional().default(0.625),
-    sansSerifFont: z.string().nullish(),
-    serifFont: z.string().nullish(),
-    monospaceFont: z.string().nullish(),
-    letterSpacing: z.number().optional().default(0),
-    shadowColor: z.string().optional().default('#000000'),
-    shadowOpacity: z.number().optional().default(0.1),
-    shadowBlurRadius: z.number().optional().default(3),
-    shadowSpread: z.number().optional().default(0),
-    shadowOffsetX: z.number().optional().default(0),
-    shadowOffsetY: z.number().optional().default(1),
-    dateFormat: z.string().default('YYYY-MM-DD'),
-    timeFormat: z.enum(['12H', '24H']).default('24H'),
-    locales: z.array(z.string()).default(['en']),
-    defaultLocale: z.string().default('en'),
-    logoImageId: z.string().nullish(),
-    iconImageId: z.string().nullish(),
-    bannerImageId: z.string().nullish(),
-    passwordProtectionEnabled: z.boolean().default(false),
-    password: z.string().nullish(),
-    updatedAt: z.string().datetime().nullish(),
-    logoImage: zImageWritable.nullish(),
-    iconImage: zImageWritable.nullish(),
-    bannerImage: zImageWritable.nullish()
-});
-
-export const zStoreWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    name: z.string().optional(),
-    domain: z.string().nullish(),
-    timezone: z.string().default('UTC'),
-    externalId: z.string().nullish(),
-    externalDomain: z.string().nullish(),
-    platform: z.enum(['shopify', 'cally']).optional(),
-    countryCode: z.string().nullish(),
-    currencyCode: z.string().nullish(),
-    mode: z.enum(['development', 'production']).default('production'),
-    seedingStatus: z.enum([
-        'pending',
-        'success',
-        'failed'
-    ]).optional(),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    customers: z.array(zCustomerWritable),
-    products: z.array(zProductWritable),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
-    appointments: z.array(zAppointmentWritable),
-    schedules: z.array(zScheduleWritable),
-    orders: z.array(zOrderWritable),
-    plans: z.array(zPlanWritable),
-    settings: zSetting,
-    taxSettings: zTaxSetting,
-    storefrontSettings: zStorefrontSettingWritable,
-    contactInfo: zStoreContactInfo
-});
-
-export const zUserWritable: z.AnyZodObject = z.object({
-    id: z.string(),
-    parentId: z.string().nullish(),
-    name: z.string(),
-    email: z.string(),
-    password: z.string().nullish(),
-    refreshToken: z.string().nullish(),
-    role: z.enum([
-        'admin',
-        'staff-member',
-        'store-owner',
-        'manager'
-    ]).default('store-owner'),
-    status: z.enum([
-        'active',
-        'inactive',
-        'banned',
-        'deleted'
-    ]).default('active'),
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime(),
-    emailVerifiedAt: z.string().datetime().nullish(),
-    deletedAt: z.string().datetime().nullish(),
-    oauthProviders: z.array(zUserOauthProviderWritable),
-    staffMembers: z.array(z.lazy(() => zStaffMemberWritable)),
-    userStores: z.array(zUserStore),
-    isEmailVerified: z.boolean(),
-    isPasswordSet: z.boolean()
-});
-
-export const zStaffMemberWritable = z.object({
-    id: z.string(),
-    storeId: z.string(),
-    userId: z.string().optional(),
-    scheduleId: z.string().optional(),
-    imageId: z.string().optional(),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    email: z.string(),
-    slug: z.string(),
-    refreshToken: z.string().optional(),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-    store: zStoreWritable.optional(),
-    user: zUserWritable.optional(),
-    appointments: z.array(zAppointmentWritable).optional(),
-    products: z.array(zProductWritable).optional(),
-    locations: z.array(zLocationWritable).optional(),
-    schedule: zScheduleWritable.optional(),
-    image: zImageWritable.optional(),
-    integrations: z.array(zIntegrationWritable).optional(),
-    addOns: z.array(zAddOnWritable).optional()
-});
-
-export const zServicePreferenceWritable = z.object({
-    product: zProductWritable,
-    staffMember: zStaffMemberWritable.optional(),
-    location: zLocationWritable.optional(),
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zLocationPreferenceWritable = z.object({
-    location: zLocationWritable,
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zStaffMemberPreferenceWritable = z.object({
-    staffMember: zStaffMemberWritable,
-    bookingCount: z.number(),
-    lastBookedAt: z.string().datetime()
-});
-
-export const zCustomerBookingPreferencesWritable = z.object({
-    services: z.array(zServicePreferenceWritable),
-    locations: z.array(zLocationPreferenceWritable),
-    staffMembers: z.array(zStaffMemberPreferenceWritable)
+    appliedDiscounts: z.array(zAppliedDiscount),
+    customer: zCheckoutStartCartCustomerWritable.nullish(),
+    items: z.array(zCheckoutStartCartItem).optional(),
+    payments: z.array(zCheckoutStartCartPayment).optional()
 });
 
 export const zCheckoutStartResponseWritable = z.object({
@@ -3319,27 +7384,80 @@ export const zCheckoutStartResponseWritable = z.object({
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
     paymentId: z.string(),
-    cart: zCartWritable,
+    cart: zCheckoutStartCartWritable,
     invalidItemIds: z.array(z.string()),
     revivedItemIds: z.array(z.string()),
     discountCodeCleared: z.boolean().nullish()
 });
 
-export const zCheckoutResponseWritable = z.object({
-    order: zOrderWritable,
-    auth: zCheckoutAuthTokens.optional(),
-    customer: zCheckoutCustomerInfo.optional()
+export const zCheckoutOrderCustomerWritable = z.object({
+    id: z.string(),
+    externalId: z.string(),
+    firstName: z.string().nullable(),
+    lastName: z.string().nullable(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    password: z.string().nullable(),
+    storeId: z.string(),
+    language: zLanguageCode,
+    refreshToken: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    emailVerifiedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    isEmailVerified: z.boolean(),
+    isPasswordSet: z.boolean()
 });
 
-export const zStorePublicSettingsWritable = z.object({
-    name: z.string().optional(),
-    domain: z.string().optional(),
-    externalDomain: z.string().optional(),
-    currency: z.string().optional(),
-    settings: zSetting.optional(),
-    features: z.array(zPlanFeatureWritable).optional(),
-    storefrontSettings: zStorefrontSettingWritable.nullish(),
-    contactInfo: zStoreContactInfo.nullish()
+export const zCheckoutOrderWritable = z.object({
+    id: z.string(),
+    paymentCurrencyCode: z.string(),
+    taxesIncluded: z.boolean(),
+    externalId: z.string().nullable(),
+    externalName: z.string().nullable(),
+    name: z.string(),
+    customerId: z.string().nullable(),
+    storeId: z.string().nullable(),
+    cartId: z.string().nullable(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    subtotal: z.number(),
+    total: z.number(),
+    totalTax: z.number(),
+    dueToPay: z.number(),
+    paidTotal: z.number(),
+    refundedTotal: z.number(),
+    balance: z.number(),
+    dueToRefund: z.number(),
+    isFullyPaid: z.boolean(),
+    isFullyRefunded: z.boolean(),
+    paymentStatus: z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ]),
+    refundStatus: z.enum([
+        'refund-owed',
+        'partially-refunded',
+        'fully-refunded',
+        'unrefunded'
+    ]),
+    fulfillmentStatus: z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ]),
+    customer: zCheckoutOrderCustomerWritable.nullish(),
+    lineItems: z.array(zCheckoutOrderLineItem).optional(),
+    transactions: z.array(zCheckoutOrderTransaction).optional(),
+    logs: z.array(zCheckoutOrderLog).optional()
+});
+
+export const zCheckoutResponseWritable = z.object({
+    order: zCheckoutOrderWritable,
+    auth: zCheckoutAuthTokens.optional(),
+    customer: zCheckoutCustomerInfo.optional()
 });
 
 export const zAuthSignInBody = zAuthenticateCustomerCredentials;
@@ -3386,7 +7504,122 @@ export const zAuthVerifyLoginCodeBody = zVerifyLoginCode;
 
 export const zAuthVerifyLoginCodeResponse = zTokensResponse;
 
+/**
+ * Customer profile returned successfully
+ */
+export const zSelfServiceGetProfileResponse = zSelfServiceProfileResponse;
+
+export const zSelfServiceUpdateProfileBody = zUpdateCustomerProfile;
+
+/**
+ * Profile updated successfully
+ */
+export const zSelfServiceUpdateProfileResponse = zSelfServiceProfileResponse;
+
 export const zSelfServiceChangePasswordBody = zUpdateCustomerPassword;
+
+export const zAppointmentListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    status: z.array(z.enum([
+        'pending',
+        'scheduled',
+        'completed',
+        'canceled'
+    ])).optional(),
+    staffMembers: z.array(z.string()).optional(),
+    products: z.array(z.string()).optional(),
+    locations: z.array(z.string()).optional(),
+    date: z.string().regex(/\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/).optional(),
+    orderBy: z.enum([
+        'from',
+        'to',
+        'productId',
+        'staffMemberId',
+        'customerId',
+        'createdAt'
+    ]).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC'),
+    limit: z.number().optional()
+});
+
+/**
+ * Collection of customer appointments
+ */
+export const zAppointmentListResponse = z.object({
+    data: z.array(zAppointmentListItemResponse),
+    meta: zCollectionMeta
+});
+
+/**
+ * Appointment details to create
+ */
+export const zAppointmentCreateBody = zCreateAppointment;
+
+/**
+ * The appointment has been successfully created
+ */
+export const zAppointmentCreateResponse = zAppointmentCreatedResponse;
+
+export const zAppointmentFindPath = z.object({
+    appointmentId: z.string()
+});
+
+/**
+ * The appointment details
+ */
+export const zAppointmentFindResponse = zAppointmentDetailResponse;
+
+export const zAppointmentFindByExternalOrderNamePath = z.object({
+    externalOrderName: z.string()
+});
+
+/**
+ * The appointment details
+ */
+export const zAppointmentFindByExternalOrderNameResponse = zAppointmentDetailResponse;
+
+/**
+ * New appointment time details
+ */
+export const zAppointmentRescheduleBody = zRescheduleAppointment;
+
+export const zAppointmentReschedulePath = z.object({
+    appointmentId: z.string()
+});
+
+/**
+ * The rescheduled appointment details
+ */
+export const zAppointmentRescheduleResponse = zAppointmentResponse;
+
+/**
+ * Cancellation details including reason
+ */
+export const zAppointmentCancelBody = zCancelAppointment;
+
+export const zAppointmentCancelPath = z.object({
+    appointmentId: z.string()
+});
+
+/**
+ * The canceled appointment details
+ */
+export const zAppointmentCancelResponse = zAppointmentResponse;
+
+/**
+ * Feedback answers from the customer
+ */
+export const zAppointmentFeedbackBody = zFeedbackQuestionAnswers;
+
+export const zAppointmentFeedbackPath = z.object({
+    appointmentId: z.string()
+});
+
+/**
+ * The feedback has been successfully submitted
+ */
+export const zAppointmentFeedbackResponse = z.array(zFeedbackQuestionAnswerResponse);
 
 /**
  * Guest email to add
@@ -3400,7 +7633,7 @@ export const zAppointmentAddGuestPath = z.object({
 /**
  * Guest added to appointment
  */
-export const zAppointmentAddGuestResponse = zAppointmentGuest;
+export const zAppointmentAddGuestResponse = zAppointmentGuestResponse;
 
 export const zAppointmentRemoveGuestPath = z.object({
     appointmentId: z.string(),
@@ -3410,6 +7643,167 @@ export const zAppointmentRemoveGuestPath = z.object({
 export const zAppointmentRemoveGuestQuery = z.object({
     notify: z.string()
 });
+
+/**
+ * Customer booking preferences and history
+ */
+export const zAppointmentGetBookingPreferencesResponse = zCustomerBookingPreferencesResponse;
+
+export const zOrderListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    name: z.string().optional(),
+    paymentStatuses: z.array(z.enum([
+        'unpaid',
+        'paid',
+        'partially-paid'
+    ])).optional(),
+    fulfillmentStatuses: z.array(z.enum([
+        'partially-fulfilled',
+        'fulfilled',
+        'unfulfilled'
+    ])).optional(),
+    customers: z.array(z.string()).optional(),
+    services: z.array(z.string()).optional(),
+    staffMembers: z.array(z.string()).optional(),
+    locations: z.array(z.string()).optional(),
+    orderBy: z.enum(['customerId', 'createdAt']).optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * Collection of customer orders
+ */
+export const zOrderListResponse = z.object({
+    data: z.array(zOrderListItemResponse),
+    meta: zCollectionMeta
+});
+
+export const zOrderFindPath = z.object({
+    orderId: z.string()
+});
+
+/**
+ * The order details
+ */
+export const zOrderFindResponse = zOrderDetailResponse;
+
+export const zCartGetHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart fetched
+ */
+export const zCartGetResponse = zCartResponse;
+
+export const zCartCreateOrGetHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart created or fetched
+ */
+export const zCartCreateOrGetResponse = zCartResponse;
+
+export const zCartAddItemBody = zCreateCartItem;
+
+export const zCartAddItemHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Item added
+ */
+export const zCartAddItemResponse = zCartResponse;
+
+export const zCartRemoveItemPath = z.object({
+    itemId: z.string()
+});
+
+/**
+ * Item removed
+ */
+export const zCartRemoveItemResponse = zCartResponse;
+
+export const zCartExtendExpirationHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart expiration extended
+ */
+export const zCartExtendExpirationResponse = zCartResponse;
+
+export const zCartAddAddOnBody = zAddCartAddOn;
+
+export const zCartAddAddOnHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+export const zCartAddAddOnPath = z.object({
+    cartItemId: z.string()
+});
+
+/**
+ * Add-on added to cart item
+ */
+export const zCartAddAddOnResponse = zCartResponse;
+
+export const zCartRemoveAddOnPath = z.object({
+    cartAddOnItemId: z.string()
+});
+
+/**
+ * Cart add-on removed
+ */
+export const zCartRemoveAddOnResponse = zCartResponse;
+
+export const zCartUpdateAddOnQuantityBody = zUpdateCartAddOn;
+
+export const zCartUpdateAddOnQuantityPath = z.object({
+    cartAddOnItemId: z.string()
+});
+
+/**
+ * Cart add-on quantity updated
+ */
+export const zCartUpdateAddOnQuantityResponse = zCartResponse;
+
+export const zCheckoutStartBody = zStartCheckout;
+
+export const zCheckoutStartHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Checkout started with provider info and client secret (if any).
+ */
+export const zCheckoutStartResponse2 = zCheckoutStartResponse;
+
+export const zCheckoutSubmitBody = zSubmitCheckout;
+
+export const zCheckoutSubmitHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Order created with optional auth tokens for customer auto-authentication
+ */
+export const zCheckoutSubmitResponse = zCheckoutResponse;
+
+export const zCheckoutGetCartQuestionsHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+export const zCheckoutGetCartQuestionsPath = z.object({
+    language: z.unknown()
+});
+
+/**
+ * Checkout questions for all cart items
+ */
+export const zCheckoutGetCartQuestionsResponse = z.array(zCartCheckoutQuestionResponse);
 
 export const zCheckoutSaveCustomerBody = zCheckoutCustomer;
 
@@ -3426,6 +7820,85 @@ export const zCheckoutSaveAnswersBody = zCheckoutQuestionAnswers;
 
 export const zCheckoutSaveAnswersHeaders = z.object({
     'X-Cart-Id': z.string()
+});
+
+export const zCartDiscountRemoveCodeHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart with discount removed
+ */
+export const zCartDiscountRemoveCodeResponse = zCartResponse;
+
+export const zCartDiscountApplyCodeBody = zApplyCode;
+
+export const zCartDiscountApplyCodeHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
+
+/**
+ * Cart with discount applied
+ */
+export const zCartDiscountApplyCodeResponse = zCartResponse;
+
+/**
+ * Public settings retrieved successfully
+ */
+export const zStoreGetStorePublicSettingsResponse = zStorePublicSettings;
+
+export const zProductGetBySlugPath = z.object({
+    slug: z.string()
+});
+
+/**
+ * Product retrieved successfully
+ */
+export const zProductGetBySlugResponse = zProductSlugResponse;
+
+export const zProductGetPath = z.object({
+    productId: z.string()
+});
+
+/**
+ * Product retrieved successfully
+ */
+export const zProductGetResponse = zProductDetailResponse;
+
+export const zProductGetByExternalIdPath = z.object({
+    productExternalId: z.string()
+});
+
+/**
+ * Products retrieved successfully
+ */
+export const zProductGetByExternalIdResponse = z.array(zProductExternalIdResponse);
+
+export const zProductGetByExternalVariantIdPath = z.object({
+    productExternalVariantId: z.string()
+});
+
+/**
+ * Product retrieved successfully
+ */
+export const zProductGetByExternalVariantIdResponse = zProductExternalVariantResponse;
+
+export const zProductListQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    take: z.number().gte(1).lte(100).optional().default(50),
+    q: z.string().optional(),
+    locationId: z.string().optional(),
+    status: z.array(z.enum(['active', 'inactive'])).optional(),
+    orderBy: z.unknown().optional(),
+    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
+});
+
+/**
+ * List of products for the current store
+ */
+export const zProductListResponse = z.object({
+    data: z.array(zProductListItemResponse),
+    meta: zCollectionMeta
 });
 
 export const zProductGetNearestAvailabilityPath = z.object({
@@ -3474,377 +7947,6 @@ export const zProductGetCurrentAvailabilitiesMergedQuery = z.object({
  */
 export const zProductGetCurrentAvailabilitiesMergedResponse = z.array(zCurrentAvailabilitySlot);
 
-/**
- * List of available payment providers
- */
-export const zPaymentGetAvailableProvidersResponse = z.array(zCustomerProviderCatalogItem);
-
-/**
- * Public payment settings
- */
-export const zPaymentGetSettingsResponse = zPaymentSetting;
-
-export const zInvoiceListPath = z.object({
-    orderId: z.string()
-});
-
-export const zInvoiceListResponse = z.array(zInvoice);
-
-/**
- * Customer profile returned successfully
- */
-export const zSelfServiceGetProfileResponse = zCustomer;
-
-export const zSelfServiceUpdateProfileBody = zUpdateCustomerProfile;
-
-/**
- * Profile updated successfully
- */
-export const zSelfServiceUpdateProfileResponse = zCustomer;
-
-export const zAppointmentListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    status: z.array(z.enum([
-        'pending',
-        'scheduled',
-        'completed',
-        'canceled'
-    ])).optional(),
-    staffMembers: z.array(z.string()).optional(),
-    products: z.array(z.string()).optional(),
-    locations: z.array(z.string()).optional(),
-    date: z.string().regex(/\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/).optional(),
-    orderBy: z.enum([
-        'from',
-        'to',
-        'productId',
-        'staffMemberId',
-        'customerId',
-        'createdAt'
-    ]).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC'),
-    limit: z.number().optional()
-});
-
-/**
- * Collection of customer appointments
- */
-export const zAppointmentListResponse = z.object({
-    data: z.array(zAppointment),
-    meta: zCollectionMeta
-});
-
-/**
- * Appointment details to create
- */
-export const zAppointmentCreateBody = zCreateAppointment;
-
-/**
- * The appointment has been successfully created
- */
-export const zAppointmentCreateResponse = zAppointment;
-
-export const zAppointmentFindPath = z.object({
-    appointmentId: z.string()
-});
-
-/**
- * The appointment details
- */
-export const zAppointmentFindResponse = zAppointment;
-
-export const zAppointmentFindByExternalOrderNamePath = z.object({
-    externalOrderName: z.string()
-});
-
-/**
- * The appointment details
- */
-export const zAppointmentFindByExternalOrderNameResponse = zAppointment;
-
-/**
- * New appointment time details
- */
-export const zAppointmentRescheduleBody = zRescheduleAppointment;
-
-export const zAppointmentReschedulePath = z.object({
-    appointmentId: z.string()
-});
-
-/**
- * The rescheduled appointment details
- */
-export const zAppointmentRescheduleResponse = zAppointment;
-
-/**
- * Cancellation details including reason
- */
-export const zAppointmentCancelBody = zCancelAppointment;
-
-export const zAppointmentCancelPath = z.object({
-    appointmentId: z.string()
-});
-
-/**
- * The canceled appointment details
- */
-export const zAppointmentCancelResponse = zAppointment;
-
-/**
- * Feedback answers from the customer
- */
-export const zAppointmentFeedbackBody = zFeedbackQuestionAnswers;
-
-export const zAppointmentFeedbackPath = z.object({
-    appointmentId: z.string()
-});
-
-/**
- * The feedback has been successfully submitted
- */
-export const zAppointmentFeedbackResponse = z.array(zFeedbackQuestionAnswer);
-
-/**
- * Customer booking preferences and history
- */
-export const zAppointmentGetBookingPreferencesResponse = zCustomerBookingPreferences;
-
-export const zOrderListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    name: z.string().optional(),
-    paymentStatuses: z.array(z.enum([
-        'unpaid',
-        'paid',
-        'partially-paid'
-    ])).optional(),
-    fulfillmentStatuses: z.array(z.enum([
-        'partially-fulfilled',
-        'fulfilled',
-        'unfulfilled'
-    ])).optional(),
-    customers: z.array(z.string()).optional(),
-    services: z.array(z.string()).optional(),
-    staffMembers: z.array(z.string()).optional(),
-    locations: z.array(z.string()).optional(),
-    orderBy: z.enum(['customerId', 'createdAt']).optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * Collection of customer orders
- */
-export const zOrderListResponse = z.object({
-    data: z.array(zOrder),
-    meta: zCollectionMeta
-});
-
-export const zOrderFindPath = z.object({
-    orderId: z.string()
-});
-
-/**
- * The order details
- */
-export const zOrderFindResponse = zOrder;
-
-export const zCartGetHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Cart fetched
- */
-export const zCartGetResponse = zCart;
-
-export const zCartCreateOrGetHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Cart created or fetched
- */
-export const zCartCreateOrGetResponse = zCart;
-
-export const zCartAddItemBody = zCreateCartItem;
-
-export const zCartAddItemHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Item added
- */
-export const zCartAddItemResponse = zCart;
-
-export const zCartRemoveItemPath = z.object({
-    itemId: z.string()
-});
-
-/**
- * Item removed
- */
-export const zCartRemoveItemResponse = zCart;
-
-export const zCartExtendExpirationHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Cart expiration extended
- */
-export const zCartExtendExpirationResponse = zCart;
-
-export const zCartAddAddOnBody = zAddCartAddOn;
-
-export const zCartAddAddOnHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-export const zCartAddAddOnPath = z.object({
-    cartItemId: z.string()
-});
-
-/**
- * Add-on added to cart item
- */
-export const zCartAddAddOnResponse = zCart;
-
-export const zCartRemoveAddOnPath = z.object({
-    cartAddOnItemId: z.string()
-});
-
-/**
- * Cart add-on removed
- */
-export const zCartRemoveAddOnResponse = zCart;
-
-export const zCartUpdateAddOnQuantityBody = zUpdateCartAddOn;
-
-export const zCartUpdateAddOnQuantityPath = z.object({
-    cartAddOnItemId: z.string()
-});
-
-/**
- * Cart add-on quantity updated
- */
-export const zCartUpdateAddOnQuantityResponse = zCart;
-
-export const zCheckoutStartBody = zStartCheckout;
-
-export const zCheckoutStartHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Checkout started with provider info and client secret (if any).
- */
-export const zCheckoutStartResponse2 = zCheckoutStartResponse;
-
-export const zCheckoutSubmitBody = zSubmitCheckout;
-
-export const zCheckoutSubmitHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Order created with optional auth tokens for customer auto-authentication
- */
-export const zCheckoutSubmitResponse = zCheckoutResponse;
-
-export const zCheckoutGetCartQuestionsHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-export const zCheckoutGetCartQuestionsPath = z.object({
-    language: z.unknown()
-});
-
-/**
- * Checkout questions for all cart items
- */
-export const zCheckoutGetCartQuestionsResponse = z.array(zCheckoutQuestion);
-
-export const zCartDiscountRemoveCodeHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Cart with discount removed
- */
-export const zCartDiscountRemoveCodeResponse = zCart;
-
-export const zCartDiscountApplyCodeBody = zApplyCode;
-
-export const zCartDiscountApplyCodeHeaders = z.object({
-    'X-Cart-Id': z.string()
-});
-
-/**
- * Cart with discount applied
- */
-export const zCartDiscountApplyCodeResponse = zCart;
-
-/**
- * Public settings retrieved successfully
- */
-export const zStoreGetStorePublicSettingsResponse = zStorePublicSettings;
-
-export const zProductGetBySlugPath = z.object({
-    slug: z.string()
-});
-
-/**
- * Product retrieved successfully
- */
-export const zProductGetBySlugResponse = zProduct;
-
-export const zProductGetPath = z.object({
-    productId: z.string()
-});
-
-/**
- * Product retrieved successfully
- */
-export const zProductGetResponse = zProduct;
-
-export const zProductGetByExternalIdPath = z.object({
-    productExternalId: z.string()
-});
-
-/**
- * Products retrieved successfully
- */
-export const zProductGetByExternalIdResponse = z.array(zProduct);
-
-export const zProductGetByExternalVariantIdPath = z.object({
-    productExternalVariantId: z.string()
-});
-
-/**
- * Product retrieved successfully
- */
-export const zProductGetByExternalVariantIdResponse = zProduct;
-
-export const zProductListQuery = z.object({
-    page: z.number().gte(1).optional().default(1),
-    take: z.number().gte(1).lte(100).optional().default(50),
-    q: z.string().optional(),
-    locationId: z.string().optional(),
-    status: z.array(z.enum(['active', 'inactive'])).optional(),
-    orderBy: z.unknown().optional(),
-    order: z.enum(['ASC', 'DESC']).optional().default('ASC')
-});
-
-/**
- * List of products for the current store
- */
-export const zProductListResponse = z.object({
-    data: z.array(zProduct),
-    meta: zCollectionMeta
-});
-
 export const zProductListAddOnsPath = z.object({
     productId: z.string()
 });
@@ -3857,7 +7959,7 @@ export const zProductListAddOnsQuery = z.object({
 /**
  * Add-ons returned
  */
-export const zProductListAddOnsResponse = z.array(zAddOn);
+export const zProductListAddOnsResponse = z.array(zAddOnListItemResponse);
 
 export const zProductListAddOnsBySlugPath = z.object({
     slug: z.string()
@@ -3871,7 +7973,7 @@ export const zProductListAddOnsBySlugQuery = z.object({
 /**
  * Add-ons returned
  */
-export const zProductListAddOnsBySlugResponse = z.array(zAddOn);
+export const zProductListAddOnsBySlugResponse = z.array(zAddOnListItemResponse);
 
 export const zLocationGetBySlugPath = z.object({
     slug: z.string()
@@ -3880,7 +7982,7 @@ export const zLocationGetBySlugPath = z.object({
 /**
  * Location retrieved successfully
  */
-export const zLocationGetBySlugResponse = zLocation;
+export const zLocationGetBySlugResponse = zLocationDetailResponse;
 
 export const zLocationGetPath = z.object({
     locationId: z.string()
@@ -3889,7 +7991,7 @@ export const zLocationGetPath = z.object({
 /**
  * Location retrieved successfully
  */
-export const zLocationGetResponse = zLocation;
+export const zLocationGetResponse = zLocationDetailResponse;
 
 export const zLocationListQuery = z.object({
     page: z.number().gte(1).optional().default(1),
@@ -3908,7 +8010,7 @@ export const zLocationListQuery = z.object({
  * List of locations for the current store
  */
 export const zLocationListResponse = z.object({
-    data: z.array(zLocation),
+    data: z.array(zLocationDetailResponse),
     meta: zCollectionMeta
 });
 
@@ -3919,7 +8021,7 @@ export const zProductCollectionsGetBySlugPath = z.object({
 /**
  * Product collection retrieved successfully
  */
-export const zProductCollectionsGetBySlugResponse = zProductCollection;
+export const zProductCollectionsGetBySlugResponse = zProductCollectionResponse;
 
 export const zProductCollectionsListQuery = z.object({
     page: z.number().gte(1).optional().default(1),
@@ -3938,7 +8040,7 @@ export const zProductCollectionsListQuery = z.object({
  * List of product collections for the current store
  */
 export const zProductCollectionsListResponse = z.object({
-    data: z.array(zProductCollection),
+    data: z.array(zProductCollectionResponse),
     meta: zCollectionMeta
 });
 
@@ -3949,7 +8051,7 @@ export const zStaffMemberGetBySlugPath = z.object({
 /**
  * Staff member retrieved successfully
  */
-export const zStaffMemberGetBySlugResponse = zStaffMember;
+export const zStaffMemberGetBySlugResponse = zStaffMemberDetailResponse;
 
 export const zStaffMemberListQuery = z.object({
     page: z.number().gte(1).optional().default(1),
@@ -3963,7 +8065,7 @@ export const zStaffMemberListQuery = z.object({
  * List of staff members for the current store
  */
 export const zStaffMemberListResponse = z.object({
-    data: z.array(zStaffMember),
+    data: z.array(zStaffMemberListItemResponse),
     meta: zCollectionMeta
 });
 
@@ -3981,7 +8083,7 @@ export const zAddOnListQuery = z.object({
  * List of add-ons for the current store
  */
 export const zAddOnListResponse = z.object({
-    data: z.array(zAddOn),
+    data: z.array(zAddOnListItemResponse),
     meta: zCollectionMeta
 });
 
@@ -3992,7 +8094,7 @@ export const zAddOnGetPath = z.object({
 /**
  * Add-on returned
  */
-export const zAddOnGetResponse = zAddOn;
+export const zAddOnGetResponse = zAddOnDetailResponse;
 
 export const zAddOnGetBySlugPath = z.object({
     slug: z.string()
@@ -4001,7 +8103,23 @@ export const zAddOnGetBySlugPath = z.object({
 /**
  * Add-on returned
  */
-export const zAddOnGetBySlugResponse = zAddOn;
+export const zAddOnGetBySlugResponse = zAddOnDetailResponse;
+
+/**
+ * List of available payment providers
+ */
+export const zPaymentGetAvailableProvidersResponse = z.array(zCustomerProviderCatalogItem);
+
+/**
+ * Public payment settings
+ */
+export const zPaymentGetSettingsResponse = zPaymentSettingResponse;
+
+export const zInvoiceListPath = z.object({
+    orderId: z.string()
+});
+
+export const zInvoiceListResponse = z.array(zInvoiceResponse);
 
 export const zFeedbackQuestionListTranslationsPath = z.object({
     productId: z.string(),
@@ -4011,7 +8129,7 @@ export const zFeedbackQuestionListTranslationsPath = z.object({
 /**
  * Feedback questions with translations
  */
-export const zFeedbackQuestionListTranslationsResponse = z.array(zFeedbackQuestion);
+export const zFeedbackQuestionListTranslationsResponse = z.array(zFeedbackQuestionResponse);
 
 export const zCheckoutQuestionListTranslationsPath = z.object({
     productId: z.string(),
@@ -4021,7 +8139,7 @@ export const zCheckoutQuestionListTranslationsPath = z.object({
 /**
  * Checkout questions with translations
  */
-export const zCheckoutQuestionListTranslationsResponse = z.array(zCheckoutQuestion);
+export const zCheckoutQuestionListTranslationsResponse = z.array(zCheckoutQuestionResponse);
 
 export const zImageGetPath = z.object({
     imageId: z.string()
@@ -4030,4 +8148,4 @@ export const zImageGetPath = z.object({
 /**
  * Image
  */
-export const zImageGetResponse = zImage;
+export const zImageGetResponse = zImageResponse;

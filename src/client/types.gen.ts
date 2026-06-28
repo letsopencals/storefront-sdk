@@ -4,25 +4,6 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
-export type Language = {
-    /**
-     * ISO language code identifier
-     */
-    code: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
-    /**
-     * English name of the language
-     */
-    englishName: string;
-    /**
-     * Name of the language in its original script
-     */
-    originalName: string;
-    /**
-     * Whether the language is currently active in the system
-     */
-    active: boolean;
-};
-
 export type CollectionMeta = {
     /**
      * Current page number
@@ -50,10 +31,6 @@ export type CollectionMeta = {
     hasNextPage: boolean;
 };
 
-export type UserOauthProvider = {
-    [key: string]: unknown;
-};
-
 /**
  * Language code for this translation
  */
@@ -69,3080 +46,10 @@ export type AppointmentStatusType = 'pending' | 'scheduled' | 'completed' | 'can
  */
 export type AppointmentCreatedByEnum = 'customer' | 'merchant';
 
-export type ScheduleAvailability = {
-    /**
-     * Unique identifier of the schedule availability record
-     */
-    id: string;
-    /**
-     * ID of the schedule this availability applies to
-     */
-    scheduleId: string;
-    /**
-     * Start date of the availability period (for specific date ranges) - in the timezone of the schedule
-     */
-    fromDate?: string | null;
-    /**
-     * Start time of the availability period - in the timezone of the schedule
-     */
-    fromTime: string;
-    /**
-     * End date of the availability period (for specific date ranges) - in the timezone of the schedule
-     */
-    toDate?: string | null;
-    /**
-     * End time of the availability period - in the timezone of the schedule
-     */
-    toTime: string;
-    /**
-     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
-     */
-    day?: number | null;
-    /**
-     * Status indicating whether this time period is available or unavailable
-     */
-    status: 'available' | 'unavailable';
-    /**
-     * Date when the availability record was created
-     */
-    createdAt: string;
-    /**
-     * Date when the availability record was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Schedule this availability is associated with
-     */
-    schedule?: Schedule;
-};
-
-export type Integration = {
-    /**
-     * Unique identifier for the integration
-     */
-    id: string;
-    /**
-     * ID of the store that owns the integration
-     */
-    storeId: string;
-    /**
-     * Type of integration
-     */
-    type: 'calendar' | 'location' | 'payment' | 'webhook';
-    /**
-     * Display name of the integration
-     */
-    name: string;
-    /**
-     * Internal system name of the integration
-     */
-    internalName: string;
-    /**
-     * Current status of the integration
-     */
-    status: 'pending' | 'success';
-    /**
-     * Whether the integration is enabled
-     */
-    enabled: boolean;
-    /**
-     * When the integration was created
-     */
-    createdAt: string;
-    /**
-     * When the integration was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * When the integration was soft-deleted
-     */
-    deletedAt: string | null;
-    /**
-     * Store that owns the integration
-     */
-    store: Store;
-};
-
-export type Image = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * External identifier for the image (e.g., from storage provider)
-     */
-    externalId?: string | null;
-    /**
-     * URL where the image can be accessed
-     */
-    url: string;
-    /**
-     * Original filename of the uploaded image
-     */
-    filename?: string | null;
-    /**
-     * MIME type of the image
-     */
-    mime?: string | null;
-    /**
-     * Creation timestamp
-     */
-    createdAt: string;
-    /**
-     * Last update timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Soft deletion timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this image
-     */
-    storeId?: string | null;
-    /**
-     * Store that owns this image
-     */
-    store?: Store;
-};
-
-export type AddOn = {
-    /**
-     * Unique identifier for the add-on
-     */
-    id: string;
-    /**
-     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
-     */
-    externalId?: string;
-    /**
-     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
-     */
-    externalVariantId?: string;
-    /**
-     * ID of the store that owns this add-on
-     */
-    storeId: string;
-    /**
-     * URL-friendly slug for the add-on (unique per store)
-     */
-    slug: string;
-    /**
-     * Title of the add-on
-     */
-    title?: string;
-    /**
-     * Detailed description of the add-on
-     */
-    description?: string;
-    /**
-     * ID of the primary image for the add-on
-     */
-    imageId?: string;
-    /**
-     * Color code used when displaying the add-on
-     */
-    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
-    /**
-     * Unit price of the add-on
-     */
-    price: number;
-    /**
-     * Whether the add-on is taxable
-     */
-    taxable: boolean;
-    /**
-     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
-     */
-    durationMultiplied: boolean;
-    /**
-     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
-     */
-    maxQuantity?: number | null;
-    /**
-     * Current status of the add-on
-     */
-    status: 'active' | 'inactive';
-    /**
-     * Timestamp when the add-on was created
-     */
-    createdAt: string;
-    /**
-     * Timestamp when the add-on was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Timestamp when the add-on was soft-deleted
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this add-on
-     */
-    store?: Store;
-    /**
-     * Primary image associated with this add-on
-     */
-    image?: Image;
-    /**
-     * Gallery images for this add-on
-     */
-    images?: Array<Image>;
-    /**
-     * Locations where this add-on is available
-     */
-    locations?: Array<Location>;
-    /**
-     * Staff members who can deliver this add-on
-     */
-    staffMembers?: Array<StaffMember>;
-    /**
-     * Products that offer this add-on at checkout
-     */
-    products?: Array<Product>;
-};
-
-export type LocationAvailability = {
-    /**
-     * Unique identifier of the location availability record
-     */
-    id: string;
-    /**
-     * ID of the location this availability applies to
-     */
-    locationId: string;
-    /**
-     * Start date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fromDate?: string | null;
-    /**
-     * Start time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fromTime: string;
-    /**
-     * End date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    toDate?: string | null;
-    /**
-     * End time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    toTime: string;
-    /**
-     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
-     */
-    day?: number | null;
-    /**
-     * Status indicating whether this time period is available or unavailable
-     */
-    status: 'available' | 'unavailable';
-    /**
-     * Date when the availability record was created
-     */
-    createdAt: string;
-    /**
-     * Date when the availability record was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Location this availability is assigned to
-     */
-    location?: Location;
-};
-
-export type Location = {
-    /**
-     * Unique identifier of the location
-     */
-    id: string;
-    /**
-     * ID of the store that owns this location
-     */
-    storeId: string;
-    /**
-     * ID of the schedule assigned to this location (if any)
-     */
-    scheduleId?: string | null;
-    /**
-     * Name of the location
-     */
-    title?: string | null;
-    /**
-     * Description of the location
-     */
-    description?: string | null;
-    /**
-     * URL-friendly slug for the location (unique per store)
-     */
-    slug: string;
-    /**
-     * Type of location
-     */
-    type: 'physical' | 'online' | 'delivery';
-    /**
-     * URL link for online locations
-     */
-    link?: string | null;
-    /**
-     * First line of address for physical locations
-     */
-    addressLine1?: string | null;
-    /**
-     * Second line of address for physical locations
-     */
-    addressLine2?: string | null;
-    /**
-     * City for physical locations
-     */
-    city?: string | null;
-    /**
-     * State/province for physical locations
-     */
-    state?: string | null;
-    /**
-     * Postal code for physical locations
-     */
-    postalCode?: string | null;
-    /**
-     * Country for physical locations
-     */
-    country?: string | null;
-    /**
-     * Google Place ID for the physical address
-     */
-    addressPlaceId?: string | null;
-    /**
-     * Latitude in WGS84
-     */
-    latitude?: number | null;
-    /**
-     * Longitude in WGS84
-     */
-    longitude?: number | null;
-    /**
-     * Date when the location was created
-     */
-    createdAt: string;
-    /**
-     * Date when the location was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date when the location was deleted (for soft deletes)
-     */
-    deletedAt?: string | null;
-    /**
-     * Store that owns this location
-     */
-    store?: Store;
-    /**
-     * Schedule assigned to the location
-     */
-    schedule?: Schedule;
-    /**
-     * Products that can be offered at this location
-     */
-    products?: Array<Product>;
-    /**
-     * Staff members who can work at this location
-     */
-    staffMembers?: Array<StaffMember>;
-    /**
-     * Integrations connected to this location (e.g., Google Meet, Zoom)
-     */
-    integrations?: Array<Integration>;
-    /**
-     * Add-ons available at this location
-     */
-    addOns?: Array<AddOn>;
-    /**
-     * Appointments scheduled at this location
-     */
-    appointments?: Array<Appointment>;
-    /**
-     * Availability records for this location
-     */
-    availabilities?: Array<LocationAvailability>;
-    /**
-     * The formatted address string
-     */
-    address: string | null;
-};
-
-export type Schedule = {
-    /**
-     * Unique identifier for the schedule
-     */
-    id: string;
-    /**
-     * ID of the store that owns this schedule
-     */
-    storeId: string;
-    /**
-     * Name of the schedule
-     */
-    name: string | null;
-    /**
-     * Timezone for the schedule
-     */
-    timezone: string;
-    /**
-     * Time slot frequency for the schedule
-     */
-    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
-    /**
-     * Buffer time between appointments in seconds
-     */
-    appointmentsGap: number;
-    /**
-     * Number of days customers can book in advance (-1 for unlimited)
-     */
-    advanceScheduleDays: number;
-    /**
-     * Type of availability pattern for this schedule
-     */
-    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
-    /**
-     * Status of the schedule
-     */
-    status: 'active' | 'inactive';
-    /**
-     * Date when the schedule was created
-     */
-    createdAt: string;
-    /**
-     * Date when the schedule was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date when the schedule was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * Store that owns this schedule
-     */
-    store?: Store;
-    /**
-     * Availability records associated with this schedule
-     */
-    availabilities?: Array<ScheduleAvailability>;
-    /**
-     * Staff members assigned to this schedule
-     */
-    staffMembers?: Array<StaffMember>;
-    /**
-     * Locations assigned to this schedule
-     */
-    locations?: Array<Location>;
-    /**
-     * Products (services) assigned to this schedule
-     */
-    products?: Array<Product>;
-};
-
-export type ProductPool = {
-    id: string;
-    storeId: string;
-    name: string;
-    description: string;
-    status: 'active' | 'inactive';
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string;
-};
-
-export type ProductCollection = {
-    /**
-     * Unique identifier for the product collection
-     */
-    id: string;
-    /**
-     * Identifier of the store that owns the collection
-     */
-    storeId: string;
-    /**
-     * Title of the product collection
-     */
-    title: string;
-    /**
-     * Description of the product collection
-     */
-    description?: string;
-    /**
-     * URL-friendly slug for the product collection (unique per store)
-     */
-    slug: string;
-    /**
-     * Visibility flag for the collection
-     */
-    isVisible: boolean;
-    /**
-     * Timestamp when the collection was created
-     */
-    createdAt: string;
-    /**
-     * Timestamp when the collection was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Timestamp when the collection was soft-deleted
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this collection
-     */
-    store?: Store;
-    /**
-     * Products assigned to this collection
-     */
-    products?: Array<Product>;
-};
-
-export type FeedbackQuestionTranslation = {
-    /**
-     * Unique identifier for the translation
-     */
-    id: string;
-    /**
-     * ID of the feedback question this translation belongs to
-     */
-    questionId: string;
-    /**
-     * Translated title of the question shown to customers
-     */
-    title: string;
-    /**
-     * Translated description or additional instructions for the question
-     */
-    description: string;
-    /**
-     * Available options for dropdown or rating questions in this language
-     */
-    options?: Array<string> | null;
-    /**
-     * Language code for this translation
-     */
-    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
-    /**
-     * Date and time when the translation was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the translation was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The feedback question this translation belongs to
-     */
-    question: FeedbackQuestion;
-    /**
-     * Language entity this translation is in
-     */
-    language: Language;
-};
-
-export type FeedbackQuestion = {
-    /**
-     * Unique identifier for the feedback question
-     */
-    id: string;
-    /**
-     * Internal name for the question (not shown to customers)
-     */
-    internalName: string;
-    /**
-     * Whether the question is required to be answered
-     */
-    required: boolean;
-    /**
-     * Type of input for the question
-     */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
-    /**
-     * Display order of the question (lower numbers appear first)
-     */
-    order: number;
-    /**
-     * Whether this question is shown for all products in the store
-     */
-    alwaysShow: boolean;
-    /**
-     * Date and time when the question was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the question was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date when the question was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this question
-     */
-    storeId: string;
-    /**
-     * Store that owns this question
-     */
-    store?: Store;
-    /**
-     * Translations of this question in various languages
-     */
-    translations: Array<FeedbackQuestionTranslation>;
-    /**
-     * Products associated with this feedback question
-     */
-    products?: Array<Product>;
-};
-
-export type CheckoutQuestionTranslation = {
-    /**
-     * Unique identifier for the translation
-     */
-    id: string;
-    /**
-     * ID of the checkout question this translation belongs to
-     */
-    questionId: string;
-    /**
-     * Translated title of the question shown to customers
-     */
-    title: string;
-    /**
-     * Translated description or additional instructions for the question
-     */
-    description: string;
-    /**
-     * Available options for dropdown or checkbox questions in this language
-     */
-    options?: Array<string> | null;
-    /**
-     * Language code for this translation
-     */
-    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
-    /**
-     * Date and time when the translation was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the translation was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The checkout question this translation belongs to
-     */
-    question: CheckoutQuestion;
-    /**
-     * Language entity this translation is in
-     */
-    language: Language;
-};
-
-export type CheckoutQuestion = {
-    /**
-     * Unique identifier for the checkout question
-     */
-    id: string;
-    /**
-     * Internal name for the question (not shown to customers)
-     */
-    internalName: string;
-    /**
-     * Whether the question is required to be answered
-     */
-    required: boolean;
-    /**
-     * Type of input for the question
-     */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
-    /**
-     * Display order of the question (lower numbers appear first)
-     */
-    order: number;
-    /**
-     * Whether this question is shown for all products in the store
-     */
-    alwaysShow: boolean;
-    /**
-     * Date and time when the question was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the question was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date when the question was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this question
-     */
-    storeId: string;
-    /**
-     * Store that owns this question
-     */
-    store?: Store;
-    /**
-     * Translations of this question in various languages
-     */
-    translations: Array<CheckoutQuestionTranslation>;
-    /**
-     * Products associated with this checkout question
-     */
-    products?: Array<Product>;
-};
-
-export type Product = {
-    /**
-     * Unique identifier for the product
-     */
-    id: string;
-    /**
-     * ID of the product
-     */
-    productId: string;
-    /**
-     * External platform product ID (e.g. Shopify Product ID)
-     */
-    externalId?: string;
-    /**
-     * External platform variant ID (e.g. Shopify Variant ID)
-     */
-    externalVariantId?: string;
-    /**
-     * ID of the store that owns this product
-     */
-    storeId: string;
-    /**
-     * URL-friendly slug for the product (unique per store)
-     */
-    slug: string;
-    /**
-     * ID of the schedule associated with this product
-     */
-    scheduleId?: string;
-    /**
-     * ID of the product pool this product belongs to (controls overlap prevention)
-     */
-    productPoolId?: string | null;
-    /**
-     * Title of the product
-     */
-    title?: string;
-    /**
-     * Title of the specific product variant
-     */
-    variantTitle?: string;
-    /**
-     * Detailed description of the product
-     */
-    description?: string;
-    /**
-     * ID of the product image
-     */
-    imageId?: string;
-    /**
-     * Color code for displaying the product
-     */
-    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
-    /**
-     * Price of the product
-     */
-    price: number;
-    /**
-     * Whether the product is taxable
-     */
-    taxable: boolean;
-    /**
-     * Duration of the service in seconds
-     */
-    duration: number;
-    /**
-     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
-     */
-    allowCustomDuration: boolean;
-    /**
-     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
-     */
-    maxDuration: number;
-    /**
-     * Maximum number of attendees allowed
-     */
-    maxAttendees: number;
-    /**
-     * Maximum number of guests allowed per appointment. Null means unlimited.
-     */
-    maxGuests?: number | null;
-    /**
-     * Whether customers can invite guests to the appointment
-     */
-    allowGuests: boolean;
-    /**
-     * Whether customers can reschedule their bookings
-     */
-    allowCustomerReschedule: boolean;
-    /**
-     * Whether customers can cancel their bookings
-     */
-    allowCustomerCancel: boolean;
-    /**
-     * Time in seconds before appointment when rescheduling is no longer allowed
-     */
-    rescheduleGap?: number;
-    /**
-     * Time in seconds before appointment when cancellation is no longer allowed
-     */
-    cancelGap?: number;
-    /**
-     * Buffer time in seconds required before this service
-     */
-    beforeGap?: number;
-    /**
-     * Buffer time in seconds required after this service
-     */
-    afterGap?: number;
-    /**
-     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
-     */
-    fixedTimes: boolean;
-    /**
-     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fixedStartTime?: string;
-    /**
-     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fixedEndTime?: string;
-    /**
-     * How many days in advance bookings can be made
-     */
-    advanceScheduleThreshold: number;
-    /**
-     * Whether to send confirmation emails for bookings
-     */
-    sendConfirmationEmail: boolean;
-    /**
-     * Whether to send reminder emails before appointments
-     */
-    sendReminderEmail: boolean;
-    /**
-     * Whether to send feedback request emails after appointments
-     */
-    sendFeedbackEmail: boolean;
-    /**
-     * Whether to skip the checkout process for this product (Shopify merchants only)
-     */
-    skipCheckout: boolean;
-    /**
-     * Current status of the product
-     */
-    status: 'active' | 'inactive';
-    /**
-     * Timestamp when the product was created
-     */
-    createdAt: string;
-    /**
-     * Timestamp when the product was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Timestamp when the product was deleted (for soft deletes)
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this product
-     */
-    store?: Store;
-    /**
-     * Schedule associated with this product
-     */
-    schedule?: Schedule;
-    /**
-     * Resource group this product belongs to
-     */
-    productPool?: ProductPool;
-    /**
-     * Appointments booked for this product
-     */
-    appointments?: Array<Appointment>;
-    /**
-     * Staff members who can provide this service
-     */
-    staffMembers?: Array<StaffMember>;
-    /**
-     * Collections assigned to this product
-     */
-    collections?: Array<ProductCollection>;
-    /**
-     * Locations where this service is offered
-     */
-    locations?: Array<Location>;
-    /**
-     * Parent product (if this is a variant)
-     */
-    parentProduct?: Product;
-    /**
-     * Variants of this product
-     */
-    variants?: Array<Product>;
-    /**
-     * Image associated with this product
-     */
-    image?: Image;
-    /**
-     * Images associated with this product
-     */
-    images?: Array<Image>;
-    /**
-     * Integrations enabled for this product
-     */
-    integrations?: Array<Integration>;
-    /**
-     * Feedback questions associated with this product
-     */
-    feedbackQuestions?: Array<FeedbackQuestion>;
-    /**
-     * Checkout questions associated with this product
-     */
-    checkoutQuestions?: Array<CheckoutQuestion>;
-    /**
-     * Add-ons that can be attached to this product at booking time
-     */
-    addOns?: Array<AddOn>;
-};
-
-export type CheckoutQuestionAnswer = {
-    /**
-     * Unique identifier of the checkout question answer
-     */
-    id: string;
-    /**
-     * ID of the appointment this question answer relates to
-     */
-    appointmentId: string;
-    /**
-     * ID of the checkout question (set to null if question is deleted)
-     */
-    questionId?: string | null;
-    /**
-     * The checkout question this answer relates to
-     */
-    checkoutQuestion?: CheckoutQuestion | null;
-    /**
-     * The checkout question text presented to the customer
-     */
-    question: string;
-    /**
-     * Customer's answer to the checkout question
-     */
-    answer?: string | null;
-    /**
-     * Date and time when this answer was recorded
-     */
-    createdAt: string;
-    /**
-     * Date and time when this answer was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this question answer relates to
-     */
-    appointment?: Appointment;
-};
-
-export type FeedbackQuestionAnswer = {
-    /**
-     * Unique identifier of the feedback question answer
-     */
-    id: string;
-    /**
-     * ID of the appointment this feedback relates to
-     */
-    appointmentId: string;
-    /**
-     * ID of the feedback question (set to null if question is deleted)
-     */
-    questionId?: string | null;
-    /**
-     * The feedback question this answer relates to
-     */
-    feedbackQuestion?: FeedbackQuestion | null;
-    /**
-     * The feedback question text presented to the customer
-     */
-    question: string;
-    /**
-     * Customer's answer to the feedback question
-     */
-    answer?: string | null;
-    /**
-     * Date and time when this feedback was recorded
-     */
-    createdAt: string;
-    /**
-     * Date and time when this feedback was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this feedback relates to
-     */
-    appointment?: Appointment;
-};
-
-export type IntegratedCalendarAppointment = {
-    /**
-     * Unique identifier for the integrated calendar appointment
-     */
-    id: string;
-    /**
-     * ID of the appointment in the Opencals system
-     */
-    appointmentId: string;
-    /**
-     * ID of the integration connecting to an external calendar
-     */
-    integrationId: string;
-    /**
-     * ID of the appointment in the external calendar system
-     */
-    externalAppointmentId: string;
-    /**
-     * When the record was created
-     */
-    createdAt: string;
-    /**
-     * When the record was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * The integration that connected the appointment to an external calendar
-     */
-    integration: Integration;
-    /**
-     * The appointment that was integrated with an external calendar
-     */
-    appointment: Appointment;
-};
-
-export type IntegratedAppointmentLocationData = {
-    /**
-     * Meeting address or URL for the integrated location
-     */
-    address: string;
-    /**
-     * Optional password required to join the meeting
-     */
-    password?: string | null;
-};
-
-export type IntegratedAppointmentLocation = {
-    /**
-     * Unique identifier for the integrated appointment location
-     */
-    id: string;
-    /**
-     * ID of the appointment in the Opencals system
-     */
-    appointmentId: string;
-    /**
-     * ID of the integration connecting to an external meeting service
-     */
-    integrationId: string;
-    /**
-     * ID of the location in the external meeting service
-     */
-    externalLocationId: string;
-    /**
-     * When the record was created
-     */
-    createdAt: string;
-    /**
-     * When the record was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * The integration that connected the appointment to an external meeting service
-     */
-    integration: Integration;
-    /**
-     * The appointment that was integrated with an external meeting service
-     */
-    appointment: Appointment;
-    /**
-     * Additional location data from the integrated service
-     */
-    data?: IntegratedAppointmentLocationData;
-};
-
-/**
- * Severity level of the log entry
- */
-export type AppointmentLogLevel = 'info' | 'error';
-
-export type AppointmentLog = {
-    /**
-     * Unique identifier of the appointment log entry
-     */
-    id: string;
-    /**
-     * ID of the appointment this log entry relates to
-     */
-    appointmentId: string;
-    /**
-     * Title or summary of the log entry
-     */
-    title: string;
-    /**
-     * Detailed description or additional information about the log entry
-     */
-    description?: string | null;
-    level: AppointmentLogLevel;
-    /**
-     * Date and time when this log entry was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when this log entry was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this log entry relates to
-     */
-    appointment?: Appointment;
-};
-
-export type CartAddOnItem = {
-    /**
-     * Unique identifier of the cart add-on item
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Parent cart item ID (the appointment this add-on is attached to)
-     */
-    cartItemId: string;
-    /**
-     * Add-on ID
-     */
-    addOnId: string;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * The add-on entity
-     */
-    addOn?: AddOn | null;
-    /**
-     * Applied discounts on this add-on item
-     */
-    discounts: Array<CartItemAppliedDiscount>;
-};
-
-export type CartItem = {
-    /**
-     * Unique identifier of the cart item
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * Appointment for this cart item
-     */
-    appointment?: Appointment | null;
-    /**
-     * Add-on items attached to this cart item
-     */
-    addOnItems?: Array<CartAddOnItem>;
-    /**
-     * Raw discount rows for this cart item (internal)
-     */
-    cartItemDiscounts?: Array<unknown>;
-    /**
-     * Applied discounts on this cart item (base line only)
-     */
-    discounts: Array<CartItemAppliedDiscount>;
-    /**
-     * Subtotal of the cart item including its add-ons
-     */
-    lineSubtotal: number;
-    /**
-     * Total tax for the cart item including its add-ons
-     */
-    lineTax: number;
-};
-
-export type CartPayment = {
-    /**
-     * Unique identifier of the cart payment
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Order ID created from the cart payment
-     */
-    orderId?: string | null;
-    /**
-     * Payment provider identifier (e.g., stripe, cash, shopify)
-     */
-    provider: {
-        [key: string]: unknown;
-    };
-    /**
-     * Provider reference (PaymentIntent/Session/charge id)
-     */
-    providerReference?: string | null;
-    /**
-     * Payment status
-     */
-    status: 'created' | 'authorized' | 'captured' | 'failed' | 'voided' | 'refunded';
-    /**
-     * Payment amount
-     */
-    amount: number;
-    /**
-     * Payment currency code
-     */
-    currency: string;
-    /**
-     * Captured amount
-     */
-    capturedAmount: number;
-    /**
-     * Authorization expiration timestamp
-     */
-    authorizedUntil?: string | null;
-    /**
-     * Client secret for Payment Element flow
-     */
-    clientSecret?: string | null;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-};
-
-export type Cart = {
-    /**
-     * Unique identifier of the cart
-     */
-    id: string;
-    /**
-     * ID of the store that owns the cart
-     */
-    storeId: string;
-    /**
-     * ID of the customer who owns the cart
-     */
-    customerId?: string | null;
-    /**
-     * Cart status
-     */
-    status: 'active' | 'converted' | 'abandoned';
-    /**
-     * Payment currency code for the cart totals
-     */
-    paymentCurrencyCode: string;
-    /**
-     * Whether taxes are included in prices
-     */
-    taxesIncluded: boolean;
-    /**
-     * When cart should expire
-     */
-    expiresAt?: string | null;
-    /**
-     * Number of times the cart expiration has been extended
-     */
-    extensionsCount: number;
-    /**
-     * Applied promo/discount code for this cart
-     */
-    appliedDiscountCode?: string | null;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Cart items
-     */
-    items: Array<CartItem>;
-    /**
-     * Cart payments
-     */
-    payments: Array<CartPayment>;
-    /**
-     * Orders associated with this cart
-     */
-    orders: Array<Order>;
-    /**
-     * Subtotal amount of the cart
-     */
-    subtotal: number;
-    /**
-     * Total tax amount of the cart
-     */
-    totalTax: number;
-    /**
-     * Grand total of the cart
-     */
-    total: number;
-    /**
-     * Applied discounts aggregated across all cart items
-     */
-    appliedDiscounts: Array<AppliedDiscount>;
-};
-
-export type OrderRefundLineItem = {
-    /**
-     * Unique identifier for the refund line item
-     */
-    id: string;
-    /**
-     * ID of the refund this line item belongs to
-     */
-    refundId: string;
-    /**
-     * External refund line item ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * ID of the original order line item being refunded
-     */
-    lineItemId: string;
-    /**
-     * Quantity of the line item being refunded
-     */
-    quantity: number;
-    /**
-     * Date and time when the refund line item was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the refund line item was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The refund this line item belongs to
-     */
-    refund: OrderRefund;
-    /**
-     * The original order line item being refunded
-     */
-    lineItem: OrderLineItem;
-};
-
-export type OrderAddOnLineItem = {
-    /**
-     * Unique identifier of the order add-on line item
-     */
-    id: string;
-    /**
-     * ID of the order
-     */
-    orderId: string;
-    /**
-     * ID of the parent order line item (the appointment) this add-on belongs to
-     */
-    lineItemId: string;
-    /**
-     * ID of the add-on
-     */
-    addOnId: string;
-    /**
-     * External line item ID from the platform (e.g., Shopify) for this add-on
-     */
-    externalId?: string | null;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
-     */
-    quantity: number;
-    /**
-     * Created at
-     */
-    createdAt: string;
-    /**
-     * Updated at
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at
-     */
-    deletedAt?: string | null;
-    /**
-     * The order this add-on line item belongs to
-     */
-    order: Order;
-    /**
-     * The parent order line item (appointment) this add-on is attached to
-     */
-    lineItem: OrderLineItem;
-    /**
-     * The add-on
-     */
-    addOn: AddOn;
-    /**
-     * Refund line items for this add-on
-     */
-    refundLineItems: Array<OrderRefundAddOnLineItem>;
-    /**
-     * Subtotal of this add-on line item
-     */
-    subtotal: number;
-    /**
-     * Total amount of this add-on line item (including tax when not included in price)
-     */
-    total: number;
-    /**
-     * Total tax for this add-on line item
-     */
-    totalTax: number;
-    /**
-     * Quantity already refunded
-     */
-    refundedQuantity: number;
-    /**
-     * Remaining refundable quantity
-     */
-    refundableQuantity: number;
-};
-
-export type OrderRefundAddOnLineItem = {
-    /**
-     * Unique identifier for the refund add-on line item
-     */
-    id: string;
-    /**
-     * ID of the refund this line item belongs to
-     */
-    refundId: string;
-    /**
-     * External refund line item ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * ID of the original order add-on line item being refunded
-     */
-    addOnLineItemId: string;
-    /**
-     * Quantity of the add-on line item being refunded
-     */
-    quantity: number;
-    /**
-     * Created at
-     */
-    createdAt: string;
-    /**
-     * Updated at
-     */
-    updatedAt?: string | null;
-    /**
-     * The refund this add-on line item belongs to
-     */
-    refund: OrderRefund;
-    /**
-     * The original add-on line item being refunded
-     */
-    addOnLineItem: OrderAddOnLineItem;
-};
-
-export type OrderRefund = {
-    /**
-     * Unique identifier for the order refund
-     */
-    id: string;
-    /**
-     * ID of the order being refunded
-     */
-    orderId: string;
-    /**
-     * External refund ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * Date and time when the refund was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the refund was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The order this refund relates to
-     */
-    order: Order;
-    /**
-     * The transactions associated with this refund
-     */
-    transactions: Array<OrderTransaction>;
-    /**
-     * The line items included in this refund
-     */
-    lineItems: Array<OrderRefundLineItem>;
-    /**
-     * The add-on line items included in this refund
-     */
-    addOnLineItems?: Array<OrderRefundAddOnLineItem>;
-    /**
-     * The total amount of the refund
-     */
-    total: number;
-};
-
-export type OrderTransaction = {
-    /**
-     * ID of the order
-     */
-    orderId: string | null;
-    /**
-     * External order transaction ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * The parent transaction ID
-     */
-    parentId?: string | null;
-    /**
-     * The refund ID this transaction belongs to (if any)
-     */
-    refundId?: string | null;
-    /**
-     * The type of transaction
-     */
-    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
-    /**
-     * Amount of the transaction
-     */
-    amount: number;
-    /**
-     * The currency code
-     */
-    currencyCode: string;
-    /**
-     * The payment gateway
-     *
-     * @deprecated
-     */
-    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
-    /**
-     * The payment provider (replaces gateway)
-     */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
-    /**
-     * The status of the transaction
-     */
-    status: 'pending' | 'success' | 'failed';
-    /**
-     * Date and time when the transaction was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the transaction was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the transaction was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * The parent transaction
-     */
-    parentTransaction: OrderTransaction;
-    /**
-     * The child transactions
-     */
-    childTransactions: Array<OrderTransaction>;
-    /**
-     * The order this transaction belongs to
-     */
-    order: Order;
-    /**
-     * The refund associated with this transaction
-     */
-    refund?: OrderRefund | null;
-    /**
-     * The refundable amount for this transaction
-     */
-    refundableAmount: number;
-    /**
-     * The refunded amount for this transaction
-     */
-    refundedAmount: number;
-    /**
-     * Whether this transaction is refundable
-     */
-    isRefundable: boolean;
-};
-
 /**
  * Severity level of the log entry
  */
 export type OrderLogLevel = 'info' | 'error';
-
-export type OrderLog = {
-    /**
-     * Unique identifier of the order log entry
-     */
-    id: string;
-    /**
-     * ID of the order this log entry relates to
-     */
-    orderId: string;
-    /**
-     * Title or summary of the log entry
-     */
-    title: string;
-    /**
-     * Detailed description or additional information about the log entry
-     */
-    description?: string | null;
-    level: OrderLogLevel;
-    /**
-     * Date and time when this log entry was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when this log entry was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The order this log entry relates to
-     */
-    order?: Order;
-};
-
-export type Order = {
-    /**
-     * Unique identifier of the order
-     */
-    id: string;
-    /**
-     * The currency used by the customer when placing the order.
-     */
-    paymentCurrencyCode: string;
-    /**
-     * Whether the taxes are included in the order subtotal.
-     */
-    taxesIncluded: boolean;
-    /**
-     * External order ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalName?: string | null;
-    /**
-     * Generated order name for the user (starts at 1001 and increments)
-     */
-    name: string;
-    /**
-     * ID of the customer who placed the order
-     */
-    customerId?: string | null;
-    /**
-     * ID of the store that owns the order
-     */
-    storeId?: string | null;
-    /**
-     * ID of the cart from which the order was created
-     */
-    cartId?: string | null;
-    /**
-     * Date and time when the order was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the order was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the order was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * Customer who placed the order
-     */
-    customer?: Customer | null;
-    /**
-     * Store that owns this order
-     */
-    store?: Store;
-    /**
-     * Cart that produced this order
-     */
-    cart?: Cart | null;
-    /**
-     * Line items in the order
-     */
-    lineItems?: Array<OrderLineItem>;
-    /**
-     * Transactions associated with this order
-     */
-    transactions?: Array<OrderTransaction>;
-    /**
-     * Order activity logs
-     */
-    logs?: Array<OrderLog>;
-    /**
-     * Refunds associated with this order
-     */
-    refunds?: Array<OrderRefund>;
-    /**
-     * Appointments associated with this order through line items
-     */
-    appointments: Array<Appointment>;
-    /**
-     * Refundable transactions associated with this order
-     */
-    refundableTransactions: Array<OrderTransaction>;
-    /**
-     * Subtotal amount of the order, excluding canceled appointments
-     */
-    subtotal: number;
-    /**
-     * Total amount of the order, including canceled appointments and taxes
-     */
-    total: number;
-    /**
-     * Total tax amount of the order, excluding canceled appointments
-     */
-    totalTax: number;
-    /**
-     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
-     */
-    dueToPay: number;
-    /**
-     * Total amount paid for the order
-     */
-    paidTotal: number;
-    /**
-     * Total amount refunded for the order
-     */
-    refundedTotal: number;
-    /**
-     * Balance of the order; based on paid and refunded amounts
-     */
-    balance: number;
-    /**
-     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
-     */
-    dueToRefund: number;
-    /**
-     * Whether the order is fully paid
-     */
-    isFullyPaid: boolean;
-    /**
-     * Whether everything the customer paid has been refunded (paid something, nothing held).
-     */
-    isFullyRefunded: boolean;
-    /**
-     * Payment status of the order
-     */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
-    /**
-     * Refund status of the order
-     */
-    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
-    /**
-     * Fulfillment status of the order
-     */
-    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
-    /**
-     * Services associated with appointments in this order
-     */
-    services: Array<Product>;
-    /**
-     * Staff members associated with appointments in this order
-     */
-    staffMembers: Array<StaffMember>;
-    /**
-     * Locations associated with appointments in this order
-     */
-    locations: Array<Location>;
-    /**
-     * Applied discounts aggregated across all order line items, mirroring the cart appliedDiscounts shape
-     */
-    appliedDiscounts: Array<AppliedDiscount>;
-};
-
-export type OrderLineItemDiscount = {
-    [key: string]: unknown;
-};
-
-export type OrderLineItem = {
-    /**
-     * ID of the order
-     */
-    orderId: string | null;
-    /**
-     * ID of the appointment associated with line item
-     */
-    appointmentId: string | null;
-    /**
-     * External order line item ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * Original price of the item
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted price of the item
-     */
-    discountedUnitPrice: number;
-    /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity of the item ordered
-     */
-    quantity: number;
-    /**
-     * Date and time when the order was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the order was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the order was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * The order this line item belongs to
-     */
-    order: Order;
-    /**
-     * The appointment this line item associated with
-     */
-    appointment: Appointment;
-    /**
-     * The refund line items associated with this line item
-     */
-    refundLineItems: Array<OrderRefundLineItem>;
-    /**
-     * Add-on line items attached to this appointment line item
-     */
-    addOnLineItems?: Array<OrderAddOnLineItem>;
-    /**
-     * Discount rows applied to this line item
-     */
-    lineItemDiscounts?: Array<OrderLineItemDiscount>;
-    /**
-     * Subtotal of the add-ons attached to this line item
-     */
-    addOnSubtotal: number;
-    /**
-     * Total tax of the add-ons attached to this line item
-     */
-    addOnTotalTax: number;
-    /**
-     * The total amount of the line item
-     */
-    subtotal: number;
-    /**
-     * The total amount of the line item
-     */
-    total: number;
-    /**
-     * The total amount of the line item
-     */
-    totalTax: number;
-    /**
-     * The quantity of the line item that has been refunded
-     */
-    refundedQuantity: number;
-    /**
-     * The quantity of the line item that can be refunded
-     */
-    refundableQuantity: number;
-};
-
-export type AppointmentAddOn = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Add-on ID
-     */
-    addOnId: string;
-    /**
-     * Quantity of this add-on for the appointment
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * The add-on entity
-     */
-    addOn: AddOn;
-};
-
-export type AppointmentGuest = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Guest email address
-     */
-    email: string;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-};
-
-export type Appointment = {
-    /**
-     * Unique identifier of the appointment
-     */
-    id: string;
-    /**
-     * Generated appointment name for the user (starts at 1001 and increments)
-     */
-    name: string;
-    /**
-     * ID of the service/product for this appointment
-     */
-    productId: string;
-    /**
-     * ID of the staff member assigned to this appointment (if any)
-     */
-    staffMemberId?: string | null;
-    /**
-     * ID of the location where the appointment will take place (if any)
-     */
-    locationId?: string | null;
-    /**
-     * ID of the store that owns this appointment
-     */
-    storeId: string;
-    /**
-     * ID of the customer who booked the appointment
-     */
-    customerId?: string | null;
-    /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId?: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName?: string | null;
-    /**
-     * Start date and time of the appointment (UTC timezone)
-     */
-    from: string;
-    /**
-     * End date and time of the appointment (UTC timezone)
-     */
-    to: string;
-    /**
-     * First line of the appointment address
-     */
-    addressLine1?: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2?: string | null;
-    /**
-     * City of the appointment location
-     */
-    city?: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state?: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode?: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country?: string | null;
-    status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote?: string | null;
-    createdBy: AppointmentCreatedByEnum;
-    /**
-     * Date and time when reminder was sent to the customer
-     */
-    reminderSentAt?: string | null;
-    /**
-     * Number of people attending the appointment
-     */
-    numberOfAttendees: number;
-    /**
-     * Date and time when the appointment was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the appointment was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the appointment was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * Service/product details for this appointment
-     */
-    product?: Product;
-    /**
-     * Store that owns this appointment
-     */
-    store?: Store;
-    /**
-     * Customer who booked the appointment
-     */
-    customer?: Customer | null;
-    /**
-     * Staff member assigned to this appointment
-     */
-    staffMember?: StaffMember | null;
-    /**
-     * Location where the appointment will take place
-     */
-    location?: Location | null;
-    /**
-     * Answers to checkout questions provided when booking
-     */
-    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswer>;
-    /**
-     * Answers to feedback questions provided after appointment
-     */
-    feedbackQuestionAnswers?: Array<FeedbackQuestionAnswer>;
-    /**
-     * Related appointments in integrated calendars
-     */
-    integratedCalendarAppointments?: Array<IntegratedCalendarAppointment>;
-    /**
-     * Related location in integrated systems
-     */
-    integratedAppointmentLocation?: IntegratedAppointmentLocation;
-    /**
-     * Appointment activity logs
-     */
-    logs?: Array<AppointmentLog>;
-    /**
-     * The order line item associated with this appointment
-     */
-    orderLineItem?: OrderLineItem | null;
-    /**
-     * The cart item associated with this appointment
-     */
-    cartItem?: CartItem | null;
-    /**
-     * Add-ons attached to this appointment
-     */
-    addOns?: Array<AppointmentAddOn>;
-    /**
-     * Guests invited to this appointment (copied on notifications)
-     */
-    guests?: Array<AppointmentGuest>;
-    /**
-     * The order associated with this appointment through the order line item
-     */
-    order?: Order | null;
-};
-
-export type CustomerOauthProvider = {
-    [key: string]: unknown;
-};
-
-export type Customer = {
-    /**
-     * Unique identifier of the customer
-     */
-    id: string;
-    /**
-     * External customer identifier from integrated system
-     */
-    externalId: string;
-    /**
-     * Customer first name
-     */
-    firstName?: string | null;
-    /**
-     * Customer last name
-     */
-    lastName?: string | null;
-    /**
-     * Customer email address
-     */
-    email?: string | null;
-    /**
-     * Customer phone number
-     */
-    phone?: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password?: string | null;
-    /**
-     * ID of the store that owns this customer record
-     */
-    storeId: string;
-    language: LanguageCode;
-    /**
-     * Date when the customer record was created
-     */
-    createdAt: string;
-    /**
-     * Date when the customer record was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the customer verified email
-     */
-    emailVerifiedAt?: string | null;
-    /**
-     * Date and time when the order was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * List of appointments booked by this customer
-     */
-    appointments?: Array<Appointment>;
-    /**
-     * List of orders placed by this customer
-     */
-    orders?: Array<Order>;
-    /**
-     * OAuth providers linked to this customer
-     */
-    oauthProviders?: Array<CustomerOauthProvider>;
-    /**
-     * Store that owns this customer record
-     */
-    store?: Store;
-    /**
-     * Indicates whether customer email is verified
-     */
-    isEmailVerified: boolean;
-    /**
-     * Indicates whether customer password is set
-     */
-    isPasswordSet: boolean;
-};
-
-export type PlanFeature = {
-    /**
-     * Unique identifier for the plan feature
-     */
-    id: string;
-    /**
-     * ID of the subscription plan this feature belongs to
-     */
-    planId: string;
-    /**
-     * Name of the feature
-     */
-    feature: 'number-of-products' | 'number-of-staff-members' | 'number-of-physical-locations' | 'staff-members-portal' | 'customer-portal' | 'group-appointments' | 'custom-product-duration' | 'cancellation' | 'rescheduling' | 'customer-cancellation' | 'customer-rescheduling' | 'custom-checkout-fields' | 'ui-customization' | 'email-customization' | 'customer-reviews' | 'white-label';
-    /**
-     * The subscription plan this feature belongs to
-     */
-    plan: Plan;
-};
-
-export type Plan = {
-    /**
-     * Unique identifier for the subscription plan
-     */
-    id: string;
-    /**
-     * External ID of the plan
-     */
-    externalId: string | null;
-    /**
-     * Name of the subscription plan
-     */
-    name: string;
-    /**
-     * Brief description of the plan features and benefits
-     */
-    description?: string | null;
-    /**
-     * Terms and conditions of the subscription plan
-     */
-    terms?: string | null;
-    /**
-     * Price of the subscription plan
-     */
-    price: number;
-    /**
-     * Currency code for the plan price
-     */
-    currency: string;
-    /**
-     * Billing interval for the subscription plan
-     */
-    billingInterval: 'one-time' | 'every-30-days' | 'annual' | 'usage';
-    /**
-     * Number of trial days for the subscription plan
-     */
-    trialDays: number;
-    /**
-     * Indicates if this plan is for testing purposes only
-     */
-    isTest: boolean;
-    /**
-     * Indicates if this is a custom plan created for specific users
-     */
-    isCustom: boolean;
-    /**
-     * Type of the plan
-     */
-    type: 'system' | 'user';
-    /**
-     * Current status of the plan
-     */
-    status: 'active' | 'canceled' | 'declined' | 'expired' | 'frozen' | 'pending';
-    /**
-     * Start of the current billing period
-     */
-    billingPeriodStart?: string | null;
-    /**
-     * End of the current billing period
-     */
-    billingPeriodEnd?: string | null;
-    /**
-     * When this plan was activated for the store
-     */
-    activatedAt?: string | null;
-    /**
-     * When this plan was canceled
-     */
-    canceledAt?: string | null;
-    /**
-     * Whether the subscription is currently in trial
-     */
-    isTrialing?: boolean;
-    /**
-     * When the trial ends
-     */
-    trialEndsAt?: string | null;
-    /**
-     * Special badge displayed with the plan
-     */
-    badge?: 'best-value' | 'user-choice';
-    /**
-     * External product ID associated with this plan
-     */
-    externalProductId?: string | null;
-    /**
-     * External recurring price ID (monthly/annual)
-     */
-    externalRecurringPriceId?: string | null;
-    /**
-     * Where this plan is managed
-     */
-    managedBy?: 'stripe' | 'platform' | 'direct';
-    /**
-     * ID of the source plan this plan was created from (when copying a system plan to a user plan)
-     */
-    createdFromPlanId?: string | null;
-    /**
-     * Date and time when the plan was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the plan was last updated
-     */
-    updatedAt: string;
-    /**
-     * Date and time when the plan was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * Features included in this subscription plan
-     */
-    features: Array<PlanFeature>;
-    /**
-     * Stores subscribed to this plan
-     */
-    stores: Array<Store>;
-};
-
-export type Setting = {
-    /**
-     * Primary identifier of the settings row
-     */
-    id: string;
-    /**
-     * The unique identifier of the store that owns these settings
-     */
-    storeId: string;
-    /**
-     * Whether the user account is enabled
-     */
-    isEnabled: boolean;
-    /**
-     * The timezone used for scheduling and displaying times
-     */
-    timezone: string;
-    /**
-     * The format used for displaying times (12-hour or 24-hour)
-     */
-    timeFormat: '12H' | '24H';
-    /**
-     * The format used for displaying dates
-     */
-    dateFormat: string;
-    /**
-     * Blocks bookings for the given number of seconds; after this period, pending appointments are canceled
-     */
-    reservationGap: number | null;
-    /**
-     * Whether to send confirmation emails for appointments
-     */
-    sendAppointmentConfirmationEmail: boolean;
-    /**
-     * Whether to send reminder emails for appointments
-     */
-    sendAppointmentReminderEmail: boolean;
-    /**
-     * How many seconds before an appointment to send a reminder email
-     */
-    sendAppointmentReminderEmailTimeBefore: number;
-    /**
-     * Whether to send feedback emails after appointments
-     */
-    sendAppointmentFeedbackEmail: boolean;
-    /**
-     * URL for the customer's calendar page
-     */
-    customerCalendarUrl: string | null;
-    /**
-     * Base URL for the customer-facing storefront. Used to construct email links.
-     */
-    storefrontBaseUrl: string | null;
-    /**
-     * Email address to use as "from" address in email communications
-     */
-    emailFromAddress: string | null;
-    /**
-     * Default time gap for scheduling
-     */
-    defaultScheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
-    /**
-     * How many days in advance customers can schedule appointments. Use -1 for unlimited.
-     */
-    defaultAdvanceScheduleDays: number;
-    /**
-     * Whether to skip the checkout page by default (Shopify merchants only)
-     */
-    defaultSkipCheckout: boolean;
-    /**
-     * When the settings were created
-     */
-    createdAt: string;
-    /**
-     * When the settings were last updated
-     */
-    updatedAt: string | null;
-};
-
-export type TaxSetting = {
-    /**
-     * Primary identifier of the tax settings row
-     */
-    id: string;
-    /**
-     * The unique identifier of the store that owns these tax settings
-     */
-    storeId: string | null;
-    /**
-     * The default tax rate for standard products
-     */
-    standardTaxRate: number;
-    /**
-     * Whether the taxes are included by default in the order subtotal
-     */
-    defaultTaxesIncluded: boolean;
-    /**
-     * When the settings were created
-     */
-    createdAt: string;
-    /**
-     * When the settings were last updated
-     */
-    updatedAt: string | null;
-};
-
-export type StorefrontSetting = {
-    /**
-     * Primary identifier of the storefront settings row
-     */
-    id: string;
-    /**
-     * The unique identifier of the store that owns these storefront settings
-     */
-    storeId: string;
-    /**
-     * Theme mode (light or dark)
-     */
-    themeMode: 'light' | 'dark';
-    /**
-     * Primary brand color in hexadecimal format
-     */
-    primaryColor: string;
-    /**
-     * Primary foreground color in hexadecimal format
-     */
-    primaryForegroundColor: string;
-    /**
-     * Secondary brand color in hexadecimal format
-     */
-    secondaryColor?: string;
-    /**
-     * Secondary foreground color in hexadecimal format
-     */
-    secondaryForegroundColor?: string;
-    /**
-     * Destructive/error color in hexadecimal format
-     */
-    destructiveColor?: string;
-    /**
-     * Accent color in hexadecimal format
-     */
-    accentColor?: string;
-    /**
-     * Accent foreground color in hexadecimal format
-     */
-    accentForegroundColor?: string;
-    /**
-     * Background color in hexadecimal format
-     */
-    backgroundColor?: string;
-    /**
-     * Foreground/text color in hexadecimal format
-     */
-    foregroundColor?: string;
-    /**
-     * Card background color in hexadecimal format
-     */
-    cardColor?: string;
-    /**
-     * Card foreground color in hexadecimal format
-     */
-    cardForegroundColor?: string;
-    /**
-     * Popover background color in hexadecimal format
-     */
-    popoverColor?: string;
-    /**
-     * Popover foreground color in hexadecimal format
-     */
-    popoverForegroundColor?: string;
-    /**
-     * Muted color in hexadecimal format
-     */
-    mutedColor?: string;
-    /**
-     * Muted foreground color in hexadecimal format
-     */
-    mutedForegroundColor?: string;
-    /**
-     * Border color in hexadecimal format
-     */
-    borderColor?: string;
-    /**
-     * Input border color in hexadecimal format
-     */
-    inputColor?: string;
-    /**
-     * Focus ring color in hexadecimal format
-     */
-    ringColor?: string;
-    /**
-     * Sidebar background color in hexadecimal format
-     */
-    sidebarColor?: string;
-    /**
-     * Sidebar foreground color in hexadecimal format
-     */
-    sidebarForegroundColor?: string;
-    /**
-     * Sidebar primary color in hexadecimal format
-     */
-    sidebarPrimaryColor?: string;
-    /**
-     * Sidebar primary foreground color in hexadecimal format
-     */
-    sidebarPrimaryForegroundColor?: string;
-    /**
-     * Sidebar accent color in hexadecimal format
-     */
-    sidebarAccentColor?: string;
-    /**
-     * Sidebar accent foreground color in hexadecimal format
-     */
-    sidebarAccentForegroundColor?: string;
-    /**
-     * Sidebar border color in hexadecimal format
-     */
-    sidebarBorderColor?: string;
-    /**
-     * Sidebar ring color in hexadecimal format
-     */
-    sidebarRingColor?: string;
-    /**
-     * Border radius in rem units
-     */
-    borderRadius?: number;
-    /**
-     * Sans-serif font family
-     */
-    sansSerifFont?: string | null;
-    /**
-     * Serif font family
-     */
-    serifFont?: string | null;
-    /**
-     * Monospace font family
-     */
-    monospaceFont?: string | null;
-    /**
-     * Letter spacing in em units
-     */
-    letterSpacing?: number;
-    /**
-     * Shadow color in hexadecimal format
-     */
-    shadowColor?: string;
-    /**
-     * Shadow opacity (0-1)
-     */
-    shadowOpacity?: number;
-    /**
-     * Shadow blur radius in pixels
-     */
-    shadowBlurRadius?: number;
-    /**
-     * Shadow spread in pixels
-     */
-    shadowSpread?: number;
-    /**
-     * Shadow offset X in pixels
-     */
-    shadowOffsetX?: number;
-    /**
-     * Shadow offset Y in pixels
-     */
-    shadowOffsetY?: number;
-    /**
-     * The format used for displaying dates
-     */
-    dateFormat: string;
-    /**
-     * The format used for displaying times
-     */
-    timeFormat: '12H' | '24H';
-    /**
-     * Active language codes enabled for the storefront
-     */
-    locales: Array<string>;
-    /**
-     * Default language code for the storefront
-     */
-    defaultLocale: string;
-    /**
-     * ID of the logo image associated with the storefront
-     */
-    logoImageId?: string | null;
-    /**
-     * ID of the icon image associated with the storefront
-     */
-    iconImageId?: string | null;
-    /**
-     * ID of the banner image associated with the storefront
-     */
-    bannerImageId?: string | null;
-    /**
-     * When the storefront settings were created
-     */
-    passwordProtectionEnabled: boolean;
-    /**
-     * Password for accessing the storefront when protection is enabled
-     */
-    password?: string | null;
-    /**
-     * When the storefront settings were last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Logo image metadata
-     */
-    logoImage?: Image | null;
-    /**
-     * Icon image metadata
-     */
-    iconImage?: Image | null;
-    /**
-     * Banner image metadata
-     */
-    bannerImage?: Image | null;
-};
-
-export type StoreContactInfo = {
-    /**
-     * Primary identifier of the contact info row
-     */
-    id: string;
-    /**
-     * The unique identifier of the store that owns this contact info
-     */
-    storeId: string;
-    /**
-     * First line of the business address
-     */
-    addressLine1?: string | null;
-    /**
-     * Second line of the business address
-     */
-    addressLine2?: string | null;
-    /**
-     * City
-     */
-    city?: string | null;
-    /**
-     * State or province
-     */
-    state?: string | null;
-    /**
-     * Postal code
-     */
-    postalCode?: string | null;
-    /**
-     * Country
-     */
-    country?: string | null;
-    /**
-     * Google Place ID for the address
-     */
-    addressPlaceId?: string | null;
-    /**
-     * Latitude coordinate
-     */
-    latitude?: number | null;
-    /**
-     * Longitude coordinate
-     */
-    longitude?: number | null;
-    /**
-     * Contact email address
-     */
-    contactEmail?: string | null;
-    /**
-     * Array of contact phone numbers
-     */
-    contactPhoneNumbers: Array<string> | null;
-    /**
-     * Array of social media links
-     */
-    socialMediaLinks: Array<{
-        [key: string]: unknown;
-    }> | null;
-    /**
-     * When the contact info was created
-     */
-    createdAt: string;
-    /**
-     * When the contact info was last updated
-     */
-    updatedAt: string | null;
-};
-
-export type Store = {
-    /**
-     * Unique identifier of the store
-     */
-    id: string;
-    /**
-     * Human-friendly store name
-     */
-    name?: string;
-    /**
-     * Store domain
-     */
-    domain?: string | null;
-    /**
-     * Store timezone
-     */
-    timezone: string;
-    /**
-     * External platform identifier for the store
-     */
-    externalId?: string | null;
-    /**
-     * Store domain (e.g., Shopify domain)
-     */
-    externalDomain?: string | null;
-    /**
-     * Platform of the store
-     */
-    platform?: 'shopify' | 'cally';
-    /**
-     * Store country ISO code (2 letters)
-     */
-    countryCode?: string | null;
-    /**
-     * Store currency ISO code (3 letters)
-     */
-    currencyCode?: string | null;
-    /**
-     * Store mode
-     */
-    mode: 'development' | 'production';
-    /**
-     * Store seeding status
-     */
-    seedingStatus?: 'pending' | 'success' | 'failed';
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * Customers associated with this user
-     */
-    customers: Array<Customer>;
-    /**
-     * Products owned by this user
-     */
-    products: Array<Product>;
-    /**
-     * Staff members managed by this user
-     */
-    staffMembers: Array<StaffMember>;
-    /**
-     * Appointments provided by this user
-     */
-    appointments: Array<Appointment>;
-    /**
-     * Schedules owned by this user
-     */
-    schedules: Array<Schedule>;
-    /**
-     * Orders owned by this user
-     */
-    orders: Array<Order>;
-    /**
-     * Subscription plans associated with this store
-     */
-    plans: Array<Plan>;
-    /**
-     * Store settings
-     */
-    settings: Setting;
-    /**
-     * Store tax settings
-     */
-    taxSettings: TaxSetting;
-    /**
-     * Storefront presentation settings
-     */
-    storefrontSettings: StorefrontSetting;
-    /**
-     * Store contact information
-     */
-    contactInfo: StoreContactInfo;
-};
-
-export type UserStore = {
-    /**
-     * Unique identifier of the user-store membership
-     */
-    id: string;
-    /**
-     * User ID
-     */
-    userId: string;
-    /**
-     * Store ID
-     */
-    storeId: string;
-    /**
-     * Role within the store
-     */
-    role: 'store-owner' | 'manager' | 'staff-member';
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-};
-
-export type User = {
-    /**
-     * Unique identifier for the user
-     */
-    id: string;
-    /**
-     * ID of the parent user (for staff members)
-     */
-    parentId?: string | null;
-    /**
-     * Full name of the user
-     */
-    name: string;
-    /**
-     * Email address of the user
-     */
-    email: string;
-    /**
-     * Hashed password of the user
-     */
-    password?: string | null;
-    /**
-     * Refresh token for authentication
-     */
-    refreshToken?: string | null;
-    /**
-     * Role of the user in the system
-     */
-    role: 'admin' | 'staff-member' | 'store-owner' | 'manager';
-    /**
-     * Current status of the user account
-     */
-    status: 'active' | 'inactive' | 'banned' | 'deleted';
-    /**
-     * Date and time when the user was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the user was last updated
-     */
-    updatedAt: string;
-    /**
-     * Date and time when the user verified email
-     */
-    emailVerifiedAt?: string | null;
-    /**
-     * Date and time when the user was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * OAuth providers associated with this user
-     */
-    oauthProviders: Array<UserOauthProvider>;
-    /**
-     * Staff members associated with this user
-     */
-    staffMembers: Array<StaffMember>;
-    /**
-     * Stores associated with this user
-     */
-    userStores: Array<UserStore>;
-    /**
-     * Indicates whether user email is verified
-     */
-    isEmailVerified: boolean;
-    /**
-     * Indicates whether user password is set
-     */
-    isPasswordSet: boolean;
-};
-
-export type StaffMember = {
-    /**
-     * Unique identifier of the staff member
-     */
-    id: string;
-    /**
-     * ID of the store that owns this staff member record
-     */
-    storeId: string;
-    /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId?: string;
-    /**
-     * ID of the schedule assigned to this staff member, defines their availability
-     */
-    scheduleId?: string;
-    /**
-     * ID of the image associated with this staff member
-     */
-    imageId?: string;
-    /**
-     * First name of the staff member
-     */
-    firstName?: string;
-    /**
-     * Last name of the staff member
-     */
-    lastName?: string;
-    /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
-     * URL-friendly slug for the staff member (unique per store)
-     */
-    slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken?: string;
-    /**
-     * Date and time when the staff member was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the staff member was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Date and time when the staff member was soft deleted
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this staff member record
-     */
-    store?: Store;
-    /**
-     * Login user associated with this staff member
-     */
-    user?: User;
-    /**
-     * Appointments assigned to this staff member
-     */
-    appointments?: Array<Appointment>;
-    /**
-     * Products (services) this staff member can provide
-     */
-    products?: Array<Product>;
-    /**
-     * Locations where this staff member works
-     */
-    locations?: Array<Location>;
-    /**
-     * Schedule defining when this staff member is available
-     */
-    schedule?: Schedule;
-    /**
-     * Profile image of the staff member
-     */
-    image?: Image;
-    /**
-     * Integrations connected to this staff member (e.g., Google Calendar)
-     */
-    integrations?: Array<Integration>;
-    /**
-     * Add-ons this staff member can deliver
-     */
-    addOns?: Array<AddOn>;
-};
 
 export type AppointmentDateRangeSlot = {
     /**
@@ -3228,28 +135,6 @@ export type AppointmentAddress = {
     country?: string;
 };
 
-export type CheckoutQuestionAnswerDto = {
-    /**
-     * ID of the checkout question
-     */
-    questionId: string;
-    /**
-     * The question text (for historical record)
-     */
-    question: string;
-    /**
-     * The customer answer
-     */
-    answer: string;
-};
-
-export type AppointmentGuestDto = {
-    /**
-     * Email address of the guest invited to the appointment
-     */
-    email: string;
-};
-
 export type QuestionAnswer = {
     /**
      * ID of the feedback question
@@ -3301,86 +186,6 @@ export type CheckoutCustomerInfo = {
      * Whether customer email is verified
      */
     emailVerified: boolean;
-};
-
-export type PaymentSetting = {
-    id: string;
-    /**
-     * Store id
-     */
-    storeId: string;
-    captureMethod: 'automatic' | 'manual' | 'on_fulfillment';
-};
-
-export type Invoice = {
-    id: string;
-    /**
-     * Store that owns the invoice
-     */
-    storeId: string;
-    /**
-     * Order the invoice was issued for
-     */
-    orderId: string;
-    /**
-     * Customer the invoice is billed to
-     */
-    customerId: string;
-    /**
-     * Human-facing invoice number
-     */
-    number: string;
-    /**
-     * Provider used to issue the invoice
-     */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
-    status: 'draft' | 'sent' | 'paid' | 'void' | 'failed';
-    /**
-     * Outstanding amount this invoice is for
-     */
-    amountDue: number;
-    /**
-     * Currency code
-     */
-    currencyCode: string;
-    /**
-     * Immutable snapshot of the billable state at issue time
-     */
-    snapshot: {
-        [key: string]: unknown;
-    };
-    /**
-     * External invoice id (Stripe invoice id / Shopify reference)
-     */
-    externalId?: string;
-    /**
-     * Hosted invoice / payment URL (e.g. Stripe hosted_invoice_url)
-     */
-    externalUrl?: string;
-    /**
-     * S3 object key of the generated PDF (manual invoices)
-     */
-    pdfStorageKey?: string;
-    /**
-     * Failure reason when status is failed
-     */
-    error?: string;
-    /**
-     * When the invoice was issued
-     */
-    issuedAt?: string;
-    /**
-     * When the invoice is due
-     */
-    dueAt?: string;
-    /**
-     * When the invoice was delivered to the customer
-     */
-    sentAt?: string;
-    /**
-     * When the outstanding amount was paid
-     */
-    paidAt?: string;
 };
 
 export type ExistingOrderCustomer = {
@@ -3594,6 +399,66 @@ export type VerifyLoginCode = {
     code: string;
 };
 
+export type SelfServiceProfileResponse = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
 export type UpdateCustomerProfile = {
     /**
      * Customer first name
@@ -3620,6 +485,21 @@ export type UpdateCustomerPassword = {
     newPassword: string;
 };
 
+export type CheckoutQuestionAnswer = {
+    /**
+     * ID of the checkout question
+     */
+    questionId: string;
+    /**
+     * The question text (for historical record)
+     */
+    question: string;
+    /**
+     * The customer answer
+     */
+    answer: string;
+};
+
 export type CreateAppointmentAddOn = {
     /**
      * ID of the add-on to attach to the appointment
@@ -3629,6 +509,13 @@ export type CreateAppointmentAddOn = {
      * Quantity of this add-on (for fixed add-ons). Ignored for duration-multiplied add-ons.
      */
     quantity?: number;
+};
+
+export type AppointmentGuest = {
+    /**
+     * Email address of the guest invited to the appointment
+     */
+    email: string;
 };
 
 export type CreateAppointment = {
@@ -3651,7 +538,7 @@ export type CreateAppointment = {
     /**
      * Answers to checkout questions provided during booking
      */
-    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswerDto>;
+    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswer>;
     /**
      * Number of people attending the appointment
      */
@@ -3667,7 +554,7 @@ export type CreateAppointment = {
     /**
      * Guests to invite to the appointment. They are copied on appointment notifications.
      */
-    guests?: Array<AppointmentGuestDto>;
+    guests?: Array<AppointmentGuest>;
 };
 
 export type RescheduleAppointment = {
@@ -3711,11 +598,3696 @@ export type AddGuest = {
     notify?: boolean;
 };
 
+export type Image = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * External identifier for the image (e.g., from storage provider)
+     */
+    externalId: string | null;
+    /**
+     * URL where the image can be accessed
+     */
+    url: string;
+    /**
+     * Original filename of the uploaded image
+     */
+    filename: string | null;
+    /**
+     * MIME type of the image
+     */
+    mime: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this image
+     */
+    storeId: string | null;
+};
+
+export type AppointmentCreatedProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AppointmentCreatedStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AppointmentCreatedLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AppointmentCreatedAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentCreatedAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn: AppointmentCreatedAddOnItem;
+};
+
+export type AppointmentCreatedGuest = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Guest email address
+     */
+    email: string;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+};
+
+export type AppointmentCreatedCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentCreatedResponse = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentCreatedProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentCreatedStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentCreatedLocation | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentCreatedAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests: Array<AppointmentCreatedGuest>;
+    /**
+     * Customer the appointment was booked for
+     */
+    customer: AppointmentCreatedCustomer;
+};
+
+export type AppointmentListItemProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AppointmentListItemStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AppointmentListItemLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AppointmentListItemCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentListItemOrderLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+};
+
+export type AppointmentListItemResponse = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentListItemProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentListItemStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentListItemLocation | null;
+    /**
+     * Customer who booked the appointment
+     */
+    customer: AppointmentListItemCustomer;
+    /**
+     * The order line item linking this appointment to its order
+     */
+    orderLineItem: AppointmentListItemOrderLineItem | null;
+};
+
+export type AppointmentDetailProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AppointmentDetailCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentDetailAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn: AppointmentDetailAddOnItem;
+};
+
+export type AppointmentDetailGuest = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Guest email address
+     */
+    email: string;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+};
+
+export type AppointmentDetailFeedbackAnswer = {
+    /**
+     * Unique identifier of the feedback question answer
+     */
+    id: string;
+    /**
+     * ID of the appointment this feedback relates to
+     */
+    appointmentId: string;
+    /**
+     * ID of the feedback question (set to null if question is deleted)
+     */
+    questionId: string | null;
+    /**
+     * The feedback question text presented to the customer
+     */
+    question: string;
+    /**
+     * Customer's answer to the feedback question
+     */
+    answer: string | null;
+    /**
+     * Date and time when this feedback was recorded
+     */
+    createdAt: string;
+    /**
+     * Date and time when this feedback was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type AppointmentDetailCheckoutAnswer = {
+    /**
+     * Unique identifier of the checkout question answer
+     */
+    id: string;
+    /**
+     * ID of the appointment this question answer relates to
+     */
+    appointmentId: string;
+    /**
+     * ID of the checkout question (set to null if question is deleted)
+     */
+    questionId: string | null;
+    /**
+     * The checkout question text presented to the customer
+     */
+    question: string;
+    /**
+     * Customer's answer to the checkout question
+     */
+    answer: string | null;
+    /**
+     * Date and time when this answer was recorded
+     */
+    createdAt: string;
+    /**
+     * Date and time when this answer was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type AppointmentDetailOrderTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type AppointmentDetailOrderItemProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailOrderItemStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailOrderItemLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AppointmentDetailOrderItemAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product for this line item
+     */
+    product: AppointmentDetailOrderItemProduct;
+    /**
+     * Staff member for this line item
+     */
+    staffMember: AppointmentDetailOrderItemStaffMember | null;
+    /**
+     * Location for this line item
+     */
+    location: AppointmentDetailOrderItemLocation | null;
+};
+
+export type AppointmentDetailOrderItemAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentDetailOrderItemAddOn = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+    /**
+     * The add-on
+     */
+    addOn: AppointmentDetailOrderItemAddOnItem;
+};
+
+export type AppointmentDetailOrderItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+    /**
+     * The appointment this line item is for
+     */
+    appointment: AppointmentDetailOrderItemAppointment;
+    /**
+     * Add-on line items attached to this line item
+     */
+    addOnLineItems: Array<AppointmentDetailOrderItemAddOn>;
+};
+
+export type AppointmentDetailOrder = {
+    /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
+     * The currency used by the customer when placing the order.
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether the taxes are included in the order subtotal.
+     */
+    taxesIncluded: boolean;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the customer who placed the order
+     */
+    customerId: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId: string | null;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Transactions associated with this order
+     */
+    transactions: Array<AppointmentDetailOrderTransaction>;
+    /**
+     * Line items in the order
+     */
+    lineItems: Array<AppointmentDetailOrderItem>;
+};
+
+export type AppointmentDetailOrderLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+    /**
+     * The order this line item belongs to
+     */
+    order: AppointmentDetailOrder;
+};
+
+export type AppointmentDetailResponse = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentDetailProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentDetailStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentDetailLocation | null;
+    /**
+     * Customer who booked the appointment
+     */
+    customer: AppointmentDetailCustomer;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentDetailAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests: Array<AppointmentDetailGuest>;
+    /**
+     * Answers to feedback questions provided after the appointment
+     */
+    feedbackQuestionAnswers: Array<AppointmentDetailFeedbackAnswer>;
+    /**
+     * Answers to checkout questions provided when booking
+     */
+    checkoutQuestionAnswers: Array<AppointmentDetailCheckoutAnswer>;
+    /**
+     * The order line item linking this appointment to its order
+     */
+    orderLineItem: AppointmentDetailOrderLineItem | null;
+    /**
+     * The order associated with this appointment (via the order line item)
+     */
+    order: AppointmentDetailOrder | null;
+};
+
+export type AppointmentProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AppointmentStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AppointmentLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AppointmentAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn: AppointmentAddOnItem;
+};
+
+export type AppointmentResponse = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentLocation | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests: Array<AppointmentGuest>;
+};
+
 export type FeedbackQuestionAnswers = {
     /**
      * Array of feedback questions and answers for the appointment
      */
     answers: Array<QuestionAnswer>;
+};
+
+export type FeedbackQuestionAnswerResponse = {
+    /**
+     * Unique identifier of the feedback question answer
+     */
+    id: string;
+    /**
+     * ID of the appointment this feedback relates to
+     */
+    appointmentId: string;
+    /**
+     * ID of the feedback question (set to null if question is deleted)
+     */
+    questionId: string | null;
+    /**
+     * The feedback question text presented to the customer
+     */
+    question: string;
+    /**
+     * Customer's answer to the feedback question
+     */
+    answer: string | null;
+    /**
+     * Date and time when this feedback was recorded
+     */
+    createdAt: string;
+    /**
+     * Date and time when this feedback was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type AppointmentGuestResponse = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Guest email address
+     */
+    email: string;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+};
+
+export type Product = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type StaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type Location = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
 };
 
 export type ServicePreference = {
@@ -3771,7 +4343,7 @@ export type StaffMemberPreference = {
     lastBookedAt: string;
 };
 
-export type CustomerBookingPreferences = {
+export type CustomerBookingPreferencesResponse = {
     /**
      * Most frequently booked services
      */
@@ -3795,6 +4367,3066 @@ export type CreateOrderAppointmentsSettings = {
      * Whether to send an appointment confirmation email to the customer. This is only applicable when mark_as_scheduled is set to true.
      */
     notifyCustomer?: boolean | null;
+};
+
+export type OrderListCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type OrderListAppointmentProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type OrderListAppointmentStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type OrderListAppointmentLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type OrderListAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: OrderListAppointmentProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: OrderListAppointmentStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: OrderListAppointmentLocation | null;
+};
+
+export type OrderListAddOnLineItem = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+};
+
+export type OrderListLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+    /**
+     * The appointment this line item is for
+     */
+    appointment: OrderListAppointment;
+    /**
+     * Add-on line items attached to this line item
+     */
+    addOnLineItems: Array<OrderListAddOnLineItem>;
+};
+
+export type OrderListTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type OrderListItemResponse = {
+    /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
+     * The currency used by the customer when placing the order.
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether the taxes are included in the order subtotal.
+     */
+    taxesIncluded: boolean;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the customer who placed the order
+     */
+    customerId: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId: string | null;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Customer who placed the order
+     */
+    customer: OrderListCustomer;
+    /**
+     * Line items in the order
+     */
+    lineItems: Array<OrderListLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions: Array<OrderListTransaction>;
+};
+
+export type OrderDetailCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type OrderDetailAppointmentProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type OrderDetailAppointmentStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type OrderDetailAppointmentLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type OrderDetailAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: OrderDetailAppointmentProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: OrderDetailAppointmentStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: OrderDetailAppointmentLocation | null;
+};
+
+export type OrderDetailAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type OrderDetailAddOnRefundLineItem = {
+    /**
+     * Unique identifier for the refund add-on line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * ID of the original order add-on line item being refunded
+     */
+    addOnLineItemId: string;
+    /**
+     * Quantity of the add-on line item being refunded
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+};
+
+export type OrderDetailAddOnLineItem = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+    /**
+     * The add-on details
+     */
+    addOn: OrderDetailAddOn;
+    /**
+     * Refund line items for this add-on
+     */
+    refundLineItems: Array<OrderDetailAddOnRefundLineItem>;
+};
+
+export type OrderDetailLineItemRefundLineItem = {
+    /**
+     * Unique identifier for the refund line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * ID of the original order line item being refunded
+     */
+    lineItemId: string;
+    /**
+     * Quantity of the line item being refunded
+     */
+    quantity: number;
+    /**
+     * Date and time when the refund line item was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund line item was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type OrderDetailLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+    /**
+     * The appointment this line item is for
+     */
+    appointment: OrderDetailAppointment;
+    /**
+     * Add-on line items attached to this line item
+     */
+    addOnLineItems: Array<OrderDetailAddOnLineItem>;
+    /**
+     * Refund line items associated with this line item
+     */
+    refundLineItems: Array<OrderDetailLineItemRefundLineItem>;
+};
+
+export type OrderDetailParentTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type OrderDetailChildTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type OrderDetailTransactionRefundTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type OrderDetailTransactionRefund = {
+    /**
+     * Unique identifier for the order refund
+     */
+    id: string;
+    /**
+     * ID of the order being refunded
+     */
+    orderId: string;
+    /**
+     * External refund ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * Date and time when the refund was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * The total amount of the refund
+     */
+    total: number;
+    /**
+     * Transactions associated with this refund
+     */
+    transactions: Array<OrderDetailTransactionRefundTransaction>;
+};
+
+export type OrderDetailTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+    /**
+     * The parent transaction
+     */
+    parentTransaction: OrderDetailParentTransaction | null;
+    /**
+     * The child transactions
+     */
+    childTransactions: Array<OrderDetailChildTransaction>;
+    /**
+     * The refund this transaction belongs to
+     */
+    refund: OrderDetailTransactionRefund | null;
+};
+
+export type OrderDetailRefundLineItem = {
+    /**
+     * Unique identifier for the refund line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * ID of the original order line item being refunded
+     */
+    lineItemId: string;
+    /**
+     * Quantity of the line item being refunded
+     */
+    quantity: number;
+    /**
+     * Date and time when the refund line item was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund line item was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type OrderDetailRefundTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type OrderDetailRefund = {
+    /**
+     * Unique identifier for the order refund
+     */
+    id: string;
+    /**
+     * ID of the order being refunded
+     */
+    orderId: string;
+    /**
+     * External refund ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * Date and time when the refund was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * The total amount of the refund
+     */
+    total: number;
+    /**
+     * Line items included in this refund
+     */
+    lineItems: Array<OrderDetailRefundLineItem>;
+    /**
+     * Transactions associated with this refund
+     */
+    transactions: Array<OrderDetailRefundTransaction>;
+};
+
+export type OrderDetailLog = {
+    /**
+     * Unique identifier of the order log entry
+     */
+    id: string;
+    /**
+     * ID of the order this log entry relates to
+     */
+    orderId: string;
+    /**
+     * Title or summary of the log entry
+     */
+    title: string;
+    /**
+     * Detailed description or additional information about the log entry
+     */
+    description: string | null;
+    level: OrderLogLevel;
+    /**
+     * Date and time when this log entry was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when this log entry was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type OrderDetailResponse = {
+    /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
+     * The currency used by the customer when placing the order.
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether the taxes are included in the order subtotal.
+     */
+    taxesIncluded: boolean;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the customer who placed the order
+     */
+    customerId: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId: string | null;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Customer who placed the order
+     */
+    customer: OrderDetailCustomer;
+    /**
+     * Line items in the order
+     */
+    lineItems: Array<OrderDetailLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions: Array<OrderDetailTransaction>;
+    /**
+     * Refunds associated with this order
+     */
+    refunds: Array<OrderDetailRefund>;
+    /**
+     * Order activity logs
+     */
+    logs: Array<OrderDetailLog>;
+};
+
+export type CartCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type Schedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type CartItemProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Availability schedule for the product
+     */
+    schedule: Schedule | null;
+};
+
+export type CartItemStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Availability schedule for the staff member
+     */
+    schedule: Schedule | null;
+};
+
+export type CartItemLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Availability schedule for the location
+     */
+    schedule: Schedule | null;
+};
+
+export type CartItemAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: CartItemProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: CartItemStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: CartItemLocation | null;
+};
+
+export type CartAddOnItemAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type CartAddOnItem = {
+    /**
+     * Unique identifier of the cart add-on item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Parent cart item ID (the appointment this add-on is attached to)
+     */
+    cartItemId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * Applied discounts on this add-on item
+     */
+    discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * The add-on details
+     */
+    addOn: CartAddOnItemAddOn;
+};
+
+export type CartItem = {
+    /**
+     * Unique identifier of the cart item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * Applied discounts on this cart item (base line only)
+     */
+    discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * Subtotal of the cart item including its add-ons
+     */
+    lineSubtotal: number;
+    /**
+     * Total tax for the cart item including its add-ons
+     */
+    lineTax: number;
+    /**
+     * Appointment for this cart item
+     */
+    appointment: CartItemAppointment | null;
+    /**
+     * Add-on items attached to this cart item
+     */
+    addOnItems: Array<CartAddOnItem>;
+};
+
+export type CartPayment = {
+    /**
+     * Unique identifier of the cart payment
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Order ID created from the cart payment
+     */
+    orderId: string | null;
+    /**
+     * Payment provider identifier (e.g., stripe, cash, shopify)
+     */
+    provider: {
+        [key: string]: unknown;
+    };
+    /**
+     * Provider reference (PaymentIntent/Session/charge id)
+     */
+    providerReference: string | null;
+    /**
+     * Payment status
+     */
+    status: 'created' | 'authorized' | 'captured' | 'failed' | 'voided' | 'refunded';
+    /**
+     * Payment amount
+     */
+    amount: number;
+    /**
+     * Payment currency code
+     */
+    currency: string;
+    /**
+     * Captured amount
+     */
+    capturedAmount: number;
+    /**
+     * Authorization expiration timestamp
+     */
+    authorizedUntil: string | null;
+    /**
+     * Client secret for Payment Element flow
+     */
+    clientSecret: string | null;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+};
+
+export type CartResponse = {
+    /**
+     * Unique identifier of the cart
+     */
+    id: string;
+    /**
+     * ID of the store that owns the cart
+     */
+    storeId: string;
+    /**
+     * ID of the customer who owns the cart
+     */
+    customerId: string | null;
+    /**
+     * Cart status
+     */
+    status: 'active' | 'converted' | 'abandoned';
+    /**
+     * Payment currency code for the cart totals
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether taxes are included in prices
+     */
+    taxesIncluded: boolean;
+    /**
+     * When cart should expire
+     */
+    expiresAt: string | null;
+    /**
+     * Number of times the cart expiration has been extended
+     */
+    extensionsCount: number;
+    /**
+     * Applied promo/discount code for this cart
+     */
+    appliedDiscountCode: string | null;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Subtotal amount of the cart
+     */
+    subtotal: number;
+    /**
+     * Total tax amount of the cart
+     */
+    totalTax: number;
+    /**
+     * Grand total of the cart
+     */
+    total: number;
+    /**
+     * Applied discounts aggregated across all cart items
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
+    /**
+     * Customer who owns the cart
+     */
+    customer: CartCustomer | null;
+    /**
+     * Items in the cart
+     */
+    items: Array<CartItem>;
+    /**
+     * Payment records associated with the cart
+     */
+    payments: Array<CartPayment>;
 };
 
 export type CreateCartItem = {
@@ -3833,6 +7465,821 @@ export type StartCheckout = {
     customer?: ExistingOrderCustomer | NewOrderCustomer;
 };
 
+export type CheckoutStartCartCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type CheckoutStartCartItemProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Availability schedule for the product
+     */
+    schedule?: Schedule | null;
+};
+
+export type CheckoutStartCartItemStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Availability schedule for the staff member
+     */
+    schedule?: Schedule | null;
+};
+
+export type CheckoutStartCartItemLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Availability schedule for the location
+     */
+    schedule?: Schedule | null;
+};
+
+export type CheckoutStartCartItemAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product?: CheckoutStartCartItemProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember?: CheckoutStartCartItemStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location?: CheckoutStartCartItemLocation | null;
+};
+
+export type CheckoutStartCartAddOnItemAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type CheckoutStartCartAddOnItem = {
+    /**
+     * Unique identifier of the cart add-on item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Parent cart item ID (the appointment this add-on is attached to)
+     */
+    cartItemId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * Applied discounts on this add-on item
+     */
+    discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * The add-on details
+     */
+    addOn?: CheckoutStartCartAddOnItemAddOn | null;
+};
+
+export type CheckoutStartCartItem = {
+    /**
+     * Unique identifier of the cart item
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * Applied discounts on this cart item (base line only)
+     */
+    discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * Subtotal of the cart item including its add-ons
+     */
+    lineSubtotal: number;
+    /**
+     * Total tax for the cart item including its add-ons
+     */
+    lineTax: number;
+    /**
+     * Appointment for this cart item
+     */
+    appointment?: CheckoutStartCartItemAppointment | null;
+    /**
+     * Add-on items attached to this cart item
+     */
+    addOnItems?: Array<CheckoutStartCartAddOnItem>;
+};
+
+export type CheckoutStartCartPayment = {
+    /**
+     * Unique identifier of the cart payment
+     */
+    id: string;
+    /**
+     * Cart ID
+     */
+    cartId: string;
+    /**
+     * Order ID created from the cart payment
+     */
+    orderId: string | null;
+    /**
+     * Payment provider identifier (e.g., stripe, cash, shopify)
+     */
+    provider: {
+        [key: string]: unknown;
+    };
+    /**
+     * Provider reference (PaymentIntent/Session/charge id)
+     */
+    providerReference: string | null;
+    /**
+     * Payment status
+     */
+    status: 'created' | 'authorized' | 'captured' | 'failed' | 'voided' | 'refunded';
+    /**
+     * Payment amount
+     */
+    amount: number;
+    /**
+     * Payment currency code
+     */
+    currency: string;
+    /**
+     * Captured amount
+     */
+    capturedAmount: number;
+    /**
+     * Authorization expiration timestamp
+     */
+    authorizedUntil: string | null;
+    /**
+     * Client secret for Payment Element flow
+     */
+    clientSecret: string | null;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+};
+
+export type CheckoutStartCart = {
+    /**
+     * Unique identifier of the cart
+     */
+    id: string;
+    /**
+     * ID of the store that owns the cart
+     */
+    storeId: string;
+    /**
+     * ID of the customer who owns the cart
+     */
+    customerId: string | null;
+    /**
+     * Cart status
+     */
+    status: 'active' | 'converted' | 'abandoned';
+    /**
+     * Payment currency code for the cart totals
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether taxes are included in prices
+     */
+    taxesIncluded: boolean;
+    /**
+     * When cart should expire
+     */
+    expiresAt: string | null;
+    /**
+     * Number of times the cart expiration has been extended
+     */
+    extensionsCount: number;
+    /**
+     * Applied promo/discount code for this cart
+     */
+    appliedDiscountCode: string | null;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * Updated at timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Subtotal amount of the cart
+     */
+    subtotal: number;
+    /**
+     * Total tax amount of the cart
+     */
+    totalTax: number;
+    /**
+     * Grand total of the cart
+     */
+    total: number;
+    /**
+     * Applied discounts aggregated across all cart items
+     */
+    appliedDiscounts: Array<AppliedDiscount>;
+    /**
+     * Customer who owns the cart
+     */
+    customer?: CheckoutStartCartCustomer | null;
+    /**
+     * Items in the cart
+     */
+    items?: Array<CheckoutStartCartItem>;
+    /**
+     * Payment records associated with the cart
+     */
+    payments?: Array<CheckoutStartCartPayment>;
+};
+
 export type CheckoutStartResponse = {
     /**
      * Payment provider used
@@ -3857,7 +8304,7 @@ export type CheckoutStartResponse = {
     /**
      * Updated cart
      */
-    cart: Cart;
+    cart: CheckoutStartCart;
     /**
      * IDs of invalid cart items that were removed
      */
@@ -3887,11 +8334,1360 @@ export type SubmitCheckout = {
     appointmentsSettings?: CreateOrderAppointmentsSettings;
 };
 
+export type CheckoutOrderCustomer = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type CheckoutOrderAppointmentProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type CheckoutOrderAppointmentStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type CheckoutOrderAppointmentLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type CheckoutOrderAppointmentAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type CheckoutOrderAppointmentAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn?: CheckoutOrderAppointmentAddOnItem;
+};
+
+export type CheckoutOrderAppointment = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product?: CheckoutOrderAppointmentProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember?: CheckoutOrderAppointmentStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location?: CheckoutOrderAppointmentLocation | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns?: Array<CheckoutOrderAppointmentAddOn>;
+};
+
+export type CheckoutOrderAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type CheckoutOrderAddOnRefundLineItem = {
+    /**
+     * Unique identifier for the refund add-on line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * ID of the original order add-on line item being refunded
+     */
+    addOnLineItemId: string;
+    /**
+     * Quantity of the add-on line item being refunded
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+};
+
+export type CheckoutOrderAddOnLineItem = {
+    /**
+     * Unique identifier of the order add-on line item
+     */
+    id: string;
+    /**
+     * ID of the order
+     */
+    orderId: string;
+    /**
+     * ID of the parent order line item (the appointment) this add-on belongs to
+     */
+    lineItemId: string;
+    /**
+     * ID of the add-on
+     */
+    addOnId: string;
+    /**
+     * External line item ID from the platform (e.g., Shopify) for this add-on
+     */
+    externalId: string | null;
+    /**
+     * Original unit price
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted unit price
+     */
+    discountedUnitPrice: number;
+    /**
+     * Unit tax amount
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
+     */
+    quantity: number;
+    /**
+     * Created at
+     */
+    createdAt: string;
+    /**
+     * Updated at
+     */
+    updatedAt: string | null;
+    /**
+     * Deleted at
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of this add-on line item
+     */
+    subtotal: number;
+    /**
+     * Total amount of this add-on line item (including tax when not included in price)
+     */
+    total: number;
+    /**
+     * Total tax for this add-on line item
+     */
+    totalTax: number;
+    /**
+     * Quantity already refunded
+     */
+    refundedQuantity: number;
+    /**
+     * Remaining refundable quantity
+     */
+    refundableQuantity: number;
+    /**
+     * The add-on details
+     */
+    addOn?: CheckoutOrderAddOn | null;
+    /**
+     * Refund line items for this add-on
+     */
+    refundLineItems?: Array<CheckoutOrderAddOnRefundLineItem>;
+};
+
+export type CheckoutOrderLineItemRefundLineItem = {
+    /**
+     * Unique identifier for the refund line item
+     */
+    id: string;
+    /**
+     * ID of the refund this line item belongs to
+     */
+    refundId: string;
+    /**
+     * External refund line item ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * ID of the original order line item being refunded
+     */
+    lineItemId: string;
+    /**
+     * Quantity of the line item being refunded
+     */
+    quantity: number;
+    /**
+     * Date and time when the refund line item was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund line item was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type CheckoutOrderLineItem = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * ID of the appointment associated with line item
+     */
+    appointmentId: string | null;
+    /**
+     * External order line item ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * Original price of the item
+     */
+    originalUnitPrice: number;
+    /**
+     * Discounted price of the item
+     */
+    discountedUnitPrice: number;
+    /**
+     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     */
+    unitTaxAmount: number;
+    /**
+     * Quantity of the item ordered
+     */
+    quantity: number;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal of the add-ons attached to this line item
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of the add-ons attached to this line item
+     */
+    addOnTotalTax: number;
+    /**
+     * The total amount of the line item
+     */
+    subtotal: number;
+    /**
+     * The total amount of the line item
+     */
+    total: number;
+    /**
+     * The total amount of the line item
+     */
+    totalTax: number;
+    /**
+     * The quantity of the line item that has been refunded
+     */
+    refundedQuantity: number;
+    /**
+     * The quantity of the line item that can be refunded
+     */
+    refundableQuantity: number;
+    /**
+     * The appointment this line item is for
+     */
+    appointment?: CheckoutOrderAppointment;
+    /**
+     * Add-on line items attached to this line item
+     */
+    addOnLineItems?: Array<CheckoutOrderAddOnLineItem>;
+    /**
+     * Refund line items associated with this line item
+     */
+    refundLineItems?: Array<CheckoutOrderLineItemRefundLineItem>;
+};
+
+export type CheckoutOrderParentTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type CheckoutOrderChildTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type CheckoutOrderTransactionRefundTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+};
+
+export type CheckoutOrderTransactionRefund = {
+    /**
+     * Unique identifier for the order refund
+     */
+    id: string;
+    /**
+     * ID of the order being refunded
+     */
+    orderId: string;
+    /**
+     * External refund ID from the platform (e.g., Shopify)
+     */
+    externalId: string | null;
+    /**
+     * Date and time when the refund was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the refund was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * The total amount of the refund
+     */
+    total: number;
+    /**
+     * Transactions associated with this refund
+     */
+    transactions?: Array<CheckoutOrderTransactionRefundTransaction>;
+};
+
+export type CheckoutOrderTransaction = {
+    /**
+     * ID of the order
+     */
+    orderId: string | null;
+    /**
+     * External order transaction ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * The parent transaction ID
+     */
+    parentId: string | null;
+    /**
+     * The refund ID this transaction belongs to (if any)
+     */
+    refundId: string | null;
+    /**
+     * The type of transaction
+     */
+    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
+    /**
+     * Amount of the transaction
+     */
+    amount: number;
+    /**
+     * The currency code
+     */
+    currencyCode: string;
+    /**
+     * The payment gateway
+     *
+     * @deprecated
+     */
+    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
+    /**
+     * The payment provider (replaces gateway)
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * The status of the transaction
+     */
+    status: 'pending' | 'success' | 'failed';
+    /**
+     * Date and time when the transaction was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the transaction was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the transaction was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * The refundable amount for this transaction
+     */
+    refundableAmount: number;
+    /**
+     * The refunded amount for this transaction
+     */
+    refundedAmount: number;
+    /**
+     * Whether this transaction is refundable
+     */
+    isRefundable: boolean;
+    /**
+     * The parent transaction
+     */
+    parentTransaction?: CheckoutOrderParentTransaction | null;
+    /**
+     * The child transactions
+     */
+    childTransactions?: Array<CheckoutOrderChildTransaction>;
+    /**
+     * The refund this transaction belongs to
+     */
+    refund?: CheckoutOrderTransactionRefund | null;
+};
+
+export type CheckoutOrderLog = {
+    /**
+     * Unique identifier of the order log entry
+     */
+    id: string;
+    /**
+     * ID of the order this log entry relates to
+     */
+    orderId: string;
+    /**
+     * Title or summary of the log entry
+     */
+    title: string;
+    /**
+     * Detailed description or additional information about the log entry
+     */
+    description: string | null;
+    level: OrderLogLevel;
+    /**
+     * Date and time when this log entry was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when this log entry was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type CheckoutOrder = {
+    /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
+     * The currency used by the customer when placing the order.
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether the taxes are included in the order subtotal.
+     */
+    taxesIncluded: boolean;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the customer who placed the order
+     */
+    customerId: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId: string | null;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Customer who placed the order
+     */
+    customer?: CheckoutOrderCustomer | null;
+    /**
+     * Line items in the order
+     */
+    lineItems?: Array<CheckoutOrderLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions?: Array<CheckoutOrderTransaction>;
+    /**
+     * Order activity logs
+     */
+    logs?: Array<CheckoutOrderLog>;
+};
+
 export type CheckoutResponse = {
     /**
      * Created order
      */
-    order: Order;
+    order: CheckoutOrder;
     /**
      * Authentication tokens (included for new or passwordless customers)
      */
@@ -3900,6 +9696,92 @@ export type CheckoutResponse = {
      * Customer information
      */
     customer?: CheckoutCustomerInfo;
+};
+
+export type CartCheckoutQuestionTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the checkout question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or checkbox questions in this language
+     */
+    options: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type CartCheckoutQuestionResponse = {
+    /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Translations of this question (filtered to the requested language)
+     */
+    translations: Array<CartCheckoutQuestionTranslation>;
+    /**
+     * The customer's previously-saved answer to this question, if any
+     */
+    existingAnswer?: string;
 };
 
 export type CheckoutCustomer = {
@@ -3920,7 +9802,7 @@ export type CheckoutQuestionAnswers = {
     /**
      * Array of question answers to save
      */
-    answers: Array<CheckoutQuestionAnswerDto>;
+    answers: Array<CheckoutQuestionAnswer>;
 };
 
 export type ApplyCode = {
@@ -3928,6 +9810,390 @@ export type ApplyCode = {
      * Promo code to apply
      */
     code: string;
+};
+
+export type Setting = {
+    /**
+     * Primary identifier of the settings row
+     */
+    id: string;
+    /**
+     * The unique identifier of the store that owns these settings
+     */
+    storeId: string;
+    /**
+     * Whether the user account is enabled
+     */
+    isEnabled: boolean;
+    /**
+     * The timezone used for scheduling and displaying times
+     */
+    timezone: string;
+    /**
+     * The format used for displaying times (12-hour or 24-hour)
+     */
+    timeFormat: '12H' | '24H';
+    /**
+     * The format used for displaying dates
+     */
+    dateFormat: string;
+    /**
+     * Blocks bookings for the given number of seconds; after this period, pending appointments are canceled
+     */
+    reservationGap: number | null;
+    /**
+     * Whether to send confirmation emails for appointments
+     */
+    sendAppointmentConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails for appointments
+     */
+    sendAppointmentReminderEmail: boolean;
+    /**
+     * How many seconds before an appointment to send a reminder email
+     */
+    sendAppointmentReminderEmailTimeBefore: number;
+    /**
+     * Whether to send feedback emails after appointments
+     */
+    sendAppointmentFeedbackEmail: boolean;
+    /**
+     * URL for the customer's calendar page
+     */
+    customerCalendarUrl: string | null;
+    /**
+     * Base URL for the customer-facing storefront. Used to construct email links.
+     */
+    storefrontBaseUrl: string | null;
+    /**
+     * Email address to use as "from" address in email communications
+     */
+    emailFromAddress: string | null;
+    /**
+     * Default time gap for scheduling
+     */
+    defaultScheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * How many days in advance customers can schedule appointments. Use -1 for unlimited.
+     */
+    defaultAdvanceScheduleDays: number;
+    /**
+     * Whether to skip the checkout page by default (Shopify merchants only)
+     */
+    defaultSkipCheckout: boolean;
+    /**
+     * When the settings were created
+     */
+    createdAt: string;
+    /**
+     * When the settings were last updated
+     */
+    updatedAt: string | null;
+};
+
+export type PlanFeature = {
+    /**
+     * Unique identifier for the plan feature
+     */
+    id: string;
+    /**
+     * ID of the subscription plan this feature belongs to
+     */
+    planId: string;
+    /**
+     * Name of the feature
+     */
+    feature: 'number-of-products' | 'number-of-staff-members' | 'number-of-physical-locations' | 'staff-members-portal' | 'customer-portal' | 'group-appointments' | 'custom-product-duration' | 'cancellation' | 'rescheduling' | 'customer-cancellation' | 'customer-rescheduling' | 'custom-checkout-fields' | 'ui-customization' | 'email-customization' | 'customer-reviews' | 'white-label';
+    /**
+     * Additional configuration for the feature
+     */
+    config: {
+        [key: string]: unknown;
+    } | null;
+};
+
+export type StorefrontSetting = {
+    /**
+     * Primary identifier of the storefront settings row
+     */
+    id: string;
+    /**
+     * The unique identifier of the store that owns these storefront settings
+     */
+    storeId: string;
+    /**
+     * Theme mode (light or dark)
+     */
+    themeMode: 'light' | 'dark';
+    /**
+     * Primary brand color in hexadecimal format
+     */
+    primaryColor: string;
+    /**
+     * Primary foreground color in hexadecimal format
+     */
+    primaryForegroundColor: string;
+    /**
+     * Secondary brand color in hexadecimal format
+     */
+    secondaryColor: string;
+    /**
+     * Secondary foreground color in hexadecimal format
+     */
+    secondaryForegroundColor: string;
+    /**
+     * Destructive/error color in hexadecimal format
+     */
+    destructiveColor: string;
+    /**
+     * Accent color in hexadecimal format
+     */
+    accentColor: string;
+    /**
+     * Accent foreground color in hexadecimal format
+     */
+    accentForegroundColor: string;
+    /**
+     * Background color in hexadecimal format
+     */
+    backgroundColor: string;
+    /**
+     * Foreground/text color in hexadecimal format
+     */
+    foregroundColor: string;
+    /**
+     * Card background color in hexadecimal format
+     */
+    cardColor: string;
+    /**
+     * Card foreground color in hexadecimal format
+     */
+    cardForegroundColor: string;
+    /**
+     * Popover background color in hexadecimal format
+     */
+    popoverColor: string;
+    /**
+     * Popover foreground color in hexadecimal format
+     */
+    popoverForegroundColor: string;
+    /**
+     * Muted color in hexadecimal format
+     */
+    mutedColor: string;
+    /**
+     * Muted foreground color in hexadecimal format
+     */
+    mutedForegroundColor: string;
+    /**
+     * Border color in hexadecimal format
+     */
+    borderColor: string;
+    /**
+     * Input border color in hexadecimal format
+     */
+    inputColor: string;
+    /**
+     * Focus ring color in hexadecimal format
+     */
+    ringColor: string;
+    /**
+     * Sidebar background color in hexadecimal format
+     */
+    sidebarColor: string;
+    /**
+     * Sidebar foreground color in hexadecimal format
+     */
+    sidebarForegroundColor: string;
+    /**
+     * Sidebar primary color in hexadecimal format
+     */
+    sidebarPrimaryColor: string;
+    /**
+     * Sidebar primary foreground color in hexadecimal format
+     */
+    sidebarPrimaryForegroundColor: string;
+    /**
+     * Sidebar accent color in hexadecimal format
+     */
+    sidebarAccentColor: string;
+    /**
+     * Sidebar accent foreground color in hexadecimal format
+     */
+    sidebarAccentForegroundColor: string;
+    /**
+     * Sidebar border color in hexadecimal format
+     */
+    sidebarBorderColor: string;
+    /**
+     * Sidebar ring color in hexadecimal format
+     */
+    sidebarRingColor: string;
+    /**
+     * Border radius in rem units
+     */
+    borderRadius: number;
+    /**
+     * Sans-serif font family
+     */
+    sansSerifFont: string | null;
+    /**
+     * Serif font family
+     */
+    serifFont: string | null;
+    /**
+     * Monospace font family
+     */
+    monospaceFont: string | null;
+    /**
+     * Letter spacing in em units
+     */
+    letterSpacing: number;
+    /**
+     * Shadow color in hexadecimal format
+     */
+    shadowColor: string;
+    /**
+     * Shadow opacity (0-1)
+     */
+    shadowOpacity: number;
+    /**
+     * Shadow blur radius in pixels
+     */
+    shadowBlurRadius: number;
+    /**
+     * Shadow spread in pixels
+     */
+    shadowSpread: number;
+    /**
+     * Shadow offset X in pixels
+     */
+    shadowOffsetX: number;
+    /**
+     * Shadow offset Y in pixels
+     */
+    shadowOffsetY: number;
+    /**
+     * The format used for displaying dates
+     */
+    dateFormat: string;
+    /**
+     * The format used for displaying times
+     */
+    timeFormat: '12H' | '24H';
+    /**
+     * Active language codes enabled for the storefront
+     */
+    locales: Array<string>;
+    /**
+     * Default language code for the storefront
+     */
+    defaultLocale: string;
+    /**
+     * ID of the logo image associated with the storefront
+     */
+    logoImageId: string | null;
+    /**
+     * ID of the icon image associated with the storefront
+     */
+    iconImageId: string | null;
+    /**
+     * ID of the banner image associated with the storefront
+     */
+    bannerImageId: string | null;
+    /**
+     * When the storefront settings were created
+     */
+    passwordProtectionEnabled: boolean;
+    /**
+     * Password for accessing the storefront when protection is enabled
+     */
+    password: string | null;
+    /**
+     * When the storefront settings were last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Logo image metadata
+     */
+    logoImage?: Image | null;
+    /**
+     * Icon image metadata
+     */
+    iconImage?: Image | null;
+    /**
+     * Banner image metadata
+     */
+    bannerImage?: Image | null;
+};
+
+export type StoreContactInfo = {
+    /**
+     * Primary identifier of the contact info row
+     */
+    id: string;
+    /**
+     * The unique identifier of the store that owns this contact info
+     */
+    storeId: string;
+    /**
+     * First line of the business address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the business address
+     */
+    addressLine2: string | null;
+    /**
+     * City
+     */
+    city: string | null;
+    /**
+     * State or province
+     */
+    state: string | null;
+    /**
+     * Postal code
+     */
+    postalCode: string | null;
+    /**
+     * Country
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude coordinate
+     */
+    latitude: number | null;
+    /**
+     * Longitude coordinate
+     */
+    longitude: number | null;
+    /**
+     * Contact email address
+     */
+    contactEmail: string | null;
+    /**
+     * Array of contact phone numbers
+     */
+    contactPhoneNumbers: Array<string> | null;
+    /**
+     * Array of social media links
+     */
+    socialMediaLinks: Array<{
+        [key: string]: unknown;
+    }> | null;
+    /**
+     * When the contact info was created
+     */
+    createdAt: string;
+    /**
+     * When the contact info was last updated
+     */
+    updatedAt: string | null;
 };
 
 export type StorePublicSettings = {
@@ -3951,6 +10217,12 @@ export type StorePublicSettings = {
      * Store settings
      */
     settings?: Setting;
+    /**
+     * Store platform (e.g., Shopify)
+     */
+    platform?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Store features
      */
@@ -4035,317 +10307,7 @@ export type CurrentAvailabilitySlot = {
     maxAttendees: number;
 };
 
-export type CustomerProviderCatalogItem = {
-    /**
-     * Provider identifier
-     */
-    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
-    /**
-     * Display name for UI
-     */
-    displayName: string;
-    /**
-     * Human-readable description
-     */
-    description?: string;
-    /**
-     * Checkout integration mode
-     */
-    checkoutMode: 'internal' | 'redirect' | 'manual';
-    /**
-     * Icon identifier
-     */
-    icon?: string;
-    /**
-     * Provider mode (test or live) - only for providers that support it
-     */
-    mode?: 'test' | 'live';
-};
-
-export type UserOauthProviderWritable = {
-    [key: string]: unknown;
-};
-
-export type ScheduleAvailabilityWritable = {
-    /**
-     * Unique identifier of the schedule availability record
-     */
-    id: string;
-    /**
-     * ID of the schedule this availability applies to
-     */
-    scheduleId: string;
-    /**
-     * Start date of the availability period (for specific date ranges) - in the timezone of the schedule
-     */
-    fromDate?: string | null;
-    /**
-     * Start time of the availability period - in the timezone of the schedule
-     */
-    fromTime: string;
-    /**
-     * End date of the availability period (for specific date ranges) - in the timezone of the schedule
-     */
-    toDate?: string | null;
-    /**
-     * End time of the availability period - in the timezone of the schedule
-     */
-    toTime: string;
-    /**
-     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
-     */
-    day?: number | null;
-    /**
-     * Status indicating whether this time period is available or unavailable
-     */
-    status: 'available' | 'unavailable';
-    /**
-     * Date when the availability record was created
-     */
-    createdAt: string;
-    /**
-     * Date when the availability record was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Schedule this availability is associated with
-     */
-    schedule?: ScheduleWritable;
-};
-
-export type IntegrationWritable = {
-    /**
-     * Unique identifier for the integration
-     */
-    id: string;
-    /**
-     * ID of the store that owns the integration
-     */
-    storeId: string;
-    /**
-     * Type of integration
-     */
-    type: 'calendar' | 'location' | 'payment' | 'webhook';
-    /**
-     * Display name of the integration
-     */
-    name: string;
-    /**
-     * Internal system name of the integration
-     */
-    internalName: string;
-    /**
-     * Current status of the integration
-     */
-    status: 'pending' | 'success';
-    /**
-     * Whether the integration is enabled
-     */
-    enabled: boolean;
-    /**
-     * When the integration was created
-     */
-    createdAt: string;
-    /**
-     * When the integration was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * When the integration was soft-deleted
-     */
-    deletedAt: string | null;
-    /**
-     * Store that owns the integration
-     */
-    store: StoreWritable;
-};
-
-export type ImageWritable = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * External identifier for the image (e.g., from storage provider)
-     */
-    externalId?: string | null;
-    /**
-     * URL where the image can be accessed
-     */
-    url: string;
-    /**
-     * Original filename of the uploaded image
-     */
-    filename?: string | null;
-    /**
-     * MIME type of the image
-     */
-    mime?: string | null;
-    /**
-     * Creation timestamp
-     */
-    createdAt: string;
-    /**
-     * Last update timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Soft deletion timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * ID of the store that owns this image
-     */
-    storeId?: string | null;
-    /**
-     * Store that owns this image
-     */
-    store?: StoreWritable;
-};
-
-export type AddOnWritable = {
-    /**
-     * Unique identifier for the add-on
-     */
-    id: string;
-    /**
-     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
-     */
-    externalId?: string;
-    /**
-     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
-     */
-    externalVariantId?: string;
-    /**
-     * ID of the store that owns this add-on
-     */
-    storeId: string;
-    /**
-     * URL-friendly slug for the add-on (unique per store)
-     */
-    slug: string;
-    /**
-     * Title of the add-on
-     */
-    title?: string;
-    /**
-     * Detailed description of the add-on
-     */
-    description?: string;
-    /**
-     * ID of the primary image for the add-on
-     */
-    imageId?: string;
-    /**
-     * Color code used when displaying the add-on
-     */
-    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
-    /**
-     * Unit price of the add-on
-     */
-    price: number;
-    /**
-     * Whether the add-on is taxable
-     */
-    taxable: boolean;
-    /**
-     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
-     */
-    durationMultiplied: boolean;
-    /**
-     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
-     */
-    maxQuantity?: number | null;
-    /**
-     * Current status of the add-on
-     */
-    status: 'active' | 'inactive';
-    /**
-     * Timestamp when the add-on was created
-     */
-    createdAt: string;
-    /**
-     * Timestamp when the add-on was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Timestamp when the add-on was soft-deleted
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this add-on
-     */
-    store?: StoreWritable;
-    /**
-     * Primary image associated with this add-on
-     */
-    image?: ImageWritable;
-    /**
-     * Gallery images for this add-on
-     */
-    images?: Array<ImageWritable>;
-    /**
-     * Locations where this add-on is available
-     */
-    locations?: Array<LocationWritable>;
-    /**
-     * Staff members who can deliver this add-on
-     */
-    staffMembers?: Array<StaffMemberWritable>;
-    /**
-     * Products that offer this add-on at checkout
-     */
-    products?: Array<ProductWritable>;
-};
-
-export type LocationAvailabilityWritable = {
-    /**
-     * Unique identifier of the location availability record
-     */
-    id: string;
-    /**
-     * ID of the location this availability applies to
-     */
-    locationId: string;
-    /**
-     * Start date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fromDate?: string | null;
-    /**
-     * Start time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    fromTime: string;
-    /**
-     * End date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    toDate?: string | null;
-    /**
-     * End time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
-     */
-    toTime: string;
-    /**
-     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
-     */
-    day?: number | null;
-    /**
-     * Status indicating whether this time period is available or unavailable
-     */
-    status: 'available' | 'unavailable';
-    /**
-     * Date when the availability record was created
-     */
-    createdAt: string;
-    /**
-     * Date when the availability record was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Location this availability is assigned to
-     */
-    location?: LocationWritable;
-};
-
-export type LocationWritable = {
+export type ProductSlugVariantStaffMemberLocation = {
     /**
      * Unique identifier of the location
      */
@@ -4357,15 +10319,15 @@ export type LocationWritable = {
     /**
      * ID of the schedule assigned to this location (if any)
      */
-    scheduleId?: string | null;
+    scheduleId: string | null;
     /**
      * Name of the location
      */
-    title?: string | null;
+    title: string | null;
     /**
      * Description of the location
      */
-    description?: string | null;
+    description: string | null;
     /**
      * URL-friendly slug for the location (unique per store)
      */
@@ -4377,43 +10339,43 @@ export type LocationWritable = {
     /**
      * URL link for online locations
      */
-    link?: string | null;
+    link: string | null;
     /**
      * First line of address for physical locations
      */
-    addressLine1?: string | null;
+    addressLine1: string | null;
     /**
      * Second line of address for physical locations
      */
-    addressLine2?: string | null;
+    addressLine2: string | null;
     /**
      * City for physical locations
      */
-    city?: string | null;
+    city: string | null;
     /**
      * State/province for physical locations
      */
-    state?: string | null;
+    state: string | null;
     /**
      * Postal code for physical locations
      */
-    postalCode?: string | null;
+    postalCode: string | null;
     /**
      * Country for physical locations
      */
-    country?: string | null;
+    country: string | null;
     /**
      * Google Place ID for the physical address
      */
-    addressPlaceId?: string | null;
+    addressPlaceId: string | null;
     /**
      * Latitude in WGS84
      */
-    latitude?: number | null;
+    latitude: number | null;
     /**
      * Longitude in WGS84
      */
-    longitude?: number | null;
+    longitude: number | null;
     /**
      * Date when the location was created
      */
@@ -4421,50 +10383,719 @@ export type LocationWritable = {
     /**
      * Date when the location was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date when the location was deleted (for soft deletes)
      */
-    deletedAt?: string | null;
-    /**
-     * Store that owns this location
-     */
-    store?: StoreWritable;
-    /**
-     * Schedule assigned to the location
-     */
-    schedule?: ScheduleWritable;
-    /**
-     * Products that can be offered at this location
-     */
-    products?: Array<ProductWritable>;
-    /**
-     * Staff members who can work at this location
-     */
-    staffMembers?: Array<StaffMemberWritable>;
-    /**
-     * Integrations connected to this location (e.g., Google Meet, Zoom)
-     */
-    integrations?: Array<IntegrationWritable>;
-    /**
-     * Add-ons available at this location
-     */
-    addOns?: Array<AddOnWritable>;
-    /**
-     * Appointments scheduled at this location
-     */
-    appointments?: Array<AppointmentWritable>;
-    /**
-     * Availability records for this location
-     */
-    availabilities?: Array<LocationAvailabilityWritable>;
+    deletedAt: string | null;
     /**
      * The formatted address string
      */
     address: string | null;
 };
 
-export type ScheduleWritable = {
+export type ProductSlugVariantStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Locations where this staff member works
+     */
+    locations: Array<ProductSlugVariantStaffMemberLocation>;
+};
+
+export type ProductSlugVariantLocationStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductSlugVariantLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Staff members who can work at this location
+     */
+    staffMembers: Array<ProductSlugVariantLocationStaffMember>;
+};
+
+export type ProductSlugVariant = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Images associated with this product
+     */
+    images: Array<Image>;
+    /**
+     * Staff members who can provide this service
+     */
+    staffMembers: Array<ProductSlugVariantStaffMember>;
+    /**
+     * Locations where this service is offered
+     */
+    locations: Array<ProductSlugVariantLocation>;
+};
+
+export type ProductSlugResponse = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Variants of this product
+     */
+    variants: Array<ProductSlugVariant>;
+};
+
+export type ProductDetailStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductDetailLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type ProductDetailSchedule = {
     /**
      * Unique identifier for the schedule
      */
@@ -4508,124 +11139,14 @@ export type ScheduleWritable = {
     /**
      * Date when the schedule was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date when the schedule was soft-deleted
      */
-    deletedAt?: string | null;
-    /**
-     * Store that owns this schedule
-     */
-    store?: StoreWritable;
-    /**
-     * Availability records associated with this schedule
-     */
-    availabilities?: Array<ScheduleAvailabilityWritable>;
-    /**
-     * Staff members assigned to this schedule
-     */
-    staffMembers?: Array<StaffMemberWritable>;
-    /**
-     * Locations assigned to this schedule
-     */
-    locations?: Array<LocationWritable>;
-    /**
-     * Products (services) assigned to this schedule
-     */
-    products?: Array<ProductWritable>;
+    deletedAt: string | null;
 };
 
-export type ProductCollectionWritable = {
-    /**
-     * Unique identifier for the product collection
-     */
-    id: string;
-    /**
-     * Identifier of the store that owns the collection
-     */
-    storeId: string;
-    /**
-     * Title of the product collection
-     */
-    title: string;
-    /**
-     * Description of the product collection
-     */
-    description?: string;
-    /**
-     * URL-friendly slug for the product collection (unique per store)
-     */
-    slug: string;
-    /**
-     * Visibility flag for the collection
-     */
-    isVisible: boolean;
-    /**
-     * Timestamp when the collection was created
-     */
-    createdAt: string;
-    /**
-     * Timestamp when the collection was last updated
-     */
-    updatedAt?: string;
-    /**
-     * Timestamp when the collection was soft-deleted
-     */
-    deletedAt?: string;
-    /**
-     * Store that owns this collection
-     */
-    store?: StoreWritable;
-    /**
-     * Products assigned to this collection
-     */
-    products?: Array<ProductWritable>;
-};
-
-export type FeedbackQuestionTranslationWritable = {
-    /**
-     * Unique identifier for the translation
-     */
-    id: string;
-    /**
-     * ID of the feedback question this translation belongs to
-     */
-    questionId: string;
-    /**
-     * Translated title of the question shown to customers
-     */
-    title: string;
-    /**
-     * Translated description or additional instructions for the question
-     */
-    description: string;
-    /**
-     * Available options for dropdown or rating questions in this language
-     */
-    options?: Array<string> | null;
-    /**
-     * Language code for this translation
-     */
-    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
-    /**
-     * Date and time when the translation was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the translation was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The feedback question this translation belongs to
-     */
-    question: FeedbackQuestionWritable;
-    /**
-     * Language entity this translation is in
-     */
-    language: Language;
-};
-
-export type FeedbackQuestionWritable = {
+export type ProductDetailFeedbackQuestion = {
     /**
      * Unique identifier for the feedback question
      */
@@ -4657,73 +11178,18 @@ export type FeedbackQuestionWritable = {
     /**
      * Date and time when the question was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date when the question was soft-deleted
      */
-    deletedAt?: string | null;
+    deletedAt: string | null;
     /**
      * ID of the store that owns this question
      */
     storeId: string;
-    /**
-     * Store that owns this question
-     */
-    store?: StoreWritable;
-    /**
-     * Translations of this question in various languages
-     */
-    translations: Array<FeedbackQuestionTranslationWritable>;
-    /**
-     * Products associated with this feedback question
-     */
-    products?: Array<ProductWritable>;
 };
 
-export type CheckoutQuestionTranslationWritable = {
-    /**
-     * Unique identifier for the translation
-     */
-    id: string;
-    /**
-     * ID of the checkout question this translation belongs to
-     */
-    questionId: string;
-    /**
-     * Translated title of the question shown to customers
-     */
-    title: string;
-    /**
-     * Translated description or additional instructions for the question
-     */
-    description: string;
-    /**
-     * Available options for dropdown or checkbox questions in this language
-     */
-    options?: Array<string> | null;
-    /**
-     * Language code for this translation
-     */
-    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
-    /**
-     * Date and time when the translation was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the translation was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The checkout question this translation belongs to
-     */
-    question: CheckoutQuestionWritable;
-    /**
-     * Language entity this translation is in
-     */
-    language: Language;
-};
-
-export type CheckoutQuestionWritable = {
+export type ProductDetailCheckoutQuestion = {
     /**
      * Unique identifier for the checkout question
      */
@@ -4755,30 +11221,57 @@ export type CheckoutQuestionWritable = {
     /**
      * Date and time when the question was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date when the question was soft-deleted
      */
-    deletedAt?: string | null;
+    deletedAt: string | null;
     /**
      * ID of the store that owns this question
      */
     storeId: string;
-    /**
-     * Store that owns this question
-     */
-    store?: StoreWritable;
-    /**
-     * Translations of this question in various languages
-     */
-    translations: Array<CheckoutQuestionTranslationWritable>;
-    /**
-     * Products associated with this checkout question
-     */
-    products?: Array<ProductWritable>;
 };
 
-export type ProductWritable = {
+export type ProductDetailCollection = {
+    /**
+     * Unique identifier for the product collection
+     */
+    id: string;
+    /**
+     * Identifier of the store that owns the collection
+     */
+    storeId: string;
+    /**
+     * Title of the product collection
+     */
+    title: string;
+    /**
+     * Description of the product collection
+     */
+    description: string;
+    /**
+     * URL-friendly slug for the product collection (unique per store)
+     */
+    slug: string;
+    /**
+     * Visibility flag for the collection
+     */
+    isVisible: boolean;
+    /**
+     * Timestamp when the collection was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the collection was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the collection was soft-deleted
+     */
+    deletedAt: string;
+};
+
+export type ProductDetailVariant = {
     /**
      * Unique identifier for the product
      */
@@ -4790,11 +11283,11 @@ export type ProductWritable = {
     /**
      * External platform product ID (e.g. Shopify Product ID)
      */
-    externalId?: string;
+    externalId: string;
     /**
      * External platform variant ID (e.g. Shopify Variant ID)
      */
-    externalVariantId?: string;
+    externalVariantId: string;
     /**
      * ID of the store that owns this product
      */
@@ -4806,27 +11299,27 @@ export type ProductWritable = {
     /**
      * ID of the schedule associated with this product
      */
-    scheduleId?: string;
+    scheduleId: string;
     /**
      * ID of the product pool this product belongs to (controls overlap prevention)
      */
-    productPoolId?: string | null;
+    productPoolId: string | null;
     /**
      * Title of the product
      */
-    title?: string;
+    title: string;
     /**
      * Title of the specific product variant
      */
-    variantTitle?: string;
+    variantTitle: string;
     /**
      * Detailed description of the product
      */
-    description?: string;
+    description: string;
     /**
      * ID of the product image
      */
-    imageId?: string;
+    imageId: string;
     /**
      * Color code for displaying the product
      */
@@ -4858,7 +11351,7 @@ export type ProductWritable = {
     /**
      * Maximum number of guests allowed per appointment. Null means unlimited.
      */
-    maxGuests?: number | null;
+    maxGuests: number | null;
     /**
      * Whether customers can invite guests to the appointment
      */
@@ -4874,19 +11367,19 @@ export type ProductWritable = {
     /**
      * Time in seconds before appointment when rescheduling is no longer allowed
      */
-    rescheduleGap?: number;
+    rescheduleGap: number;
     /**
      * Time in seconds before appointment when cancellation is no longer allowed
      */
-    cancelGap?: number;
+    cancelGap: number;
     /**
      * Buffer time in seconds required before this service
      */
-    beforeGap?: number;
+    beforeGap: number;
     /**
      * Buffer time in seconds required after this service
      */
-    afterGap?: number;
+    afterGap: number;
     /**
      * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
      */
@@ -4894,11 +11387,11 @@ export type ProductWritable = {
     /**
      * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
      */
-    fixedStartTime?: string;
+    fixedStartTime: string;
     /**
      * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
      */
-    fixedEndTime?: string;
+    fixedEndTime: string;
     /**
      * How many days in advance bookings can be made
      */
@@ -4930,780 +11423,5580 @@ export type ProductWritable = {
     /**
      * Timestamp when the product was last updated
      */
-    updatedAt?: string;
+    updatedAt: string;
     /**
      * Timestamp when the product was deleted (for soft deletes)
      */
-    deletedAt?: string;
+    deletedAt: string;
     /**
-     * Store that owns this product
+     * Primary image of the product
      */
-    store?: StoreWritable;
-    /**
-     * Schedule associated with this product
-     */
-    schedule?: ScheduleWritable;
-    /**
-     * Resource group this product belongs to
-     */
-    productPool?: ProductPool;
-    /**
-     * Appointments booked for this product
-     */
-    appointments?: Array<AppointmentWritable>;
-    /**
-     * Staff members who can provide this service
-     */
-    staffMembers?: Array<StaffMemberWritable>;
-    /**
-     * Collections assigned to this product
-     */
-    collections?: Array<ProductCollectionWritable>;
-    /**
-     * Locations where this service is offered
-     */
-    locations?: Array<LocationWritable>;
-    /**
-     * Parent product (if this is a variant)
-     */
-    parentProduct?: ProductWritable;
-    /**
-     * Variants of this product
-     */
-    variants?: Array<ProductWritable>;
-    /**
-     * Image associated with this product
-     */
-    image?: ImageWritable;
-    /**
-     * Images associated with this product
-     */
-    images?: Array<ImageWritable>;
-    /**
-     * Integrations enabled for this product
-     */
-    integrations?: Array<IntegrationWritable>;
-    /**
-     * Feedback questions associated with this product
-     */
-    feedbackQuestions?: Array<FeedbackQuestionWritable>;
-    /**
-     * Checkout questions associated with this product
-     */
-    checkoutQuestions?: Array<CheckoutQuestionWritable>;
-    /**
-     * Add-ons that can be attached to this product at booking time
-     */
-    addOns?: Array<AddOnWritable>;
+    image?: Image | null;
 };
 
-export type CheckoutQuestionAnswerWritable = {
+export type ProductDetailAddOn = {
     /**
-     * Unique identifier of the checkout question answer
+     * Unique identifier for the add-on
      */
     id: string;
     /**
-     * ID of the appointment this question answer relates to
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
      */
-    appointmentId: string;
+    externalId: string;
     /**
-     * ID of the checkout question (set to null if question is deleted)
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
      */
-    questionId?: string | null;
+    externalVariantId: string;
     /**
-     * The checkout question this answer relates to
-     */
-    checkoutQuestion?: CheckoutQuestionWritable | null;
-    /**
-     * The checkout question text presented to the customer
-     */
-    question: string;
-    /**
-     * Customer's answer to the checkout question
-     */
-    answer?: string | null;
-    /**
-     * Date and time when this answer was recorded
-     */
-    createdAt: string;
-    /**
-     * Date and time when this answer was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this question answer relates to
-     */
-    appointment?: AppointmentWritable;
-};
-
-export type FeedbackQuestionAnswerWritable = {
-    /**
-     * Unique identifier of the feedback question answer
-     */
-    id: string;
-    /**
-     * ID of the appointment this feedback relates to
-     */
-    appointmentId: string;
-    /**
-     * ID of the feedback question (set to null if question is deleted)
-     */
-    questionId?: string | null;
-    /**
-     * The feedback question this answer relates to
-     */
-    feedbackQuestion?: FeedbackQuestionWritable | null;
-    /**
-     * The feedback question text presented to the customer
-     */
-    question: string;
-    /**
-     * Customer's answer to the feedback question
-     */
-    answer?: string | null;
-    /**
-     * Date and time when this feedback was recorded
-     */
-    createdAt: string;
-    /**
-     * Date and time when this feedback was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this feedback relates to
-     */
-    appointment?: AppointmentWritable;
-};
-
-export type IntegratedCalendarAppointmentWritable = {
-    /**
-     * Unique identifier for the integrated calendar appointment
-     */
-    id: string;
-    /**
-     * ID of the appointment in the Opencals system
-     */
-    appointmentId: string;
-    /**
-     * ID of the integration connecting to an external calendar
-     */
-    integrationId: string;
-    /**
-     * ID of the appointment in the external calendar system
-     */
-    externalAppointmentId: string;
-    /**
-     * When the record was created
-     */
-    createdAt: string;
-    /**
-     * When the record was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * The integration that connected the appointment to an external calendar
-     */
-    integration: IntegrationWritable;
-    /**
-     * The appointment that was integrated with an external calendar
-     */
-    appointment: AppointmentWritable;
-};
-
-export type IntegratedAppointmentLocationWritable = {
-    /**
-     * Unique identifier for the integrated appointment location
-     */
-    id: string;
-    /**
-     * ID of the appointment in the Opencals system
-     */
-    appointmentId: string;
-    /**
-     * ID of the integration connecting to an external meeting service
-     */
-    integrationId: string;
-    /**
-     * ID of the location in the external meeting service
-     */
-    externalLocationId: string;
-    /**
-     * When the record was created
-     */
-    createdAt: string;
-    /**
-     * When the record was last updated
-     */
-    updatedAt: string | null;
-    /**
-     * The integration that connected the appointment to an external meeting service
-     */
-    integration: IntegrationWritable;
-    /**
-     * The appointment that was integrated with an external meeting service
-     */
-    appointment: AppointmentWritable;
-    /**
-     * Additional location data from the integrated service
-     */
-    data?: IntegratedAppointmentLocationData;
-};
-
-export type AppointmentLogWritable = {
-    /**
-     * Unique identifier of the appointment log entry
-     */
-    id: string;
-    /**
-     * ID of the appointment this log entry relates to
-     */
-    appointmentId: string;
-    /**
-     * Title or summary of the log entry
-     */
-    title: string;
-    /**
-     * Detailed description or additional information about the log entry
-     */
-    description?: string | null;
-    level: AppointmentLogLevel;
-    /**
-     * Date and time when this log entry was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when this log entry was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The appointment this log entry relates to
-     */
-    appointment?: AppointmentWritable;
-};
-
-export type CartAddOnItemWritable = {
-    /**
-     * Unique identifier of the cart add-on item
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Parent cart item ID (the appointment this add-on is attached to)
-     */
-    cartItemId: string;
-    /**
-     * Add-on ID
-     */
-    addOnId: string;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity. For fixed add-ons, this is the customer-picked count (bounded by AddOn.maxQuantity). For duration-multiplied add-ons, this mirrors the parent CartItem.quantity (number of base-duration units booked) and is kept in sync by the cart service whenever the appointment duration changes.
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * The add-on entity
-     */
-    addOn?: AddOnWritable | null;
-    /**
-     * Applied discounts on this add-on item
-     */
-    discounts: Array<CartItemAppliedDiscount>;
-};
-
-export type CartItemWritable = {
-    /**
-     * Unique identifier of the cart item
-     */
-    id: string;
-    /**
-     * Cart ID
-     */
-    cartId: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at timestamp
-     */
-    deletedAt?: string | null;
-    /**
-     * Appointment for this cart item
-     */
-    appointment?: AppointmentWritable | null;
-    /**
-     * Add-on items attached to this cart item
-     */
-    addOnItems?: Array<CartAddOnItemWritable>;
-    /**
-     * Raw discount rows for this cart item (internal)
-     */
-    cartItemDiscounts?: Array<unknown>;
-    /**
-     * Applied discounts on this cart item (base line only)
-     */
-    discounts: Array<CartItemAppliedDiscount>;
-    /**
-     * Subtotal of the cart item including its add-ons
-     */
-    lineSubtotal: number;
-    /**
-     * Total tax for the cart item including its add-ons
-     */
-    lineTax: number;
-};
-
-export type CartWritable = {
-    /**
-     * Unique identifier of the cart
-     */
-    id: string;
-    /**
-     * ID of the store that owns the cart
+     * ID of the store that owns this add-on
      */
     storeId: string;
     /**
-     * ID of the customer who owns the cart
+     * URL-friendly slug for the add-on (unique per store)
      */
-    customerId?: string | null;
+    slug: string;
     /**
-     * Cart status
-     */
-    status: 'active' | 'converted' | 'abandoned';
-    /**
-     * Payment currency code for the cart totals
-     */
-    paymentCurrencyCode: string;
-    /**
-     * Whether taxes are included in prices
-     */
-    taxesIncluded: boolean;
-    /**
-     * When cart should expire
-     */
-    expiresAt?: string | null;
-    /**
-     * Number of times the cart expiration has been extended
-     */
-    extensionsCount: number;
-    /**
-     * Applied promo/discount code for this cart
-     */
-    appliedDiscountCode?: string | null;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * Updated at timestamp
-     */
-    updatedAt?: string | null;
-    /**
-     * Cart items
-     */
-    items: Array<CartItemWritable>;
-    /**
-     * Cart payments
-     */
-    payments: Array<CartPayment>;
-    /**
-     * Orders associated with this cart
-     */
-    orders: Array<OrderWritable>;
-    /**
-     * Subtotal amount of the cart
-     */
-    subtotal: number;
-    /**
-     * Total tax amount of the cart
-     */
-    totalTax: number;
-    /**
-     * Grand total of the cart
-     */
-    total: number;
-    /**
-     * Applied discounts aggregated across all cart items
-     */
-    appliedDiscounts: Array<AppliedDiscount>;
-};
-
-export type OrderRefundLineItemWritable = {
-    /**
-     * Unique identifier for the refund line item
-     */
-    id: string;
-    /**
-     * ID of the refund this line item belongs to
-     */
-    refundId: string;
-    /**
-     * External refund line item ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * ID of the original order line item being refunded
-     */
-    lineItemId: string;
-    /**
-     * Quantity of the line item being refunded
-     */
-    quantity: number;
-    /**
-     * Date and time when the refund line item was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the refund line item was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The refund this line item belongs to
-     */
-    refund: OrderRefundWritable;
-    /**
-     * The original order line item being refunded
-     */
-    lineItem: OrderLineItemWritable;
-};
-
-export type OrderAddOnLineItemWritable = {
-    /**
-     * Unique identifier of the order add-on line item
-     */
-    id: string;
-    /**
-     * ID of the order
-     */
-    orderId: string;
-    /**
-     * ID of the parent order line item (the appointment) this add-on belongs to
-     */
-    lineItemId: string;
-    /**
-     * ID of the add-on
-     */
-    addOnId: string;
-    /**
-     * External line item ID from the platform (e.g., Shopify) for this add-on
-     */
-    externalId?: string | null;
-    /**
-     * Original unit price
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted unit price
-     */
-    discountedUnitPrice: number;
-    /**
-     * Unit tax amount
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity. For fixed add-ons this is the customer-picked count; for duration-multiplied add-ons it is the number of base-duration units of the parent appointment, snapshotted at cart → order conversion.
-     */
-    quantity: number;
-    /**
-     * Created at
-     */
-    createdAt: string;
-    /**
-     * Updated at
-     */
-    updatedAt?: string | null;
-    /**
-     * Deleted at
-     */
-    deletedAt?: string | null;
-    /**
-     * The order this add-on line item belongs to
-     */
-    order: OrderWritable;
-    /**
-     * The parent order line item (appointment) this add-on is attached to
-     */
-    lineItem: OrderLineItemWritable;
-    /**
-     * The add-on
-     */
-    addOn: AddOnWritable;
-    /**
-     * Refund line items for this add-on
-     */
-    refundLineItems: Array<OrderRefundAddOnLineItemWritable>;
-    /**
-     * Subtotal of this add-on line item
-     */
-    subtotal: number;
-    /**
-     * Total amount of this add-on line item (including tax when not included in price)
-     */
-    total: number;
-    /**
-     * Total tax for this add-on line item
-     */
-    totalTax: number;
-    /**
-     * Quantity already refunded
-     */
-    refundedQuantity: number;
-    /**
-     * Remaining refundable quantity
-     */
-    refundableQuantity: number;
-};
-
-export type OrderRefundAddOnLineItemWritable = {
-    /**
-     * Unique identifier for the refund add-on line item
-     */
-    id: string;
-    /**
-     * ID of the refund this line item belongs to
-     */
-    refundId: string;
-    /**
-     * External refund line item ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * ID of the original order add-on line item being refunded
-     */
-    addOnLineItemId: string;
-    /**
-     * Quantity of the add-on line item being refunded
-     */
-    quantity: number;
-    /**
-     * Created at
-     */
-    createdAt: string;
-    /**
-     * Updated at
-     */
-    updatedAt?: string | null;
-    /**
-     * The refund this add-on line item belongs to
-     */
-    refund: OrderRefundWritable;
-    /**
-     * The original add-on line item being refunded
-     */
-    addOnLineItem: OrderAddOnLineItemWritable;
-};
-
-export type OrderRefundWritable = {
-    /**
-     * Unique identifier for the order refund
-     */
-    id: string;
-    /**
-     * ID of the order being refunded
-     */
-    orderId: string;
-    /**
-     * External refund ID from the platform (e.g., Shopify)
-     */
-    externalId?: string | null;
-    /**
-     * Date and time when the refund was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the refund was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * The order this refund relates to
-     */
-    order: OrderWritable;
-    /**
-     * The transactions associated with this refund
-     */
-    transactions: Array<OrderTransactionWritable>;
-    /**
-     * The line items included in this refund
-     */
-    lineItems: Array<OrderRefundLineItemWritable>;
-    /**
-     * The add-on line items included in this refund
-     */
-    addOnLineItems?: Array<OrderRefundAddOnLineItemWritable>;
-    /**
-     * The total amount of the refund
-     */
-    total: number;
-};
-
-export type OrderTransactionWritable = {
-    /**
-     * ID of the order
-     */
-    orderId: string | null;
-    /**
-     * External order transaction ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * The parent transaction ID
-     */
-    parentId?: string | null;
-    /**
-     * The refund ID this transaction belongs to (if any)
-     */
-    refundId?: string | null;
-    /**
-     * The type of transaction
-     */
-    type: 'authorization' | 'capture' | 'void' | 'sale' | 'refund';
-    /**
-     * Amount of the transaction
-     */
-    amount: number;
-    /**
-     * The currency code
-     */
-    currencyCode: string;
-    /**
-     * The payment gateway
-     *
-     * @deprecated
-     */
-    gateway: 'shopify' | 'cash' | 'bank_transfer' | 'stripe';
-    /**
-     * The payment provider (replaces gateway)
-     */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
-    /**
-     * The status of the transaction
-     */
-    status: 'pending' | 'success' | 'failed';
-    /**
-     * Date and time when the transaction was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the transaction was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the transaction was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * The parent transaction
-     */
-    parentTransaction: OrderTransactionWritable;
-    /**
-     * The child transactions
-     */
-    childTransactions: Array<OrderTransactionWritable>;
-    /**
-     * The order this transaction belongs to
-     */
-    order: OrderWritable;
-    /**
-     * The refund associated with this transaction
-     */
-    refund?: OrderRefundWritable | null;
-    /**
-     * The refundable amount for this transaction
-     */
-    refundableAmount: number;
-    /**
-     * The refunded amount for this transaction
-     */
-    refundedAmount: number;
-    /**
-     * Whether this transaction is refundable
-     */
-    isRefundable: boolean;
-};
-
-export type OrderLogWritable = {
-    /**
-     * Unique identifier of the order log entry
-     */
-    id: string;
-    /**
-     * ID of the order this log entry relates to
-     */
-    orderId: string;
-    /**
-     * Title or summary of the log entry
+     * Title of the add-on
      */
     title: string;
     /**
-     * Detailed description or additional information about the log entry
+     * Detailed description of the add-on
      */
-    description?: string | null;
-    level: OrderLogLevel;
+    description: string;
     /**
-     * Date and time when this log entry was created
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
      */
     createdAt: string;
     /**
-     * Date and time when this log entry was last updated
+     * Timestamp when the add-on was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string;
     /**
-     * The order this log entry relates to
+     * Timestamp when the add-on was soft-deleted
      */
-    order?: OrderWritable;
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
 };
 
-export type OrderWritable = {
+export type ProductDetailProductPool = {
+    id: string;
+    storeId: string;
+    name: string;
+    description: string;
+    status: 'active' | 'inactive';
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+};
+
+export type ProductDetailResponse = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Staff members who can provide this service
+     */
+    staffMembers: Array<ProductDetailStaffMember>;
+    /**
+     * Locations where this service is offered
+     */
+    locations: Array<ProductDetailLocation>;
+    /**
+     * Schedule associated with this product
+     */
+    schedule: ProductDetailSchedule | null;
+    /**
+     * Images associated with this product
+     */
+    images: Array<Image>;
+    /**
+     * Feedback questions associated with this product
+     */
+    feedbackQuestions: Array<ProductDetailFeedbackQuestion>;
+    /**
+     * Checkout questions associated with this product
+     */
+    checkoutQuestions: Array<ProductDetailCheckoutQuestion>;
+    /**
+     * Collections assigned to this product
+     */
+    collections: Array<ProductDetailCollection>;
+    /**
+     * Variants of this product
+     */
+    variants: Array<ProductDetailVariant>;
+    /**
+     * Add-ons that can be attached to this product at booking time
+     */
+    addOns: Array<ProductDetailAddOn>;
+    /**
+     * Resource group this product belongs to
+     */
+    productPool: ProductDetailProductPool | null;
+};
+
+export type ProductExternalIdStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductExternalIdLocationStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductExternalIdLocationSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type ProductExternalIdLocationAvailability = {
+    /**
+     * Unique identifier of the location availability record
+     */
+    id: string;
+    /**
+     * ID of the location this availability applies to
+     */
+    locationId: string;
+    /**
+     * Start date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromDate: string | null;
+    /**
+     * Start time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromTime: string;
+    /**
+     * End date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toDate: string | null;
+    /**
+     * End time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toTime: string;
+    /**
+     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
+     */
+    day: number | null;
+    /**
+     * Status indicating whether this time period is available or unavailable
+     */
+    status: 'available' | 'unavailable';
+    /**
+     * Date when the availability record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the availability record was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type ProductExternalIdLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Staff members who can work at this location
+     */
+    staffMembers: Array<ProductExternalIdLocationStaffMember>;
+    /**
+     * Schedule assigned to the location
+     */
+    schedule: ProductExternalIdLocationSchedule | null;
+    /**
+     * Availability records for this location
+     */
+    availabilities: Array<ProductExternalIdLocationAvailability>;
+};
+
+export type ProductExternalIdFeedbackQuestion = {
+    /**
+     * Unique identifier for the feedback question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+};
+
+export type ProductExternalIdCheckoutQuestion = {
+    /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+};
+
+export type ProductExternalIdResponse = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Staff members who can provide this service
+     */
+    staffMembers: Array<ProductExternalIdStaffMember>;
+    /**
+     * Locations where this service is offered
+     */
+    locations: Array<ProductExternalIdLocation>;
+    /**
+     * Feedback questions associated with this product
+     */
+    feedbackQuestions: Array<ProductExternalIdFeedbackQuestion>;
+    /**
+     * Checkout questions associated with this product
+     */
+    checkoutQuestions: Array<ProductExternalIdCheckoutQuestion>;
+};
+
+export type ProductExternalVariantStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductExternalVariantLocationStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductExternalVariantLocationSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type ProductExternalVariantLocationAvailability = {
+    /**
+     * Unique identifier of the location availability record
+     */
+    id: string;
+    /**
+     * ID of the location this availability applies to
+     */
+    locationId: string;
+    /**
+     * Start date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromDate: string | null;
+    /**
+     * Start time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromTime: string;
+    /**
+     * End date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toDate: string | null;
+    /**
+     * End time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toTime: string;
+    /**
+     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
+     */
+    day: number | null;
+    /**
+     * Status indicating whether this time period is available or unavailable
+     */
+    status: 'available' | 'unavailable';
+    /**
+     * Date when the availability record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the availability record was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type ProductExternalVariantLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Staff members who can work at this location
+     */
+    staffMembers: Array<ProductExternalVariantLocationStaffMember>;
+    /**
+     * Schedule assigned to the location
+     */
+    schedule: ProductExternalVariantLocationSchedule | null;
+    /**
+     * Availability records for this location
+     */
+    availabilities: Array<ProductExternalVariantLocationAvailability>;
+};
+
+export type ProductExternalVariantSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type ProductExternalVariantFeedbackQuestionTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the feedback question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or rating questions in this language
+     */
+    options: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type ProductExternalVariantFeedbackQuestion = {
+    /**
+     * Unique identifier for the feedback question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<ProductExternalVariantFeedbackQuestionTranslation>;
+};
+
+export type ProductExternalVariantCheckoutQuestionTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the checkout question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or checkbox questions in this language
+     */
+    options: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type ProductExternalVariantCheckoutQuestion = {
+    /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Translations of this question in various languages
+     */
+    translations: Array<ProductExternalVariantCheckoutQuestionTranslation>;
+};
+
+export type ProductExternalVariantResponse = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Staff members who can provide this service
+     */
+    staffMembers: Array<ProductExternalVariantStaffMember>;
+    /**
+     * Locations where this service is offered
+     */
+    locations: Array<ProductExternalVariantLocation>;
+    /**
+     * Schedule associated with this product
+     */
+    schedule: ProductExternalVariantSchedule | null;
+    /**
+     * Feedback questions associated with this product
+     */
+    feedbackQuestions: Array<ProductExternalVariantFeedbackQuestion>;
+    /**
+     * Checkout questions associated with this product
+     */
+    checkoutQuestions: Array<ProductExternalVariantCheckoutQuestion>;
+};
+
+export type ProductListVariantStaffMemberLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type ProductListVariantStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Locations where this staff member works
+     */
+    locations: Array<ProductListVariantStaffMemberLocation>;
+};
+
+export type ProductListVariantLocationStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type ProductListVariantLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Staff members who can work at this location
+     */
+    staffMembers: Array<ProductListVariantLocationStaffMember>;
+};
+
+export type ProductListVariantSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type ProductListVariantCollection = {
+    /**
+     * Unique identifier for the product collection
+     */
+    id: string;
+    /**
+     * Identifier of the store that owns the collection
+     */
+    storeId: string;
+    /**
+     * Title of the product collection
+     */
+    title: string;
+    /**
+     * Description of the product collection
+     */
+    description: string;
+    /**
+     * URL-friendly slug for the product collection (unique per store)
+     */
+    slug: string;
+    /**
+     * Visibility flag for the collection
+     */
+    isVisible: boolean;
+    /**
+     * Timestamp when the collection was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the collection was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the collection was soft-deleted
+     */
+    deletedAt: string;
+};
+
+export type ProductListVariantProductPool = {
+    id: string;
+    storeId: string;
+    name: string;
+    description: string;
+    status: 'active' | 'inactive';
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+};
+
+export type ProductListVariant = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Staff members who can provide this service
+     */
+    staffMembers: Array<ProductListVariantStaffMember>;
+    /**
+     * Locations where this service is offered
+     */
+    locations: Array<ProductListVariantLocation>;
+    /**
+     * Schedule associated with this product
+     */
+    schedule: ProductListVariantSchedule | null;
+    /**
+     * Images associated with this product
+     */
+    images: Array<Image>;
+    /**
+     * Collections assigned to this product
+     */
+    collections: Array<ProductListVariantCollection>;
+    /**
+     * Resource group this product belongs to
+     */
+    productPool: ProductListVariantProductPool | null;
+};
+
+export type ProductListItemResponse = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+    /**
+     * Variants of this product
+     */
+    variants: Array<ProductListVariant>;
+};
+
+export type AddOnListProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AddOnListLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AddOnListStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AddOnListItemResponse = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+    /**
+     * Products that offer this add-on at checkout
+     */
+    products: Array<AddOnListProduct>;
+    /**
+     * Locations where this add-on is available
+     */
+    locations: Array<AddOnListLocation>;
+    /**
+     * Staff members who can deliver this add-on
+     */
+    staffMembers: Array<AddOnListStaffMember>;
+};
+
+export type LocationDetailProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type LocationDetailStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type LocationDetailSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type LocationDetailAvailability = {
+    /**
+     * Unique identifier of the location availability record
+     */
+    id: string;
+    /**
+     * ID of the location this availability applies to
+     */
+    locationId: string;
+    /**
+     * Start date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromDate: string | null;
+    /**
+     * Start time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fromTime: string;
+    /**
+     * End date of the availability period (for specific date ranges) - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toDate: string | null;
+    /**
+     * End time of the availability period - specified in the location's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    toTime: string;
+    /**
+     * Day of the week (1=Monday to 7=Sunday) (for recurring weekly availabilities)
+     */
+    day: number | null;
+    /**
+     * Status indicating whether this time period is available or unavailable
+     */
+    status: 'available' | 'unavailable';
+    /**
+     * Date when the availability record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the availability record was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type LocationDetailResponse = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+    /**
+     * Products that can be offered at this location
+     */
+    products: Array<LocationDetailProduct>;
+    /**
+     * Staff members who can work at this location
+     */
+    staffMembers: Array<LocationDetailStaffMember>;
+    /**
+     * Schedule assigned to the location
+     */
+    schedule: LocationDetailSchedule | null;
+    /**
+     * Availability records for this location
+     */
+    availabilities: Array<LocationDetailAvailability>;
+};
+
+export type ProductCollectionProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type ProductCollectionResponse = {
+    /**
+     * Unique identifier for the product collection
+     */
+    id: string;
+    /**
+     * Identifier of the store that owns the collection
+     */
+    storeId: string;
+    /**
+     * Title of the product collection
+     */
+    title: string;
+    /**
+     * Description of the product collection
+     */
+    description: string;
+    /**
+     * URL-friendly slug for the product collection (unique per store)
+     */
+    slug: string;
+    /**
+     * Visibility flag for the collection
+     */
+    isVisible: boolean;
+    /**
+     * Timestamp when the collection was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the collection was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the collection was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Products assigned to this collection
+     */
+    products: Array<ProductCollectionProduct>;
+};
+
+export type StaffMemberDetailSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type StaffMemberDetailProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type StaffMemberDetailLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type StaffMemberDetailUser = {
+    /**
+     * Unique identifier for the user
+     */
+    id: string;
+    /**
+     * ID of the parent user (for staff members)
+     */
+    parentId: string | null;
+    /**
+     * Full name of the user
+     */
+    name: string;
+    /**
+     * Email address of the user
+     */
+    email: string;
+    /**
+     * Hashed password of the user
+     */
+    password: string | null;
+    /**
+     * Refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Role of the user in the system
+     */
+    role: 'admin' | 'staff-member' | 'store-owner' | 'manager';
+    /**
+     * Current status of the user account
+     */
+    status: 'active' | 'inactive' | 'banned' | 'deleted';
+    /**
+     * Date and time when the user was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the user was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the user verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the user was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether user email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether user password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type StaffMemberDetailResponse = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Schedule defining when this staff member is available
+     */
+    schedule: StaffMemberDetailSchedule | null;
+    /**
+     * Products (services) this staff member can provide
+     */
+    products: Array<StaffMemberDetailProduct>;
+    /**
+     * Locations where this staff member works
+     */
+    locations: Array<StaffMemberDetailLocation>;
+    /**
+     * Login user linked to this staff member
+     */
+    user: StaffMemberDetailUser | null;
+};
+
+export type StaffMemberListSchedule = {
+    /**
+     * Unique identifier for the schedule
+     */
+    id: string;
+    /**
+     * ID of the store that owns this schedule
+     */
+    storeId: string;
+    /**
+     * Name of the schedule
+     */
+    name: string | null;
+    /**
+     * Timezone for the schedule
+     */
+    timezone: string;
+    /**
+     * Time slot frequency for the schedule
+     */
+    scheduleGap: 'every-10-minutes' | 'every-15-minutes' | 'every-20-minutes' | 'every-30-minutes' | 'every-60-minutes';
+    /**
+     * Buffer time between appointments in seconds
+     */
+    appointmentsGap: number;
+    /**
+     * Number of days customers can book in advance (-1 for unlimited)
+     */
+    advanceScheduleDays: number;
+    /**
+     * Type of availability pattern for this schedule
+     */
+    availabilityType: 'continuous' | 'recurring' | 'non-recurring';
+    /**
+     * Status of the schedule
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Date when the schedule was created
+     */
+    createdAt: string;
+    /**
+     * Date when the schedule was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the schedule was soft-deleted
+     */
+    deletedAt: string | null;
+};
+
+export type StaffMemberListProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type StaffMemberListLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type StaffMemberListItemResponse = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+    /**
+     * Schedule defining when this staff member is available
+     */
+    schedule: StaffMemberListSchedule | null;
+    /**
+     * Products (services) this staff member can provide
+     */
+    products: Array<StaffMemberListProduct>;
+    /**
+     * Locations where this staff member works
+     */
+    locations: Array<StaffMemberListLocation>;
+};
+
+export type AddOnDetailLocation = {
+    /**
+     * Unique identifier of the location
+     */
+    id: string;
+    /**
+     * ID of the store that owns this location
+     */
+    storeId: string;
+    /**
+     * ID of the schedule assigned to this location (if any)
+     */
+    scheduleId: string | null;
+    /**
+     * Name of the location
+     */
+    title: string | null;
+    /**
+     * Description of the location
+     */
+    description: string | null;
+    /**
+     * URL-friendly slug for the location (unique per store)
+     */
+    slug: string;
+    /**
+     * Type of location
+     */
+    type: 'physical' | 'online' | 'delivery';
+    /**
+     * URL link for online locations
+     */
+    link: string | null;
+    /**
+     * First line of address for physical locations
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of address for physical locations
+     */
+    addressLine2: string | null;
+    /**
+     * City for physical locations
+     */
+    city: string | null;
+    /**
+     * State/province for physical locations
+     */
+    state: string | null;
+    /**
+     * Postal code for physical locations
+     */
+    postalCode: string | null;
+    /**
+     * Country for physical locations
+     */
+    country: string | null;
+    /**
+     * Google Place ID for the physical address
+     */
+    addressPlaceId: string | null;
+    /**
+     * Latitude in WGS84
+     */
+    latitude: number | null;
+    /**
+     * Longitude in WGS84
+     */
+    longitude: number | null;
+    /**
+     * Date when the location was created
+     */
+    createdAt: string;
+    /**
+     * Date when the location was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the location was deleted (for soft deletes)
+     */
+    deletedAt: string | null;
+    /**
+     * The formatted address string
+     */
+    address: string | null;
+};
+
+export type AddOnDetailStaffMember = {
+    /**
+     * Unique identifier of the staff member
+     */
+    id: string;
+    /**
+     * ID of the store that owns this staff member record
+     */
+    storeId: string;
+    /**
+     * User ID of the staff member login identity (nullable until linked)
+     */
+    userId: string;
+    /**
+     * ID of the schedule assigned to this staff member, defines their availability
+     */
+    scheduleId: string;
+    /**
+     * ID of the image associated with this staff member
+     */
+    imageId: string;
+    /**
+     * First name of the staff member
+     */
+    firstName: string;
+    /**
+     * Last name of the staff member
+     */
+    lastName: string;
+    /**
+     * Email address of the staff member, used for notifications and calendar integration
+     */
+    email: string;
+    /**
+     * URL-friendly slug for the staff member (unique per store)
+     */
+    slug: string;
+    /**
+     * Refresh token for integrations like Google Calendar
+     */
+    refreshToken: string;
+    /**
+     * Date and time when the staff member was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the staff member was last updated
+     */
+    updatedAt: string;
+    /**
+     * Date and time when the staff member was soft deleted
+     */
+    deletedAt: string;
+    /**
+     * Profile image of the staff member
+     */
+    image?: Image | null;
+};
+
+export type AddOnDetailProduct = {
+    /**
+     * Unique identifier for the product
+     */
+    id: string;
+    /**
+     * ID of the product
+     */
+    productId: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID)
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID)
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this product
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the product (unique per store)
+     */
+    slug: string;
+    /**
+     * ID of the schedule associated with this product
+     */
+    scheduleId: string;
+    /**
+     * ID of the product pool this product belongs to (controls overlap prevention)
+     */
+    productPoolId: string | null;
+    /**
+     * Title of the product
+     */
+    title: string;
+    /**
+     * Title of the specific product variant
+     */
+    variantTitle: string;
+    /**
+     * Detailed description of the product
+     */
+    description: string;
+    /**
+     * ID of the product image
+     */
+    imageId: string;
+    /**
+     * Color code for displaying the product
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the product is taxable
+     */
+    taxable: boolean;
+    /**
+     * Duration of the service in seconds
+     */
+    duration: number;
+    /**
+     * Whether customers can customize the duration by selecting multiples of the base service duration (e.g., if base duration is 1 day, customers can book 1, 2, 3+ days)
+     */
+    allowCustomDuration: boolean;
+    /**
+     * When allow_custom_duration=true, maximum duration allowed for multi-duration bookings in seconds (-1 for unlimited)
+     */
+    maxDuration: number;
+    /**
+     * Maximum number of attendees allowed
+     */
+    maxAttendees: number;
+    /**
+     * Maximum number of guests allowed per appointment. Null means unlimited.
+     */
+    maxGuests: number | null;
+    /**
+     * Whether customers can invite guests to the appointment
+     */
+    allowGuests: boolean;
+    /**
+     * Whether customers can reschedule their bookings
+     */
+    allowCustomerReschedule: boolean;
+    /**
+     * Whether customers can cancel their bookings
+     */
+    allowCustomerCancel: boolean;
+    /**
+     * Time in seconds before appointment when rescheduling is no longer allowed
+     */
+    rescheduleGap: number;
+    /**
+     * Time in seconds before appointment when cancellation is no longer allowed
+     */
+    cancelGap: number;
+    /**
+     * Buffer time in seconds required before this service
+     */
+    beforeGap: number;
+    /**
+     * Buffer time in seconds required after this service
+     */
+    afterGap: number;
+    /**
+     * When allow_custom_duration=true, whether appointments must start and end at fixed times (like fixed check-in/check-out times for multi-duration bookings)
+     */
+    fixedTimes: boolean;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must start (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedStartTime: string;
+    /**
+     * When allow_custom_duration=true and fixed_times=true, the fixed time when appointments must end (HH:MM:SS) - specified in the product's schedule timezone, or user settings timezone if no schedule is assigned
+     */
+    fixedEndTime: string;
+    /**
+     * How many days in advance bookings can be made
+     */
+    advanceScheduleThreshold: number;
+    /**
+     * Whether to send confirmation emails for bookings
+     */
+    sendConfirmationEmail: boolean;
+    /**
+     * Whether to send reminder emails before appointments
+     */
+    sendReminderEmail: boolean;
+    /**
+     * Whether to send feedback request emails after appointments
+     */
+    sendFeedbackEmail: boolean;
+    /**
+     * Whether to skip the checkout process for this product (Shopify merchants only)
+     */
+    skipCheckout: boolean;
+    /**
+     * Current status of the product
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the product was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the product was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the product was deleted (for soft deletes)
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the product
+     */
+    image?: Image | null;
+};
+
+export type AddOnDetailResponse = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+    /**
+     * Gallery images for this add-on
+     */
+    images: Array<Image>;
+    /**
+     * Locations where this add-on is available
+     */
+    locations: Array<AddOnDetailLocation>;
+    /**
+     * Staff members who can deliver this add-on
+     */
+    staffMembers: Array<AddOnDetailStaffMember>;
+    /**
+     * Products that offer this add-on at checkout
+     */
+    products: Array<AddOnDetailProduct>;
+};
+
+export type CustomerProviderCatalogItem = {
+    /**
+     * Provider identifier
+     */
+    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    /**
+     * Display name for UI
+     */
+    displayName: string;
+    /**
+     * Human-readable description
+     */
+    description?: string;
+    /**
+     * Checkout integration mode
+     */
+    checkoutMode: 'internal' | 'redirect' | 'manual';
+    /**
+     * Icon identifier
+     */
+    icon?: string;
+    /**
+     * Provider mode (test or live) - only for providers that support it
+     */
+    mode?: 'test' | 'live';
+};
+
+export type PaymentSettingResponse = {
+    id: string;
+    /**
+     * Store id
+     */
+    storeId: string;
+    captureMethod: 'automatic' | 'manual' | 'on_fulfillment';
+};
+
+export type InvoiceResponse = {
+    id: string;
+    /**
+     * Store that owns the invoice
+     */
+    storeId: string;
+    /**
+     * Order the invoice was issued for
+     */
+    orderId: string;
+    /**
+     * Customer the invoice is billed to
+     */
+    customerId: string;
+    /**
+     * Human-facing invoice number
+     */
+    number: string;
+    /**
+     * Provider used to issue the invoice
+     */
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    status: 'draft' | 'sent' | 'paid' | 'void' | 'failed';
+    /**
+     * Outstanding amount this invoice is for
+     */
+    amountDue: number;
+    /**
+     * Currency code
+     */
+    currencyCode: string;
+    /**
+     * Immutable snapshot of the billable state at issue time
+     */
+    snapshot: {
+        [key: string]: unknown;
+    };
+    /**
+     * External invoice id (Stripe invoice id / Shopify reference)
+     */
+    externalId: string;
+    /**
+     * Hosted invoice / payment URL (e.g. Stripe hosted_invoice_url)
+     */
+    externalUrl: string;
+    /**
+     * S3 object key of the generated PDF (manual invoices)
+     */
+    pdfStorageKey: string;
+    /**
+     * Failure reason when status is failed
+     */
+    error: string;
+    /**
+     * When the invoice was issued
+     */
+    issuedAt: string;
+    /**
+     * When the invoice is due
+     */
+    dueAt: string;
+    /**
+     * When the invoice was delivered to the customer
+     */
+    sentAt: string;
+    /**
+     * When the outstanding amount was paid
+     */
+    paidAt: string;
+};
+
+export type FeedbackQuestionResponseTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the feedback question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or rating questions in this language
+     */
+    options: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type FeedbackQuestionResponse = {
+    /**
+     * Unique identifier for the feedback question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Translations of this question (filtered to the requested language)
+     */
+    translations: Array<FeedbackQuestionResponseTranslation>;
+};
+
+export type CheckoutQuestionResponseTranslation = {
+    /**
+     * Unique identifier for the translation
+     */
+    id: string;
+    /**
+     * ID of the checkout question this translation belongs to
+     */
+    questionId: string;
+    /**
+     * Translated title of the question shown to customers
+     */
+    title: string;
+    /**
+     * Translated description or additional instructions for the question
+     */
+    description: string;
+    /**
+     * Available options for dropdown or checkbox questions in this language
+     */
+    options: Array<string> | null;
+    /**
+     * Language code for this translation
+     */
+    languageCode: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
+    /**
+     * Date and time when the translation was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the translation was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type CheckoutQuestionResponse = {
+    /**
+     * Unique identifier for the checkout question
+     */
+    id: string;
+    /**
+     * Internal name for the question (not shown to customers)
+     */
+    internalName: string;
+    /**
+     * Whether the question is required to be answered
+     */
+    required: boolean;
+    /**
+     * Type of input for the question
+     */
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    /**
+     * Display order of the question (lower numbers appear first)
+     */
+    order: number;
+    /**
+     * Whether this question is shown for all products in the store
+     */
+    alwaysShow: boolean;
+    /**
+     * Date and time when the question was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the question was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date when the question was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this question
+     */
+    storeId: string;
+    /**
+     * Translations of this question (filtered to the requested language)
+     */
+    translations: Array<CheckoutQuestionResponseTranslation>;
+};
+
+export type ImageResponse = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * External identifier for the image (e.g., from storage provider)
+     */
+    externalId: string | null;
+    /**
+     * URL where the image can be accessed
+     */
+    url: string;
+    /**
+     * Original filename of the uploaded image
+     */
+    filename: string | null;
+    /**
+     * MIME type of the image
+     */
+    mime: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this image
+     */
+    storeId: string | null;
+};
+
+export type SelfServiceProfileResponseWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentCreatedCustomerWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentCreatedResponseWritable = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentCreatedProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentCreatedStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentCreatedLocation | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentCreatedAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests: Array<AppointmentCreatedGuest>;
+    /**
+     * Customer the appointment was booked for
+     */
+    customer: AppointmentCreatedCustomerWritable;
+};
+
+export type AppointmentListItemCustomerWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentListItemResponseWritable = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentListItemProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentListItemStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentListItemLocation | null;
+    /**
+     * Customer who booked the appointment
+     */
+    customer: AppointmentListItemCustomerWritable;
+    /**
+     * The order line item linking this appointment to its order
+     */
+    orderLineItem: AppointmentListItemOrderLineItem | null;
+};
+
+export type AppointmentDetailCustomerWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type AppointmentDetailResponseWritable = {
+    /**
+     * Unique identifier of the appointment
+     */
+    id: string;
+    /**
+     * Generated appointment name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the service/product for this appointment
+     */
+    productId: string;
+    /**
+     * ID of the staff member assigned to this appointment (if any)
+     */
+    staffMemberId: string | null;
+    /**
+     * ID of the location where the appointment will take place (if any)
+     */
+    locationId: string | null;
+    /**
+     * ID of the store that owns this appointment
+     */
+    storeId: string;
+    /**
+     * ID of the customer who booked the appointment
+     */
+    customerId: string | null;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalOrderId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalOrderName: string | null;
+    /**
+     * Start date and time of the appointment (UTC timezone)
+     */
+    from: string;
+    /**
+     * End date and time of the appointment (UTC timezone)
+     */
+    to: string;
+    /**
+     * First line of the appointment address
+     */
+    addressLine1: string | null;
+    /**
+     * Second line of the appointment address
+     */
+    addressLine2: string | null;
+    /**
+     * City of the appointment location
+     */
+    city: string | null;
+    /**
+     * State/province of the appointment location
+     */
+    state: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     */
+    postalCode: string | null;
+    /**
+     * Country of the appointment location
+     */
+    country: string | null;
+    status: AppointmentStatusType;
+    /**
+     * Internal notes about the appointment (not visible to customers)
+     */
+    internalNote: string | null;
+    createdBy: AppointmentCreatedByEnum;
+    /**
+     * Date and time when reminder was sent to the customer
+     */
+    reminderSentAt: string | null;
+    /**
+     * Number of people attending the appointment
+     */
+    numberOfAttendees: number;
+    /**
+     * Date and time when the appointment was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the appointment was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the appointment was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Service/product details for this appointment
+     */
+    product: AppointmentDetailProduct;
+    /**
+     * Staff member assigned to this appointment
+     */
+    staffMember: AppointmentDetailStaffMember | null;
+    /**
+     * Location where the appointment will take place
+     */
+    location: AppointmentDetailLocation | null;
+    /**
+     * Customer who booked the appointment
+     */
+    customer: AppointmentDetailCustomerWritable;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentDetailAddOn>;
+    /**
+     * Guests invited to this appointment (copied on notifications)
+     */
+    guests: Array<AppointmentDetailGuest>;
+    /**
+     * Answers to feedback questions provided after the appointment
+     */
+    feedbackQuestionAnswers: Array<AppointmentDetailFeedbackAnswer>;
+    /**
+     * Answers to checkout questions provided when booking
+     */
+    checkoutQuestionAnswers: Array<AppointmentDetailCheckoutAnswer>;
+    /**
+     * The order line item linking this appointment to its order
+     */
+    orderLineItem: AppointmentDetailOrderLineItem | null;
+    /**
+     * The order associated with this appointment (via the order line item)
+     */
+    order: AppointmentDetailOrder | null;
+};
+
+export type OrderListCustomerWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type OrderListItemResponseWritable = {
     /**
      * Unique identifier of the order
      */
@@ -5719,11 +17012,11 @@ export type OrderWritable = {
     /**
      * External order ID from user's platform (if any)
      */
-    externalId?: string | null;
+    externalId: string | null;
     /**
      * External order name/reference from user's platform
      */
-    externalName?: string | null;
+    externalName: string | null;
     /**
      * Generated order name for the user (starts at 1001 and increments)
      */
@@ -5731,15 +17024,15 @@ export type OrderWritable = {
     /**
      * ID of the customer who placed the order
      */
-    customerId?: string | null;
+    customerId: string | null;
     /**
      * ID of the store that owns the order
      */
-    storeId?: string | null;
+    storeId: string | null;
     /**
      * ID of the cart from which the order was created
      */
-    cartId?: string | null;
+    cartId: string | null;
     /**
      * Date and time when the order was created
      */
@@ -5747,47 +17040,11 @@ export type OrderWritable = {
     /**
      * Date and time when the order was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date and time when the order was soft-deleted
      */
-    deletedAt?: string | null;
-    /**
-     * Customer who placed the order
-     */
-    customer?: CustomerWritable | null;
-    /**
-     * Store that owns this order
-     */
-    store?: StoreWritable;
-    /**
-     * Cart that produced this order
-     */
-    cart?: CartWritable | null;
-    /**
-     * Line items in the order
-     */
-    lineItems?: Array<OrderLineItemWritable>;
-    /**
-     * Transactions associated with this order
-     */
-    transactions?: Array<OrderTransactionWritable>;
-    /**
-     * Order activity logs
-     */
-    logs?: Array<OrderLogWritable>;
-    /**
-     * Refunds associated with this order
-     */
-    refunds?: Array<OrderRefundWritable>;
-    /**
-     * Appointments associated with this order through line items
-     */
-    appointments: Array<AppointmentWritable>;
-    /**
-     * Refundable transactions associated with this order
-     */
-    refundableTransactions: Array<OrderTransactionWritable>;
+    deletedAt: string | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -5841,307 +17098,20 @@ export type OrderWritable = {
      */
     fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
     /**
-     * Services associated with appointments in this order
+     * Customer who placed the order
      */
-    services: Array<ProductWritable>;
+    customer: OrderListCustomerWritable;
     /**
-     * Staff members associated with appointments in this order
+     * Line items in the order
      */
-    staffMembers: Array<StaffMemberWritable>;
+    lineItems: Array<OrderListLineItem>;
     /**
-     * Locations associated with appointments in this order
+     * Transactions associated with this order
      */
-    locations: Array<LocationWritable>;
-    /**
-     * Applied discounts aggregated across all order line items, mirroring the cart appliedDiscounts shape
-     */
-    appliedDiscounts: Array<AppliedDiscount>;
+    transactions: Array<OrderListTransaction>;
 };
 
-export type OrderLineItemDiscountWritable = {
-    [key: string]: unknown;
-};
-
-export type OrderLineItemWritable = {
-    /**
-     * ID of the order
-     */
-    orderId: string | null;
-    /**
-     * ID of the appointment associated with line item
-     */
-    appointmentId: string | null;
-    /**
-     * External order line item ID from user's platform (if any)
-     */
-    externalId?: string | null;
-    /**
-     * Original price of the item
-     */
-    originalUnitPrice: number;
-    /**
-     * Discounted price of the item
-     */
-    discountedUnitPrice: number;
-    /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
-     */
-    unitTaxAmount: number;
-    /**
-     * Quantity of the item ordered
-     */
-    quantity: number;
-    /**
-     * Date and time when the order was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the order was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the order was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * The order this line item belongs to
-     */
-    order: OrderWritable;
-    /**
-     * The appointment this line item associated with
-     */
-    appointment: AppointmentWritable;
-    /**
-     * The refund line items associated with this line item
-     */
-    refundLineItems: Array<OrderRefundLineItemWritable>;
-    /**
-     * Add-on line items attached to this appointment line item
-     */
-    addOnLineItems?: Array<OrderAddOnLineItemWritable>;
-    /**
-     * Discount rows applied to this line item
-     */
-    lineItemDiscounts?: Array<OrderLineItemDiscountWritable>;
-    /**
-     * Subtotal of the add-ons attached to this line item
-     */
-    addOnSubtotal: number;
-    /**
-     * Total tax of the add-ons attached to this line item
-     */
-    addOnTotalTax: number;
-    /**
-     * The total amount of the line item
-     */
-    subtotal: number;
-    /**
-     * The total amount of the line item
-     */
-    total: number;
-    /**
-     * The total amount of the line item
-     */
-    totalTax: number;
-    /**
-     * The quantity of the line item that has been refunded
-     */
-    refundedQuantity: number;
-    /**
-     * The quantity of the line item that can be refunded
-     */
-    refundableQuantity: number;
-};
-
-export type AppointmentAddOnWritable = {
-    /**
-     * Unique identifier
-     */
-    id: string;
-    /**
-     * Appointment ID
-     */
-    appointmentId: string;
-    /**
-     * Add-on ID
-     */
-    addOnId: string;
-    /**
-     * Quantity of this add-on for the appointment
-     */
-    quantity: number;
-    /**
-     * Created at timestamp
-     */
-    createdAt: string;
-    /**
-     * The add-on entity
-     */
-    addOn: AddOnWritable;
-};
-
-export type AppointmentWritable = {
-    /**
-     * Unique identifier of the appointment
-     */
-    id: string;
-    /**
-     * Generated appointment name for the user (starts at 1001 and increments)
-     */
-    name: string;
-    /**
-     * ID of the service/product for this appointment
-     */
-    productId: string;
-    /**
-     * ID of the staff member assigned to this appointment (if any)
-     */
-    staffMemberId?: string | null;
-    /**
-     * ID of the location where the appointment will take place (if any)
-     */
-    locationId?: string | null;
-    /**
-     * ID of the store that owns this appointment
-     */
-    storeId: string;
-    /**
-     * ID of the customer who booked the appointment
-     */
-    customerId?: string | null;
-    /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId?: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName?: string | null;
-    /**
-     * Start date and time of the appointment (UTC timezone)
-     */
-    from: string;
-    /**
-     * End date and time of the appointment (UTC timezone)
-     */
-    to: string;
-    /**
-     * First line of the appointment address
-     */
-    addressLine1?: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2?: string | null;
-    /**
-     * City of the appointment location
-     */
-    city?: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state?: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode?: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country?: string | null;
-    status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote?: string | null;
-    createdBy: AppointmentCreatedByEnum;
-    /**
-     * Date and time when reminder was sent to the customer
-     */
-    reminderSentAt?: string | null;
-    /**
-     * Number of people attending the appointment
-     */
-    numberOfAttendees: number;
-    /**
-     * Date and time when the appointment was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the appointment was last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Date and time when the appointment was soft-deleted
-     */
-    deletedAt?: string | null;
-    /**
-     * Service/product details for this appointment
-     */
-    product?: ProductWritable;
-    /**
-     * Store that owns this appointment
-     */
-    store?: StoreWritable;
-    /**
-     * Customer who booked the appointment
-     */
-    customer?: CustomerWritable | null;
-    /**
-     * Staff member assigned to this appointment
-     */
-    staffMember?: StaffMemberWritable | null;
-    /**
-     * Location where the appointment will take place
-     */
-    location?: LocationWritable | null;
-    /**
-     * Answers to checkout questions provided when booking
-     */
-    checkoutQuestionAnswers?: Array<CheckoutQuestionAnswerWritable>;
-    /**
-     * Answers to feedback questions provided after appointment
-     */
-    feedbackQuestionAnswers?: Array<FeedbackQuestionAnswerWritable>;
-    /**
-     * Related appointments in integrated calendars
-     */
-    integratedCalendarAppointments?: Array<IntegratedCalendarAppointmentWritable>;
-    /**
-     * Related location in integrated systems
-     */
-    integratedAppointmentLocation?: IntegratedAppointmentLocationWritable;
-    /**
-     * Appointment activity logs
-     */
-    logs?: Array<AppointmentLogWritable>;
-    /**
-     * The order line item associated with this appointment
-     */
-    orderLineItem?: OrderLineItemWritable | null;
-    /**
-     * The cart item associated with this appointment
-     */
-    cartItem?: CartItemWritable | null;
-    /**
-     * Add-ons attached to this appointment
-     */
-    addOns?: Array<AppointmentAddOnWritable>;
-    /**
-     * Guests invited to this appointment (copied on notifications)
-     */
-    guests?: Array<AppointmentGuest>;
-    /**
-     * The order associated with this appointment through the order line item
-     */
-    order?: OrderWritable | null;
-};
-
-export type CustomerOauthProviderWritable = {
-    [key: string]: unknown;
-};
-
-export type CustomerWritable = {
+export type OrderDetailCustomerWritable = {
     /**
      * Unique identifier of the customer
      */
@@ -6153,23 +17123,23 @@ export type CustomerWritable = {
     /**
      * Customer first name
      */
-    firstName?: string | null;
+    firstName: string | null;
     /**
      * Customer last name
      */
-    lastName?: string | null;
+    lastName: string | null;
     /**
      * Customer email address
      */
-    email?: string | null;
+    email: string | null;
     /**
      * Customer phone number
      */
-    phone?: string | null;
+    phone: string | null;
     /**
      * Hashed password of the customer
      */
-    password?: string | null;
+    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -6178,7 +17148,7 @@ export type CustomerWritable = {
     /**
      * Customer refresh token for authentication
      */
-    refreshToken?: string | null;
+    refreshToken: string | null;
     /**
      * Date when the customer record was created
      */
@@ -6186,31 +17156,15 @@ export type CustomerWritable = {
     /**
      * Date when the customer record was last updated
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
      * Date and time when the customer verified email
      */
-    emailVerifiedAt?: string | null;
+    emailVerifiedAt: string | null;
     /**
      * Date and time when the order was soft-deleted
      */
-    deletedAt?: string | null;
-    /**
-     * List of appointments booked by this customer
-     */
-    appointments?: Array<AppointmentWritable>;
-    /**
-     * List of orders placed by this customer
-     */
-    orders?: Array<OrderWritable>;
-    /**
-     * OAuth providers linked to this customer
-     */
-    oauthProviders?: Array<CustomerOauthProviderWritable>;
-    /**
-     * Store that owns this customer record
-     */
-    store?: StoreWritable;
+    deletedAt: string | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -6221,404 +17175,230 @@ export type CustomerWritable = {
     isPasswordSet: boolean;
 };
 
-export type PlanFeatureWritable = {
+export type OrderDetailResponseWritable = {
     /**
-     * Unique identifier for the plan feature
+     * Unique identifier of the order
      */
     id: string;
     /**
-     * ID of the subscription plan this feature belongs to
+     * The currency used by the customer when placing the order.
      */
-    planId: string;
+    paymentCurrencyCode: string;
     /**
-     * Name of the feature
+     * Whether the taxes are included in the order subtotal.
      */
-    feature: 'number-of-products' | 'number-of-staff-members' | 'number-of-physical-locations' | 'staff-members-portal' | 'customer-portal' | 'group-appointments' | 'custom-product-duration' | 'cancellation' | 'rescheduling' | 'customer-cancellation' | 'customer-rescheduling' | 'custom-checkout-fields' | 'ui-customization' | 'email-customization' | 'customer-reviews' | 'white-label';
+    taxesIncluded: boolean;
     /**
-     * The subscription plan this feature belongs to
-     */
-    plan: PlanWritable;
-};
-
-export type PlanWritable = {
-    /**
-     * Unique identifier for the subscription plan
-     */
-    id: string;
-    /**
-     * External ID of the plan
+     * External order ID from user's platform (if any)
      */
     externalId: string | null;
     /**
-     * Name of the subscription plan
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
      */
     name: string;
     /**
-     * Brief description of the plan features and benefits
+     * ID of the customer who placed the order
      */
-    description?: string | null;
+    customerId: string | null;
     /**
-     * Terms and conditions of the subscription plan
+     * ID of the store that owns the order
      */
-    terms?: string | null;
+    storeId: string | null;
     /**
-     * Price of the subscription plan
+     * ID of the cart from which the order was created
      */
-    price: number;
+    cartId: string | null;
     /**
-     * Currency code for the plan price
-     */
-    currency: string;
-    /**
-     * Billing interval for the subscription plan
-     */
-    billingInterval: 'one-time' | 'every-30-days' | 'annual' | 'usage';
-    /**
-     * Number of trial days for the subscription plan
-     */
-    trialDays: number;
-    /**
-     * Indicates if this plan is for testing purposes only
-     */
-    isTest: boolean;
-    /**
-     * Indicates if this is a custom plan created for specific users
-     */
-    isCustom: boolean;
-    /**
-     * Type of the plan
-     */
-    type: 'system' | 'user';
-    /**
-     * Current status of the plan
-     */
-    status: 'active' | 'canceled' | 'declined' | 'expired' | 'frozen' | 'pending';
-    /**
-     * Start of the current billing period
-     */
-    billingPeriodStart?: string | null;
-    /**
-     * End of the current billing period
-     */
-    billingPeriodEnd?: string | null;
-    /**
-     * When this plan was activated for the store
-     */
-    activatedAt?: string | null;
-    /**
-     * When this plan was canceled
-     */
-    canceledAt?: string | null;
-    /**
-     * Whether the subscription is currently in trial
-     */
-    isTrialing?: boolean;
-    /**
-     * When the trial ends
-     */
-    trialEndsAt?: string | null;
-    /**
-     * Special badge displayed with the plan
-     */
-    badge?: 'best-value' | 'user-choice';
-    /**
-     * External product ID associated with this plan
-     */
-    externalProductId?: string | null;
-    /**
-     * External recurring price ID (monthly/annual)
-     */
-    externalRecurringPriceId?: string | null;
-    /**
-     * Where this plan is managed
-     */
-    managedBy?: 'stripe' | 'platform' | 'direct';
-    /**
-     * ID of the source plan this plan was created from (when copying a system plan to a user plan)
-     */
-    createdFromPlanId?: string | null;
-    /**
-     * Date and time when the plan was created
+     * Date and time when the order was created
      */
     createdAt: string;
     /**
-     * Date and time when the plan was last updated
+     * Date and time when the order was last updated
      */
-    updatedAt: string;
+    updatedAt: string | null;
     /**
-     * Date and time when the plan was soft-deleted
+     * Date and time when the order was soft-deleted
      */
-    deletedAt?: string | null;
+    deletedAt: string | null;
     /**
-     * Features included in this subscription plan
+     * Subtotal amount of the order, excluding canceled appointments
      */
-    features: Array<PlanFeatureWritable>;
+    subtotal: number;
     /**
-     * Stores subscribed to this plan
+     * Total amount of the order, including canceled appointments and taxes
      */
-    stores: Array<StoreWritable>;
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Customer who placed the order
+     */
+    customer: OrderDetailCustomerWritable;
+    /**
+     * Line items in the order
+     */
+    lineItems: Array<OrderDetailLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions: Array<OrderDetailTransaction>;
+    /**
+     * Refunds associated with this order
+     */
+    refunds: Array<OrderDetailRefund>;
+    /**
+     * Order activity logs
+     */
+    logs: Array<OrderDetailLog>;
 };
 
-export type StorefrontSettingWritable = {
+export type CartCustomerWritable = {
     /**
-     * Primary identifier of the storefront settings row
+     * Unique identifier of the customer
      */
     id: string;
     /**
-     * The unique identifier of the store that owns these storefront settings
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type CartResponseWritable = {
+    /**
+     * Unique identifier of the cart
+     */
+    id: string;
+    /**
+     * ID of the store that owns the cart
      */
     storeId: string;
     /**
-     * Theme mode (light or dark)
+     * ID of the customer who owns the cart
      */
-    themeMode: 'light' | 'dark';
+    customerId: string | null;
     /**
-     * Primary brand color in hexadecimal format
+     * Cart status
      */
-    primaryColor: string;
+    status: 'active' | 'converted' | 'abandoned';
     /**
-     * Primary foreground color in hexadecimal format
+     * Payment currency code for the cart totals
      */
-    primaryForegroundColor: string;
+    paymentCurrencyCode: string;
     /**
-     * Secondary brand color in hexadecimal format
+     * Whether taxes are included in prices
      */
-    secondaryColor?: string;
+    taxesIncluded: boolean;
     /**
-     * Secondary foreground color in hexadecimal format
+     * When cart should expire
      */
-    secondaryForegroundColor?: string;
+    expiresAt: string | null;
     /**
-     * Destructive/error color in hexadecimal format
+     * Number of times the cart expiration has been extended
      */
-    destructiveColor?: string;
+    extensionsCount: number;
     /**
-     * Accent color in hexadecimal format
+     * Applied promo/discount code for this cart
      */
-    accentColor?: string;
-    /**
-     * Accent foreground color in hexadecimal format
-     */
-    accentForegroundColor?: string;
-    /**
-     * Background color in hexadecimal format
-     */
-    backgroundColor?: string;
-    /**
-     * Foreground/text color in hexadecimal format
-     */
-    foregroundColor?: string;
-    /**
-     * Card background color in hexadecimal format
-     */
-    cardColor?: string;
-    /**
-     * Card foreground color in hexadecimal format
-     */
-    cardForegroundColor?: string;
-    /**
-     * Popover background color in hexadecimal format
-     */
-    popoverColor?: string;
-    /**
-     * Popover foreground color in hexadecimal format
-     */
-    popoverForegroundColor?: string;
-    /**
-     * Muted color in hexadecimal format
-     */
-    mutedColor?: string;
-    /**
-     * Muted foreground color in hexadecimal format
-     */
-    mutedForegroundColor?: string;
-    /**
-     * Border color in hexadecimal format
-     */
-    borderColor?: string;
-    /**
-     * Input border color in hexadecimal format
-     */
-    inputColor?: string;
-    /**
-     * Focus ring color in hexadecimal format
-     */
-    ringColor?: string;
-    /**
-     * Sidebar background color in hexadecimal format
-     */
-    sidebarColor?: string;
-    /**
-     * Sidebar foreground color in hexadecimal format
-     */
-    sidebarForegroundColor?: string;
-    /**
-     * Sidebar primary color in hexadecimal format
-     */
-    sidebarPrimaryColor?: string;
-    /**
-     * Sidebar primary foreground color in hexadecimal format
-     */
-    sidebarPrimaryForegroundColor?: string;
-    /**
-     * Sidebar accent color in hexadecimal format
-     */
-    sidebarAccentColor?: string;
-    /**
-     * Sidebar accent foreground color in hexadecimal format
-     */
-    sidebarAccentForegroundColor?: string;
-    /**
-     * Sidebar border color in hexadecimal format
-     */
-    sidebarBorderColor?: string;
-    /**
-     * Sidebar ring color in hexadecimal format
-     */
-    sidebarRingColor?: string;
-    /**
-     * Border radius in rem units
-     */
-    borderRadius?: number;
-    /**
-     * Sans-serif font family
-     */
-    sansSerifFont?: string | null;
-    /**
-     * Serif font family
-     */
-    serifFont?: string | null;
-    /**
-     * Monospace font family
-     */
-    monospaceFont?: string | null;
-    /**
-     * Letter spacing in em units
-     */
-    letterSpacing?: number;
-    /**
-     * Shadow color in hexadecimal format
-     */
-    shadowColor?: string;
-    /**
-     * Shadow opacity (0-1)
-     */
-    shadowOpacity?: number;
-    /**
-     * Shadow blur radius in pixels
-     */
-    shadowBlurRadius?: number;
-    /**
-     * Shadow spread in pixels
-     */
-    shadowSpread?: number;
-    /**
-     * Shadow offset X in pixels
-     */
-    shadowOffsetX?: number;
-    /**
-     * Shadow offset Y in pixels
-     */
-    shadowOffsetY?: number;
-    /**
-     * The format used for displaying dates
-     */
-    dateFormat: string;
-    /**
-     * The format used for displaying times
-     */
-    timeFormat: '12H' | '24H';
-    /**
-     * Active language codes enabled for the storefront
-     */
-    locales: Array<string>;
-    /**
-     * Default language code for the storefront
-     */
-    defaultLocale: string;
-    /**
-     * ID of the logo image associated with the storefront
-     */
-    logoImageId?: string | null;
-    /**
-     * ID of the icon image associated with the storefront
-     */
-    iconImageId?: string | null;
-    /**
-     * ID of the banner image associated with the storefront
-     */
-    bannerImageId?: string | null;
-    /**
-     * When the storefront settings were created
-     */
-    passwordProtectionEnabled: boolean;
-    /**
-     * Password for accessing the storefront when protection is enabled
-     */
-    password?: string | null;
-    /**
-     * When the storefront settings were last updated
-     */
-    updatedAt?: string | null;
-    /**
-     * Logo image metadata
-     */
-    logoImage?: ImageWritable | null;
-    /**
-     * Icon image metadata
-     */
-    iconImage?: ImageWritable | null;
-    /**
-     * Banner image metadata
-     */
-    bannerImage?: ImageWritable | null;
-};
-
-export type StoreWritable = {
-    /**
-     * Unique identifier of the store
-     */
-    id: string;
-    /**
-     * Human-friendly store name
-     */
-    name?: string;
-    /**
-     * Store domain
-     */
-    domain?: string | null;
-    /**
-     * Store timezone
-     */
-    timezone: string;
-    /**
-     * External platform identifier for the store
-     */
-    externalId?: string | null;
-    /**
-     * Store domain (e.g., Shopify domain)
-     */
-    externalDomain?: string | null;
-    /**
-     * Platform of the store
-     */
-    platform?: 'shopify' | 'cally';
-    /**
-     * Store country ISO code (2 letters)
-     */
-    countryCode?: string | null;
-    /**
-     * Store currency ISO code (3 letters)
-     */
-    currencyCode?: string | null;
-    /**
-     * Store mode
-     */
-    mode: 'development' | 'production';
-    /**
-     * Store seeding status
-     */
-    seedingStatus?: 'pending' | 'success' | 'failed';
+    appliedDiscountCode: string | null;
     /**
      * Created at timestamp
      */
@@ -6626,285 +17406,174 @@ export type StoreWritable = {
     /**
      * Updated at timestamp
      */
-    updatedAt?: string | null;
+    updatedAt: string | null;
     /**
-     * Deleted at timestamp
+     * Subtotal amount of the cart
      */
-    deletedAt?: string | null;
+    subtotal: number;
     /**
-     * Customers associated with this user
+     * Total tax amount of the cart
      */
-    customers: Array<CustomerWritable>;
+    totalTax: number;
     /**
-     * Products owned by this user
+     * Grand total of the cart
      */
-    products: Array<ProductWritable>;
+    total: number;
     /**
-     * Staff members managed by this user
+     * Applied discounts aggregated across all cart items
      */
-    staffMembers: Array<StaffMemberWritable>;
+    appliedDiscounts: Array<AppliedDiscount>;
     /**
-     * Appointments provided by this user
+     * Customer who owns the cart
      */
-    appointments: Array<AppointmentWritable>;
+    customer: CartCustomerWritable | null;
     /**
-     * Schedules owned by this user
+     * Items in the cart
      */
-    schedules: Array<ScheduleWritable>;
+    items: Array<CartItem>;
     /**
-     * Orders owned by this user
+     * Payment records associated with the cart
      */
-    orders: Array<OrderWritable>;
-    /**
-     * Subscription plans associated with this store
-     */
-    plans: Array<PlanWritable>;
-    /**
-     * Store settings
-     */
-    settings: Setting;
-    /**
-     * Store tax settings
-     */
-    taxSettings: TaxSetting;
-    /**
-     * Storefront presentation settings
-     */
-    storefrontSettings: StorefrontSettingWritable;
-    /**
-     * Store contact information
-     */
-    contactInfo: StoreContactInfo;
+    payments: Array<CartPayment>;
 };
 
-export type UserWritable = {
+export type CheckoutStartCartCustomerWritable = {
     /**
-     * Unique identifier for the user
+     * Unique identifier of the customer
      */
     id: string;
     /**
-     * ID of the parent user (for staff members)
+     * External customer identifier from integrated system
      */
-    parentId?: string | null;
+    externalId: string;
     /**
-     * Full name of the user
+     * Customer first name
      */
-    name: string;
+    firstName: string | null;
     /**
-     * Email address of the user
+     * Customer last name
      */
-    email: string;
+    lastName: string | null;
     /**
-     * Hashed password of the user
+     * Customer email address
      */
-    password?: string | null;
+    email: string | null;
     /**
-     * Refresh token for authentication
+     * Customer phone number
      */
-    refreshToken?: string | null;
+    phone: string | null;
     /**
-     * Role of the user in the system
+     * Hashed password of the customer
      */
-    role: 'admin' | 'staff-member' | 'store-owner' | 'manager';
+    password: string | null;
     /**
-     * Current status of the user account
+     * ID of the store that owns this customer record
      */
-    status: 'active' | 'inactive' | 'banned' | 'deleted';
+    storeId: string;
+    language: LanguageCode;
     /**
-     * Date and time when the user was created
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
      */
     createdAt: string;
     /**
-     * Date and time when the user was last updated
+     * Date when the customer record was last updated
      */
-    updatedAt: string;
+    updatedAt: string | null;
     /**
-     * Date and time when the user verified email
+     * Date and time when the customer verified email
      */
-    emailVerifiedAt?: string | null;
+    emailVerifiedAt: string | null;
     /**
-     * Date and time when the user was soft-deleted
+     * Date and time when the order was soft-deleted
      */
-    deletedAt?: string | null;
+    deletedAt: string | null;
     /**
-     * OAuth providers associated with this user
-     */
-    oauthProviders: Array<UserOauthProviderWritable>;
-    /**
-     * Staff members associated with this user
-     */
-    staffMembers: Array<StaffMemberWritable>;
-    /**
-     * Stores associated with this user
-     */
-    userStores: Array<UserStore>;
-    /**
-     * Indicates whether user email is verified
+     * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
     /**
-     * Indicates whether user password is set
+     * Indicates whether customer password is set
      */
     isPasswordSet: boolean;
 };
 
-export type StaffMemberWritable = {
+export type CheckoutStartCartWritable = {
     /**
-     * Unique identifier of the staff member
+     * Unique identifier of the cart
      */
     id: string;
     /**
-     * ID of the store that owns this staff member record
+     * ID of the store that owns the cart
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
+     * ID of the customer who owns the cart
      */
-    userId?: string;
+    customerId: string | null;
     /**
-     * ID of the schedule assigned to this staff member, defines their availability
+     * Cart status
      */
-    scheduleId?: string;
+    status: 'active' | 'converted' | 'abandoned';
     /**
-     * ID of the image associated with this staff member
+     * Payment currency code for the cart totals
      */
-    imageId?: string;
+    paymentCurrencyCode: string;
     /**
-     * First name of the staff member
+     * Whether taxes are included in prices
      */
-    firstName?: string;
+    taxesIncluded: boolean;
     /**
-     * Last name of the staff member
+     * When cart should expire
      */
-    lastName?: string;
+    expiresAt: string | null;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
+     * Number of times the cart expiration has been extended
      */
-    email: string;
+    extensionsCount: number;
     /**
-     * URL-friendly slug for the staff member (unique per store)
+     * Applied promo/discount code for this cart
      */
-    slug: string;
+    appliedDiscountCode: string | null;
     /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken?: string;
-    /**
-     * Date and time when the staff member was created
+     * Created at timestamp
      */
     createdAt: string;
     /**
-     * Date and time when the staff member was last updated
+     * Updated at timestamp
      */
-    updatedAt?: string;
+    updatedAt: string | null;
     /**
-     * Date and time when the staff member was soft deleted
+     * Subtotal amount of the cart
      */
-    deletedAt?: string;
+    subtotal: number;
     /**
-     * Store that owns this staff member record
+     * Total tax amount of the cart
      */
-    store?: StoreWritable;
+    totalTax: number;
     /**
-     * Login user associated with this staff member
+     * Grand total of the cart
      */
-    user?: UserWritable;
+    total: number;
     /**
-     * Appointments assigned to this staff member
+     * Applied discounts aggregated across all cart items
      */
-    appointments?: Array<AppointmentWritable>;
+    appliedDiscounts: Array<AppliedDiscount>;
     /**
-     * Products (services) this staff member can provide
+     * Customer who owns the cart
      */
-    products?: Array<ProductWritable>;
+    customer?: CheckoutStartCartCustomerWritable | null;
     /**
-     * Locations where this staff member works
+     * Items in the cart
      */
-    locations?: Array<LocationWritable>;
+    items?: Array<CheckoutStartCartItem>;
     /**
-     * Schedule defining when this staff member is available
+     * Payment records associated with the cart
      */
-    schedule?: ScheduleWritable;
-    /**
-     * Profile image of the staff member
-     */
-    image?: ImageWritable;
-    /**
-     * Integrations connected to this staff member (e.g., Google Calendar)
-     */
-    integrations?: Array<IntegrationWritable>;
-    /**
-     * Add-ons this staff member can deliver
-     */
-    addOns?: Array<AddOnWritable>;
-};
-
-export type ServicePreferenceWritable = {
-    /**
-     * The product/service
-     */
-    product: ProductWritable;
-    /**
-     * Preferred staff member for this service
-     */
-    staffMember?: StaffMemberWritable;
-    /**
-     * Preferred location for this service
-     */
-    location?: LocationWritable;
-    /**
-     * Number of times booked
-     */
-    bookingCount: number;
-    /**
-     * Last time this service was booked
-     */
-    lastBookedAt: string;
-};
-
-export type LocationPreferenceWritable = {
-    /**
-     * The location
-     */
-    location: LocationWritable;
-    /**
-     * Number of bookings at this location
-     */
-    bookingCount: number;
-    /**
-     * Last time this location was used
-     */
-    lastBookedAt: string;
-};
-
-export type StaffMemberPreferenceWritable = {
-    /**
-     * The staff member
-     */
-    staffMember: StaffMemberWritable;
-    /**
-     * Number of bookings with this staff member
-     */
-    bookingCount: number;
-    /**
-     * Last time this staff member was booked
-     */
-    lastBookedAt: string;
-};
-
-export type CustomerBookingPreferencesWritable = {
-    /**
-     * Most frequently booked services
-     */
-    services: Array<ServicePreferenceWritable>;
-    /**
-     * Most frequently used locations
-     */
-    locations: Array<LocationPreferenceWritable>;
-    /**
-     * Most frequently booked staff members
-     */
-    staffMembers: Array<StaffMemberPreferenceWritable>;
+    payments?: Array<CheckoutStartCartPayment>;
 };
 
 export type CheckoutStartResponseWritable = {
@@ -6931,7 +17600,7 @@ export type CheckoutStartResponseWritable = {
     /**
      * Updated cart
      */
-    cart: CartWritable;
+    cart: CheckoutStartCartWritable;
     /**
      * IDs of invalid cart items that were removed
      */
@@ -6946,11 +17615,194 @@ export type CheckoutStartResponseWritable = {
     discountCodeCleared?: boolean | null;
 };
 
+export type CheckoutOrderCustomerWritable = {
+    /**
+     * Unique identifier of the customer
+     */
+    id: string;
+    /**
+     * External customer identifier from integrated system
+     */
+    externalId: string;
+    /**
+     * Customer first name
+     */
+    firstName: string | null;
+    /**
+     * Customer last name
+     */
+    lastName: string | null;
+    /**
+     * Customer email address
+     */
+    email: string | null;
+    /**
+     * Customer phone number
+     */
+    phone: string | null;
+    /**
+     * Hashed password of the customer
+     */
+    password: string | null;
+    /**
+     * ID of the store that owns this customer record
+     */
+    storeId: string;
+    language: LanguageCode;
+    /**
+     * Customer refresh token for authentication
+     */
+    refreshToken: string | null;
+    /**
+     * Date when the customer record was created
+     */
+    createdAt: string;
+    /**
+     * Date when the customer record was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the customer verified email
+     */
+    emailVerifiedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Indicates whether customer email is verified
+     */
+    isEmailVerified: boolean;
+    /**
+     * Indicates whether customer password is set
+     */
+    isPasswordSet: boolean;
+};
+
+export type CheckoutOrderWritable = {
+    /**
+     * Unique identifier of the order
+     */
+    id: string;
+    /**
+     * The currency used by the customer when placing the order.
+     */
+    paymentCurrencyCode: string;
+    /**
+     * Whether the taxes are included in the order subtotal.
+     */
+    taxesIncluded: boolean;
+    /**
+     * External order ID from user's platform (if any)
+     */
+    externalId: string | null;
+    /**
+     * External order name/reference from user's platform
+     */
+    externalName: string | null;
+    /**
+     * Generated order name for the user (starts at 1001 and increments)
+     */
+    name: string;
+    /**
+     * ID of the customer who placed the order
+     */
+    customerId: string | null;
+    /**
+     * ID of the store that owns the order
+     */
+    storeId: string | null;
+    /**
+     * ID of the cart from which the order was created
+     */
+    cartId: string | null;
+    /**
+     * Date and time when the order was created
+     */
+    createdAt: string;
+    /**
+     * Date and time when the order was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Date and time when the order was soft-deleted
+     */
+    deletedAt: string | null;
+    /**
+     * Subtotal amount of the order, excluding canceled appointments
+     */
+    subtotal: number;
+    /**
+     * Total amount of the order, including canceled appointments and taxes
+     */
+    total: number;
+    /**
+     * Total tax amount of the order, excluding canceled appointments
+     */
+    totalTax: number;
+    /**
+     * Total amount still due to be paid for the order. Derived from the current total (which excludes canceled appointments and reflects current add-ons and discounts) minus the net amount already held (paid minus refunded). Never negative — when the customer has overpaid the current total, the surplus surfaces via dueToRefund instead.
+     */
+    dueToPay: number;
+    /**
+     * Total amount paid for the order
+     */
+    paidTotal: number;
+    /**
+     * Total amount refunded for the order
+     */
+    refundedTotal: number;
+    /**
+     * Balance of the order; based on paid and refunded amounts
+     */
+    balance: number;
+    /**
+     * Total amount owed back to the customer. Derived from the net amount held (paid minus refunded) minus the current total. Any change that lowers the current total below what the customer has already paid — a canceled appointment, a removed or reduced add-on, or a discount that is restored on reevaluation — surfaces the surplus here. Never negative.
+     */
+    dueToRefund: number;
+    /**
+     * Whether the order is fully paid
+     */
+    isFullyPaid: boolean;
+    /**
+     * Whether everything the customer paid has been refunded (paid something, nothing held).
+     */
+    isFullyRefunded: boolean;
+    /**
+     * Payment status of the order
+     */
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    /**
+     * Refund status of the order
+     */
+    refundStatus: 'refund-owed' | 'partially-refunded' | 'fully-refunded' | 'unrefunded';
+    /**
+     * Fulfillment status of the order
+     */
+    fulfillmentStatus: 'partially-fulfilled' | 'fulfilled' | 'unfulfilled';
+    /**
+     * Customer who placed the order
+     */
+    customer?: CheckoutOrderCustomerWritable | null;
+    /**
+     * Line items in the order
+     */
+    lineItems?: Array<CheckoutOrderLineItem>;
+    /**
+     * Transactions associated with this order
+     */
+    transactions?: Array<CheckoutOrderTransaction>;
+    /**
+     * Order activity logs
+     */
+    logs?: Array<CheckoutOrderLog>;
+};
+
 export type CheckoutResponseWritable = {
     /**
      * Created order
      */
-    order: OrderWritable;
+    order: CheckoutOrderWritable;
     /**
      * Authentication tokens (included for new or passwordless customers)
      */
@@ -6959,41 +17811,6 @@ export type CheckoutResponseWritable = {
      * Customer information
      */
     customer?: CheckoutCustomerInfo;
-};
-
-export type StorePublicSettingsWritable = {
-    /**
-     * Store name
-     */
-    name?: string;
-    /**
-     * Store domain
-     */
-    domain?: string;
-    /**
-     * Store domain (e.g., Shopify domain)
-     */
-    externalDomain?: string;
-    /**
-     * Store currency
-     */
-    currency?: string;
-    /**
-     * Store settings
-     */
-    settings?: Setting;
-    /**
-     * Store features
-     */
-    features?: Array<PlanFeatureWritable>;
-    /**
-     * Storefront presentation configuration
-     */
-    storefrontSettings?: StorefrontSettingWritable | null;
-    /**
-     * Store contact information
-     */
-    contactInfo?: StoreContactInfo | null;
 };
 
 export type AuthSignInData = {
@@ -7162,7 +17979,7 @@ export type SelfServiceGetProfileResponses = {
     /**
      * Customer profile returned successfully
      */
-    200: Customer;
+    200: SelfServiceProfileResponse;
 };
 
 export type SelfServiceGetProfileResponse = SelfServiceGetProfileResponses[keyof SelfServiceGetProfileResponses];
@@ -7185,7 +18002,7 @@ export type SelfServiceUpdateProfileResponses = {
     /**
      * Profile updated successfully
      */
-    200: Customer;
+    200: SelfServiceProfileResponse;
 };
 
 export type SelfServiceUpdateProfileResponse = SelfServiceUpdateProfileResponses[keyof SelfServiceUpdateProfileResponses];
@@ -7264,7 +18081,7 @@ export type AppointmentListResponses = {
      * Collection of customer appointments
      */
     200: {
-        data: Array<Appointment>;
+        data: Array<AppointmentListItemResponse>;
         meta: CollectionMeta;
     };
 };
@@ -7285,7 +18102,7 @@ export type AppointmentCreateResponses = {
     /**
      * The appointment has been successfully created
      */
-    201: Appointment;
+    201: AppointmentCreatedResponse;
 };
 
 export type AppointmentCreateResponse = AppointmentCreateResponses[keyof AppointmentCreateResponses];
@@ -7306,7 +18123,7 @@ export type AppointmentFindResponses = {
     /**
      * The appointment details
      */
-    200: Appointment;
+    200: AppointmentDetailResponse;
 };
 
 export type AppointmentFindResponse = AppointmentFindResponses[keyof AppointmentFindResponses];
@@ -7327,7 +18144,7 @@ export type AppointmentFindByExternalOrderNameResponses = {
     /**
      * The appointment details
      */
-    200: Appointment;
+    200: AppointmentDetailResponse;
 };
 
 export type AppointmentFindByExternalOrderNameResponse = AppointmentFindByExternalOrderNameResponses[keyof AppointmentFindByExternalOrderNameResponses];
@@ -7351,7 +18168,7 @@ export type AppointmentRescheduleResponses = {
     /**
      * The rescheduled appointment details
      */
-    200: Appointment;
+    200: AppointmentResponse;
 };
 
 export type AppointmentRescheduleResponse = AppointmentRescheduleResponses[keyof AppointmentRescheduleResponses];
@@ -7375,7 +18192,7 @@ export type AppointmentCancelResponses = {
     /**
      * The canceled appointment details
      */
-    200: Appointment;
+    200: AppointmentResponse;
 };
 
 export type AppointmentCancelResponse = AppointmentCancelResponses[keyof AppointmentCancelResponses];
@@ -7399,7 +18216,7 @@ export type AppointmentFeedbackResponses = {
     /**
      * The feedback has been successfully submitted
      */
-    201: Array<FeedbackQuestionAnswer>;
+    201: Array<FeedbackQuestionAnswerResponse>;
 };
 
 export type AppointmentFeedbackResponse = AppointmentFeedbackResponses[keyof AppointmentFeedbackResponses];
@@ -7423,7 +18240,7 @@ export type AppointmentAddGuestResponses = {
     /**
      * Guest added to appointment
      */
-    201: AppointmentGuest;
+    201: AppointmentGuestResponse;
 };
 
 export type AppointmentAddGuestResponse = AppointmentAddGuestResponses[keyof AppointmentAddGuestResponses];
@@ -7464,7 +18281,7 @@ export type AppointmentGetBookingPreferencesResponses = {
     /**
      * Customer booking preferences and history
      */
-    200: CustomerBookingPreferences;
+    200: CustomerBookingPreferencesResponse;
 };
 
 export type AppointmentGetBookingPreferencesResponse = AppointmentGetBookingPreferencesResponses[keyof AppointmentGetBookingPreferencesResponses];
@@ -7526,7 +18343,7 @@ export type OrderListResponses = {
      * Collection of customer orders
      */
     200: {
-        data: Array<Order>;
+        data: Array<OrderListItemResponse>;
         meta: CollectionMeta;
     };
 };
@@ -7549,7 +18366,7 @@ export type OrderFindResponses = {
     /**
      * The order details
      */
-    200: Order;
+    200: OrderDetailResponse;
 };
 
 export type OrderFindResponse = OrderFindResponses[keyof OrderFindResponses];
@@ -7568,7 +18385,7 @@ export type CartGetResponses = {
     /**
      * Cart fetched
      */
-    201: Cart;
+    201: CartResponse;
 };
 
 export type CartGetResponse = CartGetResponses[keyof CartGetResponses];
@@ -7587,7 +18404,7 @@ export type CartCreateOrGetResponses = {
     /**
      * Cart created or fetched
      */
-    201: Cart;
+    201: CartResponse;
 };
 
 export type CartCreateOrGetResponse = CartCreateOrGetResponses[keyof CartCreateOrGetResponses];
@@ -7606,7 +18423,7 @@ export type CartAddItemResponses = {
     /**
      * Item added
      */
-    201: Cart;
+    201: CartResponse;
 };
 
 export type CartAddItemResponse = CartAddItemResponses[keyof CartAddItemResponses];
@@ -7627,7 +18444,7 @@ export type CartRemoveItemResponses = {
     /**
      * Item removed
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartRemoveItemResponse = CartRemoveItemResponses[keyof CartRemoveItemResponses];
@@ -7646,7 +18463,7 @@ export type CartExtendExpirationResponses = {
     /**
      * Cart expiration extended
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartExtendExpirationResponse = CartExtendExpirationResponses[keyof CartExtendExpirationResponses];
@@ -7670,7 +18487,7 @@ export type CartAddAddOnResponses = {
     /**
      * Add-on added to cart item
      */
-    201: Cart;
+    201: CartResponse;
 };
 
 export type CartAddAddOnResponse = CartAddAddOnResponses[keyof CartAddAddOnResponses];
@@ -7691,7 +18508,7 @@ export type CartRemoveAddOnResponses = {
     /**
      * Cart add-on removed
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartRemoveAddOnResponse = CartRemoveAddOnResponses[keyof CartRemoveAddOnResponses];
@@ -7712,7 +18529,7 @@ export type CartUpdateAddOnQuantityResponses = {
     /**
      * Cart add-on quantity updated
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartUpdateAddOnQuantityResponse = CartUpdateAddOnQuantityResponses[keyof CartUpdateAddOnQuantityResponses];
@@ -7774,7 +18591,7 @@ export type CheckoutGetCartQuestionsResponses = {
     /**
      * Checkout questions for all cart items
      */
-    200: Array<CheckoutQuestion>;
+    200: Array<CartCheckoutQuestionResponse>;
 };
 
 export type CheckoutGetCartQuestionsResponse = CheckoutGetCartQuestionsResponses[keyof CheckoutGetCartQuestionsResponses];
@@ -7829,7 +18646,7 @@ export type CartDiscountRemoveCodeResponses = {
     /**
      * Cart with discount removed
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartDiscountRemoveCodeResponse = CartDiscountRemoveCodeResponses[keyof CartDiscountRemoveCodeResponses];
@@ -7848,7 +18665,7 @@ export type CartDiscountApplyCodeResponses = {
     /**
      * Cart with discount applied
      */
-    200: Cart;
+    200: CartResponse;
 };
 
 export type CartDiscountApplyCodeResponse = CartDiscountApplyCodeResponses[keyof CartDiscountApplyCodeResponses];
@@ -7885,7 +18702,7 @@ export type ProductGetBySlugResponses = {
     /**
      * Product retrieved successfully
      */
-    200: Product;
+    200: ProductSlugResponse;
 };
 
 export type ProductGetBySlugResponse = ProductGetBySlugResponses[keyof ProductGetBySlugResponses];
@@ -7906,7 +18723,7 @@ export type ProductGetResponses = {
     /**
      * Product retrieved successfully
      */
-    200: Product;
+    200: ProductDetailResponse;
 };
 
 export type ProductGetResponse = ProductGetResponses[keyof ProductGetResponses];
@@ -7927,7 +18744,7 @@ export type ProductGetByExternalIdResponses = {
     /**
      * Products retrieved successfully
      */
-    200: Array<Product>;
+    200: Array<ProductExternalIdResponse>;
 };
 
 export type ProductGetByExternalIdResponse = ProductGetByExternalIdResponses[keyof ProductGetByExternalIdResponses];
@@ -7955,7 +18772,7 @@ export type ProductGetByExternalVariantIdResponses = {
     /**
      * Product retrieved successfully
      */
-    200: Product;
+    200: ProductExternalVariantResponse;
 };
 
 export type ProductGetByExternalVariantIdResponse = ProductGetByExternalVariantIdResponses[keyof ProductGetByExternalVariantIdResponses];
@@ -8001,7 +18818,7 @@ export type ProductListResponses = {
      * List of products for the current store
      */
     200: {
-        data: Array<Product>;
+        data: Array<ProductListItemResponse>;
         meta: CollectionMeta;
     };
 };
@@ -8143,7 +18960,7 @@ export type ProductListAddOnsResponses = {
     /**
      * Add-ons returned
      */
-    200: Array<AddOn>;
+    200: Array<AddOnListItemResponse>;
 };
 
 export type ProductListAddOnsResponse = ProductListAddOnsResponses[keyof ProductListAddOnsResponses];
@@ -8173,7 +18990,7 @@ export type ProductListAddOnsBySlugResponses = {
     /**
      * Add-ons returned
      */
-    200: Array<AddOn>;
+    200: Array<AddOnListItemResponse>;
 };
 
 export type ProductListAddOnsBySlugResponse = ProductListAddOnsBySlugResponses[keyof ProductListAddOnsBySlugResponses];
@@ -8194,7 +19011,7 @@ export type LocationGetBySlugResponses = {
     /**
      * Location retrieved successfully
      */
-    200: Location;
+    200: LocationDetailResponse;
 };
 
 export type LocationGetBySlugResponse = LocationGetBySlugResponses[keyof LocationGetBySlugResponses];
@@ -8215,7 +19032,7 @@ export type LocationGetResponses = {
     /**
      * Location retrieved successfully
      */
-    200: Location;
+    200: LocationDetailResponse;
 };
 
 export type LocationGetResponse = LocationGetResponses[keyof LocationGetResponses];
@@ -8253,7 +19070,7 @@ export type LocationListResponses = {
      * List of locations for the current store
      */
     200: {
-        data: Array<Location>;
+        data: Array<LocationDetailResponse>;
         meta: CollectionMeta;
     };
 };
@@ -8276,7 +19093,7 @@ export type ProductCollectionsGetBySlugResponses = {
     /**
      * Product collection retrieved successfully
      */
-    200: ProductCollection;
+    200: ProductCollectionResponse;
 };
 
 export type ProductCollectionsGetBySlugResponse = ProductCollectionsGetBySlugResponses[keyof ProductCollectionsGetBySlugResponses];
@@ -8318,7 +19135,7 @@ export type ProductCollectionsListResponses = {
      * List of product collections for the current store
      */
     200: {
-        data: Array<ProductCollection>;
+        data: Array<ProductCollectionResponse>;
         meta: CollectionMeta;
     };
 };
@@ -8341,7 +19158,7 @@ export type StaffMemberGetBySlugResponses = {
     /**
      * Staff member retrieved successfully
      */
-    200: StaffMember;
+    200: StaffMemberDetailResponse;
 };
 
 export type StaffMemberGetBySlugResponse = StaffMemberGetBySlugResponses[keyof StaffMemberGetBySlugResponses];
@@ -8379,7 +19196,7 @@ export type StaffMemberListResponses = {
      * List of staff members for the current store
      */
     200: {
-        data: Array<StaffMember>;
+        data: Array<StaffMemberListItemResponse>;
         meta: CollectionMeta;
     };
 };
@@ -8427,7 +19244,7 @@ export type AddOnListResponses = {
      * List of add-ons for the current store
      */
     200: {
-        data: Array<AddOn>;
+        data: Array<AddOnListItemResponse>;
         meta: CollectionMeta;
     };
 };
@@ -8450,7 +19267,7 @@ export type AddOnGetResponses = {
     /**
      * Add-on returned
      */
-    200: AddOn;
+    200: AddOnDetailResponse;
 };
 
 export type AddOnGetResponse = AddOnGetResponses[keyof AddOnGetResponses];
@@ -8471,7 +19288,7 @@ export type AddOnGetBySlugResponses = {
     /**
      * Add-on returned
      */
-    200: AddOn;
+    200: AddOnDetailResponse;
 };
 
 export type AddOnGetBySlugResponse = AddOnGetBySlugResponses[keyof AddOnGetBySlugResponses];
@@ -8503,7 +19320,7 @@ export type PaymentGetSettingsResponses = {
     /**
      * Public payment settings
      */
-    200: PaymentSetting;
+    200: PaymentSettingResponse;
 };
 
 export type PaymentGetSettingsResponse = PaymentGetSettingsResponses[keyof PaymentGetSettingsResponses];
@@ -8521,7 +19338,7 @@ export type InvoiceListData = {
 };
 
 export type InvoiceListResponses = {
-    200: Array<Invoice>;
+    200: Array<InvoiceResponse>;
 };
 
 export type InvoiceListResponse = InvoiceListResponses[keyof InvoiceListResponses];
@@ -8546,7 +19363,7 @@ export type FeedbackQuestionListTranslationsResponses = {
     /**
      * Feedback questions with translations
      */
-    200: Array<FeedbackQuestion>;
+    200: Array<FeedbackQuestionResponse>;
 };
 
 export type FeedbackQuestionListTranslationsResponse = FeedbackQuestionListTranslationsResponses[keyof FeedbackQuestionListTranslationsResponses];
@@ -8571,7 +19388,7 @@ export type CheckoutQuestionListTranslationsResponses = {
     /**
      * Checkout questions with translations
      */
-    200: Array<CheckoutQuestion>;
+    200: Array<CheckoutQuestionResponse>;
 };
 
 export type CheckoutQuestionListTranslationsResponse = CheckoutQuestionListTranslationsResponses[keyof CheckoutQuestionListTranslationsResponses];
@@ -8592,7 +19409,7 @@ export type ImageGetResponses = {
     /**
      * Image
      */
-    200: Image;
+    200: ImageResponse;
 };
 
 export type ImageGetResponse = ImageGetResponses[keyof ImageGetResponses];

@@ -1,6 +1,6 @@
 {
 	"name": "@opencals/storefront-sdk",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"description": "Type-safe SDK for the Opencals Storefront API. Build custom booking websites with real-time availability, cart management, checkout, and customer accounts.",
 	"license": "MIT",
 	"type": "module",
