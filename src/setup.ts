@@ -12,6 +12,13 @@ export interface SetupOptions {
 	logging?: boolean | LoggingOptions;
 	/** Enable error handler interceptor that throws OpencalsApiError. Defaults to true. */
 	errorHandler?: boolean;
+	/**
+	 * Re-throw failed requests as OpencalsApiError instead of returning `{ error }`.
+	 * When false (the client default), the error-handler interceptor's throw is
+	 * swallowed and calls resolve to `{ data: undefined, error }`. Defaults to the
+	 * client default (false).
+	 */
+	throwOnError?: boolean;
 	/** Customer access token for authenticated requests */
 	customerToken?: string;
 }
@@ -36,12 +43,19 @@ export function setupOpencals(options: SetupOptions = {}): typeof client {
 		apiKey,
 		logging = false,
 		errorHandler = true,
+		throwOnError,
 		customerToken,
 	} = options;
 
 	// Configure base URL if provided
 	if (baseUrl) {
 		client.setConfig({ baseUrl });
+	}
+
+	// Opt in to re-throwing failed requests (leaves other consumers unaffected
+	// when omitted — the client singleton is per-app-bundle).
+	if (throwOnError !== undefined) {
+		client.setConfig({ throwOnError });
 	}
 
 	// API key interceptor (uses env var or provided key)

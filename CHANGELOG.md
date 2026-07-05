@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.5 (2026-07-05)
+
+- Added `throwOnError` option to `setupOpencals()`: when set, failed requests re-throw as
+  `OpencalsApiError` instead of resolving to `{ data: undefined, error }`. Defaults to the client
+  default (false), so existing consumers are unaffected.
+
 ## 0.3.3 (2026-06-28)
 
 - Added appointment guests support:
