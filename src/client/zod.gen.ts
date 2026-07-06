@@ -207,7 +207,8 @@ export const zAppointmentAddress = z.object({
 export const zQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
-    answer: z.string().nullish()
+    answer: z.string().nullish(),
+    fileIds: z.array(z.string()).optional()
 });
 
 export const zCheckoutAuthTokens = z.object({
@@ -342,7 +343,8 @@ export const zUpdateCustomerPassword = z.object({
 export const zCheckoutQuestionAnswer = z.object({
     questionId: z.string(),
     question: z.string(),
-    answer: z.string()
+    answer: z.string(),
+    fileIds: z.array(z.string()).optional()
 });
 
 export const zCreateAppointmentAddOn = z.object({
@@ -992,6 +994,20 @@ export const zAppointmentDetailGuest = z.object({
     createdAt: z.string().datetime()
 });
 
+export const zAppointmentDetailFeedbackAnswerFile = z.object({
+    id: z.string(),
+    externalId: z.string().nullable(),
+    url: z.string().nullable(),
+    filename: z.string().nullable(),
+    mime: z.string().nullable(),
+    size: z.number().nullable(),
+    answerId: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string().nullable()
+});
+
 export const zAppointmentDetailFeedbackAnswer = z.object({
     id: z.string(),
     appointmentId: z.string(),
@@ -999,7 +1015,22 @@ export const zAppointmentDetailFeedbackAnswer = z.object({
     question: z.string(),
     answer: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
+    updatedAt: z.string().datetime().nullable(),
+    files: z.array(zAppointmentDetailFeedbackAnswerFile)
+});
+
+export const zAppointmentDetailCheckoutAnswerFile = z.object({
+    id: z.string(),
+    externalId: z.string().nullable(),
+    url: z.string().nullable(),
+    filename: z.string().nullable(),
+    mime: z.string().nullable(),
+    size: z.number().nullable(),
+    answerId: z.string().nullish(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    deletedAt: z.string().datetime().nullable(),
+    storeId: z.string().nullable()
 });
 
 export const zAppointmentDetailCheckoutAnswer = z.object({
@@ -1009,7 +1040,8 @@ export const zAppointmentDetailCheckoutAnswer = z.object({
     question: z.string(),
     answer: z.string().nullable(),
     createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
+    updatedAt: z.string().datetime().nullable(),
+    files: z.array(zAppointmentDetailCheckoutAnswerFile)
 });
 
 export const zAppointmentDetailOrderTransaction = z.object({
@@ -3947,10 +3979,12 @@ export const zCartCheckoutQuestionResponse = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -4446,10 +4480,12 @@ export const zProductDetailFeedbackQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -4465,10 +4501,12 @@ export const zProductDetailCheckoutQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -4796,10 +4834,12 @@ export const zProductExternalIdFeedbackQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -4815,10 +4855,12 @@ export const zProductExternalIdCheckoutQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -5181,10 +5223,12 @@ export const zProductExternalVariantFeedbackQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -5350,10 +5394,12 @@ export const zProductExternalVariantCheckoutQuestion = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -6784,10 +6830,12 @@ export const zFeedbackQuestionResponse = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -6953,15 +7001,31 @@ export const zCheckoutQuestionResponse = z.object({
         'multi-line-text-field',
         'dropdown',
         'rating',
-        'checkbox'
+        'checkbox',
+        'file-upload'
     ]),
     order: z.number().default(0),
     alwaysShow: z.boolean().default(false),
+    fileConfig: z.record(z.unknown()).nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
     storeId: z.string(),
     translations: z.array(zCheckoutQuestionResponseTranslation)
+});
+
+export const zGenerateUploadUrl = z.object({
+    questionId: z.string().uuid(),
+    questionKind: z.enum(['checkout', 'feedback']),
+    filename: z.string(),
+    mime: z.string(),
+    size: z.number()
+});
+
+export const zGenerateUploadUrlResponse = z.object({
+    fileId: z.string(),
+    presignedUrl: z.string(),
+    expiresIn: z.number()
 });
 
 export const zImageResponse = z.object({
@@ -8140,6 +8204,13 @@ export const zCheckoutQuestionListTranslationsPath = z.object({
  * Checkout questions with translations
  */
 export const zCheckoutQuestionListTranslationsResponse = z.array(zCheckoutQuestionResponse);
+
+export const zCustomerUploadPresignBody = zGenerateUploadUrl;
+
+/**
+ * Presigned upload URL + file id
+ */
+export const zCustomerUploadPresignResponse = zGenerateUploadUrlResponse;
 
 export const zImageGetPath = z.object({
     imageId: z.string()

@@ -148,6 +148,10 @@ export type QuestionAnswer = {
      * Customer's answer to the feedback question
      */
     answer?: string | null;
+    /**
+     * IDs of previously-uploaded files to attach to this answer (file-upload questions only)
+     */
+    fileIds?: Array<string>;
 };
 
 export type CheckoutAuthTokens = {
@@ -498,6 +502,10 @@ export type CheckoutQuestionAnswer = {
      * The customer answer
      */
     answer: string;
+    /**
+     * IDs of previously-uploaded files to attach to this answer (file-upload questions only)
+     */
+    fileIds?: Array<string>;
 };
 
 export type CreateAppointmentAddOn = {
@@ -2295,6 +2303,53 @@ export type AppointmentDetailGuest = {
     createdAt: string;
 };
 
+export type AppointmentDetailFeedbackAnswerFile = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * S3 object key
+     */
+    externalId: string | null;
+    /**
+     * Stored URL (informational; re-signed on read)
+     */
+    url: string | null;
+    /**
+     * Original filename
+     */
+    filename: string | null;
+    /**
+     * MIME type
+     */
+    mime: string | null;
+    /**
+     * File size in bytes
+     */
+    size: number | null;
+    /**
+     * ID of the feedback-question answer this file belongs to
+     */
+    answerId?: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this file
+     */
+    storeId: string | null;
+};
+
 export type AppointmentDetailFeedbackAnswer = {
     /**
      * Unique identifier of the feedback question answer
@@ -2324,6 +2379,57 @@ export type AppointmentDetailFeedbackAnswer = {
      * Date and time when this feedback was last updated
      */
     updatedAt: string | null;
+    /**
+     * Files the customer uploaded for this answer (file-upload questions only)
+     */
+    files: Array<AppointmentDetailFeedbackAnswerFile>;
+};
+
+export type AppointmentDetailCheckoutAnswerFile = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * S3 object key
+     */
+    externalId: string | null;
+    /**
+     * Stored URL (informational; re-signed on read)
+     */
+    url: string | null;
+    /**
+     * Original filename
+     */
+    filename: string | null;
+    /**
+     * MIME type
+     */
+    mime: string | null;
+    /**
+     * File size in bytes
+     */
+    size: number | null;
+    /**
+     * ID of the checkout-question answer this file belongs to
+     */
+    answerId?: string | null;
+    /**
+     * Creation timestamp
+     */
+    createdAt: string;
+    /**
+     * Last update timestamp
+     */
+    updatedAt: string | null;
+    /**
+     * Soft deletion timestamp
+     */
+    deletedAt: string | null;
+    /**
+     * ID of the store that owns this file
+     */
+    storeId: string | null;
 };
 
 export type AppointmentDetailCheckoutAnswer = {
@@ -2355,6 +2461,10 @@ export type AppointmentDetailCheckoutAnswer = {
      * Date and time when this answer was last updated
      */
     updatedAt: string | null;
+    /**
+     * Files the customer uploaded for this answer (file-upload questions only)
+     */
+    files: Array<AppointmentDetailCheckoutAnswerFile>;
 };
 
 export type AppointmentDetailOrderTransaction = {
@@ -9749,7 +9859,7 @@ export type CartCheckoutQuestionResponse = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -9758,6 +9868,12 @@ export type CartCheckoutQuestionResponse = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -11162,7 +11278,7 @@ export type ProductDetailFeedbackQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -11171,6 +11287,12 @@ export type ProductDetailFeedbackQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -11205,7 +11327,7 @@ export type ProductDetailCheckoutQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -11214,6 +11336,12 @@ export type ProductDetailCheckoutQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -12050,7 +12178,7 @@ export type ProductExternalIdFeedbackQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -12059,6 +12187,12 @@ export type ProductExternalIdFeedbackQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -12093,7 +12227,7 @@ export type ProductExternalIdCheckoutQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -12102,6 +12236,12 @@ export type ProductExternalIdCheckoutQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -12712,7 +12852,7 @@ export type ProductExternalVariantFeedbackQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -12721,6 +12861,12 @@ export type ProductExternalVariantFeedbackQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -12794,7 +12940,7 @@ export type ProductExternalVariantCheckoutQuestion = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -12803,6 +12949,12 @@ export type ProductExternalVariantCheckoutQuestion = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -16149,7 +16301,7 @@ export type FeedbackQuestionResponse = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -16158,6 +16310,12 @@ export type FeedbackQuestionResponse = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -16231,7 +16389,7 @@ export type CheckoutQuestionResponse = {
     /**
      * Type of input for the question
      */
-    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox';
+    type: 'single-line-text-field' | 'multi-line-text-field' | 'dropdown' | 'rating' | 'checkbox' | 'file-upload';
     /**
      * Display order of the question (lower numbers appear first)
      */
@@ -16240,6 +16398,12 @@ export type CheckoutQuestionResponse = {
      * Whether this question is shown for all products in the store
      */
     alwaysShow: boolean;
+    /**
+     * File-upload constraints (allowed categories, max size, max files). Only set when type is file-upload.
+     */
+    fileConfig?: {
+        [key: string]: unknown;
+    } | null;
     /**
      * Date and time when the question was created
      */
@@ -16260,6 +16424,44 @@ export type CheckoutQuestionResponse = {
      * Translations of this question (filtered to the requested language)
      */
     translations: Array<CheckoutQuestionResponseTranslation>;
+};
+
+export type GenerateUploadUrl = {
+    /**
+     * ID of the file-upload question the file answers
+     */
+    questionId: string;
+    /**
+     * Whether the question is a checkout or feedback question
+     */
+    questionKind: 'checkout' | 'feedback';
+    /**
+     * Original filename
+     */
+    filename: string;
+    /**
+     * MIME type of the file
+     */
+    mime: string;
+    /**
+     * Size of the file in bytes
+     */
+    size: number;
+};
+
+export type GenerateUploadUrlResponse = {
+    /**
+     * ID of the created file record (store this as part of the answer)
+     */
+    fileId: string;
+    /**
+     * Presigned S3 PUT URL — upload the bytes here with a matching Content-Type
+     */
+    presignedUrl: string;
+    /**
+     * Seconds until the presigned URL expires
+     */
+    expiresIn: number;
 };
 
 export type ImageResponse = {
@@ -19392,6 +19594,22 @@ export type CheckoutQuestionListTranslationsResponses = {
 };
 
 export type CheckoutQuestionListTranslationsResponse = CheckoutQuestionListTranslationsResponses[keyof CheckoutQuestionListTranslationsResponses];
+
+export type CustomerUploadPresignData = {
+    body: GenerateUploadUrl;
+    path?: never;
+    query?: never;
+    url: '/storefront/uploads/presign';
+};
+
+export type CustomerUploadPresignResponses = {
+    /**
+     * Presigned upload URL + file id
+     */
+    200: GenerateUploadUrlResponse;
+};
+
+export type CustomerUploadPresignResponse = CustomerUploadPresignResponses[keyof CustomerUploadPresignResponses];
 
 export type ImageGetData = {
     body?: never;

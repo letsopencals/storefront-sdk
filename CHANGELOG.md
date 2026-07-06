@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.7 (2026-07-06)
+
+- Added customer file uploads for file-upload checkout/feedback questions:
+  - `CustomerUploadService.presign()` — returns a presigned S3 PUT URL + file id so the browser can
+    upload a customer's file directly to S3 (bytes never transit the API)
+  - New types: `GenerateUploadUrl`, `GenerateUploadUrlResponse`, `CustomerUploadPresignData`,
+    `CustomerUploadPresignResponses`, `CustomerUploadPresignResponse`
+  - `CheckoutQuestionAnswer` now accepts an optional `fileIds` array to link uploaded files to the answer
+  - Checkout/feedback question `type` unions gained `file-upload`; question responses expose `fileConfig`
+    (allowed categories, max size, max files)
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.5 (2026-07-05)
 
 - Added `throwOnError` option to `setupOpencals()`: when set, failed requests re-throw as
