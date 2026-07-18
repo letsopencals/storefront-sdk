@@ -1322,6 +1322,7 @@ export const zAppointmentDetailOrder = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -2025,6 +2026,7 @@ export const zOrderListItemResponse = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -2577,6 +2579,7 @@ export const zOrderDetailResponse = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -3252,11 +3255,16 @@ export const zCheckoutStartResponse = z.object({
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
+    publishableKey: z.string().nullish(),
     paymentId: z.string(),
     cart: zCheckoutStartCart,
     invalidItemIds: z.array(z.string()),
     revivedItemIds: z.array(z.string()),
     discountCodeCleared: z.boolean().nullish()
+});
+
+export const zCheckoutTrackingData = z.object({
+    gclid: z.string().optional()
 });
 
 export const zSubmitCheckout = z.object({
@@ -3265,7 +3273,8 @@ export const zSubmitCheckout = z.object({
         zExistingOrderCustomer,
         zNewOrderCustomer
     ]).optional(),
-    appointmentsSettings: zCreateOrderAppointmentsSettings.optional()
+    appointmentsSettings: zCreateOrderAppointmentsSettings.optional(),
+    trackingData: zCheckoutTrackingData.optional()
 });
 
 export const zCheckoutOrderCustomer = z.object({
@@ -3780,6 +3789,7 @@ export const zCheckoutOrder = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -7250,6 +7260,7 @@ export const zOrderListItemResponseWritable = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -7313,6 +7324,7 @@ export const zOrderDetailResponseWritable = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -7447,6 +7459,7 @@ export const zCheckoutStartResponseWritable = z.object({
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
+    publishableKey: z.string().nullish(),
     paymentId: z.string(),
     cart: zCheckoutStartCartWritable,
     invalidItemIds: z.array(z.string()),
@@ -7483,6 +7496,7 @@ export const zCheckoutOrderWritable = z.object({
     customerId: z.string().nullable(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
+    gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
@@ -7987,7 +8001,8 @@ export const zProductGetCurrentAvailabilitiesQuery = z.object({
     date: z.string(),
     locationId: z.string().optional(),
     staffMemberId: z.string().optional(),
-    timezone: z.string().optional()
+    timezone: z.string().optional(),
+    duration: z.string().optional()
 });
 
 /**

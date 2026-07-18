@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.8 (2026-07-18)
+
+- `CheckoutStartResponse` gained `publishableKey`: the Stripe platform publishable key matching the
+  connected account's mode (test/live), so the storefront loads Stripe.js with the correct-mode key
+- Google Ads click ID (`gclid`) tracking:
+  - `SubmitCheckout` accepts optional `trackingData` (new `CheckoutTrackingData` type) to capture the
+    `gclid` at checkout
+  - Order responses now expose `gclid`: `OrderDetailResponse`, `OrderListItemResponse`, `CheckoutOrder`,
+    `AppointmentDetailOrder`
+- `ProductService.getCurrentAvailabilities()` accepts an optional `duration` query param (booking
+  duration in seconds; defaults to the product base duration)
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.7 (2026-07-06)
 
 - Added customer file uploads for file-upload checkout/feedback questions:

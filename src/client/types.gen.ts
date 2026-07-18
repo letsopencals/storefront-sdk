@@ -3221,6 +3221,10 @@ export type AppointmentDetailOrder = {
      */
     cartId: string | null;
     /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
+    /**
      * Date and time when the order was created
      */
     createdAt: string;
@@ -5214,6 +5218,10 @@ export type OrderListItemResponse = {
      */
     cartId: string | null;
     /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
+    /**
      * Date and time when the order was created
      */
     createdAt: string;
@@ -6587,6 +6595,10 @@ export type OrderDetailResponse = {
      * ID of the cart from which the order was created
      */
     cartId: string | null;
+    /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
     /**
      * Date and time when the order was created
      */
@@ -8408,6 +8420,10 @@ export type CheckoutStartResponse = {
      */
     stripeAccountId?: string | null;
     /**
+     * Stripe platform publishable key matching the connected account mode (test/live)
+     */
+    publishableKey?: string | null;
+    /**
      * Cart payment record ID
      */
     paymentId: string;
@@ -8429,6 +8445,13 @@ export type CheckoutStartResponse = {
     discountCodeCleared?: boolean | null;
 };
 
+export type CheckoutTrackingData = {
+    /**
+     * Google Ads click ID (gclid) captured from the landing URL
+     */
+    gclid?: string;
+};
+
 export type SubmitCheckout = {
     /**
      * Stripe PaymentIntent ID (if payment was confirmed on frontend)
@@ -8442,6 +8465,10 @@ export type SubmitCheckout = {
      * Appointment settings to apply on order (e.g., mark as scheduled)
      */
     appointmentsSettings?: CreateOrderAppointmentsSettings;
+    /**
+     * Client-side tracking data (e.g. Google Ads gclid)
+     */
+    trackingData?: CheckoutTrackingData;
 };
 
 export type CheckoutOrderCustomer = {
@@ -9711,6 +9738,10 @@ export type CheckoutOrder = {
      * ID of the cart from which the order was created
      */
     cartId: string | null;
+    /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
     /**
      * Date and time when the order was created
      */
@@ -17236,6 +17267,10 @@ export type OrderListItemResponseWritable = {
      */
     cartId: string | null;
     /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
+    /**
      * Date and time when the order was created
      */
     createdAt: string;
@@ -17414,6 +17449,10 @@ export type OrderDetailResponseWritable = {
      * ID of the cart from which the order was created
      */
     cartId: string | null;
+    /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
     /**
      * Date and time when the order was created
      */
@@ -17796,6 +17835,10 @@ export type CheckoutStartResponseWritable = {
      */
     stripeAccountId?: string | null;
     /**
+     * Stripe platform publishable key matching the connected account mode (test/live)
+     */
+    publishableKey?: string | null;
+    /**
      * Cart payment record ID
      */
     paymentId: string;
@@ -17918,6 +17961,10 @@ export type CheckoutOrderWritable = {
      * ID of the cart from which the order was created
      */
     cartId: string | null;
+    /**
+     * Google Ads click ID captured at the time of booking
+     */
+    gclid?: string | null;
     /**
      * Date and time when the order was created
      */
@@ -19086,6 +19133,10 @@ export type ProductGetCurrentAvailabilitiesData = {
          * Timezone for date/time calculations
          */
         timezone?: string;
+        /**
+         * Booking duration in seconds; defaults to the product base duration
+         */
+        duration?: string;
     };
     url: '/storefront/products/{productId}/current-availabilities';
 };
