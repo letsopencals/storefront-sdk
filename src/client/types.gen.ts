@@ -19175,6 +19175,10 @@ export type ProductGetCurrentAvailabilitiesMergedData = {
          * Timezone for date/time calculations
          */
         timezone?: string;
+        /**
+         * Booking duration in seconds; defaults to the product base duration. Ranges too short for the requested duration are omitted.
+         */
+        duration?: string;
     };
     url: '/storefront/products/{productId}/current-availability-ranges';
 };

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.9 (2026-07-22)
+
+- `ProductService.getCurrentAvailabilitiesMerged()` (availability ranges) accepts an optional
+  `duration` query param (booking duration in seconds; defaults to the product base duration).
+  Ranges too short to fit the requested duration are omitted — mirrors `getCurrentAvailabilities()`.
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.8 (2026-07-18)
 
 - `CheckoutStartResponse` gained `publishableKey`: the Stripe platform publishable key matching the
