@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.10 (2026-07-26)
+
+- Configurable required customer fields + contact snapshot at checkout:
+  - New `StorePublicSettings.checkoutSettings` (`CheckoutSetting`) exposes which customer fields are
+    required at checkout: `customerFirstNameRequired` (boolean) plus `customerPhoneRequirement`,
+    `customerCompanyNameRequirement`, and `customerCompanyVatNumberRequirement`, each a
+    `CheckoutFieldRequirement` (`'hidden' | 'optional' | 'required'`). Last name and email are always
+    required. Enforced by the storefront for returning/new customers.
+  - New types: `CheckoutSetting`, `CheckoutFieldRequirement`
+  - Customer now carries `companyName` / `companyVatNumber`: added to customer responses (checkout,
+    order, appointment, self-service profile) and accepted on the writable customer/profile DTOs
+    (`NewOrderCustomer`, `ExistingOrderCustomer`, `NewAppointmentCustomer`, `ExistingAppointmentCustomer`,
+    `UpdateCustomerProfile`, etc.). Checkout now persists `phone` (previously dropped) alongside the
+    company fields.
+  - Order/cart responses snapshot the customer contact captured when the order was placed:
+    `customerFirstName`, `customerLastName`, `customerEmail`, `customerPhone`, `customerCompanyName`,
+    `customerCompanyVatNumber`.
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.9 (2026-07-22)
 
 - `ProductService.getCurrentAvailabilitiesMerged()` (availability ranges) accepts an optional

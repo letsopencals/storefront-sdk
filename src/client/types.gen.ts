@@ -51,6 +51,11 @@ export type AppointmentCreatedByEnum = 'customer' | 'merchant';
  */
 export type OrderLogLevel = 'info' | 'error';
 
+/**
+ * Requirement level for the customer company VAT number at checkout
+ */
+export type CheckoutFieldRequirement = 'hidden' | 'optional' | 'required';
+
 export type AppointmentDateRangeSlot = {
     /**
      * Start date for the appointment in YYYY-MM-DD format (UTC timezone)
@@ -197,6 +202,26 @@ export type ExistingOrderCustomer = {
      * ID of an existing customer to book the appointment for
      */
     customerId: string;
+    /**
+     * Updated first name for the existing customer, captured at checkout
+     */
+    firstName?: string | null;
+    /**
+     * Updated last name for the existing customer, captured at checkout
+     */
+    lastName?: string | null;
+    /**
+     * Updated phone number for the existing customer, captured at checkout
+     */
+    phone?: string | null;
+    /**
+     * Updated company name for the existing customer, captured at checkout
+     */
+    companyName?: string | null;
+    /**
+     * Updated company VAT number for the existing customer, captured at checkout
+     */
+    companyVatNumber?: string | null;
 };
 
 export type NewOrderCustomer = {
@@ -216,6 +241,18 @@ export type NewOrderCustomer = {
      * Last name of the new customer
      */
     lastName?: string | null;
+    /**
+     * Phone number of the new customer
+     */
+    phone?: string | null;
+    /**
+     * Company name of the new customer
+     */
+    companyName?: string | null;
+    /**
+     * Company VAT number of the new customer
+     */
+    companyVatNumber?: string | null;
 };
 
 export type CartItemAppliedDiscount = {
@@ -429,6 +466,14 @@ export type SelfServiceProfileResponse = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -476,6 +521,14 @@ export type UpdateCustomerProfile = {
      * Phone number of the customer
      */
     phone?: string;
+    /**
+     * Customer company name
+     */
+    companyName?: string;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber?: string;
 };
 
 export type UpdateCustomerPassword = {
@@ -1101,6 +1154,14 @@ export type AppointmentCreatedCustomer = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -1590,6 +1651,14 @@ export type AppointmentListItemCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -2147,6 +2216,14 @@ export type AppointmentDetailCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -3212,6 +3289,30 @@ export type AppointmentDetailOrder = {
      * ID of the customer who placed the order
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -4509,6 +4610,14 @@ export type OrderListCustomer = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -5210,6 +5319,30 @@ export type OrderListItemResponse = {
      */
     customerId: string | null;
     /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
+    /**
      * ID of the store that owns the order
      */
     storeId: string | null;
@@ -5324,6 +5457,14 @@ export type OrderDetailCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -6588,6 +6729,30 @@ export type OrderDetailResponse = {
      */
     customerId: string | null;
     /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
+    /**
      * ID of the store that owns the order
      */
     storeId: string | null;
@@ -6710,6 +6875,14 @@ export type CartCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -7490,6 +7663,30 @@ export type CartResponse = {
      */
     customerId: string | null;
     /**
+     * Snapshot of the customer first name captured at checkout
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured at checkout
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured at checkout
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured at checkout
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured at checkout
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured at checkout
+     */
+    customerCompanyVatNumber?: string | null;
+    /**
      * Cart status
      */
     status: 'active' | 'converted' | 'abandoned';
@@ -7612,6 +7809,14 @@ export type CheckoutStartCartCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -8341,6 +8546,30 @@ export type CheckoutStartCart = {
      */
     customerId: string | null;
     /**
+     * Snapshot of the customer first name captured at checkout
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured at checkout
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured at checkout
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured at checkout
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured at checkout
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured at checkout
+     */
+    customerCompanyVatNumber?: string | null;
+    /**
      * Cart status
      */
     status: 'active' | 'converted' | 'abandoned';
@@ -8496,6 +8725,14 @@ export type CheckoutOrderCustomer = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -9731,6 +9968,30 @@ export type CheckoutOrder = {
      */
     customerId: string | null;
     /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
+    /**
      * ID of the store that owns the order
      */
     storeId: string | null;
@@ -10343,6 +10604,32 @@ export type StoreContactInfo = {
     updatedAt: string | null;
 };
 
+export type CheckoutSetting = {
+    /**
+     * Primary identifier of the checkout settings row
+     */
+    id: string;
+    /**
+     * The unique identifier of the store that owns these checkout settings
+     */
+    storeId: string | null;
+    /**
+     * Whether the customer first name is required at checkout. The last name and email are always required.
+     */
+    customerFirstNameRequired: boolean;
+    customerPhoneRequirement: CheckoutFieldRequirement;
+    customerCompanyNameRequirement: CheckoutFieldRequirement;
+    customerCompanyVatNumberRequirement: CheckoutFieldRequirement;
+    /**
+     * When the settings were created
+     */
+    createdAt: string;
+    /**
+     * When the settings were last updated
+     */
+    updatedAt: string | null;
+};
+
 export type StorePublicSettings = {
     /**
      * Store name
@@ -10382,6 +10669,10 @@ export type StorePublicSettings = {
      * Store contact information
      */
     contactInfo?: StoreContactInfo | null;
+    /**
+     * Checkout required-field configuration
+     */
+    checkoutSettings?: CheckoutSetting | null;
 };
 
 export type AvailabilitySlot = {
@@ -16560,6 +16851,14 @@ export type SelfServiceProfileResponseWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -16623,6 +16922,14 @@ export type AppointmentCreatedCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -16809,6 +17116,14 @@ export type AppointmentListItemCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -16989,6 +17304,14 @@ export type AppointmentDetailCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
+    /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -17191,6 +17514,14 @@ export type OrderListCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17258,6 +17589,30 @@ export type OrderListItemResponseWritable = {
      * ID of the customer who placed the order
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -17374,6 +17729,14 @@ export type OrderDetailCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17441,6 +17804,30 @@ export type OrderDetailResponseWritable = {
      * ID of the customer who placed the order
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -17565,6 +17952,14 @@ export type CartCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17616,6 +18011,30 @@ export type CartResponseWritable = {
      * ID of the customer who owns the cart
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured at checkout
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured at checkout
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured at checkout
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured at checkout
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured at checkout
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured at checkout
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * Cart status
      */
@@ -17704,6 +18123,14 @@ export type CheckoutStartCartCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17755,6 +18182,30 @@ export type CheckoutStartCartWritable = {
      * ID of the customer who owns the cart
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured at checkout
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured at checkout
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured at checkout
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured at checkout
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured at checkout
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured at checkout
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * Cart status
      */
@@ -17886,6 +18337,14 @@ export type CheckoutOrderCustomerWritable = {
      */
     phone: string | null;
     /**
+     * Customer company name
+     */
+    companyName: string | null;
+    /**
+     * Customer company VAT number
+     */
+    companyVatNumber: string | null;
+    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17953,6 +18412,30 @@ export type CheckoutOrderWritable = {
      * ID of the customer who placed the order
      */
     customerId: string | null;
+    /**
+     * Snapshot of the customer first name captured when the order was placed
+     */
+    customerFirstName?: string | null;
+    /**
+     * Snapshot of the customer last name captured when the order was placed
+     */
+    customerLastName?: string | null;
+    /**
+     * Snapshot of the customer email captured when the order was placed
+     */
+    customerEmail?: string | null;
+    /**
+     * Snapshot of the customer phone captured when the order was placed
+     */
+    customerPhone?: string | null;
+    /**
+     * Snapshot of the customer company name captured when the order was placed
+     */
+    customerCompanyName?: string | null;
+    /**
+     * Snapshot of the customer company VAT number captured when the order was placed
+     */
+    customerCompanyVatNumber?: string | null;
     /**
      * ID of the store that owns the order
      */
