@@ -616,6 +616,12 @@ export type CreateAppointment = {
      * Guests to invite to the appointment. They are copied on appointment notifications.
      */
     guests?: Array<AppointmentGuest>;
+    /**
+     * Custom key-value attributes to attach to the appointment (string keys and values). Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    };
 };
 
 export type RescheduleAppointment = {
@@ -1280,6 +1286,12 @@ export type AppointmentCreatedResponse = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -1848,6 +1860,12 @@ export type AppointmentListItemResponse = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */
@@ -3006,6 +3024,12 @@ export type AppointmentDetailOrderItemAppointment = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -3558,6 +3582,12 @@ export type AppointmentDetailResponse = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -4105,6 +4135,12 @@ export type AppointmentResponse = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */
@@ -5045,6 +5081,12 @@ export type OrderListAppointment = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -5892,6 +5934,12 @@ export type OrderDetailAppointment = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */
@@ -7374,6 +7422,12 @@ export type CartItemAppointment = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -8256,6 +8310,12 @@ export type CheckoutStartCartItemAppointment = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */
@@ -9262,6 +9322,12 @@ export type CheckoutOrderAppointment = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */
@@ -17053,6 +17119,12 @@ export type AppointmentCreatedResponseWritable = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -17246,6 +17318,12 @@ export type AppointmentListItemResponseWritable = {
      */
     numberOfAttendees: number;
     /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
+    /**
      * Date and time when the appointment was created
      */
     createdAt: string;
@@ -17434,6 +17512,12 @@ export type AppointmentDetailResponseWritable = {
      * Number of people attending the appointment
      */
     numberOfAttendees: number;
+    /**
+     * Custom key-value attributes (strings) attached to the appointment. Max 250 entries.
+     */
+    customAttributes?: {
+        [key: string]: string;
+    } | null;
     /**
      * Date and time when the appointment was created
      */

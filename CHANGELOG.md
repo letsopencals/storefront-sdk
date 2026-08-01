@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.11 (2026-08-01)
+
+- Custom attributes on appointments:
+  - `CreateAppointment` accepts an optional `customAttributes` — a flat map of string keys to string
+    values (`Record<string, string>`) for attaching arbitrary data (booking source, party size,
+    external reference, small JSON strings, etc.) at creation time. Max 250 entries; keys up to 255
+    chars, values up to 5000 chars.
+  - Appointment responses now echo `customAttributes`.
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.10 (2026-07-26)
 
 - Configurable required customer fields + contact snapshot at checkout:
