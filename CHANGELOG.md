@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.3.12 (2026-08-08)
+
+### Breaking
+
+- **Company name / VAT moved off the customer into a billing address.** `companyName` and
+  `companyVatNumber` are no longer top-level fields on the writable customer DTOs
+  (`NewOrderCustomer`, `ExistingOrderCustomer`, `UpdateCustomerProfile`, etc.) nor on the `Customer`
+  response. They now live on a new optional `billingAddress` object (Shopify-style: the billing
+  address owns business identity):
+  - `billingAddress`: `{ firstName?, lastName?, companyName?, companyVatNumber?, addressLine1?,
+    addressLine2?, city?, state?, postalCode?, country? }` — all optional; accepted on the writable
+    customer DTOs and persisted to the customer's address book.
+  - Migration: send company/VAT under `customer.billingAddress` instead of at the customer level.
+
+### Added
+
+- **Optional billing address at checkout.** The submitted billing address is snapshotted onto the
+  cart and order (`billing*` fields on cart/order responses) and saved to the customer's reusable
+  address book.
+- **New checkout setting `customerBillingAddressRequirement`** (`CheckoutFieldRequirement`:
+  `'hidden' | 'optional' | 'required'`) on `StorePublicSettings.checkoutSettings`, governing the
+  billing-address street fields. When `required`, address line 1, city, postal code and country are
+  mandatory. The existing `customerCompanyNameRequirement` / `customerCompanyVatNumberRequirement`
+  now govern the company / VAT sub-fields of the billing address.
+
+- Regenerated client from updated OpenAPI spec
+
 ## 0.3.11 (2026-08-01)
 
 - Custom attributes on appointments:

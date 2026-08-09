@@ -51,8 +51,79 @@ export type AppointmentCreatedByEnum = 'customer' | 'merchant';
  */
 export type OrderLogLevel = 'info' | 'error';
 
+export type CustomerAddress = {
+    /**
+     * Unique identifier of the address
+     */
+    id: string;
+    /**
+     * ID of the store that owns this address
+     */
+    storeId: string;
+    /**
+     * ID of the customer this address belongs to
+     */
+    customerId: string;
+    /**
+     * First name of the bill-to party
+     */
+    firstName?: string | null;
+    /**
+     * Last name of the bill-to party
+     */
+    lastName?: string | null;
+    /**
+     * Company name
+     */
+    companyName?: string | null;
+    /**
+     * Company VAT number
+     */
+    companyVatNumber?: string | null;
+    /**
+     * First line of the address
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the address
+     */
+    addressLine2?: string | null;
+    /**
+     * City
+     */
+    city?: string | null;
+    /**
+     * State/province
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code
+     */
+    postalCode?: string | null;
+    /**
+     * Country
+     */
+    country?: string | null;
+    /**
+     * Whether this is the default address for the customer
+     */
+    isDefault: boolean;
+    /**
+     * When the address was created
+     */
+    createdAt: string;
+    /**
+     * When the address was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Address street lines formatted as a single line
+     */
+    formattedAddress: string;
+};
+
 /**
- * Requirement level for the customer company VAT number at checkout
+ * Requirement level for the customer billing address (street fields) at checkout. When required, address line 1, city, postal code and country are mandatory.
  */
 export type CheckoutFieldRequirement = 'hidden' | 'optional' | 'required';
 
@@ -215,13 +286,9 @@ export type ExistingOrderCustomer = {
      */
     phone?: string | null;
     /**
-     * Updated company name for the existing customer, captured at checkout
+     * Billing address for this checkout (carries company + VAT). Saved to the address book.
      */
-    companyName?: string | null;
-    /**
-     * Updated company VAT number for the existing customer, captured at checkout
-     */
-    companyVatNumber?: string | null;
+    billingAddress?: BillingAddress;
 };
 
 export type NewOrderCustomer = {
@@ -246,13 +313,9 @@ export type NewOrderCustomer = {
      */
     phone?: string | null;
     /**
-     * Company name of the new customer
+     * Billing address for this checkout (carries company + VAT). Saved to the address book.
      */
-    companyName?: string | null;
-    /**
-     * Company VAT number of the new customer
-     */
-    companyVatNumber?: string | null;
+    billingAddress?: BillingAddress;
 };
 
 export type CartItemAppliedDiscount = {
@@ -466,14 +529,6 @@ export type SelfServiceProfileResponse = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -499,6 +554,14 @@ export type SelfServiceProfileResponse = {
      */
     deletedAt: string | null;
     /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
+    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -521,14 +584,6 @@ export type UpdateCustomerProfile = {
      * Phone number of the customer
      */
     phone?: string;
-    /**
-     * Customer company name
-     */
-    companyName?: string;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber?: string;
 };
 
 export type UpdateCustomerPassword = {
@@ -1160,14 +1215,6 @@ export type AppointmentCreatedCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -1192,6 +1239,14 @@ export type AppointmentCreatedCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -1664,14 +1719,6 @@ export type AppointmentListItemCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -1696,6 +1743,14 @@ export type AppointmentListItemCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -2235,14 +2290,6 @@ export type AppointmentDetailCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -2267,6 +2314,14 @@ export type AppointmentDetailCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -3330,13 +3385,45 @@ export type AppointmentDetailOrder = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -4646,14 +4733,6 @@ export type OrderListCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -4678,6 +4757,14 @@ export type OrderListCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -5377,13 +5464,45 @@ export type OrderListItemResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -5500,14 +5619,6 @@ export type OrderDetailCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -5532,6 +5643,14 @@ export type OrderDetailCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -6793,13 +6912,45 @@ export type OrderDetailResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -6924,14 +7075,6 @@ export type CartCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -6956,6 +7099,14 @@ export type CartCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -7733,13 +7884,45 @@ export type CartResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured at checkout
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured at checkout
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * Cart status
      */
@@ -7864,14 +8047,6 @@ export type CheckoutStartCartCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -7896,6 +8071,14 @@ export type CheckoutStartCartCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -8622,13 +8805,45 @@ export type CheckoutStartCart = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured at checkout
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured at checkout
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * Cart status
      */
@@ -8786,14 +9001,6 @@ export type CheckoutOrderCustomer = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -8818,6 +9025,14 @@ export type CheckoutOrderCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -10050,13 +10265,45 @@ export type CheckoutOrder = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -10686,6 +10933,7 @@ export type CheckoutSetting = {
     customerPhoneRequirement: CheckoutFieldRequirement;
     customerCompanyNameRequirement: CheckoutFieldRequirement;
     customerCompanyVatNumberRequirement: CheckoutFieldRequirement;
+    customerBillingAddressRequirement: CheckoutFieldRequirement;
     /**
      * When the settings were created
      */
@@ -16891,6 +17139,49 @@ export type ImageResponse = {
     storeId: string | null;
 };
 
+export type BillingAddress = {
+    /**
+     * First name of the bill-to party
+     */
+    firstName?: string;
+    /**
+     * Last name of the bill-to party
+     */
+    lastName?: string;
+    /**
+     * Company name
+     */
+    companyName?: string;
+    /**
+     * Company VAT number
+     */
+    companyVatNumber?: string;
+    /**
+     * First line of the billing address
+     */
+    addressLine1?: string;
+    /**
+     * Second line of the billing address
+     */
+    addressLine2?: string;
+    /**
+     * City
+     */
+    city?: string;
+    /**
+     * State/province
+     */
+    state?: string;
+    /**
+     * Postal/zip code
+     */
+    postalCode?: string;
+    /**
+     * Country
+     */
+    country?: string;
+};
+
 export type SelfServiceProfileResponseWritable = {
     /**
      * Unique identifier of the customer
@@ -16916,14 +17207,6 @@ export type SelfServiceProfileResponseWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
     /**
      * Hashed password of the customer
      */
@@ -16953,6 +17236,14 @@ export type SelfServiceProfileResponseWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -16989,14 +17280,6 @@ export type AppointmentCreatedCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17025,6 +17308,14 @@ export type AppointmentCreatedCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -17188,14 +17479,6 @@ export type AppointmentListItemCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17224,6 +17507,14 @@ export type AppointmentListItemCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -17383,14 +17674,6 @@ export type AppointmentDetailCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17419,6 +17702,14 @@ export type AppointmentDetailCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -17598,14 +17889,6 @@ export type OrderListCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17634,6 +17917,14 @@ export type OrderListCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -17690,13 +17981,45 @@ export type OrderListItemResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -17813,14 +18136,6 @@ export type OrderDetailCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -17849,6 +18164,14 @@ export type OrderDetailCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -17905,13 +18228,45 @@ export type OrderDetailResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */
@@ -18036,14 +18391,6 @@ export type CartCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -18072,6 +18419,14 @@ export type CartCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -18112,13 +18467,45 @@ export type CartResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured at checkout
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured at checkout
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * Cart status
      */
@@ -18207,14 +18594,6 @@ export type CheckoutStartCartCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -18243,6 +18622,14 @@ export type CheckoutStartCartCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -18283,13 +18670,45 @@ export type CheckoutStartCartWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured at checkout
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured at checkout
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * Cart status
      */
@@ -18421,14 +18840,6 @@ export type CheckoutOrderCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Customer company name
-     */
-    companyName: string | null;
-    /**
-     * Customer company VAT number
-     */
-    companyVatNumber: string | null;
-    /**
      * Hashed password of the customer
      */
     password: string | null;
@@ -18457,6 +18868,14 @@ export type CheckoutOrderCustomerWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Saved billing/contact addresses for this customer
+     */
+    addresses?: Array<CustomerAddress>;
+    /**
+     * The customer's default saved address, when the addresses relation is loaded
+     */
+    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -18513,13 +18932,45 @@ export type CheckoutOrderWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Snapshot of the customer company name captured when the order was placed
+     * Billing address snapshot: bill-to first name
      */
-    customerCompanyName?: string | null;
+    billingFirstName?: string | null;
     /**
-     * Snapshot of the customer company VAT number captured when the order was placed
+     * Billing address snapshot: bill-to last name
      */
-    customerCompanyVatNumber?: string | null;
+    billingLastName?: string | null;
+    /**
+     * Billing address snapshot: company name
+     */
+    billingCompanyName?: string | null;
+    /**
+     * Billing address snapshot: company VAT number
+     */
+    billingCompanyVatNumber?: string | null;
+    /**
+     * Billing address snapshot: address line 1
+     */
+    billingAddressLine1?: string | null;
+    /**
+     * Billing address snapshot: address line 2
+     */
+    billingAddressLine2?: string | null;
+    /**
+     * Billing address snapshot: city
+     */
+    billingCity?: string | null;
+    /**
+     * Billing address snapshot: state/province
+     */
+    billingState?: string | null;
+    /**
+     * Billing address snapshot: postal/zip code
+     */
+    billingPostalCode?: string | null;
+    /**
+     * Billing address snapshot: country
+     */
+    billingCountry?: string | null;
     /**
      * ID of the store that owns the order
      */

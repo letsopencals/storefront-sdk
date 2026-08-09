@@ -174,8 +174,28 @@ export const zAppointmentCreatedByEnum = z.enum(['customer', 'merchant']).defaul
  */
 export const zOrderLogLevel = z.enum(['info', 'error']);
 
+export const zCustomerAddress = z.object({
+    id: z.string(),
+    storeId: z.string(),
+    customerId: z.string(),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    companyName: z.string().nullish(),
+    companyVatNumber: z.string().nullish(),
+    addressLine1: z.string().nullish(),
+    addressLine2: z.string().nullish(),
+    city: z.string().nullish(),
+    state: z.string().nullish(),
+    postalCode: z.string().nullish(),
+    country: z.string().nullish(),
+    isDefault: z.boolean().default(false),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime().nullable(),
+    formattedAddress: z.string()
+});
+
 /**
- * Requirement level for the customer company VAT number at checkout
+ * Requirement level for the customer billing address (street fields) at checkout. When required, address line 1, city, postal code and country are mandatory.
  */
 export const zCheckoutFieldRequirement = z.enum([
     'hidden',
@@ -232,25 +252,6 @@ export const zCheckoutCustomerInfo = z.object({
     lastName: z.string().optional(),
     hasPassword: z.boolean(),
     emailVerified: z.boolean()
-});
-
-export const zExistingOrderCustomer = z.object({
-    customerId: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    phone: z.string().nullish(),
-    companyName: z.string().nullish(),
-    companyVatNumber: z.string().nullish()
-});
-
-export const zNewOrderCustomer = z.object({
-    externalId: z.string(),
-    email: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    phone: z.string().nullish(),
-    companyName: z.string().nullish(),
-    companyVatNumber: z.string().nullish()
 });
 
 export const zCartItemAppliedDiscount = z.object({
@@ -335,8 +336,6 @@ export const zSelfServiceProfileResponse = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -344,6 +343,8 @@ export const zSelfServiceProfileResponse = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -351,9 +352,7 @@ export const zSelfServiceProfileResponse = z.object({
 export const zUpdateCustomerProfile = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
-    phone: z.string().optional(),
-    companyName: z.string().optional(),
-    companyVatNumber: z.string().optional()
+    phone: z.string().optional()
 });
 
 export const zUpdateCustomerPassword = z.object({
@@ -600,8 +599,6 @@ export const zAppointmentCreatedCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -609,6 +606,8 @@ export const zAppointmentCreatedCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -766,8 +765,6 @@ export const zAppointmentListItemCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -775,6 +772,8 @@ export const zAppointmentListItemCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -951,8 +950,6 @@ export const zAppointmentDetailCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -960,6 +957,8 @@ export const zAppointmentDetailCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -1355,8 +1354,16 @@ export const zAppointmentDetailOrder = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -1821,8 +1828,6 @@ export const zOrderListCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -1830,6 +1835,8 @@ export const zOrderListCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -2070,8 +2077,16 @@ export const zOrderListItemResponse = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -2116,8 +2131,6 @@ export const zOrderDetailCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -2125,6 +2138,8 @@ export const zOrderDetailCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -2632,8 +2647,16 @@ export const zOrderDetailResponse = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -2680,8 +2703,6 @@ export const zCartCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -2689,6 +2710,8 @@ export const zCartCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -2973,8 +2996,16 @@ export const zCartResponse = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     status: z.enum([
         'active',
         'converted',
@@ -3009,19 +3040,6 @@ export const zUpdateCartAddOn = z.object({
     quantity: z.number().gte(1)
 });
 
-export const zStartCheckout = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ]).optional()
-});
-
 export const zCheckoutStartCartCustomer = z.object({
     id: z.string(),
     externalId: z.string(),
@@ -3029,8 +3047,6 @@ export const zCheckoutStartCartCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -3038,6 +3054,8 @@ export const zCheckoutStartCartCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -3297,8 +3315,16 @@ export const zCheckoutStartCart = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     status: z.enum([
         'active',
         'converted',
@@ -3342,16 +3368,6 @@ export const zCheckoutTrackingData = z.object({
     gclid: z.string().optional()
 });
 
-export const zSubmitCheckout = z.object({
-    stripePaymentIntentId: z.string().optional(),
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ]).optional(),
-    appointmentsSettings: zCreateOrderAppointmentsSettings.optional(),
-    trackingData: zCheckoutTrackingData.optional()
-});
-
 export const zCheckoutOrderCustomer = z.object({
     id: z.string(),
     externalId: z.string(),
@@ -3359,8 +3375,6 @@ export const zCheckoutOrderCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -3368,6 +3382,8 @@ export const zCheckoutOrderCustomer = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -3869,8 +3885,16 @@ export const zCheckoutOrder = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -4087,13 +4111,6 @@ export const zCartCheckoutQuestionResponse = z.object({
     existingAnswer: z.string().optional()
 });
 
-export const zCheckoutCustomer = z.object({
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ])
-});
-
 export const zSaveCustomerResponse = z.object({
     customerId: z.string()
 });
@@ -4240,6 +4257,7 @@ export const zCheckoutSetting = z.object({
     customerPhoneRequirement: zCheckoutFieldRequirement,
     customerCompanyNameRequirement: zCheckoutFieldRequirement,
     customerCompanyVatNumberRequirement: zCheckoutFieldRequirement,
+    customerBillingAddressRequirement: zCheckoutFieldRequirement,
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable()
 });
@@ -7146,6 +7164,66 @@ export const zImageResponse = z.object({
     storeId: z.string().nullable()
 });
 
+export const zBillingAddress = z.object({
+    firstName: z.string().max(255).optional(),
+    lastName: z.string().max(255).optional(),
+    companyName: z.string().max(255).optional(),
+    companyVatNumber: z.string().max(255).optional(),
+    addressLine1: z.string().max(255).optional(),
+    addressLine2: z.string().max(255).optional(),
+    city: z.string().max(255).optional(),
+    state: z.string().max(255).optional(),
+    postalCode: z.string().max(255).optional(),
+    country: z.string().max(255).optional()
+});
+
+export const zExistingOrderCustomer = z.object({
+    customerId: z.string(),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phone: z.string().nullish(),
+    billingAddress: zBillingAddress.optional()
+});
+
+export const zNewOrderCustomer = z.object({
+    externalId: z.string(),
+    email: z.string(),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phone: z.string().nullish(),
+    billingAddress: zBillingAddress.optional()
+});
+
+export const zStartCheckout = z.object({
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify'
+    ]),
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ]).optional()
+});
+
+export const zSubmitCheckout = z.object({
+    stripePaymentIntentId: z.string().optional(),
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ]).optional(),
+    appointmentsSettings: zCreateOrderAppointmentsSettings.optional(),
+    trackingData: zCheckoutTrackingData.optional()
+});
+
+export const zCheckoutCustomer = z.object({
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ])
+});
+
 export const zSelfServiceProfileResponseWritable = z.object({
     id: z.string(),
     externalId: z.string(),
@@ -7153,8 +7231,6 @@ export const zSelfServiceProfileResponseWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7163,6 +7239,8 @@ export const zSelfServiceProfileResponseWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7174,8 +7252,6 @@ export const zAppointmentCreatedCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7184,6 +7260,8 @@ export const zAppointmentCreatedCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7230,8 +7308,6 @@ export const zAppointmentListItemCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7240,6 +7316,8 @@ export const zAppointmentListItemCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7285,8 +7363,6 @@ export const zAppointmentDetailCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7295,6 +7371,8 @@ export const zAppointmentDetailCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7345,8 +7423,6 @@ export const zOrderListCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7355,6 +7431,8 @@ export const zOrderListCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7371,8 +7449,16 @@ export const zOrderListItemResponseWritable = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -7417,8 +7503,6 @@ export const zOrderDetailCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7427,6 +7511,8 @@ export const zOrderDetailCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7443,8 +7529,16 @@ export const zOrderDetailResponseWritable = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
@@ -7491,8 +7585,6 @@ export const zCartCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7501,6 +7593,8 @@ export const zCartCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7513,8 +7607,16 @@ export const zCartResponseWritable = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     status: z.enum([
         'active',
         'converted',
@@ -7543,8 +7645,6 @@ export const zCheckoutStartCartCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7553,6 +7653,8 @@ export const zCheckoutStartCartCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7565,8 +7667,16 @@ export const zCheckoutStartCartWritable = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     status: z.enum([
         'active',
         'converted',
@@ -7613,8 +7723,6 @@ export const zCheckoutOrderCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    companyName: z.string().nullable(),
-    companyVatNumber: z.string().nullable(),
     password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
@@ -7623,6 +7731,8 @@ export const zCheckoutOrderCustomerWritable = z.object({
     updatedAt: z.string().datetime().nullable(),
     emailVerifiedAt: z.string().datetime().nullable(),
     deletedAt: z.string().datetime().nullable(),
+    addresses: z.array(zCustomerAddress).optional(),
+    defaultAddress: zCustomerAddress.nullish(),
     isEmailVerified: z.boolean(),
     isPasswordSet: z.boolean()
 });
@@ -7639,8 +7749,16 @@ export const zCheckoutOrderWritable = z.object({
     customerLastName: z.string().nullish(),
     customerEmail: z.string().nullish(),
     customerPhone: z.string().nullish(),
-    customerCompanyName: z.string().nullish(),
-    customerCompanyVatNumber: z.string().nullish(),
+    billingFirstName: z.string().nullish(),
+    billingLastName: z.string().nullish(),
+    billingCompanyName: z.string().nullish(),
+    billingCompanyVatNumber: z.string().nullish(),
+    billingAddressLine1: z.string().nullish(),
+    billingAddressLine2: z.string().nullish(),
+    billingCity: z.string().nullish(),
+    billingState: z.string().nullish(),
+    billingPostalCode: z.string().nullish(),
+    billingCountry: z.string().nullish(),
     storeId: z.string().nullable(),
     cartId: z.string().nullable(),
     gclid: z.string().nullish(),
