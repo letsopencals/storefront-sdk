@@ -230,7 +230,7 @@ export const zAppointmentAddress = z.object({
     city: z.string().max(255).optional(),
     state: z.string().max(255).optional(),
     postalCode: z.string().max(255).optional(),
-    country: z.string().max(255).optional()
+    country: z.string().regex(/^[A-Z]{2}$/).optional()
 });
 
 export const zQuestionAnswer = z.object({
@@ -258,7 +258,11 @@ export const zCartItemAppliedDiscount = z.object({
     discountId: z.string(),
     title: z.string(),
     amountPerUnit: z.number(),
-    valueType: z.enum(['percentage', 'fixed_amount']),
+    valueType: z.enum([
+        'percentage',
+        'fixed_amount',
+        'time'
+    ]),
     value: z.number(),
     targetType: z.enum(['base', 'add_on'])
 });
@@ -358,6 +362,36 @@ export const zUpdateCustomerProfile = z.object({
 export const zUpdateCustomerPassword = z.object({
     currentPassword: z.string().optional(),
     newPassword: z.string()
+});
+
+export const zBillingAddress = z.object({
+    firstName: z.string().max(255).optional(),
+    lastName: z.string().max(255).optional(),
+    companyName: z.string().max(255).optional(),
+    companyVatNumber: z.string().max(255).optional(),
+    addressLine1: z.string().max(255).optional(),
+    addressLine2: z.string().max(255).optional(),
+    city: z.string().max(255).optional(),
+    state: z.string().max(255).optional(),
+    postalCode: z.string().max(255).optional(),
+    country: z.string().regex(/^[A-Z]{2}$/).optional()
+});
+
+export const zExistingOrderCustomer = z.object({
+    customerId: z.string(),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phone: z.string().nullish(),
+    billingAddress: zBillingAddress.optional()
+});
+
+export const zNewOrderCustomer = z.object({
+    externalId: z.string(),
+    email: z.string(),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    phone: z.string().nullish(),
+    billingAddress: zBillingAddress.optional()
 });
 
 export const zCheckoutQuestionAnswer = z.object({
@@ -523,6 +557,7 @@ export const zAppointmentCreatedLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -630,6 +665,7 @@ export const zAppointmentCreatedResponse = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -749,6 +785,7 @@ export const zAppointmentListItemLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -816,6 +853,7 @@ export const zAppointmentListItemResponse = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -934,6 +972,7 @@ export const zAppointmentDetailLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -1097,7 +1136,8 @@ export const zAppointmentDetailOrderTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -1214,6 +1254,7 @@ export const zAppointmentDetailOrderItemLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -1241,6 +1282,7 @@ export const zAppointmentDetailOrderItemAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -1439,6 +1481,7 @@ export const zAppointmentDetailResponse = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -1562,6 +1605,7 @@ export const zAppointmentLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -1642,6 +1686,7 @@ export const zAppointmentResponse = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -1781,6 +1826,7 @@ export const zLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -1943,6 +1989,7 @@ export const zOrderListAppointmentLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -1970,6 +2017,7 @@ export const zOrderListAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -2050,7 +2098,8 @@ export const zOrderListTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2246,6 +2295,7 @@ export const zOrderDetailAppointmentLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -2273,6 +2323,7 @@ export const zOrderDetailAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -2420,7 +2471,8 @@ export const zOrderDetailParentTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2459,7 +2511,8 @@ export const zOrderDetailChildTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2498,7 +2551,8 @@ export const zOrderDetailTransactionRefundTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2547,7 +2601,8 @@ export const zOrderDetailTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2599,7 +2654,8 @@ export const zOrderDetailRefundTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -2845,6 +2901,7 @@ export const zCartItemLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -2873,6 +2930,7 @@ export const zCartItemAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -3022,6 +3080,9 @@ export const zCartResponse = z.object({
     totalTax: z.number(),
     total: z.number(),
     appliedDiscounts: z.array(zAppliedDiscount),
+    creditCovered: z.number().nullish(),
+    creditRemaining: z.number().nullish(),
+    creditValueType: z.string().nullish(),
     customer: zCartCustomer.nullable(),
     items: z.array(zCartItem),
     payments: z.array(zCartPayment)
@@ -3038,6 +3099,20 @@ export const zAddCartAddOn = z.object({
 
 export const zUpdateCartAddOn = z.object({
     quantity: z.number().gte(1)
+});
+
+export const zStartCheckout = z.object({
+    provider: z.enum([
+        'stripe',
+        'cash',
+        'bank_transfer',
+        'shopify',
+        'no_payment_required'
+    ]),
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ]).optional()
 });
 
 export const zCheckoutStartCartCustomer = z.object({
@@ -3164,6 +3239,7 @@ export const zCheckoutStartCartItemLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -3192,6 +3268,7 @@ export const zCheckoutStartCartItemAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -3341,6 +3418,9 @@ export const zCheckoutStartCart = z.object({
     totalTax: z.number(),
     total: z.number(),
     appliedDiscounts: z.array(zAppliedDiscount),
+    creditCovered: z.number().nullish(),
+    creditRemaining: z.number().nullish(),
+    creditValueType: z.string().nullish(),
     customer: zCheckoutStartCartCustomer.nullish(),
     items: z.array(zCheckoutStartCartItem).optional(),
     payments: z.array(zCheckoutStartCartPayment).optional()
@@ -3351,7 +3431,8 @@ export const zCheckoutStartResponse = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
@@ -3366,6 +3447,16 @@ export const zCheckoutStartResponse = z.object({
 
 export const zCheckoutTrackingData = z.object({
     gclid: z.string().optional()
+});
+
+export const zSubmitCheckout = z.object({
+    stripePaymentIntentId: z.string().optional(),
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ]).optional(),
+    appointmentsSettings: zCreateOrderAppointmentsSettings.optional(),
+    trackingData: zCheckoutTrackingData.optional()
 });
 
 export const zCheckoutOrderCustomer = z.object({
@@ -3490,6 +3581,7 @@ export const zCheckoutOrderAppointmentLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -3570,6 +3662,7 @@ export const zCheckoutOrderAppointment = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -3718,7 +3811,8 @@ export const zCheckoutOrderParentTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -3757,7 +3851,8 @@ export const zCheckoutOrderChildTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -3796,7 +3891,8 @@ export const zCheckoutOrderTransactionRefundTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -3845,7 +3941,8 @@ export const zCheckoutOrderTransaction = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     status: z.enum([
         'pending',
@@ -4111,6 +4208,13 @@ export const zCartCheckoutQuestionResponse = z.object({
     existingAnswer: z.string().optional()
 });
 
+export const zCheckoutCustomer = z.object({
+    customer: z.union([
+        zExistingOrderCustomer,
+        zNewOrderCustomer
+    ])
+});
+
 export const zSaveCustomerResponse = z.object({
     customerId: z.string()
 });
@@ -4121,6 +4225,21 @@ export const zCheckoutQuestionAnswers = z.object({
 
 export const zApplyCode = z.object({
     code: z.string().max(64)
+});
+
+export const zDiscountCodeErrorResponse = z.object({
+    message: z.string(),
+    code: z.enum([
+        'CODE_NOT_FOUND',
+        'CODE_EXPIRED',
+        'CODE_DISABLED',
+        'CODE_LIMIT_REACHED',
+        'CODE_CUSTOMER_INELIGIBLE',
+        'CODE_NO_MATCHING_ITEMS',
+        'CODE_NO_CREDIT',
+        'minimum_requirement_not_met'
+    ]),
+    statusCode: z.number()
 });
 
 export const zSetting = z.object({
@@ -4316,6 +4435,7 @@ export const zProductSlugVariantStaffMemberLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -4379,6 +4499,7 @@ export const zProductSlugVariantLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -4561,6 +4682,7 @@ export const zProductDetailLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -4937,6 +5059,7 @@ export const zProductExternalIdLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -5152,6 +5275,7 @@ export const zProductExternalVariantLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -5621,6 +5745,7 @@ export const zProductListVariantStaffMemberLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -5684,6 +5809,7 @@ export const zProductListVariantLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -5966,6 +6092,7 @@ export const zAddOnListLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -6179,6 +6306,7 @@ export const zLocationDetailResponse = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -6381,6 +6509,7 @@ export const zStaffMemberDetailLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -6548,6 +6677,7 @@ export const zStaffMemberListLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -6596,6 +6726,7 @@ export const zAddOnDetailLocation = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullish(),
     addressPlaceId: z.string().nullable(),
     latitude: z.number().nullable(),
     longitude: z.number().nullable(),
@@ -6741,14 +6872,16 @@ export const zCustomerProviderCatalogItem = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     displayName: z.string(),
     description: z.string().optional(),
     checkoutMode: z.enum([
         'internal',
         'redirect',
-        'manual'
+        'manual',
+        'none'
     ]),
     icon: z.string().optional(),
     mode: z.enum(['test', 'live']).optional()
@@ -6774,8 +6907,10 @@ export const zInvoiceResponse = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
+    kind: z.enum(['collectible', 'receipt']),
     status: z.enum([
         'draft',
         'sent',
@@ -6787,6 +6922,7 @@ export const zInvoiceResponse = z.object({
     currencyCode: z.string(),
     snapshot: z.record(z.unknown()),
     externalId: z.string(),
+    paymentIntentId: z.string().nullable(),
     externalUrl: z.string(),
     pdfStorageKey: z.string(),
     error: z.string(),
@@ -7164,66 +7300,6 @@ export const zImageResponse = z.object({
     storeId: z.string().nullable()
 });
 
-export const zBillingAddress = z.object({
-    firstName: z.string().max(255).optional(),
-    lastName: z.string().max(255).optional(),
-    companyName: z.string().max(255).optional(),
-    companyVatNumber: z.string().max(255).optional(),
-    addressLine1: z.string().max(255).optional(),
-    addressLine2: z.string().max(255).optional(),
-    city: z.string().max(255).optional(),
-    state: z.string().max(255).optional(),
-    postalCode: z.string().max(255).optional(),
-    country: z.string().max(255).optional()
-});
-
-export const zExistingOrderCustomer = z.object({
-    customerId: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    phone: z.string().nullish(),
-    billingAddress: zBillingAddress.optional()
-});
-
-export const zNewOrderCustomer = z.object({
-    externalId: z.string(),
-    email: z.string(),
-    firstName: z.string().nullish(),
-    lastName: z.string().nullish(),
-    phone: z.string().nullish(),
-    billingAddress: zBillingAddress.optional()
-});
-
-export const zStartCheckout = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify'
-    ]),
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ]).optional()
-});
-
-export const zSubmitCheckout = z.object({
-    stripePaymentIntentId: z.string().optional(),
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ]).optional(),
-    appointmentsSettings: zCreateOrderAppointmentsSettings.optional(),
-    trackingData: zCheckoutTrackingData.optional()
-});
-
-export const zCheckoutCustomer = z.object({
-    customer: z.union([
-        zExistingOrderCustomer,
-        zNewOrderCustomer
-    ])
-});
-
 export const zSelfServiceProfileResponseWritable = z.object({
     id: z.string(),
     externalId: z.string(),
@@ -7284,6 +7360,7 @@ export const zAppointmentCreatedResponseWritable = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -7340,6 +7417,7 @@ export const zAppointmentListItemResponseWritable = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -7395,6 +7473,7 @@ export const zAppointmentDetailResponseWritable = z.object({
     state: z.string().nullable(),
     postalCode: z.string().nullable(),
     country: z.string().nullable(),
+    displayAddress: z.string().nullable(),
     status: zAppointmentStatusType,
     internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
@@ -7633,6 +7712,9 @@ export const zCartResponseWritable = z.object({
     totalTax: z.number(),
     total: z.number(),
     appliedDiscounts: z.array(zAppliedDiscount),
+    creditCovered: z.number().nullish(),
+    creditRemaining: z.number().nullish(),
+    creditValueType: z.string().nullish(),
     customer: zCartCustomerWritable.nullable(),
     items: z.array(zCartItem),
     payments: z.array(zCartPayment)
@@ -7693,6 +7775,9 @@ export const zCheckoutStartCartWritable = z.object({
     totalTax: z.number(),
     total: z.number(),
     appliedDiscounts: z.array(zAppliedDiscount),
+    creditCovered: z.number().nullish(),
+    creditRemaining: z.number().nullish(),
+    creditValueType: z.string().nullish(),
     customer: zCheckoutStartCartCustomerWritable.nullish(),
     items: z.array(zCheckoutStartCartItem).optional(),
     payments: z.array(zCheckoutStartCartPayment).optional()
@@ -7703,7 +7788,8 @@ export const zCheckoutStartResponseWritable = z.object({
         'stripe',
         'cash',
         'bank_transfer',
-        'shopify'
+        'shopify',
+        'no_payment_required'
     ]),
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
@@ -8449,6 +8535,10 @@ export const zAddOnGetBySlugPath = z.object({
  * Add-on returned
  */
 export const zAddOnGetBySlugResponse = zAddOnDetailResponse;
+
+export const zPaymentGetAvailableProvidersHeaders = z.object({
+    'X-Cart-Id': z.string()
+});
 
 /**
  * List of available payment providers

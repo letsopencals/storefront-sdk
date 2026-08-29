@@ -206,7 +206,7 @@ export type AppointmentAddress = {
      */
     postalCode?: string;
     /**
-     * Country of the appointment location
+     * 2-letter ISO 3166-1 alpha-2 country code (uppercase) of the appointment location
      */
     country?: string;
 };
@@ -334,7 +334,7 @@ export type CartItemAppliedDiscount = {
     /**
      * Value type of the discount
      */
-    valueType: 'percentage' | 'fixed_amount';
+    valueType: 'percentage' | 'fixed_amount' | 'time';
     /**
      * Configured discount value (percentage or fixed amount)
      */
@@ -595,6 +595,49 @@ export type UpdateCustomerPassword = {
      * New password
      */
     newPassword: string;
+};
+
+export type BillingAddress = {
+    /**
+     * First name of the bill-to party
+     */
+    firstName?: string;
+    /**
+     * Last name of the bill-to party
+     */
+    lastName?: string;
+    /**
+     * Company name
+     */
+    companyName?: string;
+    /**
+     * Company VAT number
+     */
+    companyVatNumber?: string;
+    /**
+     * First line of the billing address
+     */
+    addressLine1?: string;
+    /**
+     * Second line of the billing address
+     */
+    addressLine2?: string;
+    /**
+     * City
+     */
+    city?: string;
+    /**
+     * State/province
+     */
+    state?: string;
+    /**
+     * Postal/zip code
+     */
+    postalCode?: string;
+    /**
+     * 2-letter ISO 3166-1 alpha-2 country code (uppercase)
+     */
+    country?: string;
 };
 
 export type CheckoutQuestionAnswer = {
@@ -1039,6 +1082,10 @@ export type AppointmentCreatedLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -1326,6 +1373,10 @@ export type AppointmentCreatedResponse = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -1664,6 +1715,10 @@ export type AppointmentListItemLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -1901,6 +1956,10 @@ export type AppointmentListItemResponse = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -2234,6 +2293,10 @@ export type AppointmentDetailLocation = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -2655,7 +2718,7 @@ export type AppointmentDetailOrderTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -2966,6 +3029,10 @@ export type AppointmentDetailOrderItemLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -3064,6 +3131,10 @@ export type AppointmentDetailOrderItemAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -3654,6 +3725,10 @@ export type AppointmentDetailResponse = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -4008,6 +4083,10 @@ export type AppointmentLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -4208,6 +4287,10 @@ export type AppointmentResponse = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -4598,6 +4681,10 @@ export type Location = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -5055,6 +5142,10 @@ export type OrderListAppointmentLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -5153,6 +5244,10 @@ export type OrderListAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -5387,7 +5482,7 @@ export type OrderListTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -5941,6 +6036,10 @@ export type OrderDetailAppointmentLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -6039,6 +6138,10 @@ export type OrderDetailAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -6422,7 +6525,7 @@ export type OrderDetailParentTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -6491,7 +6594,7 @@ export type OrderDetailChildTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -6560,7 +6663,7 @@ export type OrderDetailTransactionRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -6660,7 +6763,7 @@ export type OrderDetailTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -6772,7 +6875,7 @@ export type OrderDetailRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -7456,6 +7559,10 @@ export type CartItemLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -7558,6 +7665,10 @@ export type CartItemAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -7972,6 +8083,18 @@ export type CartResponse = {
      */
     appliedDiscounts: Array<AppliedDiscount>;
     /**
+     * Amount of credit consumed by this cart (minutes or currency; null if no credit applied)
+     */
+    creditCovered?: number | null;
+    /**
+     * Credit balance remaining after this booking (minutes or currency; null if none)
+     */
+    creditRemaining?: number | null;
+    /**
+     * Value type of the applied credit ('time' or 'fixed_amount'); null if none
+     */
+    creditValueType?: string | null;
+    /**
      * Customer who owns the cart
      */
     customer: CartCustomer | null;
@@ -8014,7 +8137,7 @@ export type StartCheckout = {
     /**
      * Payment provider to use for this checkout
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * Customer information to attach to the cart and appointments
      */
@@ -8377,6 +8500,10 @@ export type CheckoutStartCartItemLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -8479,6 +8606,10 @@ export type CheckoutStartCartItemAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -8893,6 +9024,18 @@ export type CheckoutStartCart = {
      */
     appliedDiscounts: Array<AppliedDiscount>;
     /**
+     * Amount of credit consumed by this cart (minutes or currency; null if no credit applied)
+     */
+    creditCovered?: number | null;
+    /**
+     * Credit balance remaining after this booking (minutes or currency; null if none)
+     */
+    creditRemaining?: number | null;
+    /**
+     * Value type of the applied credit ('time' or 'fixed_amount'); null if none
+     */
+    creditValueType?: string | null;
+    /**
      * Customer who owns the cart
      */
     customer?: CheckoutStartCartCustomer | null;
@@ -8910,7 +9053,7 @@ export type CheckoutStartResponse = {
     /**
      * Payment provider used
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * Stripe client secret for payment confirmation
      */
@@ -9323,6 +9466,10 @@ export type CheckoutOrderAppointmentLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -9523,6 +9670,10 @@ export type CheckoutOrderAppointment = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -9910,7 +10061,7 @@ export type CheckoutOrderParentTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -9979,7 +10130,7 @@ export type CheckoutOrderChildTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -10048,7 +10199,7 @@ export type CheckoutOrderTransactionRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -10148,7 +10299,7 @@ export type CheckoutOrderTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * The status of the transaction
      */
@@ -10531,6 +10682,21 @@ export type ApplyCode = {
      * Promo code to apply
      */
     code: string;
+};
+
+export type DiscountCodeErrorResponse = {
+    /**
+     * Human-readable reason the code could not be applied
+     */
+    message: string;
+    /**
+     * Machine-readable reason code
+     */
+    code: 'CODE_NOT_FOUND' | 'CODE_EXPIRED' | 'CODE_DISABLED' | 'CODE_LIMIT_REACHED' | 'CODE_CUSTOMER_INELIGIBLE' | 'CODE_NO_MATCHING_ITEMS' | 'CODE_NO_CREDIT' | 'minimum_requirement_not_met';
+    /**
+     * HTTP status code
+     */
+    statusCode: number;
 };
 
 export type Setting = {
@@ -11117,6 +11283,10 @@ export type ProductSlugVariantStaffMemberLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -11325,6 +11495,10 @@ export type ProductSlugVariantLocation = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -11817,6 +11991,10 @@ export type ProductDetailLocation = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -12757,6 +12935,10 @@ export type ProductExternalIdLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -13345,6 +13527,10 @@ export type ProductExternalVariantLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -13854,6 +14040,10 @@ export type ProductListVariantStaffMemberLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -14062,6 +14252,10 @@ export type ProductListVariantLocation = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -14772,6 +14966,10 @@ export type AddOnListLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -15321,6 +15519,10 @@ export type LocationDetailResponse = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -15844,6 +16046,10 @@ export type StaffMemberDetailLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -16279,6 +16485,10 @@ export type StaffMemberListLocation = {
      */
     country: string | null;
     /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
+    /**
      * Google Place ID for the physical address
      */
     addressPlaceId: string | null;
@@ -16436,6 +16646,10 @@ export type AddOnDetailLocation = {
      * Country for physical locations
      */
     country: string | null;
+    /**
+     * Merchant-defined display address that overrides the auto-formatted address (emails, booking page). Null falls back to the concatenated address fields.
+     */
+    displayAddress?: string | null;
     /**
      * Google Place ID for the physical address
      */
@@ -16783,7 +16997,7 @@ export type CustomerProviderCatalogItem = {
     /**
      * Provider identifier
      */
-    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * Display name for UI
      */
@@ -16795,7 +17009,7 @@ export type CustomerProviderCatalogItem = {
     /**
      * Checkout integration mode
      */
-    checkoutMode: 'internal' | 'redirect' | 'manual';
+    checkoutMode: 'internal' | 'redirect' | 'manual' | 'none';
     /**
      * Icon identifier
      */
@@ -16836,7 +17050,11 @@ export type InvoiceResponse = {
     /**
      * Provider used to issue the invoice
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    /**
+     * Whether this is a collectible invoice or a paid receipt
+     */
+    kind: 'collectible' | 'receipt';
     status: 'draft' | 'sent' | 'paid' | 'void' | 'failed';
     /**
      * Outstanding amount this invoice is for
@@ -16856,6 +17074,10 @@ export type InvoiceResponse = {
      * External invoice id (Stripe invoice id / Shopify reference)
      */
     externalId: string;
+    /**
+     * For receipts: the Stripe PaymentIntent (pi_...) this receipt documents. Null for collectible invoices.
+     */
+    paymentIntentId: string | null;
     /**
      * Hosted invoice / payment URL (e.g. Stripe hosted_invoice_url)
      */
@@ -17139,49 +17361,6 @@ export type ImageResponse = {
     storeId: string | null;
 };
 
-export type BillingAddress = {
-    /**
-     * First name of the bill-to party
-     */
-    firstName?: string;
-    /**
-     * Last name of the bill-to party
-     */
-    lastName?: string;
-    /**
-     * Company name
-     */
-    companyName?: string;
-    /**
-     * Company VAT number
-     */
-    companyVatNumber?: string;
-    /**
-     * First line of the billing address
-     */
-    addressLine1?: string;
-    /**
-     * Second line of the billing address
-     */
-    addressLine2?: string;
-    /**
-     * City
-     */
-    city?: string;
-    /**
-     * State/province
-     */
-    state?: string;
-    /**
-     * Postal/zip code
-     */
-    postalCode?: string;
-    /**
-     * Country
-     */
-    country?: string;
-};
-
 export type SelfServiceProfileResponseWritable = {
     /**
      * Unique identifier of the customer
@@ -17395,6 +17574,10 @@ export type AppointmentCreatedResponseWritable = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -17594,6 +17777,10 @@ export type AppointmentListItemResponseWritable = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -17789,6 +17976,10 @@ export type AppointmentDetailResponseWritable = {
      * Country of the appointment location
      */
     country: string | null;
+    /**
+     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     */
+    displayAddress: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -18555,6 +18746,18 @@ export type CartResponseWritable = {
      */
     appliedDiscounts: Array<AppliedDiscount>;
     /**
+     * Amount of credit consumed by this cart (minutes or currency; null if no credit applied)
+     */
+    creditCovered?: number | null;
+    /**
+     * Credit balance remaining after this booking (minutes or currency; null if none)
+     */
+    creditRemaining?: number | null;
+    /**
+     * Value type of the applied credit ('time' or 'fixed_amount'); null if none
+     */
+    creditValueType?: string | null;
+    /**
      * Customer who owns the cart
      */
     customer: CartCustomerWritable | null;
@@ -18758,6 +18961,18 @@ export type CheckoutStartCartWritable = {
      */
     appliedDiscounts: Array<AppliedDiscount>;
     /**
+     * Amount of credit consumed by this cart (minutes or currency; null if no credit applied)
+     */
+    creditCovered?: number | null;
+    /**
+     * Credit balance remaining after this booking (minutes or currency; null if none)
+     */
+    creditRemaining?: number | null;
+    /**
+     * Value type of the applied credit ('time' or 'fixed_amount'); null if none
+     */
+    creditValueType?: string | null;
+    /**
      * Customer who owns the cart
      */
     customer?: CheckoutStartCartCustomerWritable | null;
@@ -18775,7 +18990,7 @@ export type CheckoutStartResponseWritable = {
     /**
      * Payment provider used
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify';
+    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
     /**
      * Stripe client secret for payment confirmation
      */
@@ -19928,6 +20143,15 @@ export type CartDiscountApplyCodeData = {
     url: '/storefront/cart/discount-code';
 };
 
+export type CartDiscountApplyCodeErrors = {
+    /**
+     * The code could not be applied
+     */
+    400: DiscountCodeErrorResponse;
+};
+
+export type CartDiscountApplyCodeError = CartDiscountApplyCodeErrors[keyof CartDiscountApplyCodeErrors];
+
 export type CartDiscountApplyCodeResponses = {
     /**
      * Cart with discount applied
@@ -20570,6 +20794,9 @@ export type AddOnGetBySlugResponse = AddOnGetBySlugResponses[keyof AddOnGetBySlu
 
 export type PaymentGetAvailableProvidersData = {
     body?: never;
+    headers: {
+        'X-Cart-Id': string;
+    };
     path?: never;
     query?: never;
     url: '/storefront/payment/providers';

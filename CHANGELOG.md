@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.13 (2026-08-29)
+
+### Added
+
+- **Credit discount fields on cart discount responses:** `creditCovered`, `creditRemaining` and
+  `creditValueType`, plus the `time` discount value type.
+- **`no_payment_required` payment provider + `none` checkout mode.** The payment-provider catalog is
+  now amount-aware: a fully-discounted or sub-minimum cart returns a single `no_payment_required`
+  provider (`checkoutMode: 'none'`), which the storefront renders as a "Confirm booking" step with no
+  card entry. `PaymentProviderName` and the checkout-start `provider` field gain this value.
+
+- Regenerated client types and zod schemas from the updated OpenAPI spec.
+
 ## 0.3.12 (2026-08-08)
 
 ### Breaking
