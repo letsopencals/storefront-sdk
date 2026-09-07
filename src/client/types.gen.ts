@@ -1834,11 +1834,11 @@ export type AppointmentListItemOrderLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -1858,23 +1858,31 @@ export type AppointmentListItemOrderLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**
@@ -3282,11 +3290,11 @@ export type AppointmentDetailOrderItemAddOn = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -3306,15 +3314,23 @@ export type AppointmentDetailOrderItemAddOn = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of this add-on line item
+     * Original subtotal of this add-on across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * Total amount of this add-on line item (including tax when not included in price)
+     * Total discount applied to this add-on, across all quantities (approximate)
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * Total tax for this add-on line item
+     * Discounted subtotal of this add-on (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
      */
     totalTax: number;
     /**
@@ -3349,11 +3365,11 @@ export type AppointmentDetailOrderItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -3373,23 +3389,31 @@ export type AppointmentDetailOrderItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**
@@ -3599,11 +3623,11 @@ export type AppointmentDetailOrderLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -3623,23 +3647,31 @@ export type AppointmentDetailOrderLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**
@@ -5320,11 +5352,11 @@ export type OrderListAddOnLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -5344,15 +5376,23 @@ export type OrderListAddOnLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of this add-on line item
+     * Original subtotal of this add-on across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * Total amount of this add-on line item (including tax when not included in price)
+     * Total discount applied to this add-on, across all quantities (approximate)
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * Total tax for this add-on line item
+     * Discounted subtotal of this add-on (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
      */
     totalTax: number;
     /**
@@ -5383,11 +5423,11 @@ export type OrderListLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -5407,23 +5447,31 @@ export type OrderListLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**
@@ -6320,11 +6368,11 @@ export type OrderDetailAddOnLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -6344,15 +6392,23 @@ export type OrderDetailAddOnLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of this add-on line item
+     * Original subtotal of this add-on across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * Total amount of this add-on line item (including tax when not included in price)
+     * Total discount applied to this add-on, across all quantities (approximate)
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * Total tax for this add-on line item
+     * Discounted subtotal of this add-on (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
      */
     totalTax: number;
     /**
@@ -6422,11 +6478,11 @@ export type OrderDetailLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -6446,23 +6502,31 @@ export type OrderDetailLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**
@@ -7812,11 +7876,11 @@ export type CartAddOnItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -7839,6 +7903,26 @@ export type CartAddOnItem = {
      * Applied discounts on this add-on item
      */
     discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * Original subtotal of this add-on across all quantities, before discount
+     */
+    originalSubtotal: number;
+    /**
+     * Total discount applied to this add-on, across all quantities (approximate)
+     */
+    totalDiscount: number;
+    /**
+     * Discounted subtotal of this add-on (subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
+     */
+    totalTax: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
     /**
      * The add-on details
      */
@@ -7863,11 +7947,11 @@ export type CartItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -7891,13 +7975,33 @@ export type CartItem = {
      */
     discounts: Array<CartItemAppliedDiscount>;
     /**
-     * Subtotal of the cart item including its add-ons
+     * Original subtotal of the base line across all quantities, before discount
      */
-    lineSubtotal: number;
+    originalSubtotal: number;
     /**
-     * Total tax for the cart item including its add-ons
+     * Exact total discount applied to the base line, across all quantities
      */
-    lineTax: number;
+    totalDiscount: number;
+    /**
+     * Discounted subtotal of the base line (subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
+     */
+    totalTax: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Discounted subtotal of this line’s add-ons, before tax
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of this line’s add-ons (approximate)
+     */
+    addOnTotalTax: number;
     /**
      * Appointment for this cart item
      */
@@ -8753,11 +8857,11 @@ export type CheckoutStartCartAddOnItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -8780,6 +8884,26 @@ export type CheckoutStartCartAddOnItem = {
      * Applied discounts on this add-on item
      */
     discounts: Array<CartItemAppliedDiscount>;
+    /**
+     * Original subtotal of this add-on across all quantities, before discount
+     */
+    originalSubtotal: number;
+    /**
+     * Total discount applied to this add-on, across all quantities (approximate)
+     */
+    totalDiscount: number;
+    /**
+     * Discounted subtotal of this add-on (subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
+     */
+    totalTax: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
     /**
      * The add-on details
      */
@@ -8804,11 +8928,11 @@ export type CheckoutStartCartItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -8832,13 +8956,33 @@ export type CheckoutStartCartItem = {
      */
     discounts: Array<CartItemAppliedDiscount>;
     /**
-     * Subtotal of the cart item including its add-ons
+     * Original subtotal of the base line across all quantities, before discount
      */
-    lineSubtotal: number;
+    originalSubtotal: number;
     /**
-     * Total tax for the cart item including its add-ons
+     * Exact total discount applied to the base line, across all quantities
      */
-    lineTax: number;
+    totalDiscount: number;
+    /**
+     * Discounted subtotal of the base line (subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
+     */
+    totalTax: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Discounted subtotal of this line’s add-ons, before tax
+     */
+    addOnSubtotal: number;
+    /**
+     * Total tax of this line’s add-ons (approximate)
+     */
+    addOnTotalTax: number;
     /**
      * Appointment for this cart item
      */
@@ -9856,11 +10000,11 @@ export type CheckoutOrderAddOnLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted unit price
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Unit tax amount
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -9880,15 +10024,23 @@ export type CheckoutOrderAddOnLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of this add-on line item
+     * Original subtotal of this add-on across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * Total amount of this add-on line item (including tax when not included in price)
+     * Total discount applied to this add-on, across all quantities (approximate)
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * Total tax for this add-on line item
+     * Discounted subtotal of this add-on (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of this add-on line item, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax for this add-on line item (approximate)
      */
     totalTax: number;
     /**
@@ -9958,11 +10110,11 @@ export type CheckoutOrderLineItem = {
      */
     originalUnitPrice: number;
     /**
-     * Discounted price of the item
+     * Discounted price per unit (approximate — use the line totals for exact amounts)
      */
     discountedUnitPrice: number;
     /**
-     * Tax amount applied to the item. It can be included in the original price or discounted price if the taxes are included in the order subtotal.
+     * Tax amount per unit (approximate — use the line totals for exact amounts)
      */
     unitTaxAmount: number;
     /**
@@ -9982,23 +10134,31 @@ export type CheckoutOrderLineItem = {
      */
     deletedAt: string | null;
     /**
-     * Subtotal of the add-ons attached to this line item
+     * Discounted subtotal of the add-ons attached to this line item, before tax
      */
     addOnSubtotal: number;
     /**
-     * Total tax of the add-ons attached to this line item
+     * Total tax of the add-ons attached to this line item (approximate)
      */
     addOnTotalTax: number;
     /**
-     * The total amount of the line item
+     * Original subtotal of the base line across all quantities, before discount
      */
-    subtotal: number;
+    originalSubtotal: number;
     /**
-     * The total amount of the line item
+     * Exact total discount applied to the base line, across all quantities
      */
-    total: number;
+    totalDiscount: number;
     /**
-     * The total amount of the line item
+     * Discounted subtotal of the base line (original subtotal − total discount), before tax
+     */
+    discountedSubtotal: number;
+    /**
+     * Discounted total of the base line, including tax when not already in the price
+     */
+    discountedTotal: number;
+    /**
+     * Total tax of the base line across all quantities (approximate)
      */
     totalTax: number;
     /**

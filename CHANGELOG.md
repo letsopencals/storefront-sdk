@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.3.14 (2026-09-07)
+
+### Breaking
+
+Per-line money fields were replaced with a single, exact naming scheme. Update any code that reads
+per-line totals — the removed fields are no longer returned:
+
+- **Removed** cart item `lineSubtotal` / `lineTax`.
+- **Removed** order line item and add-on line item `subtotal` / `total`.
+- **Migration:** use the new fields below — order/cart line `subtotal` → `discountedSubtotal`, order/cart
+  line `total` → `discountedTotal`, `lineSubtotal` → `discountedSubtotal` (+ `addOnSubtotal`), `lineTax`
+  → `totalTax` (+ `addOnTotalTax`).
+- Order- and cart-level aggregate `subtotal` / `total` / `totalTax` are unchanged.
+
+### Fixed
+
+- **Fixed-amount and credit discounts on multi-quantity lines.** A fixed-amount discount (including a
+  credit-balance code) applied to a line with `quantity > 1` was applied per unit, over-discounting the
+  line (a £100 credit zeroed a 3 × £75 = £225 line) while under-draining the credit balance. Discounts
+  now apply against the whole line, so a £100 credit covers exactly £100 of £225.
+
+### Added
+
+Exact, whole-line money fields on every line item and add-on line item (cart and order):
+
+- `originalSubtotal` — original subtotal across all quantities, before discount.
+- `totalDiscount` — exact total discount applied to the line.
+- `discountedSubtotal` — exact net subtotal (originalSubtotal − totalDiscount), before tax.
+- `discountedTotal` — discounted total, including tax when not already in the price.
+- `totalTax` on cart items; `addOnSubtotal` / `addOnTotalTax` on cart/order line items.
+
+### Changed
+
+- `discountedUnitPrice` and `unitTaxAmount` are documented as **approximate** per-unit display values
+  (they may not divide the exact line total evenly). Use the whole-line fields above for exact amounts.
+- Regenerated client types and zod schemas from the updated OpenAPI spec.
+
 ## 0.3.13 (2026-08-29)
 
 ### Added
