@@ -46,11 +46,6 @@ export type AppointmentStatusType = 'pending' | 'scheduled' | 'completed' | 'can
  */
 export type AppointmentCreatedByEnum = 'customer' | 'merchant';
 
-/**
- * Severity level of the log entry
- */
-export type OrderLogLevel = 'info' | 'error';
-
 export type CustomerAddress = {
     /**
      * Unique identifier of the address
@@ -77,9 +72,9 @@ export type CustomerAddress = {
      */
     companyName?: string | null;
     /**
-     * Company VAT number
+     * Tax registration identifier (VAT / GST / ABN / EIN / …) of the party at this address
      */
-    companyVatNumber?: string | null;
+    taxRegistrationId?: string | null;
     /**
      * First line of the address
      */
@@ -105,6 +100,14 @@ export type CustomerAddress = {
      */
     country?: string | null;
     /**
+     * Contact email for this address
+     */
+    email?: string | null;
+    /**
+     * Contact phone number for this address
+     */
+    phone?: string | null;
+    /**
      * Whether this is the default address for the customer
      */
     isDefault: boolean;
@@ -123,9 +126,24 @@ export type CustomerAddress = {
 };
 
 /**
+ * Severity level of the log entry
+ */
+export type OrderLogLevel = 'info' | 'error';
+
+/**
  * Requirement level for the customer billing address (street fields) at checkout. When required, address line 1, city, postal code and country are mandatory.
  */
 export type CheckoutFieldRequirement = 'hidden' | 'optional' | 'required';
+
+/**
+ * Where the WhatsApp marketing opt-in checkbox is shown
+ */
+export type MarketingOptInDisplay = 'dont_show' | 'checkout_only' | 'checkout_and_account';
+
+/**
+ * WhatsApp marketing consent state
+ */
+export type MarketingConsentState = 'not_subscribed' | 'subscribed' | 'unsubscribed';
 
 export type AppointmentDateRangeSlot = {
     /**
@@ -182,33 +200,6 @@ export type NewAppointmentCustomer = {
      * Last name of the new customer
      */
     lastName?: string | null;
-};
-
-export type AppointmentAddress = {
-    /**
-     * First line of the appointment address
-     */
-    addressLine1?: string;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2?: string;
-    /**
-     * City of the appointment location
-     */
-    city?: string;
-    /**
-     * State/province of the appointment location
-     */
-    state?: string;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode?: string;
-    /**
-     * 2-letter ISO 3166-1 alpha-2 country code (uppercase) of the appointment location
-     */
-    country?: string;
 };
 
 export type QuestionAnswer = {
@@ -289,6 +280,14 @@ export type ExistingOrderCustomer = {
      * Billing address for this checkout (carries company + VAT). Saved to the address book.
      */
     billingAddress?: BillingAddress;
+    /**
+     * Per-channel marketing opt-in captured at checkout, recorded against the customer address.
+     */
+    marketingConsent?: MarketingConsentInput;
+    /**
+     * Delivery/shipping address for DELIVERY-type services. One per order, applied to every delivery appointment and mapped to the Shopify order shipping address.
+     */
+    deliveryAddress?: Address;
 };
 
 export type NewOrderCustomer = {
@@ -316,6 +315,89 @@ export type NewOrderCustomer = {
      * Billing address for this checkout (carries company + VAT). Saved to the address book.
      */
     billingAddress?: BillingAddress;
+    /**
+     * Per-channel marketing opt-in captured at checkout, recorded against the customer address.
+     */
+    marketingConsent?: MarketingConsentInput;
+    /**
+     * Delivery/shipping address for services with delivery location selected. One per order, applied to every delivery appointment.
+     */
+    deliveryAddress?: Address;
+};
+
+export type DeliveryAddress = {
+    /**
+     * Unique identifier of the address
+     */
+    id: string;
+    /**
+     * ID of the store that owns this address
+     */
+    storeId: string;
+    /**
+     * ID of the customer this address belongs to
+     */
+    customerId: string;
+    /**
+     * First name of the party
+     */
+    firstName?: string | null;
+    /**
+     * Last name of the party
+     */
+    lastName?: string | null;
+    /**
+     * Company name
+     */
+    companyName?: string | null;
+    /**
+     * First line of the address
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the address
+     */
+    addressLine2?: string | null;
+    /**
+     * City
+     */
+    city?: string | null;
+    /**
+     * State/province
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code
+     */
+    postalCode?: string | null;
+    /**
+     * Country
+     */
+    country?: string | null;
+    /**
+     * Contact email for this address
+     */
+    email?: string | null;
+    /**
+     * Contact phone number for this address
+     */
+    phone?: string | null;
+    /**
+     * Whether this is the default address for the customer
+     */
+    isDefault: boolean;
+    /**
+     * When the address was created
+     */
+    createdAt: string;
+    /**
+     * When the address was last updated
+     */
+    updatedAt: string | null;
+    /**
+     * Address street lines formatted as a single line
+     */
+    formattedAddress: string;
 };
 
 export type CartItemAppliedDiscount = {
@@ -554,14 +636,6 @@ export type SelfServiceProfileResponse = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -586,6 +660,63 @@ export type UpdateCustomerProfile = {
     phone?: string;
 };
 
+export type MarketingConsentResponse = {
+    /**
+     * Unique identifier of the marketing consent row
+     */
+    id: string;
+    /**
+     * ID of the store that owns this consent
+     */
+    storeId: string;
+    /**
+     * ID of the customer this consent belongs to
+     */
+    customerId: string;
+    /**
+     * ID of the customer address this consent is attached to
+     */
+    customerAddressId: string;
+    emailState: MarketingConsentState;
+    /**
+     * When the email consent state last changed
+     */
+    emailUpdatedAt: string | null;
+    smsState: MarketingConsentState;
+    /**
+     * When the SMS consent state last changed
+     */
+    smsUpdatedAt: string | null;
+    whatsappState: MarketingConsentState;
+    /**
+     * When the WhatsApp consent state last changed
+     */
+    whatsappUpdatedAt: string | null;
+    /**
+     * When the consent row was created
+     */
+    createdAt: string;
+    /**
+     * When the consent row was last updated
+     */
+    updatedAt: string | null;
+};
+
+export type MarketingConsentInput = {
+    /**
+     * Whether the customer is subscribed to email marketing
+     */
+    email?: boolean;
+    /**
+     * Whether the customer is subscribed to SMS marketing
+     */
+    sms?: boolean;
+    /**
+     * Whether the customer is subscribed to WhatsApp marketing
+     */
+    whatsapp?: boolean;
+};
+
 export type UpdateCustomerPassword = {
     /**
      * Current password (required if user already has a password)
@@ -599,11 +730,11 @@ export type UpdateCustomerPassword = {
 
 export type BillingAddress = {
     /**
-     * First name of the bill-to party
+     * First name of the party
      */
     firstName?: string;
     /**
-     * Last name of the bill-to party
+     * Last name of the party
      */
     lastName?: string;
     /**
@@ -611,15 +742,11 @@ export type BillingAddress = {
      */
     companyName?: string;
     /**
-     * Company VAT number
-     */
-    companyVatNumber?: string;
-    /**
-     * First line of the billing address
+     * First line of the address
      */
     addressLine1?: string;
     /**
-     * Second line of the billing address
+     * Second line of the address
      */
     addressLine2?: string;
     /**
@@ -638,6 +765,65 @@ export type BillingAddress = {
      * 2-letter ISO 3166-1 alpha-2 country code (uppercase)
      */
     country?: string;
+    /**
+     * Contact email for this address
+     */
+    email?: string;
+    /**
+     * Contact phone number for this address
+     */
+    phone?: string;
+    /**
+     * The bill-to party's tax registration identifier (VAT / GST / ABN / EIN / …).
+     */
+    taxRegistrationId?: string;
+};
+
+export type Address = {
+    /**
+     * First name of the party
+     */
+    firstName?: string;
+    /**
+     * Last name of the party
+     */
+    lastName?: string;
+    /**
+     * Company name
+     */
+    companyName?: string;
+    /**
+     * First line of the address
+     */
+    addressLine1?: string;
+    /**
+     * Second line of the address
+     */
+    addressLine2?: string;
+    /**
+     * City
+     */
+    city?: string;
+    /**
+     * State/province
+     */
+    state?: string;
+    /**
+     * Postal/zip code
+     */
+    postalCode?: string;
+    /**
+     * 2-letter ISO 3166-1 alpha-2 country code (uppercase)
+     */
+    country?: string;
+    /**
+     * Contact email for this address
+     */
+    email?: string;
+    /**
+     * Contact phone number for this address
+     */
+    phone?: string;
 };
 
 export type CheckoutQuestionAnswer = {
@@ -691,9 +877,9 @@ export type CreateAppointment = {
      */
     internalNote?: string;
     /**
-     * Address details for the appointment
+     * Customer delivery/service address for a DELIVERY-location appointment (Shopify MailingAddress shape: name/company/contact + street). Linked to the appointment as a reusable customer address; ignored for PHYSICAL/ONLINE locations, which derive their address from the location. A global delivery address supplied later at checkout (save-customer/start/submit) overrides this.
      */
-    address?: AppointmentAddress;
+    address?: Address;
     /**
      * Answers to checkout questions provided during booking
      */
@@ -732,13 +918,9 @@ export type RescheduleAppointment = {
      */
     notifyCustomer?: boolean;
     /**
-     * Indicates if the appointment was rescheduled manually instead of by the customer
+     * Customer delivery/service address for a DELIVERY-location appointment. Linked to the appointment as a reusable customer address (copy-on-write). Ignored for PHYSICAL/ONLINE locations.
      */
-    isManual?: boolean;
-    /**
-     * Physical address where the appointment will take place
-     */
-    address?: AppointmentAddress;
+    address?: Address;
 };
 
 export type CancelAppointment = {
@@ -746,10 +928,6 @@ export type CancelAppointment = {
      * Whether to send a notification to the customer about the cancellation
      */
     notifyCustomer?: boolean;
-    /**
-     * Indicates if the appointment was canceled manually instead of by the customer
-     */
-    isManual?: boolean;
 };
 
 export type AddGuest = {
@@ -1287,14 +1465,6 @@ export type AppointmentCreatedCustomer = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -1350,33 +1520,49 @@ export type AppointmentCreatedResponse = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -1409,6 +1595,10 @@ export type AppointmentCreatedResponse = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -1799,14 +1989,6 @@ export type AppointmentListItemCustomer = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -1941,33 +2123,49 @@ export type AppointmentListItemResponse = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -2000,6 +2198,10 @@ export type AppointmentListItemResponse = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -2385,14 +2587,6 @@ export type AppointmentDetailCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
-    /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -3116,33 +3310,49 @@ export type AppointmentDetailOrderItemAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -3175,6 +3385,10 @@ export type AppointmentDetailOrderItemAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product for this line item
      */
@@ -3480,43 +3694,71 @@ export type AppointmentDetailOrder = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -3543,6 +3785,14 @@ export type AppointmentDetailOrder = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -3734,33 +3984,49 @@ export type AppointmentDetailResponse = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -3793,6 +4059,10 @@ export type AppointmentDetailResponse = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -4296,33 +4566,49 @@ export type AppointmentResponse = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -4355,6 +4641,10 @@ export type AppointmentResponse = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -4877,14 +5167,6 @@ export type OrderListCustomer = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -5253,33 +5535,49 @@ export type OrderListAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -5312,6 +5610,10 @@ export type OrderListAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -5607,43 +5909,71 @@ export type OrderListItemResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -5670,6 +6000,14 @@ export type OrderListItemResponse = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -5786,14 +6124,6 @@ export type OrderDetailCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
-    /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -6163,33 +6493,49 @@ export type OrderDetailAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -6222,6 +6568,10 @@ export type OrderDetailAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -7079,43 +7429,71 @@ export type OrderDetailResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -7142,6 +7520,14 @@ export type OrderDetailResponse = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -7266,14 +7652,6 @@ export type CartCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
-    /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -7706,33 +8084,49 @@ export type CartItemAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -7765,6 +8159,10 @@ export type CartItemAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -8099,43 +8497,71 @@ export type CartResponse = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -8170,6 +8596,14 @@ export type CartResponse = {
      * Updated at timestamp
      */
     updatedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the cart
      */
@@ -8298,14 +8732,6 @@ export type CheckoutStartCartCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
-    /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -8687,33 +9113,49 @@ export type CheckoutStartCartItemAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -8746,6 +9188,10 @@ export type CheckoutStartCartItemAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -9080,43 +9526,71 @@ export type CheckoutStartCart = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -9151,6 +9625,14 @@ export type CheckoutStartCart = {
      * Updated at timestamp
      */
     updatedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the cart
      */
@@ -9312,14 +9794,6 @@ export type CheckoutOrderCustomer = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
-    /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
     /**
      * Indicates whether customer email is verified
      */
@@ -9791,33 +10265,49 @@ export type CheckoutOrderAppointment = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -9850,6 +10340,10 @@ export type CheckoutOrderAppointment = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -10576,43 +11070,71 @@ export type CheckoutOrder = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -10639,6 +11161,14 @@ export type CheckoutOrder = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -10916,6 +11446,14 @@ export type Setting = {
      * Email address to use as "from" address in email communications
      */
     emailFromAddress: string | null;
+    /**
+     * Whether to send merchant (admin) notification emails for appointment activity
+     */
+    sendMerchantNotifications: boolean;
+    /**
+     * Email address that receives merchant (admin) appointment notifications
+     */
+    merchantNotificationEmail: string | null;
     /**
      * Default time gap for scheduling
      */
@@ -11260,6 +11798,9 @@ export type CheckoutSetting = {
     customerCompanyNameRequirement: CheckoutFieldRequirement;
     customerCompanyVatNumberRequirement: CheckoutFieldRequirement;
     customerBillingAddressRequirement: CheckoutFieldRequirement;
+    emailMarketingOptIn: MarketingOptInDisplay;
+    smsMarketingOptIn: MarketingOptInDisplay;
+    whatsappMarketingOptIn: MarketingOptInDisplay;
     /**
      * When the settings were created
      */
@@ -17576,14 +18117,6 @@ export type SelfServiceProfileResponseWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -17648,14 +18181,6 @@ export type AppointmentCreatedCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -17711,33 +18236,49 @@ export type AppointmentCreatedResponseWritable = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -17770,6 +18311,10 @@ export type AppointmentCreatedResponseWritable = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -17851,14 +18396,6 @@ export type AppointmentListItemCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -17914,33 +18451,49 @@ export type AppointmentListItemResponseWritable = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -17973,6 +18526,10 @@ export type AppointmentListItemResponseWritable = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -18050,14 +18607,6 @@ export type AppointmentDetailCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -18113,33 +18662,49 @@ export type AppointmentDetailResponseWritable = {
      */
     to: string;
     /**
-     * First line of the appointment address
-     */
-    addressLine1: string | null;
-    /**
-     * Second line of the appointment address
-     */
-    addressLine2: string | null;
-    /**
-     * City of the appointment location
-     */
-    city: string | null;
-    /**
-     * State/province of the appointment location
-     */
-    state: string | null;
-    /**
-     * Postal/zip code of the appointment location
-     */
-    postalCode: string | null;
-    /**
-     * Country of the appointment location
-     */
-    country: string | null;
-    /**
-     * Merchant-defined display address snapshotted from the location at booking time; overrides the concatenated address fields in notifications. Null falls back to the structured address.
+     * Merchant-defined display address from the location; overrides the concatenated address fields in notifications. Null falls back to the structured address.
      */
     displayAddress: string | null;
+    /**
+     * ID of the linked service/delivery address
+     */
+    addressId?: string | null;
+    /**
+     * First line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine1?: string | null;
+    /**
+     * Second line of the appointment address
+     *
+     * @deprecated
+     */
+    addressLine2?: string | null;
+    /**
+     * City of the appointment location
+     *
+     * @deprecated
+     */
+    city?: string | null;
+    /**
+     * State/province of the appointment location
+     *
+     * @deprecated
+     */
+    state?: string | null;
+    /**
+     * Postal/zip code of the appointment location
+     *
+     * @deprecated
+     */
+    postalCode?: string | null;
+    /**
+     * Country of the appointment location
+     *
+     * @deprecated
+     */
+    country?: string | null;
     status: AppointmentStatusType;
     /**
      * Internal notes about the appointment (not visible to customers)
@@ -18172,6 +18737,10 @@ export type AppointmentDetailResponseWritable = {
      * Date and time when the appointment was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked service/delivery address (DELIVERY locations)
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Service/product details for this appointment
      */
@@ -18269,14 +18838,6 @@ export type OrderListCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -18332,43 +18893,71 @@ export type OrderListItemResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -18395,6 +18984,14 @@ export type OrderListItemResponseWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -18516,14 +19113,6 @@ export type OrderDetailCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -18579,43 +19168,71 @@ export type OrderDetailResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -18642,6 +19259,14 @@ export type OrderDetailResponseWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -18771,14 +19396,6 @@ export type CartCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -18818,43 +19435,71 @@ export type CartResponseWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -18889,6 +19534,14 @@ export type CartResponseWritable = {
      * Updated at timestamp
      */
     updatedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the cart
      */
@@ -18986,14 +19639,6 @@ export type CheckoutStartCartCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -19033,43 +19678,71 @@ export type CheckoutStartCartWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -19104,6 +19777,14 @@ export type CheckoutStartCartWritable = {
      * Updated at timestamp
      */
     updatedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the cart
      */
@@ -19244,14 +19925,6 @@ export type CheckoutOrderCustomerWritable = {
      */
     deletedAt: string | null;
     /**
-     * Saved billing/contact addresses for this customer
-     */
-    addresses?: Array<CustomerAddress>;
-    /**
-     * The customer's default saved address, when the addresses relation is loaded
-     */
-    defaultAddress?: CustomerAddress | null;
-    /**
      * Indicates whether customer email is verified
      */
     isEmailVerified: boolean;
@@ -19307,43 +19980,71 @@ export type CheckoutOrderWritable = {
      */
     customerPhone?: string | null;
     /**
-     * Billing address snapshot: bill-to first name
+     * ID of the linked billing address
+     */
+    billingAddressId?: string | null;
+    /**
+     * ID of the linked order-level delivery address
+     */
+    deliveryAddressId?: string | null;
+    /**
+     * Billing bill-to first name
+     *
+     * @deprecated
      */
     billingFirstName?: string | null;
     /**
-     * Billing address snapshot: bill-to last name
+     * Billing bill-to last name
+     *
+     * @deprecated
      */
     billingLastName?: string | null;
     /**
-     * Billing address snapshot: company name
+     * Billing company name
+     *
+     * @deprecated
      */
     billingCompanyName?: string | null;
     /**
-     * Billing address snapshot: company VAT number
+     * Billing tax registration id (VAT / GST / …)
+     *
+     * @deprecated
      */
-    billingCompanyVatNumber?: string | null;
+    billingTaxRegistrationId?: string | null;
     /**
-     * Billing address snapshot: address line 1
+     * Billing address line 1
+     *
+     * @deprecated
      */
     billingAddressLine1?: string | null;
     /**
-     * Billing address snapshot: address line 2
+     * Billing address line 2
+     *
+     * @deprecated
      */
     billingAddressLine2?: string | null;
     /**
-     * Billing address snapshot: city
+     * Billing city
+     *
+     * @deprecated
      */
     billingCity?: string | null;
     /**
-     * Billing address snapshot: state/province
+     * Billing state/province
+     *
+     * @deprecated
      */
     billingState?: string | null;
     /**
-     * Billing address snapshot: postal/zip code
+     * Billing postal/zip code
+     *
+     * @deprecated
      */
     billingPostalCode?: string | null;
     /**
-     * Billing address snapshot: country
+     * Billing country
+     *
+     * @deprecated
      */
     billingCountry?: string | null;
     /**
@@ -19370,6 +20071,14 @@ export type CheckoutOrderWritable = {
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
+    /**
+     * Linked billing address
+     */
+    billingAddress?: CustomerAddress | null;
+    /**
+     * Linked order-level delivery address
+     */
+    deliveryAddress?: DeliveryAddress | null;
     /**
      * Subtotal amount of the order, excluding canceled appointments
      */
@@ -19648,6 +20357,52 @@ export type SelfServiceUpdateProfileResponses = {
 };
 
 export type SelfServiceUpdateProfileResponse = SelfServiceUpdateProfileResponses[keyof SelfServiceUpdateProfileResponses];
+
+export type SelfServiceGetMarketingConsentData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/storefront/self-service/marketing-consent';
+};
+
+export type SelfServiceGetMarketingConsentErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+};
+
+export type SelfServiceGetMarketingConsentResponses = {
+    /**
+     * Marketing consent returned successfully
+     */
+    200: MarketingConsentResponse;
+};
+
+export type SelfServiceGetMarketingConsentResponse = SelfServiceGetMarketingConsentResponses[keyof SelfServiceGetMarketingConsentResponses];
+
+export type SelfServiceUpdateMarketingConsentData = {
+    body: MarketingConsentInput;
+    path?: never;
+    query?: never;
+    url: '/storefront/self-service/marketing-consent';
+};
+
+export type SelfServiceUpdateMarketingConsentErrors = {
+    /**
+     * Unauthorized
+     */
+    401: unknown;
+};
+
+export type SelfServiceUpdateMarketingConsentResponses = {
+    /**
+     * Marketing consent updated successfully
+     */
+    200: MarketingConsentResponse;
+};
+
+export type SelfServiceUpdateMarketingConsentResponse = SelfServiceUpdateMarketingConsentResponses[keyof SelfServiceUpdateMarketingConsentResponses];
 
 export type SelfServiceChangePasswordData = {
     body: UpdateCustomerPassword;

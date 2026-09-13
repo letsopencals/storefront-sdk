@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.3.15 (2026-09-13)
+
+### Breaking
+
+- **`CustomerAddress.companyVatNumber` renamed to `taxRegistrationId`.** The field is now
+  `taxRegistrationId` on the `CustomerAddress` response type and the `BillingAddress` input type,
+  matching the backend's generic tax-ID terminology (VAT / GST / ABN / EIN / …).
+  Migration: rename any read/write of `companyVatNumber` to `taxRegistrationId`.
+- **`AppointmentAddress` type removed.** The `address` field on `CreateAppointment` and
+  `RescheduleAppointment` is now typed as the new `Address` type (which adds `firstName`,
+  `lastName`, `companyName`, `email`, `phone` alongside the street fields). Existing payloads
+  remain valid — the street fields are unchanged — but TypeScript imports of `AppointmentAddress`
+  will fail.
+
+### Added
+
+- **Marketing consent at checkout.** `NewOrderCustomer` and `ExistingOrderCustomer` accept an
+  optional `marketingConsent` (`MarketingConsentInput`: `{ email?, sms?, whatsapp? }`) for
+  per-channel opt-in captured during checkout.
+- **Delivery address at checkout.** `NewOrderCustomer` and `ExistingOrderCustomer` accept an
+  optional `deliveryAddress` (`Address`) for DELIVERY-type services.
+- **Self-service marketing consent endpoints.** `SelfService.getMarketingConsent()` and
+  `SelfService.updateMarketingConsent()` let authenticated customers read and update their
+  per-channel consent state.
+- New types: `Address`, `MarketingConsentInput`, `MarketingConsentResponse`,
+  `MarketingConsentState`, `MarketingOptInDisplay`.
+- **Marketing opt-in display settings** on `CheckoutSetting`: `emailMarketingOptIn`,
+  `smsMarketingOptIn`, `whatsappMarketingOptIn` (`MarketingOptInDisplay`).
+- `CustomerAddress` gained `email` and `phone` fields (contact info on the address).
+- Regenerated client types and zod schemas from the updated OpenAPI spec.
+
 ## 0.3.14 (2026-09-07)
 
 ### Breaking
