@@ -8515,7 +8515,8 @@ export const zProductGetCurrentAvailabilitiesQuery = z.object({
     locationId: z.string().optional(),
     staffMemberId: z.string().optional(),
     timezone: z.string().optional(),
-    duration: z.string().optional()
+    duration: z.string().optional(),
+    excludeAppointmentId: z.string().optional()
 });
 
 /**

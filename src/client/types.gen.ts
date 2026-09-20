@@ -21294,6 +21294,10 @@ export type ProductGetCurrentAvailabilitiesData = {
          * Booking duration in seconds; defaults to the product base duration
          */
         duration?: string;
+        /**
+         * Appointment to exclude from the busy overlay. Pass the appointment being moved when rescheduling so its own slot is not treated as taken.
+         */
+        excludeAppointmentId?: string;
     };
     url: '/storefront/products/{productId}/current-availabilities';
 };
