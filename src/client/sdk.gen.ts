@@ -295,7 +295,9 @@ export class AppointmentService {
     /**
      * Get appointment by external order name
      *
-     * Returns a single appointment by its external order name. Useful for integrations with external payment or ordering systems.
+     * Deprecated: look the order up instead. Returns a single appointment by the name of its order on the store's platform (e.g. a Shopify order name).
+     *
+     * @deprecated
      */
     public static findByExternalOrderName<ThrowOnError extends boolean = false>(options: Options<AppointmentFindByExternalOrderNameData, ThrowOnError>) {
         return (options.client ?? client).get<AppointmentFindByExternalOrderNameResponses, unknown, ThrowOnError>({ url: '/storefront/appointments/by-external-order-name/{externalOrderName}', ...options });

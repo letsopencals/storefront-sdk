@@ -1153,10 +1153,6 @@ export type AppointmentCreatedStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -1173,17 +1169,9 @@ export type AppointmentCreatedStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -1504,14 +1492,6 @@ export type AppointmentCreatedResponse = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -1599,6 +1579,18 @@ export type AppointmentCreatedResponse = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -1798,10 +1790,6 @@ export type AppointmentListItemStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -1818,17 +1806,9 @@ export type AppointmentListItemStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -2107,14 +2087,6 @@ export type AppointmentListItemResponse = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -2202,6 +2174,18 @@ export type AppointmentListItemResponse = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -2397,10 +2381,6 @@ export type AppointmentDetailStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -2417,17 +2397,9 @@ export type AppointmentDetailStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -3124,10 +3096,6 @@ export type AppointmentDetailOrderItemStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -3144,17 +3112,9 @@ export type AppointmentDetailOrderItemStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -3294,14 +3254,6 @@ export type AppointmentDetailOrderItemAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -3389,6 +3341,18 @@ export type AppointmentDetailOrderItemAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product for this line item
      */
@@ -3968,14 +3932,6 @@ export type AppointmentDetailResponse = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -4063,6 +4019,18 @@ export type AppointmentDetailResponse = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -4278,10 +4246,6 @@ export type AppointmentStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -4298,17 +4262,9 @@ export type AppointmentStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -4550,14 +4506,6 @@ export type AppointmentResponse = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -4645,6 +4593,18 @@ export type AppointmentResponse = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -4897,10 +4857,6 @@ export type StaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -4917,17 +4873,9 @@ export type StaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -5349,10 +5297,6 @@ export type OrderListAppointmentStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -5369,17 +5313,9 @@ export type OrderListAppointmentStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -5519,14 +5455,6 @@ export type OrderListAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -5614,6 +5542,18 @@ export type OrderListAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -6307,10 +6247,6 @@ export type OrderDetailAppointmentStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -6327,17 +6263,9 @@ export type OrderDetailAppointmentStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -6477,14 +6405,6 @@ export type OrderDetailAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -6572,6 +6492,18 @@ export type OrderDetailAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -7890,10 +7822,6 @@ export type CartItemStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -7910,17 +7838,9 @@ export type CartItemStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -8068,14 +7988,6 @@ export type CartItemAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -8163,6 +8075,18 @@ export type CartItemAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -8919,10 +8843,6 @@ export type CheckoutStartCartItemStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -8939,17 +8859,9 @@ export type CheckoutStartCartItemStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -9097,14 +9009,6 @@ export type CheckoutStartCartItemAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -9192,6 +9096,18 @@ export type CheckoutStartCartItemAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -9977,10 +9893,6 @@ export type CheckoutOrderAppointmentStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -9997,17 +9909,9 @@ export type CheckoutOrderAppointmentStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -10249,14 +10153,6 @@ export type CheckoutOrderAppointment = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -10344,6 +10240,18 @@ export type CheckoutOrderAppointment = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -12027,10 +11935,6 @@ export type ProductSlugVariantStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -12047,17 +11951,9 @@ export type ProductSlugVariantStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -12090,10 +11986,6 @@ export type ProductSlugVariantLocationStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -12110,17 +12002,9 @@ export type ProductSlugVariantLocationStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -12586,10 +12470,6 @@ export type ProductDetailStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -12606,17 +12486,9 @@ export type ProductDetailStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -13376,10 +13248,6 @@ export type ProductExternalIdStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -13396,17 +13264,9 @@ export type ProductExternalIdStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -13435,10 +13295,6 @@ export type ProductExternalIdLocationStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -13455,17 +13311,9 @@ export type ProductExternalIdLocationStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -13968,10 +13816,6 @@ export type ProductExternalVariantStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -13988,17 +13832,9 @@ export type ProductExternalVariantStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -14027,10 +13863,6 @@ export type ProductExternalVariantLocationStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -14047,17 +13879,9 @@ export type ProductExternalVariantLocationStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -14784,10 +14608,6 @@ export type ProductListVariantStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -14804,17 +14624,9 @@ export type ProductListVariantStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -14847,10 +14659,6 @@ export type ProductListVariantLocationStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -14867,17 +14675,9 @@ export type ProductListVariantLocationStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -15710,10 +15510,6 @@ export type AddOnListStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -15730,17 +15526,9 @@ export type AddOnListStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -16019,10 +15807,6 @@ export type LocationDetailStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -16039,17 +15823,9 @@ export type LocationDetailStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -16780,65 +16556,6 @@ export type StaffMemberDetailLocation = {
     address: string | null;
 };
 
-export type StaffMemberDetailUser = {
-    /**
-     * Unique identifier for the user
-     */
-    id: string;
-    /**
-     * ID of the parent user (for staff members)
-     */
-    parentId: string | null;
-    /**
-     * Full name of the user
-     */
-    name: string;
-    /**
-     * Email address of the user
-     */
-    email: string;
-    /**
-     * Hashed password of the user
-     */
-    password: string | null;
-    /**
-     * Refresh token for authentication
-     */
-    refreshToken: string | null;
-    /**
-     * Role of the user in the system
-     */
-    role: 'admin' | 'staff-member' | 'store-owner' | 'manager';
-    /**
-     * Current status of the user account
-     */
-    status: 'active' | 'inactive' | 'banned' | 'deleted';
-    /**
-     * Date and time when the user was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when the user was last updated
-     */
-    updatedAt: string;
-    /**
-     * Date and time when the user verified email
-     */
-    emailVerifiedAt: string | null;
-    /**
-     * Date and time when the user was soft-deleted
-     */
-    deletedAt: string | null;
-    /**
-     * Indicates whether user email is verified
-     */
-    isEmailVerified: boolean;
-    /**
-     * Indicates whether user password is set
-     */
-    isPasswordSet: boolean;
-};
-
 export type StaffMemberDetailResponse = {
     /**
      * Unique identifier of the staff member
@@ -16848,10 +16565,6 @@ export type StaffMemberDetailResponse = {
      * ID of the store that owns this staff member record
      */
     storeId: string;
-    /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
     /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
@@ -16869,17 +16582,9 @@ export type StaffMemberDetailResponse = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -16908,10 +16613,6 @@ export type StaffMemberDetailResponse = {
      * Locations where this staff member works
      */
     locations: Array<StaffMemberDetailLocation>;
-    /**
-     * Login user linked to this staff member
-     */
-    user: StaffMemberDetailUser | null;
 };
 
 export type StaffMemberListSchedule = {
@@ -17229,10 +16930,6 @@ export type StaffMemberListItemResponse = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -17249,17 +16946,9 @@ export type StaffMemberListItemResponse = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -17391,10 +17080,6 @@ export type AddOnDetailStaffMember = {
      */
     storeId: string;
     /**
-     * User ID of the staff member login identity (nullable until linked)
-     */
-    userId: string;
-    /**
      * ID of the schedule assigned to this staff member, defines their availability
      */
     scheduleId: string;
@@ -17411,17 +17096,9 @@ export type AddOnDetailStaffMember = {
      */
     lastName: string;
     /**
-     * Email address of the staff member, used for notifications and calendar integration
-     */
-    email: string;
-    /**
      * URL-friendly slug for the staff member (unique per store)
      */
     slug: string;
-    /**
-     * Refresh token for integrations like Google Calendar
-     */
-    refreshToken: string;
     /**
      * Date and time when the staff member was created
      */
@@ -18220,14 +17897,6 @@ export type AppointmentCreatedResponseWritable = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -18315,6 +17984,18 @@ export type AppointmentCreatedResponseWritable = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -18435,14 +18116,6 @@ export type AppointmentListItemResponseWritable = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -18530,6 +18203,18 @@ export type AppointmentListItemResponseWritable = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */
@@ -18646,14 +18331,6 @@ export type AppointmentDetailResponseWritable = {
      */
     customerId: string | null;
     /**
-     * External order ID from user's platform (if any)
-     */
-    externalOrderId: string | null;
-    /**
-     * External order name/reference from user's platform
-     */
-    externalOrderName: string | null;
-    /**
      * Start date and time of the appointment (UTC timezone)
      */
     from: string;
@@ -18741,6 +18418,18 @@ export type AppointmentDetailResponseWritable = {
      * Linked service/delivery address (DELIVERY locations)
      */
     deliveryAddress?: DeliveryAddress | null;
+    /**
+     * Deprecated: use `order.externalId`. External order ID from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderId: string | null;
+    /**
+     * Deprecated: use `order.externalName`. External order name from the store's platform (if any).
+     *
+     * @deprecated
+     */
+    externalOrderName: string | null;
     /**
      * Service/product details for this appointment
      */

@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.17 (2026-10-09)
+
+### Breaking
+
+- **Staff members no longer carry `email`, `userId` or `refreshToken`.** The storefront API stopped
+  returning staff login identity and contact details, so the fields are gone from every
+  `*StaffMember` type and from `StaffMemberListItemResponse`. `StaffMemberDetailResponse` also
+  loses `user`, and the `StaffMemberDetailUser` type is removed. Runtime values were already
+  absent from API responses. Migration: drop any read of `staffMember.email` (for avatar initials,
+  use `firstName` / `lastName`).
+
+### Deprecated
+
+- **Appointment `externalOrderId` / `externalOrderName`.** Read the platform order from
+  `appointment.order` instead (`order.externalId`, `order.externalName`). Both fields stay in
+  responses, filled from the linked order.
+- **`AppointmentService.findByExternalOrderName()`.** It now only returns appointments from the
+  store making the request, and returns 404 instead of 400 when nothing matches.
+
 ## 0.3.15 (2026-09-13)
 
 ### Breaking
