@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.3.18 (2026-10-18)
+
+### Breaking
+
+- **Appointments no longer carry `internalNote`.** It is a merchant-only field and the storefront
+  API stopped returning it, so it is gone from every appointment response type. Runtime values were
+  already absent. Migration: drop any read of `appointment.internalNote`.
+- **Customer identity is only returned to that customer.** When a request is not signed in as the
+  customer and the checkout/booking did not create them (e.g. an anonymous caller whose email
+  matched an existing customer), the booking is still attached to that customer but the API no
+  longer exposes them:
+  - `saveCustomer` response: `customerId` is now optional.
+  - `AppointmentCreatedResponse.customer` is now optional (and `customerId` is null).
+  - Cart `customer` / `customerId` are null in that case.
+  - Checkout `submit` returns `auth` (and `customer`) only in the trusted case.
+  Migration: treat these as optional; after submit without `auth`, ask the customer to sign in by
+  code to see the booking in their account.
+
+### Changed
+
+- **`CustomerAddress.customerId` is now `string | null`.** Billing and delivery addresses entered
+  for an untrusted booking are kept on that booking only (the order and invoice use them) and are
+  never added to the customer's saved addresses, so their `customerId` is null.
+- **`externalId` is optional** on `NewOrderCustomer` and `NewAppointmentCustomer` (it always was
+  at runtime).
+- Required billing fields are checked against the billing already captured on the cart, so
+  clients don't need to re-send billing at `start` or `submit`.
+
 ## 0.3.17 (2026-10-09)
 
 ### Breaking

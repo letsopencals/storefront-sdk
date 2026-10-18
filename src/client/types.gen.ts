@@ -56,9 +56,9 @@ export type CustomerAddress = {
      */
     storeId: string;
     /**
-     * ID of the customer this address belongs to
+     * ID of the customer this address belongs to; null for an address linked to a single booking only
      */
-    customerId: string;
+    customerId: string | null;
     /**
      * First name of the bill-to party
      */
@@ -187,7 +187,7 @@ export type NewAppointmentCustomer = {
     /**
      * External identifier for the new customer
      */
-    externalId: string;
+    externalId?: string;
     /**
      * Email address of the new customer
      */
@@ -294,7 +294,7 @@ export type NewOrderCustomer = {
     /**
      * External identifier for the new customer
      */
-    externalId: string;
+    externalId?: string;
     /**
      * Email address of the new customer
      */
@@ -1544,10 +1544,6 @@ export type AppointmentCreatedResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -1612,9 +1608,9 @@ export type AppointmentCreatedResponse = {
      */
     guests: Array<AppointmentCreatedGuest>;
     /**
-     * Customer the appointment was booked for
+     * Customer the appointment was booked for. Omitted (and `customerId` is null) when the caller is not signed in as that customer and the booking did not create it, e.g. an anonymous booking whose email matched an existing customer.
      */
-    customer: AppointmentCreatedCustomer;
+    customer?: AppointmentCreatedCustomer;
 };
 
 export type AppointmentListItemProduct = {
@@ -2139,10 +2135,6 @@ export type AppointmentListItemResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -3306,10 +3298,6 @@ export type AppointmentDetailOrderItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -3984,10 +3972,6 @@ export type AppointmentDetailResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -4558,10 +4542,6 @@ export type AppointmentResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -5507,10 +5487,6 @@ export type OrderListAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -6457,10 +6433,6 @@ export type OrderDetailAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -8040,10 +8012,6 @@ export type CartItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -8557,7 +8525,7 @@ export type CartResponse = {
      */
     creditValueType?: string | null;
     /**
-     * Customer who owns the cart
+     * Customer who owns the cart. Only returned when the request is signed in as this customer, or when this cart's checkout/booking created the customer; otherwise null (an existing customer matched by email is attached but not exposed).
      */
     customer: CartCustomer | null;
     /**
@@ -9061,10 +9029,6 @@ export type CheckoutStartCartItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -9578,7 +9542,7 @@ export type CheckoutStartCart = {
      */
     creditValueType?: string | null;
     /**
-     * Customer who owns the cart
+     * Customer who owns the cart. Only returned when the request is signed in as this customer, or when this cart's checkout/booking created the customer; otherwise null (an existing customer matched by email is attached but not exposed).
      */
     customer?: CheckoutStartCartCustomer | null;
     /**
@@ -10205,10 +10169,6 @@ export type CheckoutOrderAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -11153,7 +11113,7 @@ export type CheckoutResponse = {
      */
     order: CheckoutOrder;
     /**
-     * Authentication tokens (included for new or passwordless customers)
+     * Authentication tokens. Only included when the request is authenticated as the order customer, or when this checkout created a new customer.
      */
     auth?: CheckoutAuthTokens;
     /**
@@ -11263,9 +11223,9 @@ export type CheckoutCustomer = {
 
 export type SaveCustomerResponse = {
     /**
-     * Created or resolved customer ID
+     * ID of the customer the cart is now bound to. Only returned when the request is authenticated as that customer, or when this checkout created a new customer. Omitted when the email matched an existing customer the request is not signed in as (the booking is still attached to them).
      */
-    customerId: string;
+    customerId?: string;
 };
 
 export type CheckoutQuestionAnswers = {
@@ -17949,10 +17909,6 @@ export type AppointmentCreatedResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -18017,9 +17973,9 @@ export type AppointmentCreatedResponseWritable = {
      */
     guests: Array<AppointmentCreatedGuest>;
     /**
-     * Customer the appointment was booked for
+     * Customer the appointment was booked for. Omitted (and `customerId` is null) when the caller is not signed in as that customer and the booking did not create it, e.g. an anonymous booking whose email matched an existing customer.
      */
-    customer: AppointmentCreatedCustomerWritable;
+    customer?: AppointmentCreatedCustomerWritable;
 };
 
 export type AppointmentListItemCustomerWritable = {
@@ -18168,10 +18124,6 @@ export type AppointmentListItemResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -18383,10 +18335,6 @@ export type AppointmentDetailResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
-    /**
-     * Internal notes about the appointment (not visible to customers)
-     */
-    internalNote: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -19260,7 +19208,7 @@ export type CartResponseWritable = {
      */
     creditValueType?: string | null;
     /**
-     * Customer who owns the cart
+     * Customer who owns the cart. Only returned when the request is signed in as this customer, or when this cart's checkout/booking created the customer; otherwise null (an existing customer matched by email is attached but not exposed).
      */
     customer: CartCustomerWritable | null;
     /**
@@ -19503,7 +19451,7 @@ export type CheckoutStartCartWritable = {
      */
     creditValueType?: string | null;
     /**
-     * Customer who owns the cart
+     * Customer who owns the cart. Only returned when the request is signed in as this customer, or when this cart's checkout/booking created the customer; otherwise null (an existing customer matched by email is attached but not exposed).
      */
     customer?: CheckoutStartCartCustomerWritable | null;
     /**
@@ -19844,7 +19792,7 @@ export type CheckoutResponseWritable = {
      */
     order: CheckoutOrderWritable;
     /**
-     * Authentication tokens (included for new or passwordless customers)
+     * Authentication tokens. Only included when the request is authenticated as the order customer, or when this checkout created a new customer.
      */
     auth?: CheckoutAuthTokens;
     /**
@@ -20651,7 +20599,7 @@ export type CheckoutSubmitData = {
 
 export type CheckoutSubmitResponses = {
     /**
-     * Order created with optional auth tokens for customer auto-authentication
+     * Order created; auth tokens only for the signed-in or newly created customer
      */
     200: CheckoutResponse;
 };

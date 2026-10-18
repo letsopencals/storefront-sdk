@@ -270,7 +270,7 @@ export class AppointmentService {
     /**
      * Create appointment
      *
-     * Creates a new appointment for a customer. Authentication is optional - if authenticated, the appointment will be associated with the logged-in user.
+     * Creates a new appointment for a customer. Authentication is optional. When signed in as a customer, the appointment is always booked for that customer and any `customer` in the body is ignored. Anonymous callers pass the customer by email (a brand-new customer is created and returned). If the email or `externalId` matches an existing customer, the appointment is attached to that customer, but their profile is not changed and `customer`/`customerId` are omitted (null) from the response. A `customerId` is only accepted from an anonymous caller when it is the customer this `cartId` created or is already bound to; otherwise the request is rejected with 400 (sign in, or send an email instead).
      */
     public static create<ThrowOnError extends boolean = false>(options: Options<AppointmentCreateData, ThrowOnError>) {
         return (options.client ?? client).post<AppointmentCreateResponses, unknown, ThrowOnError>({
@@ -524,7 +524,7 @@ export class CheckoutService {
     /**
      * Submit checkout (capture payment, create order, auto-authenticate customer)
      *
-     * Creates order and returns auth tokens for automatic customer authentication
+     * Creates the order. Returns `auth` tokens (and `customer`) only when the request is authenticated as the order customer, or when this checkout created a new customer. Otherwise the order is attached to the existing customer, who signs in by code to see it.
      */
     public static submit<ThrowOnError extends boolean = false>(options: Options<CheckoutSubmitData, ThrowOnError>) {
         return (options.client ?? client).post<CheckoutSubmitResponses, unknown, ThrowOnError>({

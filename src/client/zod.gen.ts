@@ -172,7 +172,7 @@ export const zAppointmentCreatedByEnum = z.enum(['customer', 'merchant']).defaul
 export const zCustomerAddress = z.object({
     id: z.string(),
     storeId: z.string(),
-    customerId: z.string(),
+    customerId: z.string().nullable(),
     firstName: z.string().nullish(),
     lastName: z.string().nullish(),
     companyName: z.string().nullish(),
@@ -238,7 +238,7 @@ export const zExistingAppointmentCustomer = z.object({
 });
 
 export const zNewAppointmentCustomer = z.object({
-    externalId: z.string(),
+    externalId: z.string().optional(),
     email: z.string(),
     firstName: z.string().nullish(),
     lastName: z.string().nullish()
@@ -455,7 +455,7 @@ export const zExistingOrderCustomer = z.object({
 });
 
 export const zNewOrderCustomer = z.object({
-    externalId: z.string(),
+    externalId: z.string().optional(),
     email: z.string(),
     firstName: z.string().nullish(),
     lastName: z.string().nullish(),
@@ -730,7 +730,6 @@ export const zAppointmentCreatedResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -746,7 +745,7 @@ export const zAppointmentCreatedResponse = z.object({
     location: zAppointmentCreatedLocation.nullable(),
     addOns: z.array(zAppointmentCreatedAddOn),
     guests: z.array(zAppointmentCreatedGuest),
-    customer: zAppointmentCreatedCustomer
+    customer: zAppointmentCreatedCustomer.optional()
 });
 
 export const zAppointmentListItemProduct = z.object({
@@ -917,7 +916,6 @@ export const zAppointmentListItemResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1340,7 +1338,6 @@ export const zAppointmentDetailOrderItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1551,7 +1548,6 @@ export const zAppointmentDetailResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1755,7 +1751,6 @@ export const zAppointmentResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -2080,7 +2075,6 @@ export const zOrderListAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -2391,7 +2385,6 @@ export const zOrderDetailAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3003,7 +2996,6 @@ export const zCartItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3352,7 +3344,6 @@ export const zCheckoutStartCartItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3757,7 +3748,6 @@ export const zCheckoutOrderAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -4320,7 +4310,7 @@ export const zCheckoutCustomer = z.object({
 });
 
 export const zSaveCustomerResponse = z.object({
-    customerId: z.string()
+    customerId: z.string().optional()
 });
 
 export const zCheckoutQuestionAnswers = z.object({
@@ -7396,7 +7386,6 @@ export const zAppointmentCreatedResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -7412,7 +7401,7 @@ export const zAppointmentCreatedResponseWritable = z.object({
     location: zAppointmentCreatedLocation.nullable(),
     addOns: z.array(zAppointmentCreatedAddOn),
     guests: z.array(zAppointmentCreatedGuest),
-    customer: zAppointmentCreatedCustomerWritable
+    customer: zAppointmentCreatedCustomerWritable.optional()
 });
 
 export const zAppointmentListItemCustomerWritable = z.object({
@@ -7453,7 +7442,6 @@ export const zAppointmentListItemResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -7509,7 +7497,6 @@ export const zAppointmentDetailResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
-    internalNote: z.string().nullable(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -8276,7 +8263,7 @@ export const zCheckoutSubmitHeaders = z.object({
 });
 
 /**
- * Order created with optional auth tokens for customer auto-authentication
+ * Order created; auth tokens only for the signed-in or newly created customer
  */
 export const zCheckoutSubmitResponse = zCheckoutResponse;
 
