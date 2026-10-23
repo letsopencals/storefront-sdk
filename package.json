@@ -1,6 +1,6 @@
 {
 	"name": "@opencals/storefront-sdk",
-	"version": "0.3.18",
+	"version": "0.3.19",
 	"description": "Type-safe SDK for the Opencals Storefront API. Build custom booking websites with real-time availability, cart management, checkout, and customer accounts.",
 	"license": "MIT",
 	"type": "module",
@@ -14,6 +14,10 @@
 		"./client": {
 			"import": "./dist/client/index.js",
 			"types": "./dist/client/index.d.ts"
+		},
+		"./next": {
+			"import": "./dist/next.js",
+			"types": "./dist/next.d.ts"
 		}
 	},
 	"files": [
@@ -28,9 +32,20 @@
 		"@hey-api/client-next": "^0.5.0",
 		"zod": "^3.23.0"
 	},
+	"peerDependencies": {
+		"next": ">=14"
+	},
+	"peerDependenciesMeta": {
+		"next": {
+			"optional": true
+		}
+	},
 	"devDependencies": {
 		"@hey-api/openapi-ts": "^0.97.0",
 		"@types/node": "^25.9.1",
+		"next": "^15.5.28",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
 		"typescript": "^5.0.0"
 	},
 	"keywords": [

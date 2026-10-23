@@ -15,7 +15,7 @@ import { setupOpencals, ProductService } from '@opencals/storefront-sdk';
 
 // Initialize once at app startup
 setupOpencals({
-  apiKey: 'sfk_your_key_here',
+  apiKey: 'spk_your_key_here', // on a server; use a public sfk_ key in browser code
 });
 
 // Fetch products
@@ -36,8 +36,56 @@ setupOpencals({
   logging: true,              // optional request/response logging
   errorHandler: true,         // throws OpencalsApiError on failures (default)
   customerToken: 'eyJ...',    // optional customer JWT for authenticated requests
+  buyerIp: () => '203.0.113.7', // optional, server-side: the buyer's IP (see below)
 });
 ```
+
+### Which API key
+
+One key setting (`apiKey` or `OPENCALS_API_KEY`); pick the kind by where the SDK runs:
+
+| Where the SDK runs | Key | Why |
+|---|---|---|
+| Browser (widgets, client-side apps) | Public storefront key `sfk_` | Visible to visitors by design. Restrict it to your domains (allowed origins). |
+| Server (Next.js server code, API routes, serverless) | Private storefront key `spk_` | Secret. Rejected when sent from a browser. Can forward the buyer's IP. Optionally pinned to your server IPs. |
+
+Both work with every storefront endpoint. Create them in the Opencals dashboard (Users → your user → API Keys).
+
+### Server-side: forward the buyer's IP
+
+When your server calls the API for its visitors, every request comes from your server's IP, so all visitors share
+one rate-limit budget and abuse protection can't tell them apart. With a private key, pass `buyerIp` and the API
+counts per buyer instead:
+
+**Next.js:** use the ready-made resolver from `@opencals/storefront-sdk/next`:
+
+```ts
+// lib/opencals.ts — import it from your server code (route handlers, server actions, server components)
+import { setupOpencals } from '@opencals/storefront-sdk';
+import { nextBuyerIp } from '@opencals/storefront-sdk/next';
+
+setupOpencals({
+  apiKey: process.env.OPENCALS_API_KEY, // spk_...
+  buyerIp: nextBuyerIp,
+});
+```
+
+`nextBuyerIp` reads `x-real-ip`, else the first `x-forwarded-for` entry (Vercel sets both and overwrites what the
+browser sends). It only forwards on mutations (sign-in, cart, checkout), because reading request headers while
+rendering a GET would make cached pages dynamic.
+
+**Other frameworks or proxies:** pass your own function. It gets `{ method, url }` and returns the visitor's IP from
+the header your host sets, never from the request body:
+
+```ts
+setupOpencals({
+  apiKey: process.env.OPENCALS_API_KEY,
+  buyerIp: ({ method }) => (method === 'GET' ? undefined : currentRequest()?.headers['x-real-ip']),
+});
+```
+
+The resolver runs for every request; return nothing to skip one (outside a request, background jobs). You can also
+set it per call: `headers: { 'X-Opencals-Buyer-Ip': ip }`. The header is ignored with a public key.
 
 ## Usage Examples
 

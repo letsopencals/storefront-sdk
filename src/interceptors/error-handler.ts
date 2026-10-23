@@ -8,6 +8,8 @@ export class OpencalsApiError extends Error {
 	readonly statusText: string;
 	readonly errors?: Array<{ property: string; messages: string[] }>;
 	readonly url: string;
+	/** Machine-readable reason when the API sends one, e.g. `CODE_EXPIRED` for a rejected discount code. */
+	readonly code?: string;
 
 	constructor(options: {
 		message: string;
@@ -15,6 +17,7 @@ export class OpencalsApiError extends Error {
 		statusText: string;
 		url: string;
 		errors?: Array<{ property: string; messages: string[] }>;
+		code?: string;
 	}) {
 		super(options.message);
 		this.name = 'OpencalsApiError';
@@ -22,6 +25,7 @@ export class OpencalsApiError extends Error {
 		this.statusText = options.statusText;
 		this.url = options.url;
 		this.errors = options.errors;
+		this.code = options.code;
 	}
 
 	/**
@@ -61,5 +65,6 @@ export async function errorHandlerInterceptor(response: Response, _requestOption
 		statusText: response.statusText,
 		url: response.url,
 		errors: body?.errors,
+		code: typeof body?.code === 'string' ? body.code : undefined,
 	});
 }

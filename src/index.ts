@@ -15,6 +15,10 @@ export {
 	type LoggingOptions,
 	errorHandlerInterceptor,
 	OpencalsApiError,
+	BUYER_IP_HEADER,
+	createBuyerIpInterceptor,
+	type BuyerIpRequest,
+	type BuyerIpResolver,
 } from './interceptors';
 
 // Helpers

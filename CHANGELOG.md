@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.3.19 (unreleased)
+
+### Added
+
+- **`buyerIp` option on `setupOpencals`** (server-side). A function that returns the IP of the buyer a request is
+  made for; the SDK sends it as `X-Opencals-Buyer-Ip`. With a private storefront key (`spk_`) the API then counts
+  rate limits and sign-up, login and email protection per buyer instead of per server. Ignored with a public key
+  (`sfk_`). The resolver gets `{ method, url }`; return nothing to skip a request (e.g. GETs that render cached
+  pages). A header passed per call wins, and a resolver that throws never fails the request.
+- **`OpencalsApiError.code`**: the API's machine-readable reason when it sends one, e.g. `CODE_EXPIRED` or
+  `CODE_NOT_FOUND` for a rejected discount code (previously only in the raw response body).
+- **`@opencals/storefront-sdk/next`** entry point with **`nextBuyerIp`**, a ready-made resolver for Next.js
+  (`x-real-ip`, else the first `x-forwarded-for` entry; mutations only, so cached pages stay static):
+  `setupOpencals({ buyerIp: nextBuyerIp })`. `next` is an optional peer dependency.
+- `BUYER_IP_HEADER`, `createBuyerIpInterceptor`, `BuyerIpResolver`, `BuyerIpRequest` exports.
+- A console warning when a private key (`spk_`, `sk_`) is passed to `setupOpencals` in a browser. The API rejects
+  private keys sent from browsers.
+
+No breaking changes. `OPENCALS_API_KEY` stays the only key setting: use a public storefront key in browser code and
+a private storefront key on a server.
+
 ## 0.3.18 (2026-10-18)
 
 ### Breaking
