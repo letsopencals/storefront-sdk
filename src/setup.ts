@@ -34,7 +34,7 @@ export interface SetupOptions {
 	buyerIp?: BuyerIpResolver;
 }
 
-/** Keys that must stay on a server (the API rejects them from browsers). */
+/** Secret keys meant for servers. The API doesn't block them in a browser, but anyone could read them there. */
 const SERVER_SIDE_KEY_PREFIXES = ['spk_', 'sk_'];
 
 /**
@@ -82,7 +82,7 @@ export function setupOpencals(options: SetupOptions = {}): typeof client {
 		client.interceptors.request.use(apiKeyInterceptor);
 	}
 
-	// Private keys are secret: warn when one ends up in a browser bundle (the API rejects it there anyway).
+	// Private keys are secret: warn when one ends up in a browser bundle, where anyone can read it.
 	if (typeof window !== 'undefined' && apiKey && SERVER_SIDE_KEY_PREFIXES.some((prefix) => apiKey.startsWith(prefix))) {
 		console.warn(
 			'[opencals] A private API key is used in the browser. Keep spk_/sk_ keys on your server and use a public storefront key (sfk_) in browser code.',
