@@ -49,7 +49,7 @@ One key setting (`apiKey` or `OPENCALS_API_KEY`); pick the kind by where the SDK
 | Browser (widgets, client-side apps) | Public storefront key `sfk_` | Visible to visitors by design. Restrict it to your domains (allowed origins). |
 | Server (Next.js server code, API routes, serverless) | Private storefront key `spk_` | Secret: keep it out of browser code (the SDK warns). Can forward the buyer's IP. Optionally pinned to your server IPs. |
 
-Both work with every storefront endpoint. Create them in the Opencals dashboard (Users → your user → API Keys).
+Both work with every storefront endpoint. Create them in the Opencals dashboard under Account → API Keys (open the user menu and choose Account). You need the Manage API keys permission in the store; the owner has it. Storefront keys belong to the store and keep working if the person who created them leaves the team.
 
 ### Server-side: forward the buyer's IP
 
