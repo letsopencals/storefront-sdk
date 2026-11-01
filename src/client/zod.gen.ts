@@ -169,6 +169,17 @@ export const zAppointmentStatusType = z.enum([
  */
 export const zAppointmentCreatedByEnum = z.enum(['customer', 'merchant']).default('customer');
 
+/**
+ * Why the order was cancelled (unpaid, not_approved, declined, external, customer).
+ */
+export const zOrderCancelReason = z.enum([
+    'unpaid',
+    'not_approved',
+    'declined',
+    'external',
+    'customer'
+]);
+
 export const zCustomerAddress = z.object({
     id: z.string(),
     storeId: z.string(),
@@ -192,11 +203,6 @@ export const zCustomerAddress = z.object({
 });
 
 /**
- * Severity level of the log entry
- */
-export const zOrderLogLevel = z.enum(['info', 'error']);
-
-/**
  * Requirement level for the customer billing address (street fields) at checkout. When required, address line 1, city, postal code and country are mandatory.
  */
 export const zCheckoutFieldRequirement = z.enum([
@@ -213,6 +219,15 @@ export const zMarketingOptInDisplay = z.enum([
     'checkout_only',
     'checkout_and_account'
 ]).default('dont_show');
+
+/**
+ * TOKEN_INVALID: the token is unknown or belongs to another store. TOKEN_USED: the link was already used. TOKEN_EXPIRED: the link expired; request a new one.
+ */
+export const zMagicLinkErrorCode = z.enum([
+    'TOKEN_INVALID',
+    'TOKEN_USED',
+    'TOKEN_EXPIRED'
+]);
 
 /**
  * WhatsApp marketing consent state
@@ -234,15 +249,23 @@ export const zAppointmentDateRangeSlot = z.object({
 });
 
 export const zExistingAppointmentCustomer = z.object({
+    kind: z.enum(['existing']).optional(),
     customerId: z.string()
 });
 
 export const zNewAppointmentCustomer = z.object({
+    kind: z.enum(['new']).optional(),
     externalId: z.string().optional(),
     email: z.string(),
     firstName: z.string().nullish(),
-    lastName: z.string().nullish()
+    lastName: z.string().nullish(),
+    phone: z.string().nullish()
 });
+
+/**
+ * Why a placed booking is still pending: awaiting payment, or awaiting the merchant's approval. Null for confirmed appointments and for holds (a pending appointment with no order).
+ */
+export const zStorefrontAppointmentPendingReason = z.enum(['awaiting_payment', 'awaiting_approval']);
 
 export const zQuestionAnswer = z.object({
     questionId: z.string(),
@@ -250,6 +273,30 @@ export const zQuestionAnswer = z.object({
     answer: z.string().nullish(),
     fileIds: z.array(z.string()).optional()
 });
+
+/**
+ * A payment provider: stripe (card), cash, bank_transfer, shopify, stripe_invoice (Stripe-hosted invoice paid after booking) or no_payment_required (nothing to collect).
+ */
+export const zPaymentProviderName = z.enum([
+    'stripe',
+    'cash',
+    'bank_transfer',
+    'shopify',
+    'stripe_invoice',
+    'no_payment_required'
+]);
+
+/**
+ * Machine-readable reason. 409 CART_ALREADY_CHECKED_OUT: the cart already became an order (see `orderId`); start a new cart. 409 CART_EXPIRED: the reserved times were released and at least one is gone; start a new booking. 409 CHECKOUT_IN_PROGRESS: another submit of this cart is placing its order; retry shortly. 402 PAYMENT_NOT_AUTHORIZED: the card payment was not authorised (see `paymentStatus`); confirm the payment or use another card, then submit again. 400 PAYMENT_PROVIDER_UNAVAILABLE: the store has not enabled this payment method. 400 PAYMENT_REFERENCE_MISMATCH: the PaymentIntent sent at submit does not belong to this checkout; restart checkout.
+ */
+export const zCheckoutErrorCode = z.enum([
+    'CART_ALREADY_CHECKED_OUT',
+    'CART_EXPIRED',
+    'CHECKOUT_IN_PROGRESS',
+    'PAYMENT_NOT_AUTHORIZED',
+    'PAYMENT_PROVIDER_UNAVAILABLE',
+    'PAYMENT_REFERENCE_MISMATCH'
+]);
 
 export const zCheckoutAuthTokens = z.object({
     accessToken: z.string(),
@@ -356,6 +403,13 @@ export const zResolveLinkResponse = z.object({
     requiresAction: z.string().optional()
 });
 
+export const zMagicLinkErrorResponse = z.object({
+    statusCode: z.number(),
+    code: zMagicLinkErrorCode,
+    message: z.string(),
+    error: z.string()
+});
+
 export const zRequestLoginCode = z.object({
     email: z.string()
 });
@@ -386,7 +440,7 @@ export const zSelfServiceProfileResponse = z.object({
 export const zUpdateCustomerProfile = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
-    phone: z.string().optional()
+    phone: z.string().nullish()
 });
 
 export const zMarketingConsentResponse = z.object({
@@ -445,6 +499,7 @@ export const zAddress = z.object({
 });
 
 export const zExistingOrderCustomer = z.object({
+    kind: z.enum(['existing']).optional(),
     customerId: z.string(),
     firstName: z.string().nullish(),
     lastName: z.string().nullish(),
@@ -455,6 +510,7 @@ export const zExistingOrderCustomer = z.object({
 });
 
 export const zNewOrderCustomer = z.object({
+    kind: z.enum(['new']).optional(),
     externalId: z.string().optional(),
     email: z.string(),
     firstName: z.string().nullish(),
@@ -730,6 +786,7 @@ export const zAppointmentCreatedResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -740,6 +797,7 @@ export const zAppointmentCreatedResponse = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentCreatedProduct,
     staffMember: zAppointmentCreatedStaffMember.nullable(),
     location: zAppointmentCreatedLocation.nullable(),
@@ -916,6 +974,7 @@ export const zAppointmentListItemResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -926,6 +985,7 @@ export const zAppointmentListItemResponse = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentListItemProduct,
     staffMember: zAppointmentListItemStaffMember.nullable(),
     location: zAppointmentListItemLocation.nullable(),
@@ -1190,13 +1250,7 @@ export const zAppointmentDetailOrderTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -1338,6 +1392,7 @@ export const zAppointmentDetailOrderItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1348,6 +1403,7 @@ export const zAppointmentDetailOrderItemAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentDetailOrderItemProduct,
     staffMember: zAppointmentDetailOrderItemStaffMember.nullable(),
     location: zAppointmentDetailOrderItemLocation.nullable()
@@ -1473,6 +1529,10 @@ export const zAppointmentDetailOrder = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -1489,7 +1549,8 @@ export const zAppointmentDetailOrder = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -1548,6 +1609,7 @@ export const zAppointmentDetailResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1558,6 +1620,7 @@ export const zAppointmentDetailResponse = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentDetailProduct,
     staffMember: zAppointmentDetailStaffMember.nullable(),
     location: zAppointmentDetailLocation.nullable(),
@@ -1751,6 +1814,7 @@ export const zAppointmentResponse = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -1761,6 +1825,7 @@ export const zAppointmentResponse = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentProduct,
     staffMember: zAppointmentStaffMember.nullable(),
     location: zAppointmentLocation.nullable(),
@@ -1929,6 +1994,18 @@ export const zCreateOrderAppointmentsSettings = z.object({
     notifyCustomer: z.boolean().nullish()
 });
 
+export const zCurrentAvailabilitySlot = z.object({
+    productId: z.string(),
+    fromDate: z.string(),
+    fromTime: z.string(),
+    toDate: z.string(),
+    toTime: z.string(),
+    staffMemberIds: z.array(z.string()).nullish(),
+    locationIds: z.array(z.string()).nullish(),
+    attendees: z.number(),
+    maxAttendees: z.number()
+});
+
 export const zOrderListCustomer = z.object({
     id: z.string(),
     externalId: z.string(),
@@ -2075,6 +2152,7 @@ export const zOrderListAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -2085,6 +2163,7 @@ export const zOrderListAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zOrderListAppointmentProduct,
     staffMember: zOrderListAppointmentStaffMember.nullable(),
     location: zOrderListAppointmentLocation.nullable()
@@ -2156,13 +2235,7 @@ export const zOrderListTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2205,6 +2278,10 @@ export const zOrderListItemResponse = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -2221,7 +2298,8 @@ export const zOrderListItemResponse = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -2385,6 +2463,7 @@ export const zOrderDetailAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -2395,6 +2474,7 @@ export const zOrderDetailAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zOrderDetailAppointmentProduct,
     staffMember: zOrderDetailAppointmentStaffMember.nullable(),
     location: zOrderDetailAppointmentLocation.nullable()
@@ -2533,13 +2613,7 @@ export const zOrderDetailParentTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2573,13 +2647,7 @@ export const zOrderDetailChildTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2613,13 +2681,7 @@ export const zOrderDetailTransactionRefundTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2663,13 +2725,7 @@ export const zOrderDetailTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2716,13 +2772,7 @@ export const zOrderDetailRefundTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -2745,16 +2795,6 @@ export const zOrderDetailRefund = z.object({
     total: z.number(),
     lineItems: z.array(zOrderDetailRefundLineItem),
     transactions: z.array(zOrderDetailRefundTransaction)
-});
-
-export const zOrderDetailLog = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    title: z.string(),
-    description: z.string().nullable(),
-    level: zOrderLogLevel,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
 });
 
 export const zOrderDetailResponse = z.object({
@@ -2786,6 +2826,10 @@ export const zOrderDetailResponse = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -2802,7 +2846,8 @@ export const zOrderDetailResponse = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -2818,8 +2863,7 @@ export const zOrderDetailResponse = z.object({
     customer: zOrderDetailCustomer,
     lineItems: z.array(zOrderDetailLineItem),
     transactions: z.array(zOrderDetailTransaction),
-    refunds: z.array(zOrderDetailRefund),
-    logs: z.array(zOrderDetailLog)
+    refunds: z.array(zOrderDetailRefund)
 });
 
 export const zCartCustomer = z.object({
@@ -2996,6 +3040,7 @@ export const zCartItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3006,6 +3051,7 @@ export const zCartItemAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zCartItemProduct,
     staffMember: zCartItemStaffMember.nullable(),
     location: zCartItemLocation.nullable()
@@ -3182,13 +3228,7 @@ export const zUpdateCartAddOn = z.object({
 });
 
 export const zStartCheckout = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     customer: z.union([
         zExistingOrderCustomer,
         zNewOrderCustomer
@@ -3344,6 +3384,7 @@ export const zCheckoutStartCartItemAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3354,6 +3395,7 @@ export const zCheckoutStartCartItemAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zCheckoutStartCartItemProduct.optional(),
     staffMember: zCheckoutStartCartItemStaffMember.nullish(),
     location: zCheckoutStartCartItemLocation.nullish()
@@ -3517,13 +3559,7 @@ export const zCheckoutStartCart = z.object({
 });
 
 export const zCheckoutStartResponse = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
@@ -3533,6 +3569,14 @@ export const zCheckoutStartResponse = z.object({
     invalidItemIds: z.array(z.string()),
     revivedItemIds: z.array(z.string()),
     discountCodeCleared: z.boolean().nullish()
+});
+
+export const zCheckoutErrorResponse = z.object({
+    statusCode: z.number(),
+    code: zCheckoutErrorCode,
+    message: z.string(),
+    orderId: z.string().optional(),
+    paymentStatus: z.string().optional()
 });
 
 export const zCheckoutTrackingData = z.object({
@@ -3748,6 +3792,7 @@ export const zCheckoutOrderAppointment = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -3758,6 +3803,7 @@ export const zCheckoutOrderAppointment = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zCheckoutOrderAppointmentProduct.optional(),
     staffMember: zCheckoutOrderAppointmentStaffMember.nullish(),
     location: zCheckoutOrderAppointmentLocation.nullish(),
@@ -3897,13 +3943,7 @@ export const zCheckoutOrderParentTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -3937,13 +3977,7 @@ export const zCheckoutOrderChildTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -3977,13 +4011,7 @@ export const zCheckoutOrderTransactionRefundTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -4027,13 +4055,7 @@ export const zCheckoutOrderTransaction = z.object({
         'bank_transfer',
         'stripe'
     ]),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     status: z.enum([
         'pending',
         'success',
@@ -4048,16 +4070,6 @@ export const zCheckoutOrderTransaction = z.object({
     parentTransaction: zCheckoutOrderParentTransaction.nullish(),
     childTransactions: z.array(zCheckoutOrderChildTransaction).optional(),
     refund: zCheckoutOrderTransactionRefund.nullish()
-});
-
-export const zCheckoutOrderLog = z.object({
-    id: z.string(),
-    orderId: z.string(),
-    title: z.string(),
-    description: z.string().nullable(),
-    level: zOrderLogLevel,
-    createdAt: z.string().datetime(),
-    updatedAt: z.string().datetime().nullable()
 });
 
 export const zCheckoutOrder = z.object({
@@ -4089,6 +4101,10 @@ export const zCheckoutOrder = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -4105,7 +4121,8 @@ export const zCheckoutOrder = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -4120,14 +4137,28 @@ export const zCheckoutOrder = z.object({
     ]),
     customer: zCheckoutOrderCustomer.nullish(),
     lineItems: z.array(zCheckoutOrderLineItem).optional(),
-    transactions: z.array(zCheckoutOrderTransaction).optional(),
-    logs: z.array(zCheckoutOrderLog).optional()
+    transactions: z.array(zCheckoutOrderTransaction).optional()
+});
+
+export const zPaymentInstructionsBankDetails = z.object({
+    accountName: z.string().nullish(),
+    bankName: z.string().nullish(),
+    iban: z.string().nullish(),
+    swift: z.string().nullish()
+});
+
+export const zPaymentInstructions = z.object({
+    provider: zPaymentProviderName,
+    hostedInvoiceUrl: z.string().nullish(),
+    dueAt: z.string().nullish(),
+    bankDetails: zPaymentInstructionsBankDetails.nullish()
 });
 
 export const zCheckoutResponse = z.object({
     order: zCheckoutOrder,
     auth: zCheckoutAuthTokens.optional(),
-    customer: zCheckoutCustomerInfo.optional()
+    customer: zCheckoutCustomerInfo.optional(),
+    paymentInstructions: zPaymentInstructions.optional()
 });
 
 export const zCartCheckoutQuestionTranslation = z.object({
@@ -4343,7 +4374,7 @@ export const zSetting = z.object({
     timezone: z.string().default('UTC'),
     timeFormat: z.enum(['12H', '24H']).default('24H'),
     dateFormat: z.string().default('YYYY-MM-DD'),
-    reservationGap: z.number().nullable(),
+    reservationGap: z.number(),
     sendAppointmentConfirmationEmail: z.boolean().default(true),
     sendAppointmentReminderEmail: z.boolean().default(false),
     sendAppointmentReminderEmailTimeBefore: z.number().default(3600),
@@ -4501,18 +4532,6 @@ export const zAvailabilitySlot = z.object({
     fromTime: z.string(),
     toDate: z.string(),
     toTime: z.string()
-});
-
-export const zCurrentAvailabilitySlot = z.object({
-    productId: z.string(),
-    fromDate: z.string(),
-    fromTime: z.string(),
-    toDate: z.string(),
-    toTime: z.string(),
-    staffMemberIds: z.array(z.string()).nullish(),
-    locationIds: z.array(z.string()).nullish(),
-    attendees: z.number(),
-    maxAttendees: z.number()
 });
 
 export const zProductSlugVariantStaffMemberLocation = z.object({
@@ -6897,13 +6916,7 @@ export const zAddOnDetailResponse = z.object({
 });
 
 export const zCustomerProviderCatalogItem = z.object({
-    name: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    name: zPaymentProviderName,
     displayName: z.string(),
     description: z.string().optional(),
     checkoutMode: z.enum([
@@ -6928,17 +6941,10 @@ export const zPaymentSettingResponse = z.object({
 
 export const zInvoiceResponse = z.object({
     id: z.string(),
-    storeId: z.string(),
     orderId: z.string(),
     customerId: z.string(),
     number: z.string(),
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     kind: z.enum(['collectible', 'receipt']),
     status: z.enum([
         'draft',
@@ -6949,12 +6955,7 @@ export const zInvoiceResponse = z.object({
     ]),
     amountDue: z.number(),
     currencyCode: z.string(),
-    snapshot: z.record(z.unknown()),
-    externalId: z.string(),
-    paymentIntentId: z.string().nullable(),
     externalUrl: z.string(),
-    pdfStorageKey: z.string(),
-    error: z.string(),
     issuedAt: z.string().datetime(),
     dueAt: z.string().datetime(),
     sentAt: z.string().datetime(),
@@ -7386,6 +7387,7 @@ export const zAppointmentCreatedResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -7396,6 +7398,7 @@ export const zAppointmentCreatedResponseWritable = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentCreatedProduct,
     staffMember: zAppointmentCreatedStaffMember.nullable(),
     location: zAppointmentCreatedLocation.nullable(),
@@ -7442,6 +7445,7 @@ export const zAppointmentListItemResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -7452,6 +7456,7 @@ export const zAppointmentListItemResponseWritable = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentListItemProduct,
     staffMember: zAppointmentListItemStaffMember.nullable(),
     location: zAppointmentListItemLocation.nullable(),
@@ -7497,6 +7502,7 @@ export const zAppointmentDetailResponseWritable = z.object({
     postalCode: z.string().nullish(),
     country: z.string().nullish(),
     status: zAppointmentStatusType,
+    cancelReason: z.string().nullish(),
     createdBy: zAppointmentCreatedByEnum,
     reminderSentAt: z.string().datetime().nullable(),
     numberOfAttendees: z.number().default(1),
@@ -7507,6 +7513,7 @@ export const zAppointmentDetailResponseWritable = z.object({
     deliveryAddress: zDeliveryAddress.nullish(),
     externalOrderId: z.string().nullable(),
     externalOrderName: z.string().nullable(),
+    pendingReason: zStorefrontAppointmentPendingReason.nullish(),
     product: zAppointmentDetailProduct,
     staffMember: zAppointmentDetailStaffMember.nullable(),
     location: zAppointmentDetailLocation.nullable(),
@@ -7567,6 +7574,10 @@ export const zOrderListItemResponseWritable = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -7583,7 +7594,8 @@ export const zOrderListItemResponseWritable = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -7649,6 +7661,10 @@ export const zOrderDetailResponseWritable = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -7665,7 +7681,8 @@ export const zOrderDetailResponseWritable = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -7681,8 +7698,7 @@ export const zOrderDetailResponseWritable = z.object({
     customer: zOrderDetailCustomerWritable,
     lineItems: z.array(zOrderDetailLineItem),
     transactions: z.array(zOrderDetailTransaction),
-    refunds: z.array(zOrderDetailRefund),
-    logs: z.array(zOrderDetailLog)
+    refunds: z.array(zOrderDetailRefund)
 });
 
 export const zCartCustomerWritable = z.object({
@@ -7816,13 +7832,7 @@ export const zCheckoutStartCartWritable = z.object({
 });
 
 export const zCheckoutStartResponseWritable = z.object({
-    provider: z.enum([
-        'stripe',
-        'cash',
-        'bank_transfer',
-        'shopify',
-        'no_payment_required'
-    ]),
+    provider: zPaymentProviderName,
     clientSecret: z.string().nullish(),
     redirectUrl: z.string().nullish(),
     stripeAccountId: z.string().nullish(),
@@ -7882,6 +7892,10 @@ export const zCheckoutOrderWritable = z.object({
     gclid: z.string().nullish(),
     createdAt: z.string().datetime(),
     updatedAt: z.string().datetime().nullable(),
+    paymentDueAt: z.string().datetime().nullish(),
+    approvalDueAt: z.string().datetime().nullish(),
+    cancelledAt: z.string().datetime().nullish(),
+    cancelReason: zOrderCancelReason.nullish(),
     deletedAt: z.string().datetime().nullable(),
     billingAddress: zCustomerAddress.nullish(),
     deliveryAddress: zDeliveryAddress.nullish(),
@@ -7898,7 +7912,8 @@ export const zCheckoutOrderWritable = z.object({
     paymentStatus: z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ]),
     refundStatus: z.enum([
         'refund-owed',
@@ -7913,14 +7928,14 @@ export const zCheckoutOrderWritable = z.object({
     ]),
     customer: zCheckoutOrderCustomerWritable.nullish(),
     lineItems: z.array(zCheckoutOrderLineItem).optional(),
-    transactions: z.array(zCheckoutOrderTransaction).optional(),
-    logs: z.array(zCheckoutOrderLog).optional()
+    transactions: z.array(zCheckoutOrderTransaction).optional()
 });
 
 export const zCheckoutResponseWritable = z.object({
     order: zCheckoutOrderWritable,
     auth: zCheckoutAuthTokens.optional(),
-    customer: zCheckoutCustomerInfo.optional()
+    customer: zCheckoutCustomerInfo.optional(),
+    paymentInstructions: zPaymentInstructions.optional()
 });
 
 export const zAuthSignInBody = zAuthenticateCustomerCredentials;
@@ -8131,7 +8146,8 @@ export const zOrderListQuery = z.object({
     paymentStatuses: z.array(z.enum([
         'unpaid',
         'paid',
-        'partially-paid'
+        'partially-paid',
+        'voided'
     ])).optional(),
     fulfillmentStatuses: z.array(z.enum([
         'partially-fulfilled',

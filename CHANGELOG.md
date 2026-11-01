@@ -1,6 +1,74 @@
 # Changelog
 
-## 0.3.19 (unreleased)
+## 0.3.20 (2026-11-01)
+
+### Added
+
+- **Booking confirmation.** A booking may now wait before it is confirmed: for the customer to pay, or for the
+  merchant to approve it. A booking that is waiting stays `status: 'pending'` and now says why in
+  **`pendingReason`**: `'awaiting_payment'` (pay by `order.paymentDueAt`) or `'awaiting_approval'` (the merchant
+  decides by `order.approvalDueAt`, or by the start time when that is null). New type
+  `StorefrontAppointmentPendingReason`. Confirmed bookings have no reason. A paid booking can still be
+  `awaiting_approval`. Cancelled ones may carry **`cancelReason`** (`unpaid`, `not_approved`, `declined`,
+  `order_cancelled`). A pending appointment that is only in a cart is a hold, not a booking; holds expire
+  (15 minutes by default).
+- **Orders** gain `paymentDueAt`, `approvalDueAt`, `cancelledAt` and `cancelReason` (`OrderCancelReason`), and
+  `paymentStatus` can be `'voided'`: the order was cancelled before anything was paid, so nothing is due.
+- **`stripe_invoice` payment provider** ("Pay by invoice"): a manual provider like `bank_transfer`. Checkout creates
+  the order without taking money and issues a Stripe-hosted invoice, due at the order's payment deadline (`paymentDueAt`).
+- **`CheckoutResponse.paymentInstructions`** for manual providers: `{ provider, hostedInvoiceUrl?, dueAt?,
+  bankDetails? }`. Show the hosted invoice link or the bank details and the due time on your thank-you page.
+- Checkout conflicts answer **409** with an error `code`: `CART_ALREADY_CHECKED_OUT` (`start`, with the `orderId`),
+  `CART_EXPIRED` (a held slot is gone; start a new cart) and **`CHECKOUT_IN_PROGRESS`** (another `start` or `submit`
+  of the same cart is still running; keep the cart and retry shortly).
+- Checkout `start` and `submit` revive an expired (abandoned) cart: they re-hold every slot that is still free and
+  carry on, so `CART_EXPIRED` now only means a slot was taken meanwhile. Adding an item to an expired cart re-opens
+  it with a fresh hold window.
+- Customer objects (`NewOrderCustomer`, `ExistingOrderCustomer`) now declare their `kind` discriminator (`'new'` /
+  `'existing'`), so no cast is needed.
+- **Typed checkout errors.** `CheckoutErrorResponse` with `code: CheckoutErrorCode` (`CART_ALREADY_CHECKED_OUT`,
+  `CART_EXPIRED`, `CHECKOUT_IN_PROGRESS`, `PAYMENT_NOT_AUTHORIZED`, `PAYMENT_PROVIDER_UNAVAILABLE`,
+  `PAYMENT_REFERENCE_MISMATCH`), optional `orderId` and `paymentStatus`. `CheckoutService.start` / `submit` errors are
+  typed as `CheckoutStartErrors` / `CheckoutSubmitErrors`. A 400 can also be a plain validation error without `code`.
+- **Typed magic-link errors.** `AuthService.resolveLink` 400s carry `code: MagicLinkErrorCode` (`TOKEN_INVALID`,
+  `TOKEN_USED`, `TOKEN_EXPIRED`); typed as `MagicLinkErrorResponse` / `AuthResolveLinkErrors`. The messages are unchanged.
+- **`PaymentProviderName`**: one named union for every payment provider field (`PaymentInstructions.provider`,
+  `StartCheckout.provider`, transactions, invoices, `CustomerProviderCatalogItem.name`).
+  `PaymentInstructions.provider` was `string`.
+- Appointment customer objects (`NewAppointmentCustomer`, `ExistingAppointmentCustomer`) declare `kind` too, and
+  `NewAppointmentCustomer` declares `phone`.
+- **Field-level validation errors.** A 400 lists each failing field under its full path in `errors[].property`
+  (`customer.phone`, `customer.billingAddress.postalCode`, `answers.0.answer`), with customer-facing messages.
+- **Phones are validated everywhere in international format** (`+` and country code, e.g. `+44 7911 123456`):
+  customer objects (with or without `kind`), appointment customers, billing/delivery addresses and the profile.
+  An empty string clears a phone; `UpdateCustomerProfile.phone` accepts `null`.
+- **`OpencalsApiError.body`**: the parsed JSON error body, for the extra fields some errors carry (`orderId` with
+  `CART_ALREADY_CHECKED_OUT`, `paymentStatus` with `PAYMENT_NOT_AUTHORIZED`).
+- `pendingReason` and `cancelReason` are typed as the enum **or `null`** (`StorefrontAppointmentPendingReason | null`,
+  `OrderCancelReason | null`), and their Zod schemas accept `null`, matching what the API returns.
+- `submit` answers **402** with `code: 'PAYMENT_NOT_AUTHORIZED'` (and the provider's `paymentStatus`) when the card
+  payment isn't authorised, e.g. declined or 3-D Secure not completed. No order is placed and the cart is untouched,
+  so the customer can retry the payment and submit again.
+- Every store has a hold window (15 minutes by default). `CartService.extendExpiration` and checkout `start` only
+  push `expiresAt` later, never shorten it.
+
+### Breaking
+
+- **Orders no longer carry `logs`.** Order logs are merchant-only, and the storefront API no longer returns them
+  from any endpoint (order list and detail, checkout `submit`, appointment detail). The `logs` property is gone from
+  every order type, and the `OrderDetailLog`, `CheckoutOrderLog` and `OrderLogLevel` types are removed, so code
+  that reads `order.logs` or imports those types no longer compiles. At runtime the field is simply absent.
+- **Storefront invoices drop internal fields.** `GET /storefront/orders/{id}/invoices` no longer returns `storeId`,
+  `snapshot`, `externalId`, `paymentIntentId`, `pdfStorageKey` or `error`; they are gone from the invoice type. Use
+  `number`, `status`, `externalUrl`, `dueAt` and the amounts.
+- Checkout `start` answers **400 `PAYMENT_PROVIDER_UNAVAILABLE`** for a provider the store hasn't enabled, and
+  `submit` answers **400 `PAYMENT_REFERENCE_MISMATCH`** when `stripePaymentIntentId` isn't the PaymentIntent `start`
+  created for this cart. Send the provider from the providers list and the PaymentIntent from `start`'s `clientSecret`.
+  Migration: drop any read of `order.logs` and any import of those types.
+- `appointmentsSettings.markAsScheduled` on checkout submit is still accepted but no longer decides confirmation;
+  the store does. Read `pendingReason` on the returned appointments instead.
+
+## 0.3.19 (2026-10-24)
 
 ### Added
 

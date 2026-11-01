@@ -34,7 +34,8 @@ setupOpencals({
   apiKey: 'sfk_...',          // or set OPENCALS_API_KEY env var
   baseUrl: 'https://...',     // optional, defaults to https://api.opencals.com
   logging: true,              // optional request/response logging
-  errorHandler: true,         // throws OpencalsApiError on failures (default)
+  errorHandler: true,         // turns failures into OpencalsApiError (default)
+  throwOnError: true,         // throw it; otherwise calls resolve to { data: undefined, error }
   customerToken: 'eyJ...',    // optional customer JWT for authenticated requests
   buyerIp: () => '203.0.113.7', // optional, server-side: the buyer's IP (see below)
 });
@@ -114,11 +115,19 @@ const { data } = await ProductService.getCurrentAvailabilities({
 
 ### Cart & Checkout
 
-```ts
-import { CartService, CheckoutService, AppointmentService } from '@opencals/storefront-sdk';
+Every cart and checkout call names its cart with the `X-Cart-Id` header. The examples assume
+`setupOpencals({ ..., throwOnError: true })`.
 
-// Create appointment
-const { data: appointment } = await AppointmentService.create({
+```ts
+import { CartService, CheckoutService, AppointmentService, OpencalsApiError } from '@opencals/storefront-sdk';
+import type { NewOrderCustomer } from '@opencals/storefront-sdk';
+
+// Create the cart (or fetch the one you stored), then hold a slot in it. Passing `cartId` to
+// AppointmentService.create adds the appointment to that cart. Times are UTC.
+const { data: cart } = await CartService.createOrGet({ headers: { 'X-Cart-Id': savedCartId ?? '' } });
+const cartHeaders = { 'X-Cart-Id': cart.id };
+
+await AppointmentService.create({
   body: {
     slot: {
       productId: 'prod_123',
@@ -128,19 +137,83 @@ const { data: appointment } = await AppointmentService.create({
       toTime: '11:00:00',
     },
     numberOfAttendees: 1,
+    cartId: cart.id,
   },
 });
 
-// Create or get cart, add appointment
-const { data: cart } = await CartService.createOrGet();
-await CartService.addItem({ body: { appointmentId: appointment.id } });
+// Customer objects carry a `kind`: 'new' (with email and names) or 'existing' (with `customerId`).
+const customer: NewOrderCustomer = { kind: 'new', email: 'john@example.com', firstName: 'John', lastName: 'Smith' };
 
-// Checkout
+// 1. Start checkout: attaches the customer, re-checks the cart and creates the payment.
 const { data: checkout } = await CheckoutService.start({
-  body: { provider: 'stripe', customer: { email: 'john@example.com' } },
+  headers: cartHeaders,
+  body: { provider: 'stripe', customer },
 });
-await CheckoutService.submit();
+
+// 2. Card payments: confirm the PaymentIntent in the browser with Stripe.js before submitting.
+//    Submitting an unconfirmed payment answers 402 PAYMENT_NOT_AUTHORIZED.
+const stripe = await loadStripe(checkout.publishableKey!, { stripeAccount: checkout.stripeAccountId ?? undefined });
+const elements = stripe!.elements({ clientSecret: checkout.clientSecret! });
+// ...mount a Payment Element from `elements` and let the customer enter their card, then:
+const { error, paymentIntent } = await stripe!.confirmPayment({ elements, redirect: 'if_required' });
+if (error) throw error; // show error.message, let the customer try again
+
+// 3. Submit: places the order.
+const { data: result } = await CheckoutService.submit({
+  headers: cartHeaders,
+  body: { stripePaymentIntentId: paymentIntent!.id },
+});
+
+// Manual payment methods (bank transfer, cash, Stripe invoice) skip step 2 and return
+// `paymentInstructions` to show on the thank-you page.
+if (result.paymentInstructions?.hostedInvoiceUrl) {
+  // link the customer to the hosted invoice
+}
 ```
+
+#### Booking status
+
+Not every booking is confirmed straight away. The store may wait for payment or for its own approval. Treat an
+appointment as **awaiting confirmation** when `status === 'pending'` **and** `pendingReason` is set (not `null`):
+
+- `'awaiting_payment'`: confirmed once the order is paid, by `order.paymentDueAt`.
+- `'awaiting_approval'`: the merchant decides, by `order.approvalDueAt` (or the start time when that is `null`).
+
+A `pending` appointment with no `pendingReason` is only a hold in a cart, not a booking. Label awaiting bookings
+"Awaiting payment" or "Awaiting confirmation" rather than "Confirmed".
+
+Order `paymentStatus` is `'unpaid'`, `'paid'`, `'partially-paid'` or `'voided'`. `voided` means the order was
+cancelled before anything was paid, so nothing is due. Cancelled orders and appointments may say why in
+`cancelReason`.
+
+#### Checkout errors
+
+Failed calls throw `OpencalsApiError` with the HTTP `status`, the API's `message`, a machine-readable `code` when
+the API sends one, and the parsed error `body` for any extra fields:
+
+| Status | `code` | When | What to do |
+|---|---|---|---|
+| 409 | `CART_ALREADY_CHECKED_OUT` | `start` on a cart that already became an order. `body.orderId` is that order. | Show that order, or start a new cart. |
+| 409 | `CART_EXPIRED` | A held slot was released and taken meanwhile. | Start a new cart and pick a time again. |
+| 409 | `CHECKOUT_IN_PROGRESS` | Another `start` or `submit` of the same cart is still running. | Keep the cart and retry shortly. |
+| 402 | `PAYMENT_NOT_AUTHORIZED` | `submit` with a card payment that isn't authorised (declined, 3-D Secure not completed). `body.paymentStatus` is the provider's status. | No order was placed and the cart is untouched: let the customer confirm the payment again, then submit again. |
+
+```ts
+try {
+  await CheckoutService.submit({ headers: cartHeaders, body: { stripePaymentIntentId } });
+} catch (err) {
+  if (err instanceof OpencalsApiError) {
+    if (err.code === 'PAYMENT_NOT_AUTHORIZED') {
+      // ask the customer to complete or retry the payment
+    } else if (err.code === 'CART_ALREADY_CHECKED_OUT') {
+      const orderId = err.body?.orderId as string | undefined;
+    }
+  }
+  throw err;
+}
+```
+
+An expired cart isn't an error by itself: `start` and `submit` re-hold every slot that is still free and carry on.
 
 ### Customer Auth
 

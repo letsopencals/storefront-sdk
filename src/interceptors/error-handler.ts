@@ -10,6 +10,11 @@ export class OpencalsApiError extends Error {
 	readonly url: string;
 	/** Machine-readable reason when the API sends one, e.g. `CODE_EXPIRED` for a rejected discount code. */
 	readonly code?: string;
+	/**
+	 * The parsed JSON error body, when there is one. Carries the extra fields some errors send, e.g. `orderId` with
+	 * `CART_ALREADY_CHECKED_OUT` or `paymentStatus` with `PAYMENT_NOT_AUTHORIZED`.
+	 */
+	readonly body?: Record<string, unknown>;
 
 	constructor(options: {
 		message: string;
@@ -18,6 +23,7 @@ export class OpencalsApiError extends Error {
 		url: string;
 		errors?: Array<{ property: string; messages: string[] }>;
 		code?: string;
+		body?: Record<string, unknown>;
 	}) {
 		super(options.message);
 		this.name = 'OpencalsApiError';
@@ -26,6 +32,7 @@ export class OpencalsApiError extends Error {
 		this.url = options.url;
 		this.errors = options.errors;
 		this.code = options.code;
+		this.body = options.body;
 	}
 
 	/**
@@ -66,5 +73,6 @@ export async function errorHandlerInterceptor(response: Response, _requestOption
 		url: response.url,
 		errors: body?.errors,
 		code: typeof body?.code === 'string' ? body.code : undefined,
+		body: body && typeof body === 'object' && !Array.isArray(body) ? body : undefined,
 	});
 }

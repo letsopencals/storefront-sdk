@@ -46,6 +46,11 @@ export type AppointmentStatusType = 'pending' | 'scheduled' | 'completed' | 'can
  */
 export type AppointmentCreatedByEnum = 'customer' | 'merchant';
 
+/**
+ * Why the order was cancelled (unpaid, not_approved, declined, external, customer).
+ */
+export type OrderCancelReason = 'unpaid' | 'not_approved' | 'declined' | 'external' | 'customer';
+
 export type CustomerAddress = {
     /**
      * Unique identifier of the address
@@ -126,11 +131,6 @@ export type CustomerAddress = {
 };
 
 /**
- * Severity level of the log entry
- */
-export type OrderLogLevel = 'info' | 'error';
-
-/**
  * Requirement level for the customer billing address (street fields) at checkout. When required, address line 1, city, postal code and country are mandatory.
  */
 export type CheckoutFieldRequirement = 'hidden' | 'optional' | 'required';
@@ -139,6 +139,11 @@ export type CheckoutFieldRequirement = 'hidden' | 'optional' | 'required';
  * Where the WhatsApp marketing opt-in checkbox is shown
  */
 export type MarketingOptInDisplay = 'dont_show' | 'checkout_only' | 'checkout_and_account';
+
+/**
+ * TOKEN_INVALID: the token is unknown or belongs to another store. TOKEN_USED: the link was already used. TOKEN_EXPIRED: the link expired; request a new one.
+ */
+export type MagicLinkErrorCode = 'TOKEN_INVALID' | 'TOKEN_USED' | 'TOKEN_EXPIRED';
 
 /**
  * WhatsApp marketing consent state
@@ -178,12 +183,20 @@ export type AppointmentDateRangeSlot = {
 
 export type ExistingAppointmentCustomer = {
     /**
+     * Which customer shape this is. Send `'existing'` when booking for an existing customer.
+     */
+    kind?: 'existing';
+    /**
      * ID of an existing customer to book the appointment for
      */
     customerId: string;
 };
 
 export type NewAppointmentCustomer = {
+    /**
+     * Which customer shape this is. Send `'new'` when booking for a new customer.
+     */
+    kind?: 'new';
     /**
      * External identifier for the new customer
      */
@@ -200,7 +213,16 @@ export type NewAppointmentCustomer = {
      * Last name of the new customer
      */
     lastName?: string | null;
+    /**
+     * Phone number of the new customer
+     */
+    phone?: string | null;
 };
+
+/**
+ * Why a placed booking is still pending: awaiting payment, or awaiting the merchant's approval. Null for confirmed appointments and for holds (a pending appointment with no order).
+ */
+export type StorefrontAppointmentPendingReason = 'awaiting_payment' | 'awaiting_approval';
 
 export type QuestionAnswer = {
     /**
@@ -220,6 +242,16 @@ export type QuestionAnswer = {
      */
     fileIds?: Array<string>;
 };
+
+/**
+ * A payment provider: stripe (card), cash, bank_transfer, shopify, stripe_invoice (Stripe-hosted invoice paid after booking) or no_payment_required (nothing to collect).
+ */
+export type PaymentProviderName = 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'stripe_invoice' | 'no_payment_required';
+
+/**
+ * Machine-readable reason. 409 CART_ALREADY_CHECKED_OUT: the cart already became an order (see `orderId`); start a new cart. 409 CART_EXPIRED: the reserved times were released and at least one is gone; start a new booking. 409 CHECKOUT_IN_PROGRESS: another submit of this cart is placing its order; retry shortly. 402 PAYMENT_NOT_AUTHORIZED: the card payment was not authorised (see `paymentStatus`); confirm the payment or use another card, then submit again. 400 PAYMENT_PROVIDER_UNAVAILABLE: the store has not enabled this payment method. 400 PAYMENT_REFERENCE_MISMATCH: the PaymentIntent sent at submit does not belong to this checkout; restart checkout.
+ */
+export type CheckoutErrorCode = 'CART_ALREADY_CHECKED_OUT' | 'CART_EXPIRED' | 'CHECKOUT_IN_PROGRESS' | 'PAYMENT_NOT_AUTHORIZED' | 'PAYMENT_PROVIDER_UNAVAILABLE' | 'PAYMENT_REFERENCE_MISMATCH';
 
 export type CheckoutAuthTokens = {
     /**
@@ -261,6 +293,10 @@ export type CheckoutCustomerInfo = {
 
 export type ExistingOrderCustomer = {
     /**
+     * Which customer shape this is. Send `'existing'` with checkout (start and save-customer) and storefront orders.
+     */
+    kind?: 'existing';
+    /**
      * ID of an existing customer to book the appointment for
      */
     customerId: string;
@@ -291,6 +327,10 @@ export type ExistingOrderCustomer = {
 };
 
 export type NewOrderCustomer = {
+    /**
+     * Which customer shape this is. Send `'new'` with checkout (start and save-customer) and storefront orders.
+     */
+    kind?: 'new';
     /**
      * External identifier for the new customer
      */
@@ -567,6 +607,22 @@ export type ResolveLinkResponse = {
     requiresAction?: string;
 };
 
+export type MagicLinkErrorResponse = {
+    /**
+     * HTTP status code
+     */
+    statusCode: number;
+    code: MagicLinkErrorCode;
+    /**
+     * Human-readable explanation
+     */
+    message: string;
+    /**
+     * HTTP status text
+     */
+    error: string;
+};
+
 export type RequestLoginCode = {
     /**
      * Customer email address
@@ -655,9 +711,9 @@ export type UpdateCustomerProfile = {
      */
     lastName?: string;
     /**
-     * Phone number of the customer
+     * Phone number of the customer in international format (`+` and country code, e.g. `+44 7911 123456`). Send `null` (or an empty string) to clear it.
      */
-    phone?: string;
+    phone?: string | null;
 };
 
 export type MarketingConsentResponse = {
@@ -1544,6 +1600,10 @@ export type AppointmentCreatedResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -1587,6 +1647,7 @@ export type AppointmentCreatedResponse = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -2135,6 +2196,10 @@ export type AppointmentListItemResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -2178,6 +2243,7 @@ export type AppointmentListItemResponse = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -2884,7 +2950,7 @@ export type AppointmentDetailOrderTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -3298,6 +3364,10 @@ export type AppointmentDetailOrderItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -3341,6 +3411,7 @@ export type AppointmentDetailOrderItemAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product for this line item
      */
@@ -3734,6 +3805,19 @@ export type AppointmentDetailOrder = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -3788,7 +3872,7 @@ export type AppointmentDetailOrder = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -3972,6 +4056,10 @@ export type AppointmentDetailResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -4015,6 +4103,7 @@ export type AppointmentDetailResponse = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -4542,6 +4631,10 @@ export type AppointmentResponse = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -4585,6 +4678,7 @@ export type AppointmentResponse = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -5044,6 +5138,45 @@ export type CreateOrderAppointmentsSettings = {
     notifyCustomer?: boolean | null;
 };
 
+export type CurrentAvailabilitySlot = {
+    /**
+     * ID of the product this slot belongs to
+     */
+    productId: string;
+    /**
+     * Start date of the slot (YYYY-MM-DD, UTC)
+     */
+    fromDate: string;
+    /**
+     * Start time of the slot (HH:MM:SS, UTC)
+     */
+    fromTime: string;
+    /**
+     * End date of the slot (YYYY-MM-DD, UTC)
+     */
+    toDate: string;
+    /**
+     * End time of the slot (HH:MM:SS, UTC)
+     */
+    toTime: string;
+    /**
+     * Comma-separated staff member IDs associated with this slot, or null
+     */
+    staffMemberIds?: Array<string> | null;
+    /**
+     * Comma-separated location IDs associated with this slot, or null
+     */
+    locationIds?: Array<string> | null;
+    /**
+     * Total booked attendees overlapping this slot
+     */
+    attendees: number;
+    /**
+     * Maximum attendees capacity for this product
+     */
+    maxAttendees: number;
+};
+
 export type OrderListCustomer = {
     /**
      * Unique identifier of the customer
@@ -5487,6 +5620,10 @@ export type OrderListAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -5530,6 +5667,7 @@ export type OrderListAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -5748,7 +5886,7 @@ export type OrderListTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -5913,6 +6051,19 @@ export type OrderListItemResponse = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -5967,7 +6118,7 @@ export type OrderListItemResponse = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -6433,6 +6584,10 @@ export type OrderDetailAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -6476,6 +6631,7 @@ export type OrderDetailAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -6843,7 +6999,7 @@ export type OrderDetailParentTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -6912,7 +7068,7 @@ export type OrderDetailChildTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -6981,7 +7137,7 @@ export type OrderDetailTransactionRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -7081,7 +7237,7 @@ export type OrderDetailTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -7193,7 +7349,7 @@ export type OrderDetailRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -7257,34 +7413,6 @@ export type OrderDetailRefund = {
      * Transactions associated with this refund
      */
     transactions: Array<OrderDetailRefundTransaction>;
-};
-
-export type OrderDetailLog = {
-    /**
-     * Unique identifier of the order log entry
-     */
-    id: string;
-    /**
-     * ID of the order this log entry relates to
-     */
-    orderId: string;
-    /**
-     * Title or summary of the log entry
-     */
-    title: string;
-    /**
-     * Detailed description or additional information about the log entry
-     */
-    description: string | null;
-    level: OrderLogLevel;
-    /**
-     * Date and time when this log entry was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when this log entry was last updated
-     */
-    updatedAt: string | null;
 };
 
 export type OrderDetailResponse = {
@@ -7421,6 +7549,19 @@ export type OrderDetailResponse = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -7475,7 +7616,7 @@ export type OrderDetailResponse = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -7500,10 +7641,6 @@ export type OrderDetailResponse = {
      * Refunds associated with this order
      */
     refunds: Array<OrderDetailRefund>;
-    /**
-     * Order activity logs
-     */
-    logs: Array<OrderDetailLog>;
 };
 
 export type CartCustomer = {
@@ -8012,6 +8149,10 @@ export type CartItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -8055,6 +8196,7 @@ export type CartItemAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -8567,7 +8709,7 @@ export type StartCheckout = {
     /**
      * Payment provider to use for this checkout
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * Customer information to attach to the cart and appointments
      */
@@ -9029,6 +9171,10 @@ export type CheckoutStartCartItemAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -9072,6 +9218,7 @@ export type CheckoutStartCartItemAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -9556,10 +9703,7 @@ export type CheckoutStartCart = {
 };
 
 export type CheckoutStartResponse = {
-    /**
-     * Payment provider used
-     */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * Stripe client secret for payment confirmation
      */
@@ -9598,6 +9742,26 @@ export type CheckoutStartResponse = {
     discountCodeCleared?: boolean | null;
 };
 
+export type CheckoutErrorResponse = {
+    /**
+     * HTTP status code (409, 402 or 400)
+     */
+    statusCode: number;
+    code: CheckoutErrorCode;
+    /**
+     * Human-readable explanation
+     */
+    message: string;
+    /**
+     * CART_ALREADY_CHECKED_OUT only: the order the cart already became
+     */
+    orderId?: string;
+    /**
+     * PAYMENT_NOT_AUTHORIZED only: the payment provider's status for the payment. For Stripe one of requires_payment_method, requires_confirmation, requires_action or canceled.
+     */
+    paymentStatus?: string;
+};
+
 export type CheckoutTrackingData = {
     /**
      * Google Ads click ID (gclid) captured from the landing URL
@@ -9607,7 +9771,7 @@ export type CheckoutTrackingData = {
 
 export type SubmitCheckout = {
     /**
-     * Stripe PaymentIntent ID (if payment was confirmed on frontend)
+     * Stripe PaymentIntent ID the client confirmed. Must be the PaymentIntent checkout start created for this cart (for its current amount); any other one is rejected with 400 PAYMENT_REFERENCE_MISMATCH.
      */
     stripePaymentIntentId?: string;
     /**
@@ -10169,6 +10333,10 @@ export type CheckoutOrderAppointment = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -10212,6 +10380,7 @@ export type CheckoutOrderAppointment = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -10583,7 +10752,7 @@ export type CheckoutOrderParentTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -10652,7 +10821,7 @@ export type CheckoutOrderChildTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -10721,7 +10890,7 @@ export type CheckoutOrderTransactionRefundTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -10821,7 +10990,7 @@ export type CheckoutOrderTransaction = {
     /**
      * The payment provider (replaces gateway)
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * The status of the transaction
      */
@@ -10862,34 +11031,6 @@ export type CheckoutOrderTransaction = {
      * The refund this transaction belongs to
      */
     refund?: CheckoutOrderTransactionRefund | null;
-};
-
-export type CheckoutOrderLog = {
-    /**
-     * Unique identifier of the order log entry
-     */
-    id: string;
-    /**
-     * ID of the order this log entry relates to
-     */
-    orderId: string;
-    /**
-     * Title or summary of the log entry
-     */
-    title: string;
-    /**
-     * Detailed description or additional information about the log entry
-     */
-    description: string | null;
-    level: OrderLogLevel;
-    /**
-     * Date and time when this log entry was created
-     */
-    createdAt: string;
-    /**
-     * Date and time when this log entry was last updated
-     */
-    updatedAt: string | null;
 };
 
 export type CheckoutOrder = {
@@ -11026,6 +11167,19 @@ export type CheckoutOrder = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -11080,7 +11234,7 @@ export type CheckoutOrder = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -11101,10 +11255,44 @@ export type CheckoutOrder = {
      * Transactions associated with this order
      */
     transactions?: Array<CheckoutOrderTransaction>;
+};
+
+export type PaymentInstructionsBankDetails = {
     /**
-     * Order activity logs
+     * Account holder name
      */
-    logs?: Array<CheckoutOrderLog>;
+    accountName?: string | null;
+    /**
+     * Bank name
+     */
+    bankName?: string | null;
+    /**
+     * IBAN (or account number)
+     */
+    iban?: string | null;
+    /**
+     * SWIFT / BIC
+     */
+    swift?: string | null;
+};
+
+export type PaymentInstructions = {
+    /**
+     * The payment method chosen at checkout. Only the manual methods occur here: bank_transfer, cash or stripe_invoice.
+     */
+    provider: PaymentProviderName;
+    /**
+     * Stripe invoice: the hosted invoice page where the customer pays (null while it's being issued)
+     */
+    hostedInvoiceUrl?: string | null;
+    /**
+     * When the order must be paid by (ISO 8601). After it, an unpaid order is cancelled. Null when the store sets no deadline.
+     */
+    dueAt?: string | null;
+    /**
+     * Bank transfer: the account to pay into
+     */
+    bankDetails?: PaymentInstructionsBankDetails | null;
 };
 
 export type CheckoutResponse = {
@@ -11120,6 +11308,10 @@ export type CheckoutResponse = {
      * Customer information
      */
     customer?: CheckoutCustomerInfo;
+    /**
+     * How to pay, for orders placed with a manual payment method (bank transfer, cash, Stripe invoice) that still have something to pay. Absent for card payments and paid orders.
+     */
+    paymentInstructions?: PaymentInstructions;
 };
 
 export type CartCheckoutQuestionTranslation = {
@@ -11283,9 +11475,9 @@ export type Setting = {
      */
     dateFormat: string;
     /**
-     * Blocks bookings for the given number of seconds; after this period, pending appointments are canceled
+     * How long (seconds) a slot in a customer cart is held before it is released. Every store has one (default 900).
      */
-    reservationGap: number | null;
+    reservationGap: number;
     /**
      * Whether to send confirmation emails for appointments
      */
@@ -11753,45 +11945,6 @@ export type AvailabilitySlot = {
      * End time of the slot (HH:MM:SS, UTC)
      */
     toTime: string;
-};
-
-export type CurrentAvailabilitySlot = {
-    /**
-     * ID of the product this slot belongs to
-     */
-    productId: string;
-    /**
-     * Start date of the slot (YYYY-MM-DD, UTC)
-     */
-    fromDate: string;
-    /**
-     * Start time of the slot (HH:MM:SS, UTC)
-     */
-    fromTime: string;
-    /**
-     * End date of the slot (YYYY-MM-DD, UTC)
-     */
-    toDate: string;
-    /**
-     * End time of the slot (HH:MM:SS, UTC)
-     */
-    toTime: string;
-    /**
-     * Comma-separated staff member IDs associated with this slot, or null
-     */
-    staffMemberIds?: Array<string> | null;
-    /**
-     * Comma-separated location IDs associated with this slot, or null
-     */
-    locationIds?: Array<string> | null;
-    /**
-     * Total booked attendees overlapping this slot
-     */
-    attendees: number;
-    /**
-     * Maximum attendees capacity for this product
-     */
-    maxAttendees: number;
 };
 
 export type ProductSlugVariantStaffMemberLocation = {
@@ -17335,7 +17488,7 @@ export type CustomerProviderCatalogItem = {
     /**
      * Provider identifier
      */
-    name: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    name: PaymentProviderName;
     /**
      * Display name for UI
      */
@@ -17370,10 +17523,6 @@ export type PaymentSettingResponse = {
 export type InvoiceResponse = {
     id: string;
     /**
-     * Store that owns the invoice
-     */
-    storeId: string;
-    /**
      * Order the invoice was issued for
      */
     orderId: string;
@@ -17388,7 +17537,7 @@ export type InvoiceResponse = {
     /**
      * Provider used to issue the invoice
      */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * Whether this is a collectible invoice or a paid receipt
      */
@@ -17403,31 +17552,9 @@ export type InvoiceResponse = {
      */
     currencyCode: string;
     /**
-     * Immutable snapshot of the billable state at issue time
-     */
-    snapshot: {
-        [key: string]: unknown;
-    };
-    /**
-     * External invoice id (Stripe invoice id / Shopify reference)
-     */
-    externalId: string;
-    /**
-     * For receipts: the Stripe PaymentIntent (pi_...) this receipt documents. Null for collectible invoices.
-     */
-    paymentIntentId: string | null;
-    /**
      * Hosted invoice / payment URL (e.g. Stripe hosted_invoice_url)
      */
     externalUrl: string;
-    /**
-     * S3 object key of the generated PDF (manual invoices)
-     */
-    pdfStorageKey: string;
-    /**
-     * Failure reason when status is failed
-     */
-    error: string;
     /**
      * When the invoice was issued
      */
@@ -17909,6 +18036,10 @@ export type AppointmentCreatedResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -17952,6 +18083,7 @@ export type AppointmentCreatedResponseWritable = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -18124,6 +18256,10 @@ export type AppointmentListItemResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -18167,6 +18303,7 @@ export type AppointmentListItemResponseWritable = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -18335,6 +18472,10 @@ export type AppointmentDetailResponseWritable = {
      */
     country?: string | null;
     status: AppointmentStatusType;
+    /**
+     * Why the appointment was cancelled (e.g. unpaid, not_approved, declined, order_cancelled). Null when it was cancelled without a recorded reason or is not cancelled.
+     */
+    cancelReason?: string | null;
     createdBy: AppointmentCreatedByEnum;
     /**
      * Date and time when reminder was sent to the customer
@@ -18378,6 +18519,7 @@ export type AppointmentDetailResponseWritable = {
      * @deprecated
      */
     externalOrderName: string | null;
+    pendingReason?: StorefrontAppointmentPendingReason | null;
     /**
      * Service/product details for this appointment
      */
@@ -18618,6 +18760,19 @@ export type OrderListItemResponseWritable = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -18672,7 +18827,7 @@ export type OrderListItemResponseWritable = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -18893,6 +19048,19 @@ export type OrderDetailResponseWritable = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -18947,7 +19115,7 @@ export type OrderDetailResponseWritable = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -18972,10 +19140,6 @@ export type OrderDetailResponseWritable = {
      * Refunds associated with this order
      */
     refunds: Array<OrderDetailRefund>;
-    /**
-     * Order activity logs
-     */
-    logs: Array<OrderDetailLog>;
 };
 
 export type CartCustomerWritable = {
@@ -19465,10 +19629,7 @@ export type CheckoutStartCartWritable = {
 };
 
 export type CheckoutStartResponseWritable = {
-    /**
-     * Payment provider used
-     */
-    provider: 'stripe' | 'cash' | 'bank_transfer' | 'shopify' | 'no_payment_required';
+    provider: PaymentProviderName;
     /**
      * Stripe client secret for payment confirmation
      */
@@ -19705,6 +19866,19 @@ export type CheckoutOrderWritable = {
      */
     updatedAt: string | null;
     /**
+     * When the order must be paid by. After this moment an order with nothing paid is cancelled: its appointments are cancelled, open invoices voided, and the order kept on record with nothing due. Null when the store has no payment deadline or nothing was due.
+     */
+    paymentDueAt?: string | null;
+    /**
+     * When the merchant must approve the booking by (the review deadline of the confirmation settings). Unapproved bookings are cancelled after this moment. Null when no approval is pending or no deadline applies.
+     */
+    approvalDueAt?: string | null;
+    /**
+     * When the order was cancelled as a whole. Null for active orders.
+     */
+    cancelledAt?: string | null;
+    cancelReason?: OrderCancelReason | null;
+    /**
      * Date and time when the order was soft-deleted
      */
     deletedAt: string | null;
@@ -19759,7 +19933,7 @@ export type CheckoutOrderWritable = {
     /**
      * Payment status of the order
      */
-    paymentStatus: 'unpaid' | 'paid' | 'partially-paid';
+    paymentStatus: 'unpaid' | 'paid' | 'partially-paid' | 'voided';
     /**
      * Refund status of the order
      */
@@ -19780,10 +19954,6 @@ export type CheckoutOrderWritable = {
      * Transactions associated with this order
      */
     transactions?: Array<CheckoutOrderTransaction>;
-    /**
-     * Order activity logs
-     */
-    logs?: Array<CheckoutOrderLog>;
 };
 
 export type CheckoutResponseWritable = {
@@ -19799,6 +19969,10 @@ export type CheckoutResponseWritable = {
      * Customer information
      */
     customer?: CheckoutCustomerInfo;
+    /**
+     * How to pay, for orders placed with a manual payment method (bank transfer, cash, Stripe invoice) that still have something to pay. Absent for card payments and paid orders.
+     */
+    paymentInstructions?: PaymentInstructions;
 };
 
 export type AuthSignInData = {
@@ -19916,6 +20090,15 @@ export type AuthResolveLinkData = {
     };
     url: '/storefront/auth/resolve-link';
 };
+
+export type AuthResolveLinkErrors = {
+    /**
+     * The token is invalid (TOKEN_INVALID), already used (TOKEN_USED) or expired (TOKEN_EXPIRED).
+     */
+    400: MagicLinkErrorResponse;
+};
+
+export type AuthResolveLinkError = AuthResolveLinkErrors[keyof AuthResolveLinkErrors];
 
 export type AuthResolveLinkResponses = {
     200: ResolveLinkResponse;
@@ -20339,7 +20522,7 @@ export type OrderListData = {
         /**
          * Filter appointments by payment status
          */
-        paymentStatuses?: Array<'unpaid' | 'paid' | 'partially-paid'>;
+        paymentStatuses?: Array<'unpaid' | 'paid' | 'partially-paid' | 'voided'>;
         /**
          * Filter appointments by fulfillment status
          */
@@ -20578,6 +20761,19 @@ export type CheckoutStartData = {
     url: '/storefront/cart/checkout/start';
 };
 
+export type CheckoutStartErrors = {
+    /**
+     * PAYMENT_PROVIDER_UNAVAILABLE: the store has not enabled this payment method. Input-validation and empty-cart 400s use the default error body without `code`.
+     */
+    400: CheckoutErrorResponse;
+    /**
+     * CART_ALREADY_CHECKED_OUT (with `orderId`): the cart already became an order. CART_EXPIRED: the cart expired and a reserved time is no longer available. CHECKOUT_IN_PROGRESS: a submit of this cart is placing its order.
+     */
+    409: CheckoutErrorResponse;
+};
+
+export type CheckoutStartError = CheckoutStartErrors[keyof CheckoutStartErrors];
+
 export type CheckoutStartResponses = {
     /**
      * Checkout started with provider info and client secret (if any).
@@ -20596,6 +20792,23 @@ export type CheckoutSubmitData = {
     query?: never;
     url: '/storefront/cart/checkout/submit';
 };
+
+export type CheckoutSubmitErrors = {
+    /**
+     * PAYMENT_REFERENCE_MISMATCH: the PaymentIntent sent at submit does not belong to this checkout. Input-validation, empty-cart and changed-total 400s use the default error body without `code`.
+     */
+    400: CheckoutErrorResponse;
+    /**
+     * PAYMENT_NOT_AUTHORIZED (with `paymentStatus`): the card payment was not authorised. The cart is kept, so the customer can confirm the payment or use another card and submit again.
+     */
+    402: CheckoutErrorResponse;
+    /**
+     * CHECKOUT_IN_PROGRESS: another submit of this cart is placing its order; retry shortly. CART_EXPIRED: the cart expired and a reserved time is no longer available (an uncaptured card hold is released). A cart that was already placed is not an error here: submit returns that order (200).
+     */
+    409: CheckoutErrorResponse;
+};
+
+export type CheckoutSubmitError = CheckoutSubmitErrors[keyof CheckoutSubmitErrors];
 
 export type CheckoutSubmitResponses = {
     /**
