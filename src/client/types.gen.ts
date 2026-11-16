@@ -217,6 +217,11 @@ export type NewAppointmentCustomer = {
      * Phone number of the new customer
      */
     phone?: string | null;
+    language?: LanguageCode;
+    /**
+     * ID of a customer of this store to update with these details
+     */
+    id?: string;
 };
 
 /**
@@ -363,6 +368,14 @@ export type NewOrderCustomer = {
      * Delivery/shipping address for services with delivery location selected. One per order, applied to every delivery appointment.
      */
     deliveryAddress?: Address;
+    /**
+     * Merchant orders only: ID of a customer of this store to update with these details
+     */
+    id?: string;
+    /**
+     * Preferred language of the new customer
+     */
+    language?: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
 };
 
 export type DeliveryAddress = {
@@ -2114,6 +2127,108 @@ export type AppointmentListItemOrderLineItem = {
     refundableQuantity: number;
 };
 
+export type AppointmentListItemAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentListItemAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn: AppointmentListItemAddOnItem;
+};
+
 export type AppointmentListItemResponse = {
     /**
      * Unique identifier of the appointment
@@ -2264,6 +2379,10 @@ export type AppointmentListItemResponse = {
      * The order line item linking this appointment to its order
      */
     orderLineItem: AppointmentListItemOrderLineItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentListItemAddOn>;
 };
 
 export type AppointmentDetailProduct = {
@@ -5682,6 +5801,81 @@ export type OrderListAppointment = {
     location: OrderListAppointmentLocation | null;
 };
 
+export type OrderListAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
 export type OrderListAddOnLineItem = {
     /**
      * Unique identifier of the order add-on line item
@@ -5759,6 +5953,10 @@ export type OrderListAddOnLineItem = {
      * Remaining refundable quantity
      */
     refundableQuantity: number;
+    /**
+     * The add-on details (null when the add-on was since deleted from the catalog)
+     */
+    addOn: OrderListAddOn | null;
 };
 
 export type OrderListLineItem = {
@@ -18324,6 +18522,10 @@ export type AppointmentListItemResponseWritable = {
      * The order line item linking this appointment to its order
      */
     orderLineItem: AppointmentListItemOrderLineItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentListItemAddOn>;
 };
 
 export type AppointmentDetailCustomerWritable = {
@@ -19995,6 +20197,13 @@ export type AuthOauthData = {
     url: '/storefront/auth/oauth';
 };
 
+export type AuthOauthErrors = {
+    /**
+     * The OAuth sign-in could not be verified with the provider
+     */
+    401: unknown;
+};
+
 export type AuthOauthResponses = {
     200: TokensResponse;
 };
@@ -21444,7 +21653,7 @@ export type StaffMemberListData = {
          */
         take?: number;
         /**
-         * Search query to filter staff members by name or email
+         * Search query to filter staff members by name
          */
         q?: string;
         /**

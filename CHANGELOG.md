@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.21 (unreleased)
+
+### Added
+
+- **Add-ons on the customer's lists.** `AppointmentService.list` items now carry **`addOns`**
+  (`AppointmentListItemAddOn`, each with its `addOn`), the same shape as the appointment detail, and
+  `orderLineItem.addOnSubtotal` is the real sum (it read 0 before). `OrderService.list` add-on lines now include
+  their **`addOn`** (`OrderListAddOn`), which is `null` when the add-on was since deleted from the catalog.
+- **`AuthOauthErrors`**: `AuthService.oauth` documents its 401s (Google only; the access token must belong to the
+  account id and the verified email).
+
+### Changed
+
+- `AppointmentService.reschedule` and `cancel` document 403 `CUSTOMER_RESCHEDULE_DISABLED` /
+  `CUSTOMER_CANCEL_DISABLED` for services that don't let customers change bookings.
+
 ## 0.3.20 (2026-11-01)
 
 ### Added
