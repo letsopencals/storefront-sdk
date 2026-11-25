@@ -217,6 +217,11 @@ export type NewAppointmentCustomer = {
      * Phone number of the new customer
      */
     phone?: string | null;
+    language?: LanguageCode;
+    /**
+     * ID of a customer of this store to update with these details
+     */
+    id?: string;
 };
 
 /**
@@ -363,6 +368,14 @@ export type NewOrderCustomer = {
      * Delivery/shipping address for services with delivery location selected. One per order, applied to every delivery appointment.
      */
     deliveryAddress?: Address;
+    /**
+     * Merchant orders only: ID of a customer of this store to update with these details
+     */
+    id?: string;
+    /**
+     * Preferred language of the new customer
+     */
+    language?: 'af' | 'ak' | 'am' | 'ar' | 'as' | 'az' | 'be' | 'bg' | 'bm' | 'bn' | 'bo' | 'br' | 'bs' | 'ca' | 'ce' | 'cs' | 'cu' | 'cy' | 'da' | 'de' | 'dz' | 'ee' | 'el' | 'en' | 'eo' | 'es' | 'et' | 'eu' | 'fa' | 'ff' | 'fi' | 'fo' | 'fr' | 'fy' | 'ga' | 'gd' | 'gl' | 'gu' | 'gv' | 'ha' | 'he' | 'hi' | 'hr' | 'hu' | 'hy' | 'ia' | 'id' | 'ig' | 'ii' | 'is' | 'it' | 'ja' | 'jv' | 'ka' | 'ki' | 'kk' | 'kl' | 'km' | 'kn' | 'ko' | 'ks' | 'ku' | 'kw' | 'ky' | 'lb' | 'lg' | 'ln' | 'lo' | 'lt' | 'lu' | 'lv' | 'mg' | 'mi' | 'mk' | 'ml' | 'mn' | 'mr' | 'ms' | 'mt' | 'my' | 'nb' | 'nd' | 'ne' | 'nl' | 'nn' | 'no' | 'om' | 'or' | 'os' | 'pa' | 'pl' | 'ps' | 'pt' | 'pt_br' | 'pt_pt' | 'qu' | 'rm' | 'rn' | 'ro' | 'ru' | 'rw' | 'sd' | 'se' | 'sg' | 'si' | 'sk' | 'sl' | 'sn' | 'so' | 'sq' | 'sr' | 'su' | 'sv' | 'sw' | 'ta' | 'te' | 'tg' | 'th' | 'ti' | 'tk' | 'to' | 'tr' | 'tt' | 'ug' | 'uk' | 'ur' | 'uz' | 'vi' | 'vo' | 'wo' | 'xh' | 'yi' | 'yo' | 'zh' | 'zh_cn' | 'zh_tw' | 'zu';
 };
 
 export type DeliveryAddress = {
@@ -667,10 +680,6 @@ export type SelfServiceProfileResponse = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -888,9 +897,12 @@ export type CheckoutQuestionAnswer = {
      */
     questionId: string;
     /**
-     * The question text (for historical record)
+     * Deprecated: send `language` instead and the API keeps the question title in that language with the answer. Still accepted: used when `language` is not sent or the question has no translation in it.
+     *
+     * @deprecated
      */
-    question: string;
+    question?: string;
+    language?: LanguageCode;
     /**
      * The customer answer
      */
@@ -1134,7 +1146,7 @@ export type AppointmentCreatedProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -1484,10 +1496,6 @@ export type AppointmentCreatedCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -1772,7 +1780,7 @@ export type AppointmentListItemProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -2001,10 +2009,6 @@ export type AppointmentListItemCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -2112,6 +2116,108 @@ export type AppointmentListItemOrderLineItem = {
      * The quantity of the line item that can be refunded
      */
     refundableQuantity: number;
+};
+
+export type AppointmentListItemAddOnItem = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
+export type AppointmentListItemAddOn = {
+    /**
+     * Unique identifier
+     */
+    id: string;
+    /**
+     * Appointment ID
+     */
+    appointmentId: string;
+    /**
+     * Add-on ID
+     */
+    addOnId: string;
+    /**
+     * Quantity of this add-on for the appointment
+     */
+    quantity: number;
+    /**
+     * Created at timestamp
+     */
+    createdAt: string;
+    /**
+     * The add-on details
+     */
+    addOn: AppointmentListItemAddOnItem;
 };
 
 export type AppointmentListItemResponse = {
@@ -2264,6 +2370,10 @@ export type AppointmentListItemResponse = {
      * The order line item linking this appointment to its order
      */
     orderLineItem: AppointmentListItemOrderLineItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentListItemAddOn>;
 };
 
 export type AppointmentDetailProduct = {
@@ -2364,7 +2474,7 @@ export type AppointmentDetailProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -2592,10 +2702,6 @@ export type AppointmentDetailCustomer = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -3079,7 +3185,7 @@ export type AppointmentDetailOrderItemProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -4244,7 +4350,7 @@ export type AppointmentProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -4856,7 +4962,7 @@ export type Product = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -5203,10 +5309,6 @@ export type OrderListCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -5335,7 +5437,7 @@ export type OrderListAppointmentProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -5682,6 +5784,81 @@ export type OrderListAppointment = {
     location: OrderListAppointmentLocation | null;
 };
 
+export type OrderListAddOn = {
+    /**
+     * Unique identifier for the add-on
+     */
+    id: string;
+    /**
+     * External platform product ID (e.g. Shopify Product ID) for synced add-ons
+     */
+    externalId: string;
+    /**
+     * External platform variant ID (e.g. Shopify Variant ID) for synced add-ons
+     */
+    externalVariantId: string;
+    /**
+     * ID of the store that owns this add-on
+     */
+    storeId: string;
+    /**
+     * URL-friendly slug for the add-on (unique per store)
+     */
+    slug: string;
+    /**
+     * Title of the add-on
+     */
+    title: string;
+    /**
+     * Detailed description of the add-on
+     */
+    description: string;
+    /**
+     * ID of the primary image for the add-on
+     */
+    imageId: string;
+    /**
+     * Color code used when displaying the add-on
+     */
+    color: 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+    /**
+     * Unit price of the add-on
+     */
+    price: number;
+    /**
+     * Whether the add-on is taxable
+     */
+    taxable: boolean;
+    /**
+     * When true, the add-on is charged per base-duration unit of the parent appointment. Quantity on the cart/order line item mirrors the parent CartItem.quantity (i.e., the booked duration units). Only meaningful for attached products with allowCustomDuration=true.
+     */
+    durationMultiplied: boolean;
+    /**
+     * Maximum quantity a customer can pick for this add-on. Only applies to fixed add-ons (durationMultiplied=false). Null means unlimited.
+     */
+    maxQuantity: number | null;
+    /**
+     * Current status of the add-on
+     */
+    status: 'active' | 'inactive';
+    /**
+     * Timestamp when the add-on was created
+     */
+    createdAt: string;
+    /**
+     * Timestamp when the add-on was last updated
+     */
+    updatedAt: string;
+    /**
+     * Timestamp when the add-on was soft-deleted
+     */
+    deletedAt: string;
+    /**
+     * Primary image of the add-on
+     */
+    image?: Image | null;
+};
+
 export type OrderListAddOnLineItem = {
     /**
      * Unique identifier of the order add-on line item
@@ -5759,6 +5936,10 @@ export type OrderListAddOnLineItem = {
      * Remaining refundable quantity
      */
     refundableQuantity: number;
+    /**
+     * The add-on details (null when the add-on was since deleted from the catalog)
+     */
+    addOn: OrderListAddOn | null;
 };
 
 export type OrderListLineItem = {
@@ -6167,10 +6348,6 @@ export type OrderDetailCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -6299,7 +6476,7 @@ export type OrderDetailAppointmentProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -7669,10 +7846,6 @@ export type CartCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -7852,7 +8025,7 @@ export type CartItemProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -8742,10 +8915,6 @@ export type CheckoutStartCartCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -8874,7 +9043,7 @@ export type CheckoutStartCartItemProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -9814,10 +9983,6 @@ export type CheckoutOrderCustomer = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -9946,7 +10111,7 @@ export type CheckoutOrderAppointmentProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -11442,7 +11607,7 @@ export type DiscountCodeErrorResponse = {
     /**
      * Machine-readable reason code
      */
-    code: 'CODE_NOT_FOUND' | 'CODE_EXPIRED' | 'CODE_DISABLED' | 'CODE_LIMIT_REACHED' | 'CODE_CUSTOMER_INELIGIBLE' | 'CODE_NO_MATCHING_ITEMS' | 'CODE_NO_CREDIT' | 'minimum_requirement_not_met';
+    code: 'CODE_NOT_FOUND' | 'CODE_EXPIRED' | 'CODE_DISABLED' | 'CODE_LIMIT_REACHED' | 'CODE_CUSTOMER_INELIGIBLE' | 'CODE_NO_MATCHING_ITEMS' | 'CODE_NO_CREDIT' | 'minimum_requirement_not_met' | 'MINIMUM_DURATION_NOT_MET' | 'MAXIMUM_DURATION_EXCEEDED';
     /**
      * HTTP status code
      */
@@ -11751,7 +11916,7 @@ export type StorefrontSetting = {
      */
     passwordProtectionEnabled: boolean;
     /**
-     * Password for accessing the storefront when protection is enabled
+     * Password for accessing the storefront when protection is enabled. Null on the storefront API for merchant (sfk_/spk_) and Shopify keys: only the hosted Opencals storefront checks it.
      */
     password: string | null;
     /**
@@ -12329,7 +12494,7 @@ export type ProductSlugVariant = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -12504,7 +12669,7 @@ export type ProductSlugResponse = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -12997,7 +13162,7 @@ export type ProductDetailVariant = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -13246,7 +13411,7 @@ export type ProductDetailResponse = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -13838,7 +14003,7 @@ export type ProductExternalIdResponse = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -14535,7 +14700,7 @@ export type ProductExternalVariantResponse = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -15103,7 +15268,7 @@ export type ProductListVariant = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -15290,7 +15455,7 @@ export type ProductListItemResponse = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -15457,7 +15622,7 @@ export type AddOnListProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -15845,7 +16010,7 @@ export type LocationDetailProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -16256,7 +16421,7 @@ export type ProductCollectionProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -16513,7 +16678,7 @@ export type StaffMemberDetailProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -16877,7 +17042,7 @@ export type StaffMemberListProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -17328,7 +17493,7 @@ export type AddOnDetailProduct = {
      */
     rescheduleGap: number;
     /**
-     * Time in seconds before appointment when cancellation is no longer allowed
+     * Time in seconds before the appointment after which the customer can no longer cancel it online. Merchants can always cancel.
      */
     cancelGap: number;
     /**
@@ -17852,10 +18017,6 @@ export type SelfServiceProfileResponseWritable = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -17915,10 +18076,6 @@ export type AppointmentCreatedCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -18136,10 +18293,6 @@ export type AppointmentListItemCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -18324,6 +18477,10 @@ export type AppointmentListItemResponseWritable = {
      * The order line item linking this appointment to its order
      */
     orderLineItem: AppointmentListItemOrderLineItem | null;
+    /**
+     * Add-ons attached to this appointment
+     */
+    addOns: Array<AppointmentListItemAddOn>;
 };
 
 export type AppointmentDetailCustomerWritable = {
@@ -18351,10 +18508,6 @@ export type AppointmentDetailCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -18587,10 +18740,6 @@ export type OrderListCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -18875,10 +19024,6 @@ export type OrderDetailCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -19168,10 +19313,6 @@ export type CartCustomerWritable = {
      */
     phone: string | null;
     /**
-     * Hashed password of the customer
-     */
-    password: string | null;
-    /**
      * ID of the store that owns this customer record
      */
     storeId: string;
@@ -19410,10 +19551,6 @@ export type CheckoutStartCartCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -19693,10 +19830,6 @@ export type CheckoutOrderCustomerWritable = {
      * Customer phone number
      */
     phone: string | null;
-    /**
-     * Hashed password of the customer
-     */
-    password: string | null;
     /**
      * ID of the store that owns this customer record
      */
@@ -19993,6 +20126,13 @@ export type AuthOauthData = {
     path?: never;
     query?: never;
     url: '/storefront/auth/oauth';
+};
+
+export type AuthOauthErrors = {
+    /**
+     * The OAuth sign-in could not be verified with the provider
+     */
+    401: unknown;
 };
 
 export type AuthOauthResponses = {
@@ -20636,6 +20776,13 @@ export type CartAddItemData = {
     url: '/storefront/cart/items';
 };
 
+export type CartAddItemErrors = {
+    /**
+     * No cart: no X-Cart-Id or cart cookie, or an unknown cart id
+     */
+    404: unknown;
+};
+
 export type CartAddItemResponses = {
     /**
      * Item added
@@ -20674,6 +20821,13 @@ export type CartExtendExpirationData = {
     path?: never;
     query?: never;
     url: '/storefront/cart/extend';
+};
+
+export type CartExtendExpirationErrors = {
+    /**
+     * No cart: no X-Cart-Id or cart cookie, or an unknown cart id
+     */
+    404: unknown;
 };
 
 export type CartExtendExpirationResponses = {
@@ -20802,6 +20956,10 @@ export type CheckoutSubmitErrors = {
      * PAYMENT_NOT_AUTHORIZED (with `paymentStatus`): the card payment was not authorised. The cart is kept, so the customer can confirm the payment or use another card and submit again.
      */
     402: CheckoutErrorResponse;
+    /**
+     * No cart: no X-Cart-Id or cart cookie, or an unknown cart id
+     */
+    404: unknown;
     /**
      * CHECKOUT_IN_PROGRESS: another submit of this cart is placing its order; retry shortly. CART_EXPIRED: the cart expired and a reserved time is no longer available (an uncaptured card hold is released). A cart that was already placed is not an error here: submit returns that order (200).
      */
@@ -21060,7 +21218,7 @@ export type ProductListData = {
         /**
          * Field to order results by
          */
-        orderBy?: never;
+        orderBy?: 'title' | 'price' | 'duration' | 'status' | 'createdAt' | 'updatedAt';
         /**
          * Sort direction
          */
@@ -21100,6 +21258,13 @@ export type ProductGetNearestAvailabilityData = {
         staffMemberId?: string;
     };
     url: '/storefront/products/{productId}/nearest-availability';
+};
+
+export type ProductGetNearestAvailabilityErrors = {
+    /**
+     * Product not found in this store
+     */
+    404: unknown;
 };
 
 export type ProductGetNearestAvailabilityResponses = {
@@ -21145,11 +21310,18 @@ export type ProductGetCurrentAvailabilitiesData = {
          */
         duration?: string;
         /**
-         * Appointment to exclude from the busy overlay. Pass the appointment being moved when rescheduling so its own slot is not treated as taken.
+         * Appointment to exclude from the busy overlay. Pass the appointment being moved when rescheduling so its own slot is not treated as taken. Honoured only for an appointment in this store; otherwise ignored.
          */
         excludeAppointmentId?: string;
     };
     url: '/storefront/products/{productId}/current-availabilities';
+};
+
+export type ProductGetCurrentAvailabilitiesErrors = {
+    /**
+     * Product not found in this store
+     */
+    404: unknown;
 };
 
 export type ProductGetCurrentAvailabilitiesResponses = {
@@ -21192,6 +21364,13 @@ export type ProductGetCurrentAvailabilitiesMergedData = {
         duration?: string;
     };
     url: '/storefront/products/{productId}/current-availability-ranges';
+};
+
+export type ProductGetCurrentAvailabilitiesMergedErrors = {
+    /**
+     * Product not found in this store
+     */
+    404: unknown;
 };
 
 export type ProductGetCurrentAvailabilitiesMergedResponses = {
@@ -21444,13 +21623,13 @@ export type StaffMemberListData = {
          */
         take?: number;
         /**
-         * Search query to filter staff members by name or email
+         * Search query to filter staff members by name
          */
         q?: string;
         /**
          * Field to order results by
          */
-        orderBy?: never;
+        orderBy?: 'firstName' | 'lastName' | 'createdAt' | 'updatedAt';
         /**
          * Order direction
          */

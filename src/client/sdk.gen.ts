@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentAddGuestData, AppointmentAddGuestResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRemoveGuestData, AppointmentRemoveGuestResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestLoginCodeData, AuthRequestLoginCodeResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthResolveLinkData, AuthResolveLinkErrors, AuthResolveLinkResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, AuthVerifyLoginCodeData, AuthVerifyLoginCodeResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartDiscountApplyCodeData, CartDiscountApplyCodeErrors, CartDiscountApplyCodeResponses, CartDiscountRemoveCodeData, CartDiscountRemoveCodeResponses, CartExtendExpirationData, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartErrors, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitErrors, CheckoutSubmitResponses, CustomerUploadPresignData, CustomerUploadPresignResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, InvoiceListData, InvoiceListResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetMarketingConsentData, SelfServiceGetMarketingConsentErrors, SelfServiceGetMarketingConsentResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateMarketingConsentData, SelfServiceUpdateMarketingConsentErrors, SelfServiceUpdateMarketingConsentResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
+import type { AddOnGetBySlugData, AddOnGetBySlugResponses, AddOnGetData, AddOnGetResponses, AddOnListData, AddOnListResponses, AppointmentAddGuestData, AppointmentAddGuestResponses, AppointmentCancelData, AppointmentCancelResponses, AppointmentCreateData, AppointmentCreateResponses, AppointmentFeedbackData, AppointmentFeedbackResponses, AppointmentFindByExternalOrderNameData, AppointmentFindByExternalOrderNameResponses, AppointmentFindData, AppointmentFindResponses, AppointmentGetBookingPreferencesData, AppointmentGetBookingPreferencesResponses, AppointmentListData, AppointmentListResponses, AppointmentRemoveGuestData, AppointmentRemoveGuestResponses, AppointmentRescheduleData, AppointmentRescheduleResponses, AuthOauthData, AuthOauthErrors, AuthOauthResponses, AuthRefreshData, AuthRefreshResponses, AuthRequestEmailVerificationData, AuthRequestEmailVerificationResponses, AuthRequestLoginCodeData, AuthRequestLoginCodeResponses, AuthRequestPasswordResetData, AuthRequestPasswordResetResponses, AuthResetPasswordData, AuthResetPasswordResponses, AuthResolveLinkData, AuthResolveLinkErrors, AuthResolveLinkResponses, AuthSignInData, AuthSignInResponses, AuthSignUpData, AuthSignUpResponses, AuthVerifyEmailData, AuthVerifyEmailResponses, AuthVerifyLoginCodeData, AuthVerifyLoginCodeResponses, CartAddAddOnData, CartAddAddOnResponses, CartAddItemData, CartAddItemErrors, CartAddItemResponses, CartCreateOrGetData, CartCreateOrGetResponses, CartDiscountApplyCodeData, CartDiscountApplyCodeErrors, CartDiscountApplyCodeResponses, CartDiscountRemoveCodeData, CartDiscountRemoveCodeResponses, CartExtendExpirationData, CartExtendExpirationErrors, CartExtendExpirationResponses, CartGetData, CartGetResponses, CartRemoveAddOnData, CartRemoveAddOnResponses, CartRemoveItemData, CartRemoveItemResponses, CartUpdateAddOnQuantityData, CartUpdateAddOnQuantityResponses, CheckoutGetCartQuestionsData, CheckoutGetCartQuestionsResponses, CheckoutQuestionListTranslationsData, CheckoutQuestionListTranslationsResponses, CheckoutSaveAnswersData, CheckoutSaveAnswersResponses, CheckoutSaveCustomerData, CheckoutSaveCustomerResponses, CheckoutStartData, CheckoutStartErrors, CheckoutStartResponses, CheckoutSubmitData, CheckoutSubmitErrors, CheckoutSubmitResponses, CustomerUploadPresignData, CustomerUploadPresignResponses, FeedbackQuestionListTranslationsData, FeedbackQuestionListTranslationsResponses, ImageGetData, ImageGetResponses, InvoiceListData, InvoiceListResponses, LocationGetBySlugData, LocationGetBySlugResponses, LocationGetData, LocationGetResponses, LocationListData, LocationListResponses, OrderFindData, OrderFindResponses, OrderListData, OrderListResponses, PaymentGetAvailableProvidersData, PaymentGetAvailableProvidersResponses, PaymentGetSettingsData, PaymentGetSettingsResponses, ProductCollectionsGetBySlugData, ProductCollectionsGetBySlugResponses, ProductCollectionsListData, ProductCollectionsListResponses, ProductGetByExternalIdData, ProductGetByExternalIdResponses, ProductGetByExternalVariantIdData, ProductGetByExternalVariantIdErrors, ProductGetByExternalVariantIdResponses, ProductGetBySlugData, ProductGetBySlugResponses, ProductGetCurrentAvailabilitiesData, ProductGetCurrentAvailabilitiesErrors, ProductGetCurrentAvailabilitiesMergedData, ProductGetCurrentAvailabilitiesMergedErrors, ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesResponses, ProductGetData, ProductGetNearestAvailabilityData, ProductGetNearestAvailabilityErrors, ProductGetNearestAvailabilityResponses, ProductGetResponses, ProductListAddOnsBySlugData, ProductListAddOnsBySlugResponses, ProductListAddOnsData, ProductListAddOnsResponses, ProductListData, ProductListResponses, SelfServiceChangePasswordData, SelfServiceChangePasswordErrors, SelfServiceChangePasswordResponses, SelfServiceGetMarketingConsentData, SelfServiceGetMarketingConsentErrors, SelfServiceGetMarketingConsentResponses, SelfServiceGetProfileData, SelfServiceGetProfileErrors, SelfServiceGetProfileResponses, SelfServiceUpdateMarketingConsentData, SelfServiceUpdateMarketingConsentErrors, SelfServiceUpdateMarketingConsentResponses, SelfServiceUpdateProfileData, SelfServiceUpdateProfileErrors, SelfServiceUpdateProfileResponses, StaffMemberGetBySlugData, StaffMemberGetBySlugResponses, StaffMemberListData, StaffMemberListResponses, StoreGetStorePublicSettingsData, StoreGetStorePublicSettingsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -39,10 +39,10 @@ export class AuthService {
     /**
      * Customer OAuth sign in
      *
-     * Authenticate or register a storefront customer using an OAuth provider (e.g. Google)
+     * Authenticate or register a storefront customer with Google. Send the Google OAuth access token (`accessToken`) with the Google account id (`externalId`) and `email`; the token is checked with Google and must be valid, belong to that account and email, and the email must be verified by Google. Other providers, a missing token or any mismatch return 401.
      */
     public static oauth<ThrowOnError extends boolean = false>(options: Options<AuthOauthData, ThrowOnError>) {
-        return (options.client ?? client).post<AuthOauthResponses, unknown, ThrowOnError>({
+        return (options.client ?? client).post<AuthOauthResponses, AuthOauthErrors, ThrowOnError>({
             security: [{ name: 'x-api-key', type: 'apiKey' }],
             url: '/storefront/auth/oauth',
             ...options,
@@ -56,7 +56,7 @@ export class AuthService {
     /**
      * Register a new customer
      *
-     * Create a new customer account on the storefront and send a verification email
+     * Create a new customer account on the storefront and send a verification email. If the email belongs to a guest from an earlier checkout (no password yet), the password only takes effect once the verification link is opened; until then sign-in returns 401.
      */
     public static signUp<ThrowOnError extends boolean = false>(options: Options<AuthSignUpData, ThrowOnError>) {
         return (options.client ?? client).post<AuthSignUpResponses, unknown, ThrowOnError>({
@@ -306,7 +306,7 @@ export class AppointmentService {
     /**
      * Reschedule appointment
      *
-     * Reschedules an existing appointment to a new time. Subject to reschedule_gap restrictions defined in the service configuration. The new time must be the same length (the same number of billed units) as the current booking, otherwise 400 is returned; the product cannot be changed.
+     * Reschedules an existing appointment to a new time. Subject to reschedule_gap restrictions defined in the service configuration. The new time must be the same length (the same number of billed units) as the current booking, otherwise 400 is returned; the product cannot be changed. Returns 403 with code `CUSTOMER_RESCHEDULE_DISABLED` when the service doesn't allow customers to reschedule (`allowCustomerReschedule` is false).
      */
     public static reschedule<ThrowOnError extends boolean = false>(options: Options<AppointmentRescheduleData, ThrowOnError>) {
         return (options.client ?? client).put<AppointmentRescheduleResponses, unknown, ThrowOnError>({
@@ -322,7 +322,7 @@ export class AppointmentService {
     /**
      * Cancel appointment
      *
-     * Cancels an existing appointment. Subject to cancel_gap restrictions defined in the service configuration.
+     * Cancels an existing appointment. Subject to cancel_gap restrictions defined in the service configuration. Returns 403 with code `CUSTOMER_CANCEL_DISABLED` when the service doesn't allow customers to cancel (`allowCustomerCancel` is false).
      */
     public static cancel<ThrowOnError extends boolean = false>(options: Options<AppointmentCancelData, ThrowOnError>) {
         return (options.client ?? client).put<AppointmentCancelResponses, unknown, ThrowOnError>({
@@ -425,7 +425,7 @@ export class CartService {
      * Add appointment to cart
      */
     public static addItem<ThrowOnError extends boolean = false>(options: Options<CartAddItemData, ThrowOnError>) {
-        return (options.client ?? client).post<CartAddItemResponses, unknown, ThrowOnError>({
+        return (options.client ?? client).post<CartAddItemResponses, CartAddItemErrors, ThrowOnError>({
             url: '/storefront/cart/items',
             ...options,
             headers: {
@@ -446,7 +446,7 @@ export class CartService {
      * Extend cart expiration by 5 minutes
      */
     public static extendExpiration<ThrowOnError extends boolean = false>(options: Options<CartExtendExpirationData, ThrowOnError>) {
-        return (options.client ?? client).post<CartExtendExpirationResponses, unknown, ThrowOnError>({ url: '/storefront/cart/extend', ...options });
+        return (options.client ?? client).post<CartExtendExpirationResponses, CartExtendExpirationErrors, ThrowOnError>({ url: '/storefront/cart/extend', ...options });
     }
     
     /**
@@ -658,7 +658,7 @@ export class ProductService {
      * Find the nearest upcoming availability slot for a product. Returns null/204 if no slot exists within the advance schedule window.
      */
     public static getNearestAvailability<ThrowOnError extends boolean = false>(options: Options<ProductGetNearestAvailabilityData, ThrowOnError>) {
-        return (options.client ?? client).get<ProductGetNearestAvailabilityResponses, unknown, ThrowOnError>({
+        return (options.client ?? client).get<ProductGetNearestAvailabilityResponses, ProductGetNearestAvailabilityErrors, ThrowOnError>({
             security: [{ name: 'x-api-key', type: 'apiKey' }],
             url: '/storefront/products/{productId}/nearest-availability',
             ...options
@@ -671,7 +671,7 @@ export class ProductService {
      * Retrieve individual bookable time slots for a product on a given date.
      */
     public static getCurrentAvailabilities<ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesData, ThrowOnError>) {
-        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesResponses, unknown, ThrowOnError>({
+        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesResponses, ProductGetCurrentAvailabilitiesErrors, ThrowOnError>({
             security: [{ name: 'x-api-key', type: 'apiKey' }],
             url: '/storefront/products/{productId}/current-availabilities',
             ...options
@@ -684,7 +684,7 @@ export class ProductService {
      * Retrieve merged availability ranges (broad time windows) for a product. Useful for calendar date highlighting.
      */
     public static getCurrentAvailabilitiesMerged<ThrowOnError extends boolean = false>(options: Options<ProductGetCurrentAvailabilitiesMergedData, ThrowOnError>) {
-        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesMergedResponses, unknown, ThrowOnError>({
+        return (options.client ?? client).get<ProductGetCurrentAvailabilitiesMergedResponses, ProductGetCurrentAvailabilitiesMergedErrors, ThrowOnError>({
             security: [{ name: 'x-api-key', type: 'apiKey' }],
             url: '/storefront/products/{productId}/current-availability-ranges',
             ...options

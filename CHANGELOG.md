@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.3.21 (2026-11-25)
+
+### Added
+
+- **Add-ons on the customer's lists.** `AppointmentService.list` items now carry **`addOns`**
+  (`AppointmentListItemAddOn`, each with its `addOn`), the same shape as the appointment detail, and
+  `orderLineItem.addOnSubtotal` is the real sum (it read 0 before). `OrderService.list` add-on lines now include
+  their **`addOn`** (`OrderListAddOn`), which is `null` when the add-on was since deleted from the catalog.
+- **`AuthOauthErrors`**: `AuthService.oauth` documents its 401s (Google only; the access token must belong to the
+  account id and the verified email).
+
+- **Checkout answers in the customer's language.** `CheckoutQuestionAnswer` takes an optional **`language`** (the
+  language the questions were shown in); the API then stores the question title in that language with the answer.
+  `question` is now optional and deprecated: still accepted, and used when `language` is not sent.
+- **Two discount code errors** in `DiscountCodeErrorResponse.code`: `MINIMUM_DURATION_NOT_MET` and
+  `MAXIMUM_DURATION_EXCEEDED` (a code's booked-time limits now count the whole order). A `Record` keyed by the
+  code type needs the two new keys.
+- Typed `orderBy` on the product (`title`, `price`, `duration`, `status`, `createdAt`, `updatedAt`) and customer
+  (`firstName`, `lastName`, `createdAt`, `updatedAt`) list queries.
+- Error types for `CartService.addItem`, `CartService.extendExpiration` and the availability methods
+  (`ProductGetNearestAvailabilityErrors`, `ProductGetCurrentAvailabilitiesErrors`,
+  `ProductGetCurrentAvailabilitiesMergedErrors`).
+
+### Changed
+
+- `AppointmentService.reschedule` and `cancel` document 403 `CUSTOMER_RESCHEDULE_DISABLED` /
+  `CUSTOMER_CANCEL_DISABLED` for services that don't let customers change bookings.
+
+### Removed
+
+- `password` on the customer types (`SelfServiceProfileResponse`, `CartCustomer`, `OrderListCustomer` and the other
+  customer shapes). The API never returns it; only the type changes.
+
 ## 0.3.20 (2026-11-01)
 
 ### Added
