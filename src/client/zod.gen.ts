@@ -428,7 +428,6 @@ export const zSelfServiceProfileResponse = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -665,7 +664,8 @@ export const zNewOrderCustomer = z.object({
 
 export const zCheckoutQuestionAnswer = z.object({
     questionId: z.string(),
-    question: z.string(),
+    question: z.string().optional(),
+    language: zLanguageCode.optional(),
     answer: z.string(),
     fileIds: z.array(z.string()).optional()
 });
@@ -898,7 +898,6 @@ export const zAppointmentCreatedCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -1064,7 +1063,6 @@ export const zAppointmentListItemCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -1305,7 +1303,6 @@ export const zAppointmentDetailCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -2209,7 +2206,6 @@ export const zOrderListCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -2565,7 +2561,6 @@ export const zOrderDetailCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -3114,7 +3109,6 @@ export const zCartCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -3483,7 +3477,6 @@ export const zCheckoutStartCartCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -3841,7 +3834,6 @@ export const zCheckoutOrderCustomer = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     createdAt: z.string().datetime(),
@@ -4603,7 +4595,9 @@ export const zDiscountCodeErrorResponse = z.object({
         'CODE_CUSTOMER_INELIGIBLE',
         'CODE_NO_MATCHING_ITEMS',
         'CODE_NO_CREDIT',
-        'minimum_requirement_not_met'
+        'minimum_requirement_not_met',
+        'MINIMUM_DURATION_NOT_MET',
+        'MAXIMUM_DURATION_EXCEEDED'
     ]),
     statusCode: z.number()
 });
@@ -7578,7 +7572,6 @@ export const zSelfServiceProfileResponseWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7597,7 +7590,6 @@ export const zAppointmentCreatedCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7655,7 +7647,6 @@ export const zAppointmentListItemCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7713,7 +7704,6 @@ export const zAppointmentDetailCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7775,7 +7765,6 @@ export const zOrderListCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7862,7 +7851,6 @@ export const zOrderDetailCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -7950,7 +7938,6 @@ export const zCartCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -8015,7 +8002,6 @@ export const zCheckoutStartCartCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -8093,7 +8079,6 @@ export const zCheckoutOrderCustomerWritable = z.object({
     lastName: z.string().nullable(),
     email: z.string().nullable(),
     phone: z.string().nullable(),
-    password: z.string().nullable(),
     storeId: z.string(),
     language: zLanguageCode,
     refreshToken: z.string().nullable(),
@@ -8622,7 +8607,14 @@ export const zProductListQuery = z.object({
     q: z.string().optional(),
     locationId: z.string().optional(),
     status: z.array(z.enum(['active', 'inactive'])).optional(),
-    orderBy: z.unknown().optional(),
+    orderBy: z.enum([
+        'title',
+        'price',
+        'duration',
+        'status',
+        'createdAt',
+        'updatedAt'
+    ]).optional(),
     order: z.enum(['ASC', 'DESC']).optional().default('ASC')
 });
 
@@ -8793,7 +8785,12 @@ export const zStaffMemberListQuery = z.object({
     page: z.number().gte(1).optional().default(1),
     take: z.number().gte(1).lte(100).optional().default(50),
     q: z.string().optional(),
-    orderBy: z.unknown().optional(),
+    orderBy: z.enum([
+        'firstName',
+        'lastName',
+        'createdAt',
+        'updatedAt'
+    ]).optional(),
     order: z.enum(['ASC', 'DESC']).optional().default('ASC')
 });
 
